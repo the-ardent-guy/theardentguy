@@ -6,3 +6,16 @@ node_modules/
 dist/
 build/
 .next/
+
+.vercel
+
+# Editor
+.cursor/
+
+# Case-study source material and research notes. Kept out of the public repo:
+# these contain real names and quotes whose publish permission is unconfirmed,
+# plus internal "no metrics yet" caveats. Bring back in once cleared.
+content/
+*.docx
+*.pdf
+ai-design-workflow-system.md

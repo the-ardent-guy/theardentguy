@@ -1,0 +1,8 @@
+# Source and working material, never deploy these publicly
+content/
+.cursor/
+*.docx
+*.pdf
+*.md
+ai-design-workflow-system.md
+scratchpad/

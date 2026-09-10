@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Produsa, when an agentic organisation builds your product for you</title>
+<meta name="description" content="What does it look like when an agentic organisation builds your product for you? Product design case study on Produsa by Rishabh Jain.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
+</head>
+<body>
+
+<nav class="sidebar">
+  <a class="sidebar__logo" href="/">R</a>
+  <button class="sidebar__burger" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
+  <div class="sidebar__nav">
+    <a href="/#work">Work</a>
+    <a href="/#statements">Statements</a>
+    <a href="/desserts.html">Desserts</a>
+    <a href="/#contact">Contact</a>
+    <a href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume</a>
+  </div>
+  <button class="theme-toggle" type="button" aria-label="Toggle dark mode"></button>
+</nav>
+
+<main>
+  <div class="cs-wrap">
+
+    <a class="backlink" href="/#work">
+      <svg viewBox="0 0 14 12" aria-hidden="true"><path d="M6 1 L1 6 L6 11 M1 6 H13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Work
+    </a>
+
+    <header class="cs-hero">
+      <p class="cs-hero__eyebrow">Produsa</p>
+      <h1 class="cs-hero__title">What does it look like when an agentic organisation builds your product for you?</h1>
+      <p class="cs-hero__meta">Product Designer &middot; AI Product, UX, Agentic Architecture &middot; 2026</p>
+      <hr class="rule cs-hero__rule">
+    </header>
+
+    <section class="cs-section reveal">
+      <div class="cs-two">
+        <div class="cs-two__left">
+          <p class="cs-section__label">Overview</p>
+          <h2 class="cs-section__heading">Type an idea in plain language, watch a live prototype appear, refine it by chatting, ship it to a real URL.</h2>
+          <div class="cs-section__body">
+            <p>Produsa is an AI app-builder, built in-house at Boit Technologies. I designed the build experience and the interaction patterns that govern how the product behaves as an AI system.</p>
+            <p>The engine, agent architecture, infrastructure, and deployment, was built by the engineering team. The design decisions below are mine.</p>
+          </div>
+        </div>
+        <div class="cs-two__right">
+          <div class="slot">[ IMAGE: Produsa build screen, chat on the left, live prototype in the centre ]</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-section reveal">
+      <p class="cs-section__label">The problem</p>
+      <h2 class="cs-section__heading">Most AI builders make you watch agents work before you see anything real.</h2>
+      <div class="cs-section__body">
+        <p>Logs, spinners, research reports. For a first-time or non-technical builder, that dead time kills momentum before the product ever proves itself.</p>
+        <p>The bet: show the thing immediately, and never show a blank panel.</p>
+      </div>
+    </section>
+
+    <section class="cs-section reveal">
+      <p class="cs-section__label">Key decisions</p>
+      <h2 class="cs-section__heading">Three calls that define how the product feels.</h2>
+
+      <div class="decision">
+        <span class="decision__ghost" aria-hidden="true">01</span>
+        <h3 class="decision__heading">The panel is always a live prototype, never a log.</h3>
+        <p class="decision__sublabel">What happened</p>
+        <p class="decision__text">Early versions showed a sequential list of agents working. We cut it.</p>
+        <hr class="rule decision__rule">
+        <p class="decision__sublabel">The decision</p>
+        <p class="decision__text is-decision">The centre panel is always a rendered prototype. Even mid-build, a fading placeholder stands in rather than a progress log. This pushed real engineering complexity downstream, because the render pipeline has to be fast and never break, but time to first impression is the whole thesis.</p>
+        <hr class="rule decision__rule">
+        <p class="decision__principle">Show the thing. The wait is not the product.</p>
+      </div>
+
+      <div class="decision">
+        <span class="decision__ghost" aria-hidden="true">02</span>
+        <h3 class="decision__heading">Honesty over confidence in every AI reply.</h3>
+        <p class="decision__sublabel">What happened</p>
+        <p class="decision__text">The default instinct for an AI assistant is to sound helpful, to say "done" and echo the request back as confirmation.</p>
+        <hr class="rule decision__rule">
+        <p class="decision__sublabel">The decision</p>
+        <p class="decision__text is-decision">The assistant only ever describes edits that actually applied. When part of an edit lands and part does not, it says exactly what happened and what did not. One false "ready" breaks trust permanently in a tool people use to ship real work.</p>
+        <hr class="rule decision__rule">
+        <p class="decision__principle">A tool that ships real work cannot afford a confident lie.</p>
+      </div>
+
+      <div class="decision">
+        <span class="decision__ghost" aria-hidden="true">03</span>
+        <h3 class="decision__heading">Design psychology as a gate, not a guideline.</h3>
+        <p class="decision__sublabel">What happened</p>
+        <p class="decision__text">Generated screens can be attractive and still quietly work against the person using them.</p>
+        <hr class="rule decision__rule">
+        <p class="decision__sublabel">The decision</p>
+        <p class="decision__text is-decision">Every screen the product generates is checked against six behavioural laws: smart defaults, goal-gradient progress, reciprocity before any signup wall, earned investment before registration, real urgency, and contrast-anchored pricing. A screen that fails gets one mandatory revision pass before it ships, the same as a build error.</p>
+        <hr class="rule decision__rule">
+        <p class="decision__principle">When a beautiful screen and a psychologically correct screen conflict, the psychology wins.</p>
+      </div>
+    </section>
+
+    <section class="cs-section reveal">
+      <p class="cs-section__label">Outcome</p>
+      <h2 class="cs-section__heading">169 registered users, 315 projects created, 122 shipped to a live URL.</h2>
+      <div class="cs-section__body">
+        <p>Figures are from the most recent audit, at a pre-revenue stage. Monetisation is wired end to end. The current focus is converting shipped projects into paying accounts.</p>
+      </div>
+      <div class="cs-full">
+        <div class="slot">[ IMAGE: usage trajectory, users, projects created, projects shipped ]</div>
+      </div>
+    </section>
+
+    <section class="cs-section reveal">
+      <p class="cs-section__label">What I would flag honestly</p>
+      <h2 class="cs-section__heading">The product is ahead of its go-to-market.</h2>
+      <div class="cs-section__body">
+        <p>It reliably builds and ships things people want, but it has not yet proven that people will pay for it. That gap, not another design pattern, is the next real problem to solve.</p>
+      </div>
+    </section>
+
+    <nav class="cs-next reveal">
+      <a href="/supaca.html">
+        <span class="small">Next case study</span>
+        Supaca
+      </a>
+    </nav>
+
+  </div>
+</main>
+
+<script src="/assets/main.js"></script>
+</body>
+</html>
