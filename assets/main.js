@@ -55,6 +55,26 @@
   }
 
   /* ----------------------------------------------------------------------
+     Scroll progress bar. Goal gradient: visible progress pulls a long
+     scrolling story forward.
+     ---------------------------------------------------------------------- */
+  function scrollProgress() {
+    var bar = document.querySelector(".scroll-progress");
+    if (!bar) return;
+
+    function update() {
+      var doc = document.documentElement;
+      var scrollable = doc.scrollHeight - doc.clientHeight;
+      var pct = scrollable > 0 ? (doc.scrollTop / scrollable) * 100 : 0;
+      bar.style.width = pct + "%";
+    }
+
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  }
+
+  /* ----------------------------------------------------------------------
      Mobile hamburger menu
      ---------------------------------------------------------------------- */
   function burgerMenu() {
@@ -180,6 +200,91 @@
   }
 
   /* ----------------------------------------------------------------------
+     Tool logo hover cluster on select hero headline words. Reads
+     data-tools off each .tool-headline and builds its icon cluster once;
+     CSS (:hover / :focus-within) drives the actual reveal and animation.
+     One reusable system for every headline that carries data-tools.
+     ---------------------------------------------------------------------- */
+  function toolHeadlineHover() {
+    var heads = document.querySelectorAll(".tool-headline[data-tools]");
+    if (!heads.length) return;
+
+    /* Build the markup on every device, touch included: :hover only fires
+       on hover-capable pointers, but the on-load hint (toolHeadlineHint,
+       below) needs the same clusters to exist so touch devices get a turn
+       too. */
+    var ICONS = {
+      figma: "/assets/logos/figma.svg",
+      shopify: "/assets/logos/shopify.svg",
+      make: "/assets/logos/make.svg",
+      claude: "/assets/logos/claude.svg",
+      cursor: "/assets/logos/cursor.svg",
+      n8n: "/assets/logos/n8n.svg"
+    };
+
+    /* Kept modest on purpose: the hero's four role lines stack with no gap
+       between them (line-height *is* the spacing), so a line below another
+       (e.g. "Builder.") has only its own leading to float into before
+       overlapping the line above. These offsets clear that at every
+       breakpoint; the stagger comes from x-spread + the spring timing,
+       not from height alone. */
+    var OFFSETS = [
+      { x: "0px", y: "-6px" },
+      { x: "35px", y: "-11px" },
+      { x: "67px", y: "-2px" }
+    ];
+
+    heads.forEach(function (head) {
+      var names = head.getAttribute("data-tools").split(",").map(function (s) { return s.trim(); });
+      var cluster = document.createElement("span");
+      cluster.className = "tool-cluster";
+      cluster.setAttribute("aria-hidden", "true");
+
+      names.forEach(function (name, i) {
+        var src = ICONS[name];
+        if (!src) return;
+        var off = OFFSETS[i] || OFFSETS[OFFSETS.length - 1];
+
+        var icon = document.createElement("span");
+        icon.className = "tool-icon";
+        icon.style.setProperty("--tx", off.x);
+        icon.style.setProperty("--ty", off.y);
+        icon.style.setProperty("--delay", (i * 60) + "ms");
+
+        var img = document.createElement("img");
+        img.src = src;
+        img.alt = "";
+        img.loading = "eager";
+        icon.appendChild(img);
+        cluster.appendChild(icon);
+      });
+
+      head.appendChild(cluster);
+    });
+  }
+
+  /* ----------------------------------------------------------------------
+     On-load hint: shortly after the page settles, each tool-headline gets
+     a turn showing its own cluster automatically, one after another, then
+     hides again. A quick "something's here" nudge, mainly for touch
+     devices, which can never trigger :hover for themselves.
+     ---------------------------------------------------------------------- */
+  function toolHeadlineHint() {
+    if (reduce) return;
+    var heads = document.querySelectorAll(".tool-headline[data-tools]");
+    if (!heads.length) return;
+
+    var startDelay = 900;
+    var holdEach = 1400;
+
+    heads.forEach(function (head, i) {
+      var start = startDelay + i * holdEach;
+      setTimeout(function () { head.classList.add("is-hint"); }, start);
+      setTimeout(function () { head.classList.remove("is-hint"); }, start + holdEach - 200);
+    });
+  }
+
+  /* ----------------------------------------------------------------------
      Scroll reveal for sections
      ---------------------------------------------------------------------- */
   function scrollReveal() {
@@ -213,6 +318,185 @@
         if (!el.classList.contains("is-in")) showIfNear(el);
       });
     }, 2500);
+  }
+
+  /* ----------------------------------------------------------------------
+     Desktop only: nudge the sidebar nav down so it lines up with the hero's
+     "Product Designer." line. That line floats to vertical-centre, so its
+     position depends on viewport height - a fixed CSS value drifts and can
+     land the nav far from the heading on a shorter or taller window. This
+     measures the real rendered positions instead, so it holds at any
+     height, and re-checks on resize.
+     ---------------------------------------------------------------------- */
+  function alignNavToHero() {
+    var nav = document.querySelector(".sidebar__nav");
+    var target = document.querySelector('.tool-headline[data-tools="figma,shopify,make"]');
+    if (!nav || !target) return;
+
+    function apply() {
+      if (window.matchMedia && window.matchMedia("(max-width: 768px)").matches) {
+        nav.style.marginTop = "";
+        return;
+      }
+      nav.style.marginTop = "";
+      var navTop = nav.getBoundingClientRect().top;
+      var targetTop = target.getBoundingClientRect().top;
+      var delta = targetTop - navTop;
+      if (delta > 0) nav.style.marginTop = delta + "px";
+    }
+
+    apply();
+    /* Re-run once more shortly after load: web fonts can swap in and
+       reflow text metrics a beat after the first paint. */
+    setTimeout(apply, 300);
+
+    var resizeTimer;
+    window.addEventListener("resize", function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(apply, 120);
+    });
+  }
+
+  /* ----------------------------------------------------------------------
+     The period after "Product Designer" drops out of the hero, falls
+     straight down, bounces, and settles exactly on the "j" of "Selected
+     Projects", the whole thing scrubbed to scroll position: the further
+     down the visitor scrolls, the further the dot has fallen: progress runs
+     from the very top of the page (0) to wherever "Selected Projects"
+     settles into a natural reading position (1), so the fall is already
+     visibly underway early in the scroll through the hero rather than only
+     showing up once the heading is nearly in view.
+
+     Phases within that 0-1 progress (art-directed):
+       0.00-0.08  shake + resolve the horizontal offset, then lock it
+       0.08-0.12  a held beat before the fall (gravity needs a wind-up)
+       0.12-0.75  the fall itself, eased in (cubic) so it accelerates
+       0.75-0.96  bounce: a couple of decaying up-bounces, squash on each
+       0.96-1.00  settled, holding still
+
+     Once progress first reaches 1 the dot latches there for good: this is
+     a one-time discovery, not a toy to scrub back and forth.
+     ---------------------------------------------------------------------- */
+  function heroStopDrop() {
+    var origin = document.getElementById("heroStopOrigin");
+    var target = document.getElementById("dropTarget");
+    if (!origin || !target) return;
+
+    var dot = document.createElement("span");
+    dot.className = "stop-falling";
+    dot.setAttribute("aria-hidden", "true");
+    document.body.appendChild(dot);
+
+    var originX = 0, originY = 0, dx = 0, dy = 0;
+    var landed = false;
+    var ticking = false;
+
+    function measure() {
+      var oRect = origin.getBoundingClientRect();
+      var tRect = target.getBoundingClientRect();
+      var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      var scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+
+      originX = oRect.left + oRect.width / 2 + scrollX;
+      originY = oRect.top + oRect.height / 2 + scrollY;
+      var targetX = tRect.left + tRect.width / 2 + scrollX;
+      var targetY = tRect.top + tRect.height * 0.14 + scrollY;
+
+      dx = targetX - originX;
+      dy = targetY - originY;
+
+      dot.style.left = (originX - 4.5) + "px";
+      dot.style.top = (originY - 4.5) + "px";
+    }
+
+    /* A couple of decaying up-bounces that always land exactly at dy: the
+       sine term is 0 at b=0 (continuous with where the fall phase ends)
+       and the (1-b) decay guarantees it is back to 0, and only 0, at b=1. */
+    function bounceOffset(b) {
+      return (1 - b) * Math.abs(Math.sin(b * Math.PI * 2.2));
+    }
+
+    function render(p) {
+      var x, y, squash = 0;
+
+      if (p < 0.08) {
+        var s = p / 0.08;
+        var wig = Math.sin(s * Math.PI * 3) * 6 * (1 - s);
+        x = dx * s + wig;
+        y = 0;
+      } else if (p < 0.12) {
+        x = dx;
+        y = 0;
+      } else if (p < 0.75) {
+        var f = (p - 0.12) / (0.75 - 0.12);
+        var eased = f * f * f;
+        x = dx;
+        y = dy * eased;
+      } else {
+        var b = (p - 0.75) / (0.96 - 0.75);
+        b = Math.min(b, 1);
+        var bo = bounceOffset(b);
+        x = dx;
+        y = dy - Math.abs(dy) * 0.055 * bo;
+        squash = bo;
+      }
+
+      var scaleY = 1 - 0.35 * squash;
+      var scaleX = 1 + 0.18 * squash;
+
+      dot.style.opacity = String(Math.min(1, p / 0.08));
+      origin.style.opacity = String(1 - Math.min(1, p / 0.08));
+      dot.style.transform =
+        "translate(" + x + "px," + y + "px) scale(" + scaleX + "," + scaleY + ")";
+    }
+
+    function update() {
+      ticking = false;
+      if (landed) return;
+
+      measure();
+
+      /* Progress is scrollY itself, not how close the heading is to the
+         viewport: that way the dot is already visibly falling early in the
+         scroll through the hero, not just in the last stretch before the
+         heading arrives. Window: page top (0) to wherever the heading
+         settles into a natural reading position (45% down the viewport),
+         so it still lands right as that heading comes into view. */
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      var tRect = target.getBoundingClientRect();
+      var targetDocY = tRect.top + scrollY;
+      var endScrollY = targetDocY - vh * 0.45;
+      var raw = endScrollY > 0 ? scrollY / endScrollY : 1;
+      var p = Math.max(0, Math.min(1, raw));
+
+      render(p);
+
+      if (p >= 1) {
+        landed = true;
+        window.removeEventListener("scroll", onScroll);
+      }
+    }
+
+    function onScroll() {
+      if (landed || ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+
+    if (reduce) {
+      measure();
+      dot.style.opacity = "1";
+      origin.style.opacity = "0";
+      dot.style.transform = "translate(" + dx + "px," + dy + "px)";
+      return;
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", function () {
+      if (!landed) update();
+    });
+    update();
   }
 
   /* ----------------------------------------------------------------------
@@ -266,12 +550,17 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     heroImageCheck();
+    scrollProgress();
     heroIntro();
     scrollReveal();
     navSpy();
+    alignNavToHero();
     penLines();
     burgerMenu();
     themeToggle();
     photoStack();
+    toolHeadlineHover();
+    toolHeadlineHint();
+    heroStopDrop();
   });
 })();

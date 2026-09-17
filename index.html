@@ -4,14 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rishabh Jain, Creative Director and Product Designer</title>
-<meta name="description" content="Rishabh Jain. Creative Director, Product Designer, and AI builder based in Bengaluru. Real work builds lore. Story and meaning first. Screens second.">
+<meta name="description" content="Rishabh Jain. Creative Director, Product Designer, and AI builder based in Bengaluru. Real work builds lore. Story and value first. Screens next.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/style.css">
 <script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
 </head>
 <body>
+
+<div class="scroll-progress" aria-hidden="true"></div>
 
 <nav class="sidebar">
   <a class="sidebar__logo" href="/">R</a>
@@ -37,21 +39,17 @@
       <div class="hero__headline">
         <h1 class="hero__h1">
           <span class="hero__group hero__group--1">
-            <span class="line">Product Designer.</span>
-            <span class="line">Builder.</span>
+            <span class="line tool-headline" data-tools="figma,shopify,make">Product Designer<span class="hero-stop-origin" id="heroStopOrigin">.</span></span>
+            <span class="line tool-headline" data-tools="claude,cursor,n8n">Builder.</span>
             <span class="line">Illustrator.</span>
-            <span class="line">Maladaptive Daydreamer.</span>
-          </span>
-          <span class="hero__group hero__group--2">
-            <span class="line">The guy who brings his own</span>
-            <span class="line">characters to the table.</span>
+            <span class="line">Maladaptive</span>
+            <span class="line">Daydreamer.</span>
           </span>
         </h1>
-        <p class="hero__sub">I believe real work builds lore. Story and meaning first. Screens second.</p>
+        <p class="hero__sub">I believe real work builds lore.<br>Story and value first. Screens next.</p>
       </div>
 
       <div class="hero__foot">
-        <a class="hero__note" href="/desserts.html">the characters are mine too &rarr;</a>
         <div class="hero__scroll" aria-hidden="true">
           <span>scroll</span>
           <svg viewBox="0 0 12 16" aria-hidden="true">
@@ -67,7 +65,7 @@
     <!-- ================= WORK ================= -->
     <section class="section" id="work">
       <p class="label reveal">Work</p>
-      <h2 class="section-heading reveal">Selected Projects</h2>
+      <h2 class="section-heading reveal">Selected Pro<span class="drop-target" id="dropTarget">j</span>ects</h2>
 
       <div class="projects">
 
@@ -147,7 +145,7 @@
 
       <div class="morework reveal">
         <p class="label">More work</p>
-        <h3 class="morework__sub">Freelance and brand work</h3>
+        <h3 class="morework__sub">More work</h3>
         <p class="morework__lead">Brand and e-commerce work through Bleed and Margins, for luxury and heritage brands. Sintero, Koodai Kind, Kutty Jetty.</p>
         <a class="morework__link" href="/studio.html">
           See the freelance and brand work

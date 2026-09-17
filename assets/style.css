@@ -20,6 +20,7 @@
   --c-bg: #F5F0E8;
   --c-ghost: #E8E4DC;
   --c-accent: #111111;
+  --c-accent-deep: #7A2E35;
   --c-slot-border: #BBBBBB;
   --c-slot-bg: rgba(255, 255, 255, 0.3);
   --c-slot-text: #AAAAAA;
@@ -32,6 +33,7 @@
   --grain-opacity: 0.55;
 
   --font-display: "Outfit", "Trebuchet MS", sans-serif;
+  --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
   --font-body: "DM Sans", "Segoe UI", sans-serif;
   --font-hand: "Caveat", "Bradley Hand", cursive;
 
@@ -51,6 +53,7 @@
   --c-bg: #17130E;
   --c-ghost: #241F18;
   --c-accent: #F2ECE0;
+  --c-accent-deep: #D98FA0;
   --c-slot-border: #4B4238;
   --c-slot-bg: rgba(255, 255, 255, 0.035);
   --c-slot-text: #7C7364;
@@ -59,7 +62,7 @@
   --c-pill-border: #4B4238;
   --c-pill-text: #9A9080;
   --c-selection: rgba(255, 255, 255, 0.16);
-  --hero-scrim: rgba(0, 0, 0, 0.28);
+  --hero-scrim: rgba(0, 0, 0, 0.15);
   --grain-opacity: 0.4;
 }
 
@@ -76,6 +79,7 @@
     --c-bg: #17130E;
     --c-ghost: #241F18;
     --c-accent: #F2ECE0;
+    --c-accent-deep: #D98FA0;
     --c-slot-border: #4B4238;
     --c-slot-bg: rgba(255, 255, 255, 0.035);
     --c-slot-text: #7C7364;
@@ -84,7 +88,7 @@
     --c-pill-border: #4B4238;
     --c-pill-text: #9A9080;
     --c-selection: rgba(255, 255, 255, 0.16);
-    --hero-scrim: rgba(0, 0, 0, 0.28);
+    --hero-scrim: rgba(0, 0, 0, 0.15);
     --grain-opacity: 0.4;
   }
 }
@@ -172,23 +176,62 @@ h1, h2, h3, h4, p { margin: 0; }
 .label {
   font-family: var(--font-body);
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   color: var(--c-label);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.label::before {
+  content: "";
+  width: 18px;
+  height: 1px;
+  background: var(--c-accent);
+  flex: 0 0 auto;
 }
 
 .section-heading {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(32px, 4.4vw, 48px);
-  line-height: 1.2;
+  font-size: clamp(32px, 4.4vw, 50px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
   color: var(--c-heading);
   margin-top: 18px;
-  max-width: 800px;
+  max-width: 20ch;
 }
 
-.hand { font-family: var(--font-hand); }
+.hand { font-family: var(--font-hand); color: var(--c-accent-deep); }
+.serif { font-family: var(--font-serif); }
+
+/* The serif-italic accent: one emphasis phrase inside a headline, never a
+   whole line. Reused across the hero, section headings, and case studies. */
+.hero__h1 em,
+.section-heading em,
+.cs-hero__title em,
+.cs-section__heading em,
+.decision__heading em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--c-accent-deep);
+}
+
+/* Anchoring: a real number already in the copy, set as a numeral rather
+   than buried in body weight. Drop into any sentence, scales relatively. */
+em.stat-num {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.5em;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--c-accent-deep);
+}
 
 /* --------------------------------------------------------------------------
    Layout shell
@@ -228,18 +271,36 @@ main { margin-left: var(--nav-w); }
   background-color: var(--c-bg);
 }
 
+/* A circular avatar frame. "R" is the placeholder; drop a photo in later as
+   either a background-image on this element or an <img> filling it,
+   overflow:hidden clips either one to the circle for free. */
 .sidebar__logo {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--c-rule);
+  background: var(--c-card);
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 20px;
+  font-size: 16px;
   color: var(--c-heading);
   line-height: 1;
 }
 
+/* Default position. On index.html, alignNavToHero() in main.js measures the
+   real rendered position of "Product Designer." and sets margin-top on this
+   element precisely, live, on load and on resize - a fixed px guess drifts
+   at every viewport height since that line floats to vertical-centre. Other
+   pages (no hero to align to) just keep this default. */
 .sidebar__nav {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
 }
 
 .sidebar__nav a {
@@ -253,6 +314,27 @@ main { margin-left: var(--nav-w); }
 .sidebar__nav a:hover { color: var(--c-heading); }
 
 .sidebar__nav a.is-active { color: var(--c-heading); }
+
+/* Underline-draw on hover, desktop only (the mobile drawer already uses a
+   full divider per row, so this stays a desktop micro-interaction). */
+@media (min-width: 769px) {
+  .sidebar__nav a {
+    position: relative;
+    width: fit-content;
+  }
+  .sidebar__nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: -3px;
+    height: 1px;
+    background: var(--c-accent-deep);
+    transition: right 0.28s var(--ease);
+  }
+  .sidebar__nav a:hover::after,
+  .sidebar__nav a.is-active::after { right: 0; }
+}
 
 /* Hamburger, mobile only */
 .sidebar__burger {
@@ -338,6 +420,7 @@ main { margin-left: var(--nav-w); }
     position: fixed;
     top: 0;
     right: 0;
+    margin-top: 0;
     height: 100vh;
     height: 100dvh;
     width: min(80vw, 320px);
@@ -371,6 +454,26 @@ main { margin-left: var(--nav-w); }
   .sidebar.is-open .sidebar__nav a:nth-child(4) { transition-delay: 0.27s; }
   .sidebar.is-open .sidebar__nav a:nth-child(5) { transition-delay: 0.32s; }
   .sidebar.is-open .sidebar__nav a:nth-child(6) { transition-delay: 0.37s; }
+}
+
+/* --------------------------------------------------------------------------
+   Scroll progress, goal gradient. Chrome, not content: same on every page.
+   -------------------------------------------------------------------------- */
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: var(--c-accent-deep);
+  z-index: 9998;
+  pointer-events: none;
+  transition: width 0.08s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-progress { transition: none; }
 }
 
 /* --------------------------------------------------------------------------
@@ -425,21 +528,8 @@ main { margin-left: var(--nav-w); }
   border-left: 1px solid var(--c-rule);
 }
 
-:root[data-theme="dark"] .hero__media {
-  background-image:
-    linear-gradient(180deg, var(--c-bg) 0%, transparent 20%, transparent 82%, var(--c-bg) 100%),
-    linear-gradient(rgba(12, 10, 8, 0.42), rgba(12, 10, 8, 0.42)),
-    url("/assets/hero.jpg");
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not([data-theme="dark"]) .hero__media {
-    background-image:
-      linear-gradient(180deg, var(--c-bg) 0%, transparent 20%, transparent 82%, var(--c-bg) 100%),
-      linear-gradient(rgba(12, 10, 8, 0.42), rgba(12, 10, 8, 0.42)),
-      url("/assets/hero.jpg");
-  }
-}
+/* Dark theme intentionally has no scrim override here: the photo carries
+   the same faint wash as light theme, unfiltered rather than darkened. */
 
 .hero__media-fallback {
   grid-column: 2;
@@ -454,6 +544,33 @@ main { margin-left: var(--nav-w); }
   color: rgba(255, 255, 255, 0.4);
   border: 1px dashed rgba(255, 255, 255, 0.22);
   margin: 24px;
+}
+
+/* Fine fabric stipple over the text half, light theme only. Same recipe as
+   the body grain (feTurbulence into feColorMatrix) but pushed to a much
+   higher baseFrequency and read through a steep alpha ramp, so continuous
+   noise clips into small, sparse, irregular flecks instead of smooth
+   static. Tinted with --c-accent-deep and multiplied in at low opacity, so
+   it reads as tooth on the bare paper, never as a printed dot pattern.
+   Desktop only: the mobile hero is full-bleed photo with no bare column
+   to texture, and this is switched off there below. */
+.hero::before {
+  content: "";
+  grid-column: 1;
+  grid-row: 1;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch' seed='9'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.478 0 0 0 0 0.180 0 0 0 0 0.208 26 0 0 0 -17'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23f)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 120px 120px;
+}
+
+:root[data-theme="dark"] .hero::before { content: none; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) .hero::before { content: none; }
 }
 
 .hero__col {
@@ -472,7 +589,7 @@ main { margin-left: var(--nav-w); }
 .hero__h1 {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(24px, 2.6vw, 34px);
+  font-size: clamp(28px, 3vw, 40px);
   line-height: 1.12;
   letter-spacing: -0.012em;
   color: var(--c-heading);
@@ -481,8 +598,48 @@ main { margin-left: var(--nav-w); }
 .hero__group { display: block; }
 .hero__group .line { display: block; }
 
-/* "the breath", do not reduce */
-.hero__group--2 { margin-top: 80px; }
+/* The period after "Product Designer" leaves its spot as the visitor
+   scrolls toward "Selected Projects" below, and a JS-cloned dot
+   (.stop-falling) takes its place, falls straight down, bounces, and
+   settles exactly on the "j". Position is a continuous function of scroll
+   progress (see heroStopDrop in main.js), so opacity here is just set
+   inline per frame rather than transitioned. */
+.hero-stop-origin { will-change: opacity; }
+
+/* The letter the falling dot lands on. Its own printed tittle is clipped
+   off (the top sliver of its box) so the falling dot is the only dot ever
+   visible there, never a second one beside the glyph's real one. The inset
+   is in em, relative to this span's own font-size, so it scales with
+   .section-heading's clamp() instead of drifting at either end of it. */
+.drop-target {
+  position: relative;
+  display: inline-block;
+  clip-path: inset(0.36em 0 0 0);
+}
+
+/* The falling dot itself: one element appended to <body>, positioned in
+   document coordinates so it scrolls naturally with the page. Transform
+   and opacity are both written inline, per scroll frame, by main.js. */
+.stop-falling {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--c-accent-deep);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 40;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Tier 2: skip the flight, keep the handoff. main.js checks this same
+     query and, when it matches, jumps straight to the landed state instead
+     of computing the shake/fall/bounce curve. */
+  .stop-falling { transition: opacity 0.2s ease; }
+}
 
 .hero__sub {
   margin-top: 24px;
@@ -499,16 +656,16 @@ main { margin-left: var(--nav-w); }
   padding-top: 48px;
   display: flex;
   align-items: flex-end;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 24px;
 }
 
 .hero__note {
   font-family: var(--font-hand);
-  font-weight: 400;
+  font-weight: 600;
   font-size: 19px;
   line-height: 1.2;
-  color: var(--c-label);
+  color: var(--c-accent-deep);
   transition: color 0.2s var(--ease);
 }
 .hero__note:hover { color: var(--c-heading); }
@@ -534,10 +691,108 @@ main { margin-left: var(--nav-w); }
   transform: translateY(14px);
 }
 
+/* --------------------------------------------------------------------------
+   Tool logo hover cluster. Hovering "Product Designer." or "Builder." in the
+   hero floats a small cluster of tool-brand icons near the word's trailing
+   edge. Pure CSS animation (JS only builds the markup once on load); the
+   asymmetric enter/exit timing works because the staggered spring transition
+   is scoped to :hover/:focus-within, so the plain base rule (fast, no
+   stagger) takes over automatically the moment hover ends. Desktop only.
+   -------------------------------------------------------------------------- */
+
+.tool-headline {
+  position: relative;
+  display: block;
+  width: fit-content;
+  color: var(--c-accent-deep);
+  cursor: pointer;
+  transition: color 0.2s var(--ease);
+}
+
+.tool-cluster {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.tool-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  margin: -16px 0 0 -16px;
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1px solid #E8E8E8;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  opacity: 0;
+  transform: translate(var(--tx, 0), calc(var(--ty, 0) + 8px)) scale(0.4);
+  transition: opacity 0.18s ease-in, transform 0.18s ease-in;
+}
+
+.tool-icon img { width: 100%; height: 100%; display: block; }
+
+@media (hover: hover) {
+  .tool-headline:hover,
+  .tool-headline:focus-within {
+    color: var(--c-heading);
+  }
+
+  .tool-headline:hover .tool-icon,
+  .tool-headline:focus-within .tool-icon {
+    opacity: 1;
+    transform: translate(var(--tx, 0), var(--ty, 0)) scale(1);
+    transition: opacity 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition-delay: var(--delay, 0ms);
+  }
+}
+
+/* On-load hint: once, shortly after the page settles, each tool-headline's
+   cluster gets a turn revealing itself automatically (JS toggles this class
+   on a timer, line by line) so touch devices, which can never trigger
+   :hover, still get a glimpse that something is there. Lives outside the
+   (hover: hover) gate on purpose so it fires everywhere. */
+.tool-headline.is-hint .tool-icon {
+  opacity: 1;
+  transform: translate(var(--tx, 0), var(--ty, 0)) scale(1);
+  transition: opacity 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: var(--delay, 0ms);
+}
+
+@media (hover: hover) {
+  .tool-headline.is-hint { color: var(--c-heading); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Tier 2: keep the fade, drop the spring/slide/scale entirely. Icons sit
+     at their resting position (invisible) and only opacity changes. */
+  .tool-icon {
+    transform: translate(var(--tx, 0), var(--ty, 0));
+    transition: opacity 0.12s ease;
+  }
+  .tool-headline:hover .tool-icon,
+  .tool-headline:focus-within .tool-icon {
+    transform: translate(var(--tx, 0), var(--ty, 0));
+    transition: opacity 0.12s ease;
+    transition-delay: 0ms;
+  }
+}
+
 @media (max-width: 1024px) and (min-width: 769px) {
   .hero { grid-template-columns: minmax(0, 1fr) 40vw; }
-  .hero__h1 { font-size: clamp(22px, 2.6vw, 30px); }
-  .hero__group--2 { margin-top: 64px; }
+  .hero__h1 { font-size: clamp(26px, 3vw, 36px); }
   .hero__sub { max-width: 42ch; }
 }
 
@@ -547,10 +802,16 @@ main { margin-left: var(--nav-w); }
     min-height: 100svh;
   }
 
+  /* No bare paper column on mobile, the photo is full-bleed, so the fabric
+     stipple from the desktop text half is switched off here. */
+  .hero::before { content: none; }
+
   .hero__media,
   :root[data-theme="dark"] .hero__media {
     position: absolute;
     inset: 0;
+    width: 100%;
+    height: 100%;
     z-index: 0;
     border: 0;
     background-position: 50% 28%;
@@ -562,11 +823,17 @@ main { margin-left: var(--nav-w); }
   .hero__media-fallback {
     position: absolute;
     inset: 0;
+    width: 100%;
+    height: 100%;
     margin: 0;
     padding: 24px;
     z-index: 1;
   }
 
+  /* Scrim follows the text: strong over the sky/mountain band where the
+     headline now sits, nearly bare over the character/table band so that
+     scene is the payoff, then a small rise at the very bottom to ground
+     the frame and separate the foot link from the photo under it. */
   .hero::after {
     content: "";
     position: absolute;
@@ -575,68 +842,64 @@ main { margin-left: var(--nav-w); }
     pointer-events: none;
     background: linear-gradient(
       180deg,
-      rgba(15, 12, 8, 0.30) 0%,
-      rgba(15, 12, 8, 0.22) 22%,
-      rgba(15, 12, 8, 0.44) 46%,
-      rgba(15, 12, 8, 0.60) 66%,
-      rgba(15, 12, 8, 0.80) 100%
+      rgba(15, 12, 8, 0.46) 0%,
+      rgba(15, 12, 8, 0.42) 16%,
+      rgba(15, 12, 8, 0.34) 32%,
+      rgba(15, 12, 8, 0.20) 48%,
+      rgba(15, 12, 8, 0.12) 60%,
+      rgba(15, 12, 8, 0.10) 78%,
+      rgba(15, 12, 8, 0.30) 100%
     );
   }
 
+  /* Top-anchored so the text sits against sky, not the characters. The
+     foot (the caveat link) is decoupled with its own margin-top:auto, the
+     same trick the desktop hero uses, so it stays pinned to the true
+     bottom regardless of how tall the headline block is. Whatever isn't
+     spent on text or the foot is just photo. */
   .hero__col {
     position: relative;
     z-index: 2;
     min-height: 100svh;
-    justify-content: flex-end;
-    padding: 88px var(--margin) 36px;
+    justify-content: flex-start;
+    padding: 112px var(--margin) 32px;
   }
 
   .hero__headline { margin-top: 0; }
 
   .hero__h1 {
-    font-size: clamp(28px, 8vw, 48px);
+    font-size: clamp(30px, 8vw, 48px);
     color: #F7F2E8;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35), 0 4px 16px rgba(0, 0, 0, 0.28);
   }
 
-  .hero__group--2 { margin-top: 48px; }
+  /* The hover cue is a desktop-only affordance for a desktop-only
+     interaction (the icon cluster is off on touch). On the mobile photo
+     treatment these two lines should read exactly like their neighbours,
+     and the icon hint (see .is-hint) reveals without inverting colour. */
+  .tool-headline { color: inherit; cursor: default; }
+  .tool-headline.is-hint { color: inherit; }
 
   .hero__sub {
-    margin-top: 20px;
+    margin-top: 28px;
     max-width: 34ch;
     color: rgba(247, 242, 232, 0.82);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 3px 10px rgba(0, 0, 0, 0.22);
   }
 
   .hero__foot {
-    margin-top: 28px;
+    margin-top: auto;
     padding-top: 0;
   }
-  .hero__note { color: rgba(247, 242, 232, 0.82); }
+  .hero__note {
+    color: rgba(247, 242, 232, 0.82);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
   .hero__note:hover { color: #FFFFFF; }
   .hero__scroll { display: none; }
 
-  :root[data-theme="dark"] .hero::after {
-    background: linear-gradient(
-      180deg,
-      rgba(6, 5, 3, 0.46) 0%,
-      rgba(6, 5, 3, 0.30) 26%,
-      rgba(6, 5, 3, 0.50) 50%,
-      rgba(6, 5, 3, 0.66) 68%,
-      rgba(6, 5, 3, 0.88) 100%
-    );
-  }
-}
-
-@media (max-width: 768px) and (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]):not([data-theme="dark"]) .hero::after {
-    background: linear-gradient(
-      180deg,
-      rgba(6, 5, 3, 0.46) 0%,
-      rgba(6, 5, 3, 0.30) 26%,
-      rgba(6, 5, 3, 0.50) 50%,
-      rgba(6, 5, 3, 0.66) 68%,
-      rgba(6, 5, 3, 0.88) 100%
-    );
-  }
+  /* Dark theme keeps the same mobile legibility gradient as light theme
+     here on purpose: no extra dark-only darkening layer over the photo. */
 }
 
 /* --------------------------------------------------------------------------
@@ -1168,7 +1431,8 @@ main { margin-left: var(--nav-w); }
   font-family: var(--font-display);
   font-weight: 800;
   font-size: clamp(30px, 3.8vw, 48px);
-  line-height: 1.22;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   color: var(--c-heading);
   max-width: 760px;
   margin-top: 16px;
@@ -1188,18 +1452,30 @@ main { margin-left: var(--nav-w); }
 .cs-section__label {
   font-family: var(--font-body);
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   color: var(--c-label);
   margin-bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cs-section__label::before {
+  content: "";
+  width: 18px;
+  height: 1px;
+  background: var(--c-accent);
+  flex: 0 0 auto;
 }
 
 .cs-section__heading {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(24px, 3vw, 32px);
-  line-height: 1.3;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   color: var(--c-heading);
   margin-bottom: 32px;
   max-width: 760px;
@@ -1249,8 +1525,8 @@ main { margin-left: var(--nav-w); }
   position: absolute;
   left: 0;
   top: 0;
-  font-family: var(--font-display);
-  font-weight: 800;
+  font-family: var(--font-serif);
+  font-weight: 400;
   font-size: clamp(90px, 12vw, 140px);
   line-height: 1;
   color: var(--c-ghost);
@@ -1264,7 +1540,8 @@ main { margin-left: var(--nav-w); }
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(22px, 3vw, 30px);
-  line-height: 1.3;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   color: var(--c-heading);
   margin-top: 40px;
   max-width: 640px;
