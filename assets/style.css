@@ -1899,3 +1899,506 @@ main { margin-left: var(--nav-w); }
   .wrap { padding-top: 40px; }
   .cs-wrap { padding-top: 44px; }
 }
+
+/* ==========================================================================
+   THE DRAWING TABLE
+   Bento lobby on paper, long-form case studies as the building.
+   Appended deliberately: this file's cascade is source-ordered, so these
+   rules are meant to win over the base ones above.
+   ========================================================================== */
+
+:root {
+  --c-tile: #EFE9DF;
+  --c-tile-edge: #E0D8CA;
+  --tile-radius: 20px;
+  --grid-cols: 3;
+  --grid-gap: 18px;
+
+  /* One muted accent per project, each pulled from that project's own brand
+     colour and dropped to a value that can sit on warm paper. */
+  --acc-produsa: #2F4858;
+  --acc-supaca: #7A2E35;
+  --acc-hasta: #8E3A2B;
+  --acc-bizotico: #6E2630;
+  --acc-vistlabs: #1F4A4E;
+  --acc-sintero: #7A5C1E;
+  --acc-koodaikind: #2B3A52;
+}
+
+:root[data-theme="dark"] {
+  --c-tile: #1E1912;
+  --c-tile-edge: #2E271E;
+  --acc-produsa: #8FB4C6;
+  --acc-supaca: #D98FA0;
+  --acc-hasta: #D99A86;
+  --acc-bizotico: #D293A0;
+  --acc-vistlabs: #86BDB4;
+  --acc-sintero: #D4B873;
+  --acc-koodaikind: #9FB2D1;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --c-tile: #1E1912;
+    --c-tile-edge: #2E271E;
+    --acc-produsa: #8FB4C6;
+    --acc-supaca: #D98FA0;
+    --acc-hasta: #D99A86;
+    --acc-bizotico: #D293A0;
+    --acc-vistlabs: #86BDB4;
+    --acc-sintero: #D4B873;
+    --acc-koodaikind: #9FB2D1;
+  }
+}
+
+/* --- The bento lobby ---------------------------------------------------- */
+
+.bento {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), 1fr);
+  gap: var(--grid-gap);
+  margin-top: 40px;
+  list-style: none;
+  padding: 0;
+}
+
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 320px;
+  padding: 28px;
+  background: var(--c-tile);
+  border: 1px solid var(--c-tile-edge);
+  border-radius: var(--tile-radius);
+  overflow: hidden;
+  transition: transform 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+
+/* Hierarchy contract: case studies are never 1x1, side work never larger. */
+.tile--wide { grid-column: span 2; }
+.tile--tall { grid-row: span 2; }
+.tile--big { grid-column: span 2; grid-row: span 2; }
+
+a.tile { color: inherit; }
+
+a.tile:hover,
+a.tile:focus-visible {
+  transform: translateY(-2px);
+  border-color: var(--c-rule);
+}
+
+a.tile:hover .tile__title,
+a.tile:focus-visible .tile__title { color: var(--tile-acc, var(--c-heading)); }
+
+.tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--tile-acc, transparent);
+  opacity: 0.06;
+  pointer-events: none;
+}
+
+.tile--plain::after { display: none; }
+
+.tile__eyebrow {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--tile-acc, var(--c-label));
+}
+
+.tile__title {
+  position: relative;
+  z-index: 1;
+  margin-top: 14px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(19px, 1.9vw, 25px);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--c-heading);
+  transition: color 0.25s var(--ease);
+}
+
+.tile--sm .tile__title { font-size: clamp(16px, 1.4vw, 19px); }
+
+.tile__hmw {
+  position: relative;
+  z-index: 1;
+  margin-top: 14px;
+  font-family: var(--font-serif);
+  font-size: clamp(15px, 1.5vw, 18px);
+  line-height: 1.35;
+  color: var(--c-body);
+}
+
+.tile__foot {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  padding-top: 24px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.tile__role {
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--c-label);
+}
+
+.tile__arrow {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--c-rule);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--c-heading);
+  transition: background-color 0.25s var(--ease), color 0.25s var(--ease);
+}
+
+.tile__arrow svg { width: 13px; height: 13px; }
+
+a.tile:hover .tile__arrow,
+a.tile:focus-visible .tile__arrow {
+  background: var(--tile-acc, var(--c-heading));
+  color: var(--c-bg);
+}
+
+/* The cast portrait: one drawing, reused at three sizes. */
+.cast {
+  position: relative;
+  z-index: 1;
+  border: 1px dashed var(--c-slot-border);
+  border-radius: 50%;
+  background: var(--c-slot-bg);
+  color: var(--c-slot-text);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 10px;
+  line-height: 1.3;
+  padding: 6px;
+  overflow: hidden;
+}
+
+.cast img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+
+.cast--tile { width: 92px; height: 92px; margin-bottom: 20px; }
+.cast--rail { width: 48px; height: 48px; }
+
+.cast__caption {
+  position: relative;
+  z-index: 1;
+  margin-top: 10px;
+  font-family: var(--font-hand);
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--c-body-soft);
+}
+
+@media (max-width: 1099px) { :root { --grid-cols: 2; } }
+
+@media (max-width: 699px) {
+  :root { --grid-cols: 1; }
+  .tile--wide, .tile--big { grid-column: span 1; }
+  .tile--tall, .tile--big { grid-row: span 1; }
+  .tile { min-height: 0; padding: 24px; }
+}
+
+/* --- Case study: sticky meta rail and decision index -------------------- */
+
+.cs-layout { display: block; }
+
+.cs-rail {
+  font-family: var(--font-body);
+  margin-top: 48px;
+  padding-top: 28px;
+  border-top: 1px solid var(--c-rule);
+}
+
+.cs-rail__group + .cs-rail__group { margin-top: 22px; }
+
+.cs-rail__label {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--c-label);
+  margin-bottom: 6px;
+}
+
+.cs-rail__value {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--c-value);
+}
+
+.cs-rail__index { list-style: none; padding: 0; margin: 6px 0 0; }
+
+.cs-rail__index li + li { margin-top: 7px; }
+
+.cs-rail__index a {
+  display: flex;
+  gap: 9px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--c-body);
+  transition: color 0.2s var(--ease);
+}
+
+.cs-rail__index a:hover,
+.cs-rail__index a:focus-visible { color: var(--c-heading); }
+
+.cs-rail__index a.is-active { color: var(--c-heading); font-weight: 600; }
+
+.cs-rail__num { flex: none; color: var(--c-label); font-variant-numeric: tabular-nums; }
+
+.cs-rail__cast { display: flex; align-items: center; gap: 12px; }
+
+.cs-rail__cast .cast__caption { margin-top: 0; font-size: 14px; }
+
+@media (min-width: 1200px) {
+  .cs-layout {
+    display: grid;
+    grid-template-columns: 1fr 210px;
+    gap: 72px;
+    align-items: start;
+  }
+  .cs-rail {
+    position: sticky;
+    top: 48px;
+    margin-top: 100px;
+    padding-top: 0;
+    border-top: 0;
+  }
+}
+
+/* --- The trade-off line: the money in every decision -------------------- */
+
+.decision__ghost { font-size: clamp(110px, 15vw, 170px); opacity: 0.55; }
+
+.decision__tradeoff {
+  position: relative;
+  z-index: 1;
+  margin-top: 26px;
+  padding: 22px 0;
+  border-top: 1px solid var(--c-rule);
+  border-bottom: 1px solid var(--c-rule);
+  font-family: var(--font-serif);
+  font-size: clamp(20px, 2.4vw, 28px);
+  line-height: 1.3;
+  color: var(--c-heading);
+  max-width: 660px;
+}
+
+.decision__tradeoff .label-inline {
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--c-label);
+}
+
+/* --- What we refused --------------------------------------------------- */
+
+.refusals { margin-top: 36px; }
+
+.refusals__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  text-align: left;
+}
+
+.refusals__table th {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--c-label);
+  padding: 0 18px 12px 0;
+  border-bottom: 1px solid var(--c-rule);
+  vertical-align: bottom;
+}
+
+.refusals__table td {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--c-body);
+  padding: 18px 18px 18px 0;
+  border-bottom: 1px solid var(--c-rule);
+  vertical-align: top;
+}
+
+.refusals__table td:first-child { color: var(--c-heading); font-weight: 600; }
+.refusals__table th:last-child,
+.refusals__table td:last-child { padding-right: 0; }
+
+/* The refusal mark: a struck-through monoline glyph, one per row. */
+.rmark {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-right: 9px;
+  vertical-align: -5px;
+  border: 1px dashed var(--c-slot-border);
+  border-radius: 4px;
+  color: var(--c-slot-text);
+  font-size: 9px;
+}
+
+.rmark svg { width: 15px; height: 15px; }
+
+/* Four columns of prose does not survive a phone, so below 900px every
+   refused item becomes its own card. */
+@media (max-width: 899px) {
+  .refusals__table thead { display: none; }
+  .refusals__table,
+  .refusals__table tbody,
+  .refusals__table tr,
+  .refusals__table td { display: block; width: 100%; }
+
+  .refusals__table tr {
+    background: var(--c-tile);
+    border: 1px solid var(--c-tile-edge);
+    border-radius: var(--tile-radius);
+    padding: 20px;
+    margin-top: 14px;
+  }
+
+  .refusals__table td { padding: 0; border-bottom: 0; }
+
+  .refusals__table td + td { margin-top: 12px; }
+
+  .refusals__table td:first-child {
+    font-family: var(--font-display);
+    font-size: 17px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  .refusals__table td:not(:first-child)::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 3px;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--c-label);
+  }
+}
+
+/* --- Saying plainly that nothing was measured -------------------------- */
+
+.no-metrics {
+  margin-top: 28px;
+  padding: 24px 26px;
+  background: var(--c-tile);
+  border: 1px solid var(--c-tile-edge);
+  border-left: 3px solid var(--c-accent-deep);
+  border-radius: var(--tile-radius);
+}
+
+.no-metrics__label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--c-label);
+  margin-bottom: 10px;
+}
+
+.no-metrics__line {
+  font-family: var(--font-hand);
+  font-size: clamp(20px, 2.2vw, 26px);
+  line-height: 1.3;
+  color: var(--c-heading);
+}
+
+.no-metrics__body {
+  margin-top: 12px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--c-body);
+}
+
+/* --- Illustration slots ------------------------------------------------- */
+
+/* A trade-off plate is a diptych: the version we killed, beside the one we
+   shipped. Nobody else can show the thing they never built. */
+.plate {
+  margin-top: 32px;
+  border: 1px dashed var(--c-slot-border);
+  border-radius: var(--tile-radius);
+  background: var(--c-slot-bg);
+  overflow: hidden;
+}
+
+.plate__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 300px;
+}
+
+.plate__half {
+  display: grid;
+  place-items: center;
+  padding: 26px;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--c-slot-text);
+}
+
+.plate__half + .plate__half { border-left: 1px dashed var(--c-slot-border); }
+
+.plate__state {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.plate__caption {
+  padding: 14px 20px;
+  border-top: 1px dashed var(--c-slot-border);
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--c-label);
+}
+
+@media (max-width: 699px) {
+  .plate__grid { grid-template-columns: 1fr; }
+  .plate__half + .plate__half {
+    border-left: 0;
+    border-top: 1px dashed var(--c-slot-border);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile, .tile__arrow, .tile__title { transition: none; }
+  a.tile:hover, a.tile:focus-visible { transform: none; }
+}

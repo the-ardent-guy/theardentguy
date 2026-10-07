@@ -548,6 +548,51 @@
     });
   }
 
+
+  /* Decision index. A document of numbered trade-offs is inherently
+     navigable, so the rail marks which decision you are reading. Mirrors
+     navSpy's approach rather than inventing a second one. */
+  function decisionSpy() {
+    var links = document.querySelectorAll(".cs-rail__index a");
+    if (!links.length || !("IntersectionObserver" in window)) return;
+
+    var byId = {};
+    var targets = [];
+    links.forEach(function (link) {
+      var id = link.getAttribute("href").slice(1);
+      var el = document.getElementById(id);
+      if (!el) return;
+      byId[id] = link;
+      targets.push(el);
+    });
+    if (!targets.length) return;
+
+    function clear() {
+      links.forEach(function (l) { l.classList.remove("is-active"); });
+    }
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        /* Pick the entry nearest the top of the band rather than the last
+           one to fire, so fast scrolls do not leave a stale mark. */
+        var best = null;
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          if (!best || entry.boundingClientRect.top < best.boundingClientRect.top) {
+            best = entry;
+          }
+        });
+        if (!best) return;
+        clear();
+        var link = byId[best.target.id];
+        if (link) link.classList.add("is-active");
+      },
+      { rootMargin: "-20% 0px -60% 0px", threshold: 0 }
+    );
+
+    targets.forEach(function (el) { observer.observe(el); });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     heroImageCheck();
     scrollProgress();
@@ -562,5 +607,6 @@
     toolHeadlineHover();
     toolHeadlineHint();
     heroStopDrop();
+    decisionSpy();
   });
 })();

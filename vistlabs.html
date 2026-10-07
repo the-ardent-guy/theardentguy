@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VIST Labs, a pharma-grade design system for preservation tech</title>
-<meta name="description" content="A pharma-grade design system and B2B storefront for cannabis preservation tech. Restraint as the trust signal. Case study by Rishabh Jain.">
+<title>VIST Labs, one website for two audiences</title>
+<meta name="description" content="Repositioning VIST Labs, Illinois, for banks and growers at the same time. Product design case study by Rishabh Jain.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
@@ -28,7 +28,7 @@
   <button class="theme-toggle" type="button" aria-label="Toggle dark mode"></button>
 </nav>
 
-<main>
+<main style="--tile-acc: var(--acc-vistlabs);">
   <div class="cs-wrap">
 
     <a class="backlink" href="/#work">
@@ -37,126 +37,252 @@
     </a>
 
     <header class="cs-hero">
-      <p class="cs-hero__eyebrow">VIST Labs</p>
-      <h1 class="cs-hero__title">A pharma-grade design system and B2B storefront for cannabis preservation tech, restraint as the trust signal.</h1>
-      <p class="cs-hero__meta">Product Designer and Design Lead &middot; Bleed and Margins &middot; Shopify B2B</p>
+      <p class="cs-hero__eyebrow">VIST Labs, Illinois</p>
+      <h1 class="cs-hero__title">One website, <em>two audiences</em>: repositioning VIST Labs for banks and growers.</h1>
+      <p class="cs-hero__meta">Product Designer, solo &middot; Bleed and Margins &middot; 3 months</p>
       <hr class="rule cs-hero__rule">
     </header>
 
-    <section class="cs-section reveal">
-      <div class="cs-two">
-        <div class="cs-two__left">
+    <div class="cs-layout">
+      <div class="cs-main">
+
+        <section class="cs-section reveal">
           <p class="cs-section__label">Overview</p>
-          <h2 class="cs-section__heading">Make a compliance-driven buyer trust the company on sight, before they read a spec.</h2>
+          <h2 class="cs-section__heading">The brief was one line: look more pharmaceutical.</h2>
           <div class="cs-section__body">
-            <p><b>Role.</b> Product designer and design lead: the UI and UX design system, the B2B storefront UX, and Shopify build direction.</p>
-            <p><b>Client.</b> VIST Labs, preservation, decontamination, and packaging technology for plant-based and cannabis operators. Illinois, USA.</p>
-            <p><b>Platform.</b> Shopify B2B. On a development URL at the point of capture, with the custom domain pending.</p>
+            <p>VIST Labs makes patented post-harvest technology for cannabis growers. CryoPasteurization decontaminates flower without chemicals or radiation. AMAPS packaging keeps it fresh for up to a year. A mobile unit brings both services into the grower's facility.</p>
+            <p>They came to me for a website redesign. What they actually needed was a repositioning.</p>
           </div>
+          <div class="cs-full">
+            <div class="slot">[ IMAGE: the old vistlabs.com homepage, fear imagery and a long undifferentiated scroll ]</div>
+          </div>
+        </section>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">The problem</p>
+          <h2 class="cs-section__heading">Their banks needed to see a technology company. Their customers needed to see a fix for failed microbial tests.</h2>
+          <div class="cs-section__body">
+            <p>Cannabis is legal in Illinois but still a Schedule I substance federally. Banks that serve cannabis businesses take on heavy compliance work, and <b>89% of community banks have no plans to serve the industry</b> (RMA, 2024). That single number is the whole design constraint.</p>
+            <p>The old site served neither audience. It opened with "Cannabis Remediation", named cannabis in every section, and sold through fear: mould close-ups, a lungs image, "Would you inhale that?". Five patented processes sat in one long scroll with no hierarchy.</p>
+          </div>
+          <div class="decision__tradeoff" style="margin-top:36px;">
+            <span class="label-inline">Problem statement</span>
+            How might we present VIST as a regulated technology company to banks, while keeping it the obvious choice for the growers who buy from it?
+          </div>
+        </section>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">Research</p>
+          <h2 class="cs-section__heading">Three audiences, each with a different entry point.</h2>
+          <div class="cs-section__body">
+            <p><b>Stakeholder sessions.</b> I sat with the founders to understand their apprehension. Their banks needed to see the technology, and the old site read like a cannabis brand. With their help I collected the technical detail on each process and machine, so the site could explain the tech at the level a grower understands.</p>
+            <p><b>Desk research.</b> Federal status, FinCEN reporting requirements for banks, and Illinois cannabis banking programmes, to understand how a conservative lender reads a cannabis-adjacent business.</p>
+            <p><b>Competitive audit.</b> Rad Source, Willow Industries and Ziel all market openly to cannabis and lean on compliance claims such as 99.9% test pass rates and EU GMP. VIST could not take that route, so compliance and process had to carry the brand.</p>
+            <p><b>Content audit.</b> I inventoried the old site's services and claims, and flagged what was missing: certifications, team, commercial terms and technical documents.</p>
+          </div>
+          <div class="refusals">
+            <table class="refusals__table">
+              <thead>
+                <tr><th>Audience</th><th>Needs to see</th><th>Where they land</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Banks and partners</td>
+                  <td data-label="Needs to see">A technology company that follows international standards</td>
+                  <td data-label="Where they land">Home, About</td>
+                </tr>
+                <tr>
+                  <td>Growers and operators</td>
+                  <td data-label="Needs to see">Proof it works, passes state testing, preserves terpenes</td>
+                  <td data-label="Where they land">Solutions</td>
+                </tr>
+                <tr>
+                  <td>Operations and finance</td>
+                  <td data-label="Needs to see">How to buy: own, lease, rent or subscribe</td>
+                  <td data-label="Where they land">Opportunities</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">Key decisions</p>
+          <h2 class="cs-section__heading">Three decisions that let one site speak to a lender and a grower at once.</h2>
+
+          <div class="decision" id="d1">
+            <span class="decision__ghost" aria-hidden="true">01</span>
+            <h3 class="decision__heading">Two-tier messaging.</h3>
+            <p class="decision__sublabel">What happened</p>
+            <p class="decision__text">The word "cannabis" was doing the opposite job for each audience. It reassured growers and alarmed lenders.</p>
+            <hr class="rule decision__rule">
+            <p class="decision__sublabel">The decision</p>
+            <p class="decision__text is-decision">The homepage speaks to the most conservative reader, using "plant-based industries" and "pharmaceutical-grade standards". Cannabis appears one level down, on a Markets Served page, in terms a grower recognises immediately. I built a vocabulary map so every service had a bank-safe name and a grower-facing meaning.</p>
+            <div class="refusals">
+              <table class="refusals__table">
+                <thead>
+                  <tr><th>Service</th><th>Homepage language</th><th>What a grower reads</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>CryoPasteurization</td>
+                    <td data-label="Homepage language">Natural microbial load reduction</td>
+                    <td data-label="What a grower reads">Decontamination for cannabis</td>
+                  </tr>
+                  <tr>
+                    <td>AMAPS</td>
+                    <td data-label="Homepage language">Aseptic modified atmosphere packaging</td>
+                    <td data-label="What a grower reads">Long-term post-harvest protection</td>
+                  </tr>
+                  <tr>
+                    <td>EU GMP alignment</td>
+                    <td data-label="Homepage language">Built to international pharma-grade standards</td>
+                    <td data-label="What a grower reads">Ready for EU medical export</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="decision__tradeoff">
+              <span class="label-inline">The trade-off</span>
+              The homepage gives up search traffic for "cannabis decontamination". The blog and solution pages pick that up instead.
+            </div>
+            <div class="plate">
+              <div class="plate__grid">
+                <div class="plate__half"><span><span class="plate__state">What we killed</span>[ DRAWING: the old homepage shouting CANNABIS REMEDIATION at a banker backing out of the room ]</span></div>
+                <div class="plate__half"><span><span class="plate__state">What we shipped</span>[ DRAWING: the same banker reading "pharmaceutical-grade standards", and a grower one click deeper finding the word he wanted ]</span></div>
+              </div>
+              <p class="plate__caption">Trade-off plate 01. One page, two readers, two vocabularies.</p>
+            </div>
+          </div>
+
+          <div class="decision" id="d2">
+            <span class="decision__ghost" aria-hidden="true">02</span>
+            <h3 class="decision__heading">An IA built on problem, solution, commercial model.</h3>
+            <p class="decision__sublabel">What happened</p>
+            <p class="decision__text">Five patented processes sat in one scroll, and the commercial terms were mixed into the service descriptions.</p>
+            <hr class="rule decision__rule">
+            <p class="decision__sublabel">The decision</p>
+            <p class="decision__text is-decision">The homepage states the problem first, then what VIST does, then how to buy: hero, who we are with three USPs, five solutions, a three-step solution showing how the services work as one system, four buying options, social proof, blog.</p>
+            <p class="decision__text is-decision" style="margin-top:16px;">Each of the five services got its own product detail page, broken into its USPs, its process, and what the customer gets. At launch every page ended in a consultation request. Microbial testing kits were the first product VIST planned to sell directly, so that page was structured to switch from enquiry to add-to-cart without a redesign. Opportunities covers sales, leases, rentals and crop-year protection; Resources holds the blog, spec sheets and events.</p>
+            <div class="decision__tradeoff">
+              <span class="label-inline">The trade-off</span>
+              One fixed template gives less room to tailor each page to its technology.
+            </div>
+            <div class="cs-full">
+              <div class="slot">[ IMAGE: the CryoPasteurization product page, and the early sketches beside it ]</div>
+            </div>
+          </div>
+
+          <div class="decision" id="d3">
+            <span class="decision__ghost" aria-hidden="true">03</span>
+            <h3 class="decision__heading">Evidence in place of fear.</h3>
+            <p class="decision__sublabel">What happened</p>
+            <p class="decision__text">The old site sold through mould close-ups and a lungs image. It worked on growers and disqualified the company with everyone else.</p>
+            <hr class="rule decision__rule">
+            <p class="decision__sublabel">The decision</p>
+            <p class="decision__text is-decision">I replaced the fear imagery with claims a lender or a QA manager can check: 99.9% microbial reduction, no chemicals or radiation, terpene preservation. The homepage gained a social proof block with certifications, awards, client logos, press mentions and team credentials. Photography focuses on the equipment, the mobile unit and the process.</p>
+            <div class="decision__tradeoff">
+              <span class="label-inline">The trade-off</span>
+              The old site's emotional pull on growers is gone. The before and after section on each product page keeps a controlled version of it.
+            </div>
+          </div>
+        </section>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">Design language</p>
+          <h2 class="cs-section__heading">A deep medical blue, because that is where VIST wanted lenders to place it.</h2>
+          <div class="refusals">
+            <table class="refusals__table">
+              <thead>
+                <tr><th>Token</th><th>Value</th><th>Use</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Primary</td><td data-label="Value">Sherpa Blue #00494E</td><td data-label="Use">Buttons, links, key UI</td></tr>
+                <tr><td>Background</td><td data-label="Value">White #FFFFFF, Light Grey #F0F0F0</td><td data-label="Use">Page and section grounds</td></tr>
+                <tr><td>Accent</td><td data-label="Value">Light Blue #ADD8E6</td><td data-label="Use">Secondary states and highlights</td></tr>
+                <tr><td>Headings</td><td data-label="Value">Montserrat 700 and 500, 32 / 24 / 20px</td><td data-label="Use">Hierarchy</td></tr>
+                <tr><td>Body</td><td data-label="Value">Arial 400, 16px</td><td data-label="Use">Service and technical copy</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="cs-section__body" style="margin-top:24px;">
+            <p>Plain sans-serifs and a deep medical blue match the visual language of pharma and diagnostics sites. The restraint is the trust signal.</p>
+          </div>
+        </section>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">Platform and delivery</p>
+          <h2 class="cs-section__heading">Shopify over WordPress, for three reasons.</h2>
+          <div class="cs-section__body">
+            <p>Its native checkout was ready for the microbial kits VIST planned to sell next. Its SEO defaults were solid. And the client could edit content without developer support. I built the product page template as reusable Shopify sections.</p>
+            <p>The stakeholders were in Illinois, 10 to 11 hours behind me. I ran the project through a Notion client portal with milestones for research, UX, UI, build, domain migration and training, so the founders could review asynchronously.</p>
+          </div>
+          <div class="cs-full">
+            <div class="slot">[ IMAGE: responsive views, desktop and mobile ]</div>
+          </div>
+        </section>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">Outcome</p>
+          <h2 class="cs-section__heading">It went live on vistlabs.com and became the client's primary site.</h2>
+          <div class="cs-section__body">
+            <p>The founders were happy with it and used it with their customers. It was later taken offline because of changes on the business side, unrelated to the site.</p>
+            <p><b>Shipped:</b> a positioning and messaging framework, a six-section sitemap with 12 sub-pages, wireframes, a design language, a live Shopify build and client handover.</p>
+          </div>
+          <div class="no-metrics">
+            <p class="no-metrics__label">On measurement</p>
+            <p class="no-metrics__line">No metrics. I never installed analytics, so I cannot tell you whether the repositioning worked.</p>
+            <p class="no-metrics__body">What I would have measured: lead quality before and after, the split between bank enquiries and grower enquiries, and whether the Markets Served page was reached by the people it was written for. Without a baseline none of that is recoverable, and the site is down now. This is the clearest lesson I took off this project.</p>
+          </div>
+        </section>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">Reflection</p>
+          <h2 class="cs-section__heading">What I would do differently.</h2>
+          <div class="cs-section__body">
+            <p><b>Install analytics before launch.</b> Without a baseline I cannot show whether the repositioning changed lead quality or volume. See above, and it still bothers me.</p>
+            <p><b>Test the language with real readers.</b> The two-tier messaging was validated through the founders only. Ten minutes each with a banker and a grower would have tested it directly, and I did not do it.</p>
+          </div>
+        </section>
+
+      </div>
+
+      <aside class="cs-rail" aria-label="Project details">
+        <div class="cs-rail__group cs-rail__cast">
+          <div class="cast cast--rail">[ CAST ]</div>
+          <p class="cast__caption">A bank compliance officer whose job is to say no by default.</p>
         </div>
-        <div class="cs-two__right">
-          <div class="slot">[ IMAGE: VIST responsive storefront on a clinical light-grey ground ]</div>
+        <div class="cs-rail__group">
+          <p class="cs-rail__label">My role</p>
+          <p class="cs-rail__value">Stakeholder research<br>Positioning and messaging<br>Information architecture<br>Wireframes<br>Design language<br>Shopify build and handover</p>
         </div>
-      </div>
-    </section>
-
-    <section class="cs-section reveal">
-      <p class="cs-section__label">The challenge</p>
-      <h2 class="cs-section__heading">Make a compliance buyer trust you on sight.</h2>
-      <div class="cs-section__body">
-        <p>Illinois cannabis is a multi-billion-dollar regulated market, but its supply chain still looks improvised. VIST sells preservation technology to operators on thin margins, where product quality is the whole business.</p>
-        <p><b>01. Packaging losses are real.</b> Poor packaging costs growers roughly six grams of sellable weight per pound to terpene and moisture loss. This is an agency figure and still needs sourcing.</p>
-        <p><b>02. The supply chain is not the shelf.</b> The B2B supply chain looks like a 2012 startup next to the polished consumer products it supplies.</p>
-        <p><b>03. Looking like pharma is the signal.</b> Modified-atmosphere packaging comes from food and pharma. In preservation, that visual language is a trust cue, not a style choice.</p>
-        <p>The dominant cannabis look, neon, leaf, streetwear, would actively undercut a science-led product.</p>
-      </div>
-    </section>
-
-    <section class="cs-section reveal">
-      <p class="cs-section__label">Approach</p>
-      <h2 class="cs-section__heading">Design for the compliance officer, not the vibe.</h2>
-      <div class="cs-section__body">
-        <p><b>Research base.</b> The gap between polished cannabis consumer brands and their improvised supply chain. Preservation science's roots in food and pharma. How a compliance-driven B2B buyer reads visual language.</p>
-        <p><b>Brief as received.</b> A science-led preservation and packaging brand for growers and operators, with a Shopify storefront to match.</p>
-        <p><b>The reframe.</b> The buyer is protecting a crop, not buying a vibe. Lead with data, use lab and pharma UI conventions as trust shorthand, and keep the language category-neutral so the brand is not boxed into cannabis.</p>
-      </div>
-    </section>
-
-    <section class="cs-section reveal">
-      <p class="cs-section__label">Key decisions</p>
-      <h2 class="cs-section__heading">Three decisions that built trust.</h2>
-
-      <div class="decision">
-        <span class="decision__ghost" aria-hidden="true">01</span>
-        <h3 class="decision__heading">The product page as a data sheet.</h3>
-        <p class="decision__sublabel">Product page</p>
-        <p class="decision__text">Product pages lead with specifications, compliance certifications, CE, HACCP and GMP, third-party validation, and volume pricing. Lifestyle imagery is removed.</p>
-        <hr class="rule decision__rule">
-        <p class="decision__sublabel">Trade-off</p>
-        <p class="decision__text is-decision">Cold for a casual visitor. Correct for a buyer who already knows what they need.</p>
-      </div>
-
-      <div class="decision">
-        <span class="decision__ghost" aria-hidden="true">02</span>
-        <h3 class="decision__heading">Pharma and lab UI conventions.</h3>
-        <p class="decision__sublabel">UI system</p>
-        <p class="decision__text">Monospaced type for data, near-clinical neutrals, and an accent reserved for actions and compliance indicators.</p>
-        <hr class="rule decision__rule">
-        <p class="decision__sublabel">Trade-off</p>
-        <p class="decision__text is-decision">It risks reading as generic B2B. The bet is that restraint reads as competence in a regulated market.</p>
-      </div>
-
-      <div class="decision">
-        <span class="decision__ghost" aria-hidden="true">03</span>
-        <h3 class="decision__heading">Category-coy language.</h3>
-        <p class="decision__sublabel">Positioning</p>
-        <p class="decision__text">The public site says "plant-based industries" and foregrounds EU and CE compliance over cannabis culture.</p>
-        <hr class="rule decision__rule">
-        <p class="decision__sublabel">Trade-off</p>
-        <p class="decision__text is-decision">It gives up cannabis-native identity and search. It gains credibility with compliance-driven buyers.</p>
-        <hr class="rule decision__rule">
-        <p class="decision__principle">In a regulated market, the restrained option is the credible one.</p>
-      </div>
-    </section>
-
-    <section class="cs-section reveal">
-      <p class="cs-section__label">Design system and build</p>
-      <h2 class="cs-section__heading">A system that reads like a lab.</h2>
-      <div class="cs-section__body">
-        <p><b>System.</b> A neutral palette, monospaced data type paired with a humanist sans for prose, a whitespace scale, and components for spec tables, certification badges, compliance callouts, and action states.</p>
-        <p><b>Platform.</b> Shopify, built as a B2B storefront.</p>
-        <p><b>Maintainable.</b> Product data drives the spec tables. Certification blocks are reusable. Non-designers can add SKUs without breaking the data-sheet layout.</p>
-      </div>
-      <div class="cs-full">
-        <div class="slot">[ IMAGE: storefront, hero, certifications, how it works ]</div>
-      </div>
-    </section>
-
-    <section class="cs-section reveal">
-      <p class="cs-section__label">Outcomes</p>
-      <h2 class="cs-section__heading">What shipped, and what is not measured.</h2>
-      <div class="cs-section__body">
-        <p><b>Shipped.</b> A pharma-grade design system and a live B2B Shopify storefront, with spec-first product pages, certification blocks, and compliance UI.</p>
-        <p><b>Not a verified claim.</b> "First pharma-grade UI in Illinois cannabis tech" is the agency page's framing, not something checkable. It does not lead anything here.</p>
-        <p><b>Positioning note.</b> The public site abstracts cannabis to "plant-based industries," so "Illinois cannabis" is context for this write-up, not what the brand says out loud.</p>
-        <p><b>Not yet known.</b> No sales, order-volume, conversion, or traffic data. Whether the store transacts B2B orders or runs as lead generation. Any measured effect on trust or conversion. The custom domain was not live at capture.</p>
-      </div>
-    </section>
-
-    <section class="cs-section reveal">
-      <p class="cs-section__label">Reflection</p>
-      <h2 class="cs-section__heading">What I would do differently.</h2>
-      <div class="cs-section__body">
-        <p><b>01. Settle the positioning before UI.</b> Cannabis versus plant-based. The hedged language changed how much category context every page needed. One decision, up front.</p>
-        <p><b>02. Get the domain and analytics in at launch.</b> So there is a baseline to measure the trust-and-conversion bet against.</p>
-        <p><b>03. Prototype the data-sheet product page with real growers.</b> "Reads like a data sheet" is still an untested assumption about what that buyer actually wants.</p>
-      </div>
-    </section>
+        <div class="cs-rail__group">
+          <p class="cs-rail__label">Team</p>
+          <p class="cs-rail__value">Solo, with the two founders as stakeholders</p>
+        </div>
+        <div class="cs-rail__group">
+          <p class="cs-rail__label">Timeline</p>
+          <p class="cs-rail__value">3 months, remote, stakeholders in Illinois</p>
+        </div>
+        <div class="cs-rail__group">
+          <p class="cs-rail__label">Tools</p>
+          <p class="cs-rail__value">Figma, Shopify, Notion</p>
+        </div>
+        <div class="cs-rail__group">
+          <p class="cs-rail__label">Decisions</p>
+          <ol class="cs-rail__index">
+            <li><a href="#d1"><span class="cs-rail__num">01</span><span>Two-tier messaging</span></a></li>
+            <li><a href="#d2"><span class="cs-rail__num">02</span><span>Problem, solution, commercial model</span></a></li>
+            <li><a href="#d3"><span class="cs-rail__num">03</span><span>Evidence in place of fear</span></a></li>
+          </ol>
+        </div>
+      </aside>
+    </div>
 
     <nav class="cs-next reveal">
-      <a href="/studio.html">
-        <span class="small">More work</span>
-        Freelance and brand work
+      <a href="/bizotico.html">
+        <span class="small">Next case study</span>
+        Bizotico
       </a>
     </nav>
 

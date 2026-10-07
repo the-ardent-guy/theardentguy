@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bizotico, a legacy watch distributor's first storefront</title>
-<meta name="description" content="A legacy watch distributor's first storefront. 25 plus international brands, engineered to sell online. E-commerce case study by Rishabh Jain.">
+<title>Bizotico, competing with the marketplaces selling your own brands</title>
+<meta name="description" content="Designing a watch distributor's own store to compete with the marketplaces selling its brands. E-commerce design case study by Rishabh Jain.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
@@ -28,7 +28,7 @@
   <button class="theme-toggle" type="button" aria-label="Toggle dark mode"></button>
 </nav>
 
-<main>
+<main style="--tile-acc: var(--acc-bizotico);">
   <div class="cs-wrap">
 
     <a class="backlink" href="/#work">
@@ -37,135 +37,196 @@
     </a>
 
     <header class="cs-hero">
-      <p class="cs-hero__eyebrow">Bizotico</p>
-      <h1 class="cs-hero__title">A legacy watch distributor's first storefront, 25 international brands, engineered to sell online.</h1>
-      <p class="cs-hero__meta">Lead Product Designer &middot; Shopify, mobile-first &middot; 2024</p>
+      <p class="cs-hero__eyebrow">Bizotico, now The Timekeepers</p>
+      <h1 class="cs-hero__title">Designing a watch distributor's own store to compete with the <em>marketplaces selling its brands</em>.</h1>
+      <p class="cs-hero__meta">E-commerce Designer &middot; Bizotico, Bengaluru &middot; 6 months &middot; 2023 to 2024</p>
       <hr class="rule cs-hero__rule">
     </header>
 
-    <section class="cs-section reveal">
-      <div class="cs-two">
-        <div class="cs-two__left">
+    <div class="cs-layout">
+      <div class="cs-main">
+
+        <section class="cs-section reveal">
           <p class="cs-section__label">Overview</p>
-          <h2 class="cs-section__heading">The first online store in the distributor's 25-year history.</h2>
+          <h2 class="cs-section__heading">25+ international watch brands, already selling on every marketplace in India.</h2>
           <div class="cs-section__body">
-            <p><b>Role.</b> Lead Product Designer: information architecture, product and collection UX, mobile-first UI, the Shopify build, and the design system.</p>
-            <p><b>Client.</b> Bizotico, an importer and distributor carrying more than 25 international watch brands.</p>
-            <p><b>Platform.</b> Shopify, mobile-first, with roughly 70 percent of buyers on a phone. Live since 2024.</p>
+            <p>Bizotico is a Bengaluru distributor that holds Indian distribution rights for more than 25 international watch brands, including Scuderia Ferrari, Roamer, Obaku and Earnshaw. Its watches sold through Amazon, Myntra, Flipkart and Tata Cliq, and through retail partners.</p>
+            <p>An earlier D2C store, Zotick, never became a real sales channel. I redesigned it as the Bizotico store, and it went live across 2023 and 2024. It still runs today as The Timekeepers.</p>
           </div>
+          <div class="cs-full">
+            <div class="slot">[ IMAGE: the storefront home, desktop and mobile ]</div>
+          </div>
+        </section>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">The problem</p>
+          <h2 class="cs-section__heading">Selling through marketplaces cost margin on every watch. A direct store only keeps that margin if buyers have a reason to skip Amazon.</h2>
+          <div class="cs-section__body">
+            <p>Two more constraints shaped the store.</p>
+            <p><b>Range.</b> More than 25 brands, priced from under &#8377;5,000 to above &#8377;60,000, had to share one catalogue without the premium lines losing weight.</p>
+            <p><b>Buying habits.</b> Most buyers shop on a phone and expect cash on delivery, and COD orders carry a higher risk of returns and cancellations.</p>
+          </div>
+          <div class="decision__tradeoff" style="margin-top:36px;">
+            <span class="label-inline">Problem statement</span>
+            How might we give buyers a reason to buy direct from the distributor, when the same watches are available on every marketplace?
+          </div>
+        </section>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">Research</p>
+          <h2 class="cs-section__heading">What marketplaces cannot offer is what only a distributor has.</h2>
+          <div class="cs-section__body">
+            <p><b>Catalogue breakdown.</b> I mapped every brand's products by movement, strap, style and price, which showed where brands overlapped and where the gaps were.</p>
+            <p><b>Price-band mapping.</b> I grouped the range into four bands: below &#8377;20K, &#8377;20 to 40K, &#8377;40 to 60K and above &#8377;60K. Each band became its own collection.</p>
+            <p><b>Top brands by style.</b> I split the lead brands by style so each could get its own homepage row, and grouped lesser-known brands for discovery.</p>
+            <p><b>Competitive review.</b> Marketplaces win on price and delivery. They cannot offer the distributor's own warranty, its servicing, or direct pricing. That gap became the store's whole position.</p>
+            <p><b>Sitemaps and flows.</b> I mapped the key journeys: browse by brand, browse by price, gifting, ad to product page, and product page to checkout.</p>
+          </div>
+          <div class="cs-full">
+            <div class="slot">[ IMAGE: the brand and price-band map, and the sitemap beside it ]</div>
+          </div>
+        </section>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">Key decisions</p>
+          <h2 class="cs-section__heading">Three decisions that gave buyers a reason to come direct.</h2>
+
+          <div class="decision" id="d1">
+            <span class="decision__ghost" aria-hidden="true">01</span>
+            <h3 class="decision__heading">Four ways into one catalogue.</h3>
+            <p class="decision__sublabel">What happened</p>
+            <p class="decision__text">One catalogue had to hold a &#8377;4,000 fashion watch and a &#8377;60,000 Swiss automatic without either one dragging the other down.</p>
+            <hr class="rule decision__rule">
+            <p class="decision__sublabel">The decision</p>
+            <p class="decision__text is-decision">Buyers could start from the brand, the watch type, the budget or the person they were buying for. Brand gets an A to Z menu grouped into columns. Type covers Swiss Made, automatic, mechanical and quartz, plus movement and strap filters. Price uses the four bands. Audience covers For Him, For Her, Gift Guide, Best Sellers and New In. On the homepage, top brands get their own rows, and smaller labels sit under "Offbeat brands you wish you knew".</p>
+            <div class="decision__tradeoff">
+              <span class="label-inline">The trade-off</span>
+              Every new product has to be tagged across all four facets. That is more catalogue work for the client, in exchange for easier discovery.
+            </div>
+          </div>
+
+          <div class="decision" id="d2">
+            <span class="decision__ghost" aria-hidden="true">02</span>
+            <h3 class="decision__heading">A reason to buy direct.</h3>
+            <p class="decision__sublabel">What happened</p>
+            <p class="decision__text">A new store starts with no reviews, and buyers cannot try a watch on through a screen. Both are trust problems, not layout problems.</p>
+            <hr class="rule decision__rule">
+            <p class="decision__sublabel">The decision</p>
+            <p class="decision__text is-decision">The store was positioned around what only the distributor can offer: a two-year warranty backed by Bizotico, a personalised watch service station, and discounts straight from the distributor. A trust bar at the top of every page states returns, COD and warranty. An authorised partner block names the marketplaces Bizotico supplies, as proof of authenticity.</p>
+            <p class="decision__text is-decision" style="margin-top:16px;">I solved the review cold start by bringing in the offline store's Google reviews: real names, Local Guide badges, and comments about service and delivery that any buyer can verify. On the product page I added real on-wrist videos and to-scale product images next to the studio shots, so buyers see the actual size and finish before purchase. Warranty, authenticity, EMI, care and returns sit in expandable sections.</p>
+            <div class="decision__tradeoff">
+              <span class="label-inline">The trade-off</span>
+              Naming the marketplaces reminds buyers they exist. We kept the block because authenticity mattered more.
+            </div>
+            <div class="plate">
+              <div class="plate__grid">
+                <div class="plate__half"><span><span class="plate__state">What we killed</span>[ DRAWING: an empty five-star row on a brand new store, nobody has reviewed anything ]</span></div>
+                <div class="plate__half"><span><span class="plate__state">What we shipped</span>[ DRAWING: the offline shop's real Google reviews carried over, Local Guide badges and all ]</span></div>
+              </div>
+              <p class="plate__caption">Trade-off plate 01. Borrowed trust beats no trust, as long as it is real.</p>
+            </div>
+          </div>
+
+          <div class="decision" id="d3">
+            <span class="decision__ghost" aria-hidden="true">03</span>
+            <h3 class="decision__heading">Conversion built for Indian mobile buyers.</h3>
+            <p class="decision__sublabel">What happened</p>
+            <p class="decision__text">COD is what buyers expect, and COD is also what generates returns and cancellations.</p>
+            <hr class="rule decision__rule">
+            <p class="decision__sublabel">The decision</p>
+            <p class="decision__text is-decision">COD stays available, with 10% off prepaid orders to move buyers toward prepaid and cut COD returns. A sticky offer bar, quick view, filter and sort, and an add-to-cart within thumb reach. WhatsApp support for pre-purchase questions.</p>
+            <div class="decision__tradeoff">
+              <span class="label-inline">The trade-off</span>
+              A prepaid discount costs margin on every order that would have been prepaid anyway. Cheaper than the returns.
+            </div>
+            <div class="cs-full">
+              <div class="slot">[ IMAGE: the product page on mobile, to-scale image and on-wrist video ]</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">Campaigns and pricing</p>
+          <h2 class="cs-section__heading">One fixed ad frame, so one designer could cover 25+ brands.</h2>
+          <div class="cs-section__body">
+            <p><b>Creative template.</b> Every ad used one frame: a maroon corner block, the logo, an offer tag and the price. One graphic designer could produce creatives for every brand quickly, and every ad was recognisably Bizotico. The ads do look alike, which we accepted for speed and recognition.</p>
+            <p><b>Ad to product page.</b> Each ad linked straight to the page of the watch it showed, with the same image and the same price. The buyer lands on the exact product, one tap from the cart.</p>
+            <p><b>Pricing presentation.</b> Deep discounts, up to 80%, were limited to fashion brands like Lee Cooper. Premium lines like Roamer and Earnshaw stayed between 5% and 20%, so they never looked like clearance stock.</p>
+          </div>
+          <div class="cs-full">
+            <div class="slot">[ IMAGE: ad creatives on one template across brands, and the Diwali sale banners ]</div>
+          </div>
+        </section>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">Design system and build</p>
+          <h2 class="cs-section__heading">A system the client runs without a developer.</h2>
+          <div class="cs-section__body">
+            <p><b>Components.</b> One library covers the home, brand, collection and product page templates.</p>
+            <p><b>Palette.</b> Deep maroon, black and white. Maroon carries the brand across the store, the ads and the testimonials, and one accent colour is kept for actions and trust badges.</p>
+            <p><b>Build.</b> Shopify, with every component mapped to a theme section. Adding a brand means creating a collection and a banner, with no developer needed.</p>
+          </div>
+        </section>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">Outcome</p>
+          <h2 class="cs-section__heading"><em>7.85x</em> ROAS on a May 2024 campaign, and still live more than two years later.</h2>
+          <div class="cs-section__body">
+            <p>About &#8377;53,000 in ad spend against &#8377;4,16,131 in net sales. Around 30 orders a month in the early months. More than 25 brands online under one system, which the client runs without developer support.</p>
+            <p>The marketing team ran the ads, so the sales result is shared.</p>
+          </div>
+          <div class="cs-full">
+            <div class="slot">[ IMAGE: Shopify analytics, May 2024 ]</div>
+          </div>
+        </section>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">Reflection</p>
+          <h2 class="cs-section__heading">What I would do differently.</h2>
+          <div class="cs-section__body">
+            <p><b>Set stricter template tiers from day one.</b> Brand-led IA worked, but it is maintenance-heavy. A fixed tier system for premium and fashion brands would have cut per-brand setup time.</p>
+            <p><b>Measure the trust layer.</b> The reasons-to-buy-direct model is the core of this work and I never instrumented it. Next time I would track product-page-to-checkout drop-off and the COD to prepaid split, before and after launch.</p>
+          </div>
+        </section>
+
+      </div>
+
+      <aside class="cs-rail" aria-label="Project details">
+        <div class="cs-rail__group cs-rail__cast">
+          <div class="cast cast--rail">[ CAST ]</div>
+          <p class="cast__caption">A first-time buyer on a phone, cash in hand, Amazon open in the next tab.</p>
         </div>
-        <div class="cs-two__right">
-          <div class="slot">[ IMAGE: Bizotico storefront, product page and mobile home ]</div>
+        <div class="cs-rail__group">
+          <p class="cs-rail__label">My role</p>
+          <p class="cs-rail__value">Research<br>Information architecture<br>Sitemaps and flows<br>Visual direction<br>UI/UX and feature design<br>Conversion optimisation<br>Shopify build<br>Campaign creative system</p>
         </div>
-      </div>
-    </section>
-
-    <section class="cs-section reveal">
-      <p class="cs-section__label">The challenge</p>
-      <h2 class="cs-section__heading">Sell a 20 to 40 thousand rupee watch to a first-time online buyer.</h2>
-      <div class="cs-section__body">
-        <p>A 25-year-old distributor with more than 25 international brands and over 600 retail partner stores, and no online store, while 70 percent of Indian watch buyers had already moved online.</p>
-        <p><b>01. Multi-brand, one storefront.</b> More than 25 brands across very different price tiers had to share a store, without the premium lines feeling cheapened or the fashion lines feeling niche.</p>
-        <p><b>02. A confidence problem, not a price problem.</b> About one in five Indian buyers treats a watch as an investment. What blocks the purchase online is trust, not the number.</p>
-        <p><b>03. Mobile is the store.</b> About 70 percent of traffic is on a phone. Designing for the desktop-boutique feel would have served the wrong 30 percent.</p>
-      </div>
-    </section>
-
-    <section class="cs-section reveal">
-      <p class="cs-section__label">Approach</p>
-      <h2 class="cs-section__heading">Not "build a store." Design for purchase confidence.</h2>
-      <div class="cs-section__body">
-        <p><b>Category research.</b> India's watch market was 3.2 billion dollars in 2024, heading to 5.1 billion by 2033. Luxury-watch e-commerce is globally the least-developed channel. Buyers were ready. Distribution had not followed.</p>
-        <p><b>Portfolio audit.</b> Mapped all 25 brands by price band and positioning. That map became the input for the navigation model.</p>
-        <p><b>Competitive teardown.</b> Marketplace listings against brand-owned stores, cataloguing exactly where trust breaks on a high-value product page.</p>
-        <p><b>Journey mapping.</b> Located the moments of doubt on the path to checkout, and designed a countermeasure for each one.</p>
-      </div>
-      <div class="cs-full">
-        <div class="slot">[ IMAGE: brand portfolio mapped by price band, feeding the navigation model ]</div>
-      </div>
-    </section>
-
-    <section class="cs-section reveal">
-      <p class="cs-section__label">Key decisions</p>
-      <h2 class="cs-section__heading">Three decisions that shaped the store.</h2>
-
-      <div class="decision">
-        <span class="decision__ghost" aria-hidden="true">01</span>
-        <h3 class="decision__heading">Brand-led information architecture.</h3>
-        <p class="decision__sublabel">Information architecture</p>
-        <p class="decision__text">Navigable by brand and by watch type, Swiss Made, Automatic, and so on, not one flat grid.</p>
-        <hr class="rule decision__rule">
-        <p class="decision__sublabel">Why</p>
-        <p class="decision__text is-decision">The distributor's value is curation across brands. The IA had to make that visible.</p>
-      </div>
-
-      <div class="decision">
-        <span class="decision__ghost" aria-hidden="true">02</span>
-        <h3 class="decision__heading">The product page as an anxiety-reducer.</h3>
-        <p class="decision__sublabel">Product page</p>
-        <p class="decision__text">Warranty, manufacturer details, authenticity, EMI, care, and returns, surfaced through progressive disclosure.</p>
-        <hr class="rule decision__rule">
-        <p class="decision__sublabel">Why</p>
-        <p class="decision__text is-decision">The page answers "can I trust this?" before it asks for the sale.</p>
-      </div>
-
-      <div class="decision">
-        <span class="decision__ghost" aria-hidden="true">03</span>
-        <h3 class="decision__heading">A mobile-first system.</h3>
-        <p class="decision__sublabel">Mobile</p>
-        <p class="decision__text">Condensed navigation, filter and sort, WhatsApp support, a sticky offer bar, and a thumb-reachable add-to-cart.</p>
-        <hr class="rule decision__rule">
-        <p class="decision__sublabel">Why</p>
-        <p class="decision__text is-decision">Built for the 70 percent, not the 30 percent.</p>
-        <hr class="rule decision__rule">
-        <p class="decision__principle">Curation is the product. The interface had to make 25 years of it visible.</p>
-      </div>
-    </section>
-
-    <section class="cs-section reveal">
-      <p class="cs-section__label">Design system and build</p>
-      <h2 class="cs-section__heading">A system the client can run without a developer.</h2>
-      <div class="cs-section__body">
-        <p><b>Component library.</b> Product page, collection, and brand-page templates in one themeable system.</p>
-        <p><b>Palette.</b> Deep maroon, black, white. One accent, used on actions and trust badges only.</p>
-        <p><b>Built in Shopify.</b> Components map one to one to theme sections. A new brand is a configuration, not a rebuild.</p>
-        <p><b>Handoff.</b> Design through to the Shopify build, owned end to end, not thrown over a wall.</p>
-      </div>
-      <div class="cs-full">
-        <div class="slot">[ IMAGE: storefront screens, home, brand page, product page, collection, cart ]</div>
-      </div>
-    </section>
-
-    <section class="cs-section reveal">
-      <p class="cs-section__label">Outcomes</p>
-      <h2 class="cs-section__heading">The first online revenue in the company's 25 years.</h2>
-      <div class="cs-section__body">
-        <p>Early-stage store, roughly 30 orders a month. Read these as a first signal, not a verdict.</p>
-        <p><b><em class="stat-num">7.85x</em> return on ad spend</b> on the launch campaign. Roughly 53,000 rupees of spend against 4,16,131 rupees in net sales in May 2024.</p>
-        <p><b>First digital revenue channel.</b> Zero to one, built, live, and taking orders.</p>
-        <p><b>25 brands online</b>, each with its own presence under one system.</p>
-        <p><b>Self-serve catalog and campaigns.</b> The client ships changes without developer support.</p>
-        <p><b>Team split.</b> I owned UX, UI, and the Shopify build. Performance marketing and content production were run by teammates, so the store result is shared.</p>
-      </div>
-      <div class="cs-full">
-        <div class="slot">[ IMAGE: Shopify analytics, May 2024, orders, net sales, ROAS ]</div>
-      </div>
-    </section>
-
-    <section class="cs-section reveal">
-      <p class="cs-section__label">Reflection</p>
-      <h2 class="cs-section__heading">What I would do differently.</h2>
-      <div class="cs-section__body">
-        <p><b>01. Tighter template tiers from day one.</b> Brand-led IA was the right call but maintenance-heavy. A stricter tier system from the start would have cut per-brand setup time significantly.</p>
-        <p><b>02. Instrument the trust layer.</b> The product-page reassurance model is the strongest part of the work. Next time I would measure it, checkout drop-off, return rate, instead of asserting it.</p>
-        <p><b>03. Use the 600 stores harder.</b> The offline footprint is a bigger trust asset than the first release treated it as. The store locator and the offline-to-online bridge were under-built.</p>
-      </div>
-    </section>
+        <div class="cs-rail__group">
+          <p class="cs-rail__label">Team</p>
+          <p class="cs-rail__value">I led a graphic designer and worked alongside the marketing team</p>
+        </div>
+        <div class="cs-rail__group">
+          <p class="cs-rail__label">Timeline</p>
+          <p class="cs-rail__value">6 months, 2023 to 2024</p>
+        </div>
+        <div class="cs-rail__group">
+          <p class="cs-rail__label">Tools</p>
+          <p class="cs-rail__value">Figma, Shopify</p>
+        </div>
+        <div class="cs-rail__group">
+          <p class="cs-rail__label">Decisions</p>
+          <ol class="cs-rail__index">
+            <li><a href="#d1"><span class="cs-rail__num">01</span><span>Four ways into one catalogue</span></a></li>
+            <li><a href="#d2"><span class="cs-rail__num">02</span><span>A reason to buy direct</span></a></li>
+            <li><a href="#d3"><span class="cs-rail__num">03</span><span>Built for Indian mobile buyers</span></a></li>
+          </ol>
+        </div>
+      </aside>
+    </div>
 
     <nav class="cs-next reveal">
-      <a href="/vistlabs.html">
+      <a href="/hasta.html">
         <span class="small">Next case study</span>
-        VIST Labs
+        Hasta
       </a>
     </nav>
 

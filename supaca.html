@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Supaca, a verified network for India's supercar community</title>
-<meta name="description" content="Supaca. A private network and marketplace for India's verified supercar community. Product design case study by Rishabh Jain.">
+<title>Supaca, a private network for India's supercar owners</title>
+<meta name="description" content="Verified owners, real clubs, and one screen that shows who is coming to the drive and what they are bringing. Product design case study by Rishabh Jain.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
@@ -28,7 +28,7 @@
   <button class="theme-toggle" type="button" aria-label="Toggle dark mode"></button>
 </nav>
 
-<main>
+<main style="--tile-acc: var(--acc-supaca);">
   <div class="cs-wrap">
 
     <a class="backlink" href="/#work">
@@ -38,226 +38,261 @@
 
     <header class="cs-hero">
       <p class="cs-hero__eyebrow">Supaca</p>
-      <h1 class="cs-hero__title">How do you build <em>trust</em> inside a community where every transaction is worth crores?</h1>
-      <p class="cs-hero__meta">Lead Product Designer &middot; Boit Technologies &middot; 2024 to 2026</p>
+      <h1 class="cs-hero__title">Designing a private network for India's <em>supercar owners</em>.</h1>
+      <p class="cs-hero__meta">Lead UI/UX Designer &middot; Nov 2024 to Nov 2025 &middot; Launched v1</p>
       <hr class="rule cs-hero__rule">
     </header>
 
-    <!-- Overview -->
-    <section class="cs-section reveal">
-      <div class="cs-two">
-        <div class="cs-two__left">
+    <div class="cs-layout">
+      <div class="cs-main">
+
+        <section class="cs-section reveal">
           <p class="cs-section__label">Overview</p>
-          <h2 class="cs-section__heading">A private network and marketplace for India's verified supercar community.</h2>
+          <h2 class="cs-section__heading">Verified owners, real clubs, and one screen that shows who is coming to the drive and what they are bringing.</h2>
           <div class="cs-section__body">
-            <p><b>Role.</b> Lead Product Designer, across UX research, information architecture, interaction design, UI, the design system, and dev handoff.</p>
-            <p><b>Platform.</b> iOS and Android, mobile-first. Live and invite-only.</p>
-            <p><b>Timeline.</b> Eight to nine months across multiple iteration cycles.</p>
-            <p><b>Tools.</b> Figma, Claude Code via the Figma MCP, Fable, and AI-assisted layout for lower-judgment work.</p>
+            <p>Supaca is a members-only app for verified supercar owners in India. Clubs run their drives and events on it, members RSVP with the car they are bringing, and dealers and detailers reach them through a controlled vendor channel.</p>
+            <p>I designed and launched v1 over a year, from November 2024 to November 2025. The team has since rebuilt it into the beta live today.</p>
           </div>
-        </div>
-        <div class="cs-two__right">
-          <div class="slot">[ IMAGE: Supaca hero screen, an event page showing who is coming and which car ]</div>
-        </div>
-      </div>
-    </section>
+          <div class="cs-full">
+            <div class="slot">[ IMAGE: the current beta's landing page, rebuilt by the team from v1 ]</div>
+          </div>
+        </section>
 
-    <!-- Problem -->
-    <section class="cs-section reveal">
-      <p class="cs-section__label">The problem</p>
-      <h2 class="cs-section__heading">No infrastructure for a community that matters.</h2>
-      <div class="cs-section__body">
-        <p>India's supercar owner community had no purpose-built digital infrastructure. Club coordination ran on WhatsApp. Peer discovery ran on Instagram DMs. High-value transactions went through brokers that neither party fully trusted.</p>
-        <p><b>01. Fragmented community coordination.</b> Club organisers managed events, drives, and member communication across WhatsApp groups with no structure or ownership hierarchy. Critical updates were buried under casual chat.</p>
-        <p><b>02. No trusted peer discovery.</b> Owners wanting to connect had no verified identity system. Instagram was the default: public, unverified, inappropriate for a community where privacy is baseline.</p>
-        <p><b>03. High-trust transactions, no infrastructure.</b> Peer-to-peer sales of three to five crore vehicles ran through brokers neither party fully trusted. No platform combined verified ownership with a secure transaction layer.</p>
-      </div>
-      <blockquote class="testimonial" style="margin-top:32px;">
-        <p class="testimonial__quote">"I don't want to deal with dealers or agents. I want to sell it very discreetly."</p>
-        <p class="testimonial__company">A collector, during discovery</p>
-      </blockquote>
-    </section>
-
-    <!-- Research -->
-    <section class="cs-section reveal">
-      <p class="cs-section__label">Research and discovery</p>
-      <h2 class="cs-section__heading">The product's value is not utility. It is belonging.</h2>
-      <div class="cs-section__body">
-        <p><b>Method.</b> Longitudinal community research. Direct relationships with owners, club organisers, and event hosts over an extended period. Participant observation, not external cold recruitment.</p>
-        <p><b>Competitive analysis.</b> Evaluated Discord, Telegram, WhatsApp, Facebook Groups, and Bring a Trailer. No existing platform combined verified identity, community, and marketplace in a mobile-first context.</p>
-        <p><b>Archetype collapse.</b> Mapped five owner archetypes, then collapsed to two for MVP: Supercar Owner and Club Owner. Scope prioritisation over completeness.</p>
-        <p>The design problem was making belonging feel immediate from the first interaction, before the user had done anything active.</p>
-      </div>
-      <div class="cs-full">
-        <div class="slot">[ IMAGE: research artifact, the five archetypes collapsed to two ]</div>
-      </div>
-    </section>
-
-    <!-- Information architecture -->
-    <section class="cs-section reveal">
-      <p class="cs-section__label">Information architecture</p>
-      <h2 class="cs-section__heading">Five modules. One coherent experience.</h2>
-      <div class="cs-section__body">
-        <p><b>Identity and Verification.</b> Profile as credential. Fleet, clubs, verified badge.</p>
-        <p><b>Clubs.</b> The organisational unit. City, type, access level.</p>
-        <p><b>Events.</b> Drives, track days, socials. RSVP states, live tracking.</p>
-        <p><b>Marketplace.</b> Peer-to-peer. Escrow-protected transactions.</p>
-        <p><b>Chat.</b> Split by context. Listing, DM, club announcements.</p>
-        <p><b>IA principle.</b> Context-aware chat architecture. Conversations are separated by type so high-value communication is not buried in social noise. An information hierarchy decision, not a feature decision.</p>
-        <p><b>Navigation model.</b> Tab bar over sidebar. A sidebar is a desktop-inherited pattern that breaks the thumb-zone model on mobile. Bottom tabs match the interaction vocabulary users already have.</p>
-      </div>
-      <div class="cs-full">
-        <div class="slot">[ IMAGE: IA flow diagram, five modules and how they connect ]</div>
-      </div>
-    </section>
-
-    <!-- Key decisions -->
-    <section class="cs-section reveal">
-      <p class="cs-section__label">Key decisions</p>
-      <h2 class="cs-section__heading">Six calls. Every one of them a trust decision.</h2>
-
-      <div class="decision">
-        <span class="decision__ghost" aria-hidden="true">01</span>
-        <h3 class="decision__heading">Never spend a user's consent to save them a tap.</h3>
-        <p class="decision__sublabel">Trust design &middot; Consent architecture</p>
-        <p class="decision__sublabel">What happened</p>
-        <p class="decision__text">We built a feature that automatically added users to clubs based on their car name. It seemed helpful. It enrolled someone into a private club before their own membership was approved.</p>
-        <hr class="rule decision__rule">
-        <p class="decision__sublabel">The decision</p>
-        <p class="decision__text is-decision">Feature deleted 12 days after launch. Five silent memberships purged. The service file was kept on disk, unreferenced, as a reminder of what a proper consent-based version would look like. The alternative was deliberately not built yet.</p>
-        <hr class="rule decision__rule">
-        <p class="decision__principle">On a trust product, a helpful surprise is a breach.</p>
-      </div>
-
-      <div class="decision">
-        <span class="decision__ghost" aria-hidden="true">02</span>
-        <h3 class="decision__heading">Gate reachability, not visibility.</h3>
-        <p class="decision__sublabel">Privacy by design &middot; Access control</p>
-        <p class="decision__sublabel">What happened</p>
-        <p class="decision__text">A security audit said: hide member lists in private clubs. That was the stated fix. It was the wrong problem.</p>
-        <hr class="rule decision__rule">
-        <p class="decision__sublabel">The decision</p>
-        <p class="decision__text is-decision">Directories stayed open. The gate moved to contact. You can only DM someone you share at least one real club with. Brand pages were excluded, because instant-join would make them a one-tap exploit. The marketplace was left untouched entirely. Commerce is never blocked by a social rule.</p>
-        <hr class="rule decision__rule">
-        <p class="decision__principle">Solve for unwanted contact, not unwanted visibility. Those are different problems.</p>
-      </div>
-
-      <div class="decision">
-        <span class="decision__ghost" aria-hidden="true">03</span>
-        <h3 class="decision__heading">Mask over block. Degrade identity, not access.</h3>
-        <p class="decision__sublabel">Permission architecture &middot; Trust hierarchy</p>
-        <p class="decision__sublabel">What happened</p>
-        <p class="decision__text">Three user types: owners, club managers, vendors. Two permission tiers: full and limited. The question was what limited actually means for vendors in the marketplace.</p>
-        <hr class="rule decision__rule">
-        <p class="decision__sublabel">The decision</p>
-        <p class="decision__text is-decision">Vendors are not blocked from the marketplace. They see full-tier sellers as "Anonymous seller." They can buy and sell. They just cannot see who they are transacting with or harvest the member list. Vendors also get no DMs, not even vendor to vendor. The product chose owner trust over vendor convenience, even though vendors are the paying customers.</p>
-        <hr class="rule decision__rule">
-        <p class="decision__principle">Degrading the paying user's experience is the clearest signal of what the product values.</p>
-      </div>
-
-      <div class="decision">
-        <span class="decision__ghost" aria-hidden="true">04</span>
-        <h3 class="decision__heading">"We don't know yet" is a valid state. Do not resolve it.</h3>
-        <p class="decision__sublabel">Transaction design &middot; Error state architecture</p>
-        <p class="decision__sublabel">What happened</p>
-        <p class="decision__text">Three separate parts of the system assumed "unconfirmed payment" meant "never paid." A sweeper was cancelling stale orders with no refund, keeping the buyer's money with no order, no invoice, no notification.</p>
-        <hr class="rule decision__rule">
-        <p class="decision__sublabel">The decision</p>
-        <p class="decision__text is-decision">A three-path rule was introduced. Captured means complete it. Nothing means cancel it. Unknown means wait and retry. Never act on incomplete information when money is involved. The webhook path that skipped invoices was caught separately: a buyer whose browser died mid-checkout was charged and received nothing.</p>
-        <hr class="rule decision__rule">
-        <p class="decision__principle">"We don't know yet" must not silently resolve into the convenient answer.</p>
-      </div>
-
-      <div class="decision">
-        <span class="decision__ghost" aria-hidden="true">05</span>
-        <h3 class="decision__heading">Number formatting is a correctness surface, not visual polish.</h3>
-        <p class="decision__sublabel">Data integrity &middot; Financial display</p>
-        <p class="decision__sublabel">What happened</p>
-        <p class="decision__text">&#8377;40,000 and &#8377;40,400 both showed as "&#8377;40k." A seller could not tell two offers apart. Two subsystems used different money units, paise versus rupees, each internally consistent. Any screen showing both was silently 100x wrong. The mismatch also capped the system at &#8377;2.14 crore, below the price of the cars actually being listed.</p>
-        <hr class="rule decision__rule">
-        <p class="decision__sublabel">The decision</p>
-        <p class="decision__text is-decision">Exact Indian-grouped rupees became the default everywhere. Compact formatting is opt-in and banned from any charge, payout, or invoice line. The data migration to fix the unit mismatch was written to abort completely rather than move anyone's money by a single rupee if anything was uncertain.</p>
-        <hr class="rule decision__rule">
-        <p class="decision__principle">A display decision that makes a seller unable to do their job is not a design detail.</p>
-      </div>
-
-      <div class="decision">
-        <span class="decision__ghost" aria-hidden="true">06</span>
-        <h3 class="decision__heading">Exclusivity lives in the garden, not at the gate.</h3>
-        <p class="decision__sublabel">Access architecture &middot; Trust funnel design</p>
-        <p class="decision__sublabel">What happened</p>
-        <p class="decision__text">The access model went through four versions: invite-only with five codes each, then a waitlist launch that was reversed within 24 hours, then open signup with admin approval, then back to invite-as-vouch.</p>
-        <hr class="rule decision__rule">
-        <p class="decision__sublabel">The decision</p>
-        <p class="decision__text is-decision">Two non-obvious details mattered most. Invite codes only unlock at approval, not signup: a pending user holding five codes could have referred five people past the gate before anyone reviewed them. A club-bound invite gets you in because the owner vouching is the vetting, but a fee-charging club still parks you as awaiting payment rather than granting free access.</p>
-        <hr class="rule decision__rule">
-        <p class="decision__principle">The funnel got wider without ever getting lower. When a privilege is granted matters as much as whether it is.</p>
-      </div>
-    </section>
-
-    <!-- UI system -->
-    <section class="cs-section reveal">
-      <div class="cs-two">
-        <div class="cs-two__left">
-          <p class="cs-section__label">UI system</p>
-          <h2 class="cs-section__heading">Design decisions, not just visual choices.</h2>
+        <section class="cs-section reveal">
+          <p class="cs-section__label">The problem</p>
+          <h2 class="cs-section__heading">Their social world ran on scattered WhatsApp groups.</h2>
           <div class="cs-section__body">
-            <p><b>Visual language.</b> Layered light surfaces, a deliberate rejection of the dark, aggressive aesthetic that dominates automotive apps. Supaca is a community platform for people who happen to own supercars. The visual language signals sophistication, not aggression.</p>
-            <p><b>Type scale.</b> 26px page titles, 20px section headers, 16px body and UI, on a 16px margin system.</p>
-            <p><b>Colour system.</b> Near-monochromatic with a single accent, reserved for active navigation states, actions, and verification badges only. It carries meaning, not decoration.</p>
-            <p><b>Component states designed.</b> Membership, pending, active, declined. RSVP, going, maybe, declined, waitlisted. Listing, active, under offer, sold. Empty states are directional for every zero-data screen.</p>
+            <p>India has roughly 3,000 to 6,000 supercar owners, with cars worth &#8377;2 to 20 crore each. None of the existing platforms were built for them.</p>
+            <p><b>No verified identity.</b> No way to know who actually owns a car. <b>No structure for events.</b> Drives were organised through forwarded messages. <b>High-ticket sales on trust.</b> Cars and parts changed hands through forwarded photos. <b>Idle cars.</b> Many owners had a crore of machine parked for weeks, with nowhere to take it.</p>
           </div>
+          <div class="decision__tradeoff" style="margin-top:36px;">
+            <span class="label-inline">Problem statement</span>
+            How might we give owners a verified place to belong, where the main reason to open the app is the next drive?
+          </div>
+        </section>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">Research</p>
+          <h2 class="cs-section__heading">An empty network kills a members' club, so we never faked one.</h2>
+          <div class="cs-section__body">
+            <p><b>Direct access.</b> As creative director at Boit Club, one of the clubs on the list, I had direct access to owners and club organisers, and could test ideas with the people who would use the product. That is also a conflict worth naming: I was inside one of the communities I was designing for.</p>
+            <p><b>Supply mapping.</b> We mapped the founders' list of clubs into real, verified entries, including Boit Club, Club P11, RaceTech, Marque One and Throttle 97. Each club's own access rules, open, private, referral-only, women-only, mapped to how it would appear in the product.</p>
+            <p><b>The cold-start risk.</b> The plan was to launch only into real, seeded clubs with real dated events, under one rule: never fake a member, an attendee or a listing. One fake would break the trust the product depends on.</p>
+          </div>
+          <blockquote class="testimonial" style="margin-top:32px;">
+            <p class="testimonial__quote">"I don't want to deal with dealers or agents. I want to sell it very discreetly."</p>
+            <p class="testimonial__company">A collector, during discovery</p>
+          </blockquote>
+          <div class="refusals">
+            <table class="refusals__table">
+              <thead>
+                <tr><th>Step</th><th>The exclusivity ladder</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>1</td><td data-label="The exclusivity ladder">Invite only</td></tr>
+                <tr><td>2</td><td data-label="The exclusivity ladder">Garage verification: registration certificate and insurance</td></tr>
+                <tr><td>3</td><td data-label="The exclusivity ladder">Manual approval for the founding cohort</td></tr>
+                <tr><td>4</td><td data-label="The exclusivity ladder">A permanent "Founding 100" badge</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">Key decisions</p>
+          <h2 class="cs-section__heading">Six decisions, and the trust each one was protecting.</h2>
+
+          <div class="decision" id="d1">
+            <span class="decision__ghost" aria-hidden="true">01</span>
+            <h3 class="decision__heading">Five permission profiles, collapsed into two access tiers.</h3>
+            <p class="decision__sublabel">What happened</p>
+            <p class="decision__text">Four archetypes plus pending applicants implied five permission profiles: approved owner, club owner without a car, vendor, admin and pending applicant. A separate rule set for each would have scattered access logic across every screen.</p>
+            <hr class="rule decision__rule">
+            <p class="decision__sublabel">The decision</p>
+            <p class="decision__text is-decision">Two tiers instead. <b>Full:</b> approved, with at least one verified car, sees the members' world. <b>Limited:</b> everyone else, where sellers appear anonymous, there are no DMs, and no member data is visible. Signup kept three plain-English doors, Owner, Club Owner and Vendor, and behind them one rule answers every access question. Tesler's law: the complexity has to live somewhere, so it moved into one rule that no screen and no user ever has to reason about.</p>
+            <div class="decision__tradeoff">
+              <span class="label-inline">The trade-off</span>
+              Two tiers are coarser than five profiles, so some edge cases get less nuance. In exchange, every screen behaves predictably.
+            </div>
+          </div>
+
+          <div class="decision" id="d2">
+            <span class="decision__ghost" aria-hidden="true">02</span>
+            <h3 class="decision__heading">Verification through the garage.</h3>
+            <p class="decision__sublabel">What happened</p>
+            <p class="decision__text">Proving a person is who they say they are, and proving they own a supercar, are usually two separate problems.</p>
+            <hr class="rule decision__rule">
+            <p class="decision__sublabel">The decision</p>
+            <p class="decision__text is-decision">A member proves who they are by verifying their car. One document, the registration certificate, proves both identity and ownership, and an admin approves it. Approving a member marks all their cars verified. Until then, the app stays locked. Because the gate does the work, members never pay. The badge is the value.</p>
+            <div class="decision__tradeoff">
+              <span class="label-inline">The trade-off</span>
+              Verification adds friction at signup. For an exclusive network, that friction is what makes the membership worth having.
+            </div>
+          </div>
+
+          <div class="decision" id="d3">
+            <span class="decision__ghost" aria-hidden="true">03</span>
+            <h3 class="decision__heading">Privacy fails closed.</h3>
+            <p class="decision__sublabel">What happened</p>
+            <p class="decision__text">Every convenience we considered turned out to leak something: a club's existence, a member's identity, a face.</p>
+            <hr class="rule decision__rule">
+            <p class="decision__sublabel">The decision</p>
+            <p class="decision__text is-decision"><b>No silent joins.</b> Members join a club only by choosing to, or by an owner's approval. Matching members to clubs by their car and adding them automatically would be convenient, and on a trust product it would be a breach. <b>A private club you cannot access looks like it does not exist.</b> The app returns "not found" instead of "access denied", because "denied" confirms the club exists. <b>Identity revealed only on purpose.</b> When tiers mix, people stay anonymous until someone explicitly reveals who they are. <b>Initials, not faces.</b> Member avatars use initials, and photography is reserved for cars, clubs and events.</p>
+            <p class="decision__text is-decision" style="margin-top:16px;">One deliberate exception: login says "No account found for this email" instead of a vague error. At the front door a clear message converts better, and the invite-only copy explains why. A private club is different, because its existence is itself the sensitive fact.</p>
+            <div class="decision__tradeoff">
+              <span class="label-inline">The trade-off</span>
+              Consent costs convenience. A trust product cannot afford the opposite.
+            </div>
+            <div class="plate">
+              <div class="plate__grid">
+                <div class="plate__half"><span><span class="plate__state">What we killed</span>[ DRAWING: "Access denied" on a private club, quietly confirming the club is real ]</span></div>
+                <div class="plate__half"><span><span class="plate__state">What we shipped</span>[ DRAWING: the same screen returning "not found", the club invisible to anyone outside it ]</span></div>
+              </div>
+              <p class="plate__caption">Trade-off plate 01. An error message can leak a membership list.</p>
+            </div>
+          </div>
+
+          <div class="decision" id="d4">
+            <span class="decision__ghost" aria-hidden="true">04</span>
+            <h3 class="decision__heading">The hero moment: RSVP with your car.</h3>
+            <p class="decision__sublabel">What happened</p>
+            <p class="decision__text">A network needs one reason to open the app, and for this community it was never the feed.</p>
+            <hr class="rule decision__rule">
+            <p class="decision__sublabel">The decision</p>
+            <p class="decision__text is-decision">Everything points at the event page. When a member RSVPs, they choose which car they are bringing. The "Who's coming" list shows each attendee with a verified badge and a colour-coded pill for their car's make. That one screen creates belonging, and the verification behind it creates exclusivity.</p>
+            <div class="decision__tradeoff">
+              <span class="label-inline">The trade-off</span>
+              Putting one screen at the centre means every other feature has to earn its place by leading back to it.
+            </div>
+            <div class="cs-full">
+              <div class="slot">[ IMAGE: wireframes, the gate, the event page, and four-step garage verification ]</div>
+            </div>
+          </div>
+
+          <div class="decision" id="d5">
+            <span class="decision__ghost" aria-hidden="true">05</span>
+            <h3 class="decision__heading">Clubs exist before their owners arrive.</h3>
+            <p class="decision__sublabel">What happened</p>
+            <p class="decision__text">An empty network is the fastest way to lose a members' club, and the first club owner to arrive would have found nothing.</p>
+            <hr class="rule decision__rule">
+            <p class="decision__sublabel">The decision</p>
+            <p class="decision__text is-decision">The real clubs from research were already in the app at launch. A club owner claims their existing club instead of building one from nothing, or creates a new one if theirs is not listed. Once claimed, the owner invites members, and the invite does the vetting: a member arrives already known to a club, then verifies their garage. Members land in a club that already has a name, a crest and other owners in it.</p>
+            <div class="decision__tradeoff">
+              <span class="label-inline">The trade-off</span>
+              Pre-seeding means curating and maintaining club data before anyone asks for it. It is the price of never showing an empty room.
+            </div>
+          </div>
+
+          <div class="decision" id="d6">
+            <span class="decision__ghost" aria-hidden="true">06</span>
+            <h3 class="decision__heading">Who pays, designed into the flows.</h3>
+            <p class="decision__sublabel">What happened</p>
+            <p class="decision__text">Money anywhere near the members' experience would have undercut the thing the gate was building.</p>
+            <hr class="rule decision__rule">
+            <p class="decision__sublabel">The decision</p>
+            <p class="decision__text is-decision"><b>Members never pay.</b> The verification gate is what makes membership valuable, so there is no fee at the door. <b>Club owners pay for their tools.</b> The first year is free, then &#8377;25,000 a year for the owner plan. <b>The paywall only reaches the owner.</b> If an owner's plan lapses, only their dashboard is locked, and the club stays live for its members. <b>A member-fee toggle, off by default.</b> Owners can choose to charge their own members; left off, the member flow is untouched.</p>
+            <div class="decision__tradeoff">
+              <span class="label-inline">The trade-off</span>
+              Charging owners instead of members means growth depends on club owners seeing value first. That is why the first year is free.
+            </div>
+          </div>
+        </section>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">Other decisions</p>
+          <h2 class="cs-section__heading">Five smaller calls.</h2>
+          <div class="cs-section__body">
+            <p><b>Information architecture first.</b> I fixed the route map before designing any screen, so every screen filled a defined slot and new features could be added without restructuring navigation.</p>
+            <p><b>Filters in sheets, not tabs.</b> A Vendors tab on the Clubs page was rejected. Filters live in bottom sheets, which keeps each page to one job.</p>
+            <p><b>Familiar patterns for unfamiliar ideas.</b> A five-tab bottom nav, an Instagram-style marketplace grid and story-style carousels carry new concepts like verification and escrow. Jakob's law.</p>
+            <p><b>One accent, one meaning for green.</b> Supaca Red is the only brand colour. Emerald means one thing: verified.</p>
+            <p><b>Plain English.</b> "You approve every request" instead of a settings matrix. Labels a non-car person understands.</p>
+          </div>
+        </section>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">Design system</p>
+          <h2 class="cs-section__heading">One accent, and a green that only ever means verified.</h2>
+          <div class="refusals">
+            <table class="refusals__table">
+              <thead>
+                <tr><th>Token</th><th>Value</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Accent</td><td data-label="Value">Supaca Red #E5392F, the only brand colour</td></tr>
+                <tr><td>Verified</td><td data-label="Value">Emerald #0FA968, used only for verified owners</td></tr>
+                <tr><td>Neutrals</td><td data-label="Value">Ink #0E0E12 to #8A8A99 on Paper #FBFAF8</td></tr>
+                <tr><td>Type</td><td data-label="Value">Inter for UI, Space Grotesk for display, Yellowtail for taglines only</td></tr>
+                <tr><td>Layout</td><td data-label="Value">480px mobile column, large rounded cards, soft shadows</td></tr>
+                <tr><td>Motion</td><td data-label="Value">Fade-up, glow, and a light-trail canvas on the landing page, all reduced-motion aware</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="cs-full">
+            <div class="slot">[ IMAGE: the gate, the waitlist with the Founding 100 counter, and the invite-only login ]</div>
+          </div>
+        </section>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">Outcome</p>
+          <h2 class="cs-section__heading"><em>340</em> verified owners, against a national market of three to six thousand.</h2>
+          <div class="cs-section__body">
+            <p>Read that number against its ceiling, not against consumer-app benchmarks. Each owner was personally invited by an existing verified member.</p>
+            <p><b>v1 launched in November 2025</b>, after a year of research, design and build. Real clubs only, mapped from research, with zero fake members, attendees or listings. One access rule in place of five permission profiles. The invite-only model held without exception.</p>
+            <p>The foundation held in the way that matters most: the team has since rebuilt v1 into the beta live today, with club onboarding open and a vendor layer on the way.</p>
+          </div>
+        </section>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">Reflection</p>
+          <h2 class="cs-section__heading">What I would carry forward.</h2>
+          <div class="cs-section__body">
+            <p><b>Decide the structure before the screens.</b> Fixing the information architecture first meant new features had a place to go without redesigning navigation.</p>
+            <p><b>Trust is built in the edge cases.</b> The decisions that mattered most were small: who can see a private club, whether a member joins anything without asking, what a stranger sees before verification. Each one could cost more trust than any feature could earn back.</p>
+          </div>
+        </section>
+
+      </div>
+
+      <aside class="cs-rail" aria-label="Project details">
+        <div class="cs-rail__group cs-rail__cast">
+          <div class="cast cast--rail">[ CAST ]</div>
+          <p class="cast__caption">A collector who will not meet a dealer, and has a crore parked in the garage.</p>
         </div>
-        <div class="cs-two__right">
-          <div class="slot">[ IMAGE: UI screens, nav, cards, listing, RSVP states, empty states ]</div>
+        <div class="cs-rail__group">
+          <p class="cs-rail__label">My role</p>
+          <p class="cs-rail__value">Research with owners and club organisers<br>Information architecture<br>The access model<br>Every screen in the product</p>
         </div>
-      </div>
-    </section>
-
-    <!-- Build process -->
-    <section class="cs-section reveal">
-      <p class="cs-section__label">Build process and AI workflow</p>
-      <h2 class="cs-section__heading">Eight to nine months. Continuous revision.</h2>
-      <div class="cs-section__body">
-        <p><b>Design start.</b> Auth, onboarding, home, clubs, events, marketplace, chat, settings. One designer owned every screen.</p>
-        <p><b>Mid-project addition.</b> Live location tracking, added as a direct result of contextual inquiry findings from drive participants.</p>
-        <p><b>Mid-project removal.</b> Group chat removed. Research revealed that senior members guard contact access, and open chat created the wrong incentives.</p>
-        <p><b>Handoff.</b> Figma to Claude Code via the Figma MCP, with design intent preserved without manual spec documentation. Fable used to prototype complex state transitions at motion level before engineering: escrow flow, RSVP states, live tracking activation.</p>
-        <p><b>Judgment gate.</b> AI layout generation was used for lower-judgment work only: state variants, content fill, initial scaffolding, all reviewed against the Figma spec. Hierarchy, trust signals, and the interaction model stayed with the design team. AI handled generation velocity, nothing else.</p>
-      </div>
-    </section>
-
-    <!-- Outcomes -->
-    <section class="cs-section reveal">
-      <p class="cs-section__label">Outcomes</p>
-      <h2 class="cs-section__heading">Read against a few thousand addressable owners nationally, not consumer-app norms.</h2>
-      <div class="cs-section__body">
-        <p>The total addressable market is a few thousand verified supercar owners nationwide. These numbers should be read against that ceiling, not mass consumer-app benchmarks.</p>
-        <p><b><em class="stat-num">340</em> verified owners.</b> Each personally invited by an existing verified member.</p>
-        <p><b>Real clubs only.</b> Every club mapped from research, with zero fake members, attendees or listings.</p>
-        <p><b>Access exceptions: none.</b> The invite-only model has held without exception.</p>
-        <p><b>Qualitative signal.</b> Acceptance from senior members of the community, the high-value collectors whose presence anchors the network's credibility, was the signal that the product landed correctly. Their voluntary adoption of the invite model validated both the trust architecture and the exclusivity positioning.</p>
-      </div>
-    </section>
-
-    <!-- Reflection -->
-    <section class="cs-section reveal">
-      <p class="cs-section__label">Reflection</p>
-      <h2 class="cs-section__heading">What I would do differently.</h2>
-      <div class="cs-section__body">
-        <p><b>01. Persona collapse came late.</b> Mapping five owner archetypes before collapsing to two for MVP cost roughly two months of design work on flows that were eventually cut. Earlier scope definition, even rough, would have protected that time. The lesson: run a lightweight scope and persona workshop at the start of any new product engagement, before detailed flow design begins.</p>
-        <p><b>02. Live tracking deserved hero treatment from day one.</b> It emerged from research mid-project and was designed reactively. In hindsight, an in-drive UI state should have been a separate mode designed from the beginning. The mid-project addition meant it did not get the design investment it deserved.</p>
-        <p><b>03. The vendor ecosystem could have moved sooner.</b> Lightweight non-transactional vendor profiles, tyre specialists, detailers, track day organisers, could have been seeded earlier as low-risk community value without the complexity of a full transactional layer.</p>
-      </div>
-      <div class="cs-full">
-        <div class="slot">[ IMAGE: before and after screen comparison, or a version two direction sketch ]</div>
-      </div>
-    </section>
+        <div class="cs-rail__group">
+          <p class="cs-rail__label">Team</p>
+          <p class="cs-rail__value">The engineering team built it</p>
+        </div>
+        <div class="cs-rail__group">
+          <p class="cs-rail__label">Timeline</p>
+          <p class="cs-rail__value">Nov 2024 to Nov 2025<br>v1 launched Nov 2025</p>
+        </div>
+        <div class="cs-rail__group">
+          <p class="cs-rail__label">Tools</p>
+          <p class="cs-rail__value">Figma, Fable</p>
+        </div>
+        <div class="cs-rail__group">
+          <p class="cs-rail__label">Decisions</p>
+          <ol class="cs-rail__index">
+            <li><a href="#d1"><span class="cs-rail__num">01</span><span>Two access tiers, not five profiles</span></a></li>
+            <li><a href="#d2"><span class="cs-rail__num">02</span><span>Verification through the garage</span></a></li>
+            <li><a href="#d3"><span class="cs-rail__num">03</span><span>Privacy fails closed</span></a></li>
+            <li><a href="#d4"><span class="cs-rail__num">04</span><span>RSVP with your car</span></a></li>
+            <li><a href="#d5"><span class="cs-rail__num">05</span><span>Clubs exist before their owners</span></a></li>
+            <li><a href="#d6"><span class="cs-rail__num">06</span><span>Who pays</span></a></li>
+          </ol>
+        </div>
+      </aside>
+    </div>
 
     <nav class="cs-next reveal">
-      <a href="/bizotico.html">
+      <a href="/vistlabs.html">
         <span class="small">Next case study</span>
-        Time Keepers (Bizotico)
+        VIST Labs
       </a>
     </nav>
 
