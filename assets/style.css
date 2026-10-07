@@ -2402,3 +2402,538 @@ a.tile:focus-visible .tile__arrow {
   .tile, .tile__arrow, .tile__title { transition: none; }
   a.tile:hover, a.tile:focus-visible { transform: none; }
 }
+
+/* ==========================================================================
+   THE DRAWING TABLE, SECOND PASS
+   One ground, one family, four columns. The grid is the site.
+
+   This block is appended on purpose: the file's cascade is source-ordered,
+   so redefining the old token names here re-skins every rule above without
+   touching the 76 font declarations or the hundreds of colour ones. The
+   dead rules it neutralises (hero, stack, testimonials, sidebar, grain)
+   are left in place for one commit and swept in the next.
+   ========================================================================== */
+
+:root {
+  /* --- Ground and surfaces. Tiles are LIGHTER than the ground. --------- */
+  --c-bg: #F7F6F3;          /* off-white, warm by three points. Every page. */
+  --c-surface: #FFFFFF;
+  --c-surface-2: #FBFAF8;
+  --c-rule: #E8E5E0;
+  --c-rule-strong: #D4D0C9;
+  --c-ghost: #ECEAE5;
+
+  /* --- Five greys. A sixth means something is wrong. ------------------- */
+  --c-ink: #141518;
+  --c-body: #4A4D52;
+  --c-body-soft: #5C6066;
+  --c-label: #666A71;
+  --c-muted: #9AA0A6;
+
+  /* Old names kept pointing at the new palette so existing rules re-skin
+     rather than break. Flattened in a later pass. */
+  --c-heading: var(--c-ink);
+  --c-statement: var(--c-ink);
+  --c-value: var(--c-body);
+  --c-accent: var(--c-ink);
+  --c-accent-deep: #8C2230;
+  --c-tile: var(--c-surface);
+  --c-tile-edge: var(--c-rule);
+  --c-card: var(--c-surface);
+  --c-card-solid: var(--c-surface);
+  --c-slot-border: #DAD6D0;
+  --c-slot-bg: var(--c-surface-2);
+  --c-slot-text: var(--c-muted);
+  --c-pill-border: var(--c-rule-strong);
+  --c-pill-text: var(--c-label);
+  --c-selection: rgba(20, 21, 24, 0.10);
+  --hero-scrim: rgba(0, 0, 0, 0.15);
+
+  /* --- Accents, re-mixed for white rather than paper. All >=8:1. ------- */
+  --acc-produsa: #1E4C6B;
+  --acc-supaca: #8C2230;
+  --acc-hasta: #A33B16;
+  --acc-bizotico: #7A1F3D;
+  --acc-vistlabs: #0F5D5A;
+  --acc-sintero: #8A5A12;
+  --acc-koodaikind: #2A3F70;
+
+  /* --- One family. The old names are aliases. -------------------------- */
+  --font-sans: "Figtree", ui-sans-serif, "Segoe UI", system-ui, sans-serif;
+  --font-display: var(--font-sans);
+  --font-body: var(--font-sans);
+  --font-serif: var(--font-sans);
+  --font-hand: var(--font-sans);
+
+  /* --- Spacing ---------------------------------------------------------- */
+  --s-1: 4px;  --s-2: 8px;   --s-3: 12px;  --s-4: 16px;  --s-5: 24px;
+  --s-6: 32px; --s-7: 48px;  --s-8: 64px;  --s-9: 96px;  --s-10: 128px;
+
+  /* Air lives at the page edge and between blocks, never between tiles.
+     Tile padding is always larger than the gutter. */
+  --grid-gap: 16px;
+  --tile-pad: 32px;
+  --row: 204px;             /* (318 * 4/3 - 16) / 2, derived from hero.jpg */
+  --margin: clamp(20px, 4vw, 72px);
+  --page-max: 1320px;       /* 4 * 318 + 3 * 16 */
+  --gap-block: 96px;
+  --gap-section: 128px;
+  --tile-radius: 16px;
+  --measure: 33em;
+
+  --nav-w: 0px;
+}
+
+:root[data-theme="dark"] {
+  --c-bg: #121316;
+  --c-surface: #1A1C20;
+  --c-surface-2: #212429;
+  --c-rule: #2A2D33;
+  --c-rule-strong: #3A3E45;
+  --c-ghost: #202327;
+  --c-ink: #F0F1F3;
+  --c-body: #B2B7BE;
+  --c-body-soft: #9CA1A8;
+  --c-label: #7E848C;
+  --c-muted: #5E646C;
+  --c-slot-border: #343840;
+  --c-accent-deep: #E8949E;
+  --acc-produsa: #7FB6D9;
+  --acc-supaca: #E8949E;
+  --acc-hasta: #E8A183;
+  --acc-bizotico: #DE96B0;
+  --acc-vistlabs: #6FC4BC;
+  --acc-sintero: #D4AE63;
+  --acc-koodaikind: #8FA4D6;
+  --c-selection: rgba(240, 241, 243, 0.14);
+}
+
+/* --- Kill the grain. Texture belongs to artwork, not to chrome. -------- */
+
+body {
+  background-image: none;
+  background-color: var(--c-bg);
+  font-size: 16px;
+}
+
+body::after { display: none !important; }
+
+/* --- The sidebar is gone. The grid is the navigation. ------------------ */
+
+.sidebar { display: none !important; }
+main { margin-left: 0; }
+
+/* Two fixed controls for the whole site, bottom right. Nothing else on any
+   page is fixed, which removes every collision question. */
+.dock {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 200;
+  display: flex;
+  gap: 10px;
+}
+
+.dock__btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--c-surface);
+  border: 1px solid var(--c-rule);
+  box-shadow: 0 2px 8px rgba(20, 21, 24, 0.07);
+  color: var(--c-ink);
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease);
+}
+
+.dock__btn:hover,
+.dock__btn:focus-visible { border-color: var(--c-rule-strong); }
+
+.dock__btn svg { width: 16px; height: 16px; }
+
+.navsheet {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  background: var(--c-bg);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.24s var(--ease), visibility 0.24s var(--ease);
+}
+
+.navsheet.is-open { opacity: 1; visibility: visible; }
+
+.navsheet__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.navsheet__list li + li { margin-top: var(--s-5); }
+
+.navsheet__list a {
+  font-family: var(--font-sans);
+  font-size: clamp(26px, 4vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--c-ink);
+}
+
+.navsheet__list a:hover,
+.navsheet__list a:focus-visible { color: var(--acc-produsa); }
+
+.navsheet__close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--c-rule);
+  border-radius: 50%;
+  background: var(--c-surface);
+  color: var(--c-ink);
+  cursor: pointer;
+}
+
+@media (max-width: 699px) {
+  .dock { right: 16px; bottom: 16px; }
+}
+
+/* --- The homepage is the grid. The old hero and stack are gone. -------- */
+
+.hero, .section#statements, .testimonials, .morework { display: none !important; }
+
+.homewrap {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: var(--s-9) var(--margin) var(--gap-section);
+}
+
+.bento {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: var(--row);
+  gap: var(--grid-gap);
+  margin-top: 0;
+  grid-template-areas:
+    "intro    intro    intro    portrait"
+    "produsa  produsa  supaca   portrait"
+    "produsa  produsa  supaca   desserts"
+    "hasta    hasta    bizotico bizotico"
+    "hasta    hasta    bizotico bizotico"
+    "koodai   quote    quote    sintero"
+    "vistlabs vistlabs notes    notes"
+    "vistlabs vistlabs notes    notes"
+    "contact  contact  contact  studio";
+}
+
+.a-intro    { grid-area: intro; }
+.a-portrait { grid-area: portrait; }
+.a-produsa  { grid-area: produsa; }
+.a-supaca   { grid-area: supaca; }
+.a-desserts { grid-area: desserts; }
+.a-hasta    { grid-area: hasta; }
+.a-bizotico { grid-area: bizotico; }
+.a-koodai   { grid-area: koodai; }
+.a-quote    { grid-area: quote; }
+.a-sintero  { grid-area: sintero; }
+.a-vistlabs { grid-area: vistlabs; }
+.a-notes    { grid-area: notes; }
+.a-contact  { grid-area: contact; }
+.a-studio   { grid-area: studio; }
+
+.tile {
+  min-height: 0;
+  padding: var(--tile-pad);
+  background: var(--c-surface);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--tile-radius);
+}
+
+.tile--sm { padding: var(--s-5); }
+
+.tile::after { opacity: 0.05; }
+
+a.tile:hover, a.tile:focus-visible { transform: none; border-color: var(--c-rule-strong); }
+
+/* --- The intro band ---------------------------------------------------- */
+
+.intro__lead {
+  font-size: clamp(24px, 2.6vw, 30px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--c-ink);
+}
+
+.intro__sub {
+  margin-top: var(--s-3);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--c-body-soft);
+}
+
+/* --- The portrait. A print laid on a surface, the tile stays on grid. -- */
+
+.tile--portrait {
+  --print-tilt: -1.25deg;
+  padding: 14px;
+  overflow: hidden;
+}
+
+.tile--portrait .print {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  transform: rotate(var(--print-tilt)) translate(2px, 2px);
+  box-shadow: 0 1px 2px rgba(20, 21, 24, 0.06),
+              0 8px 24px -8px rgba(20, 21, 24, 0.14);
+}
+
+.tile--portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+  filter: saturate(0.88) contrast(1.03);
+  display: block;
+}
+
+/* --- The quote. The only centre-aligned tile, and the only 48px sides. - */
+
+.tile--quote {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s-6) var(--s-7);
+}
+
+.tile--quote .q {
+  font-size: 18px;
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+  color: var(--c-ink);
+  max-width: 46ch;
+}
+
+.tile--quote .attr {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--c-label);
+}
+
+/* --- Also true. Six lines that used to hide behind six missing photos. - */
+
+.notes__grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--s-6);
+}
+
+.notes__item {
+  padding: 16px 0;
+  border-top: 1px solid var(--c-rule);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--c-body);
+}
+
+.notes__item:nth-child(1),
+.notes__item:nth-child(2) { border-top: 0; padding-top: 0; }
+
+/* --- Reflow. Two tile heights only, so the mosaic cannot grow a hole. -- */
+
+@media (max-width: 1099px) {
+  .bento {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    grid-template-areas:
+      "intro    intro"
+      "produsa  produsa"
+      "produsa  produsa"
+      "supaca   supaca"
+      "portrait desserts"
+      "portrait studio"
+      "hasta    hasta"
+      "quote    quote"
+      "koodai   sintero"
+      "bizotico bizotico"
+      "vistlabs vistlabs"
+      "notes    notes"
+      "notes    notes"
+      "contact  contact";
+  }
+  .tile { padding: 28px; }
+  .tile--sm { padding: var(--s-5); }
+  .homewrap { padding: var(--s-8) 40px var(--gap-block); }
+}
+
+@media (max-width: 699px) {
+  .bento {
+    grid-template-columns: 1fr;
+    grid-template-areas: none;
+    grid-auto-rows: auto;
+    gap: 12px;
+  }
+  .bento > * { grid-area: auto !important; }
+  .tile { padding: var(--s-5); }
+  .notes__grid { grid-template-columns: 1fr; }
+  .notes__item:nth-child(2) { border-top: 1px solid var(--c-rule); padding-top: 16px; }
+  .tile--portrait { --print-tilt: 0deg; padding: 12px; }
+  .tile--portrait .print { aspect-ratio: 5 / 4; max-height: 340px; }
+  .tile--quote { padding: var(--s-5); }
+  .homewrap { padding: var(--s-7) 20px var(--s-9); }
+}
+
+/* --- Type. Body at 16, and emphasis goes chromatic, never italic. ------ */
+
+.cs-hero__title { font-size: clamp(30px, 3.6vw, 44px); font-weight: 800; line-height: 1.10; letter-spacing: -0.03em; }
+.section-heading { font-size: clamp(26px, 3.0vw, 36px); font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; }
+.cs-section__heading { font-size: clamp(22px, 2.4vw, 28px); font-weight: 700; line-height: 1.20; letter-spacing: -0.02em; }
+.decision__heading { font-size: clamp(20px, 2.0vw, 24px); font-weight: 700; line-height: 1.25; letter-spacing: -0.02em; }
+.tile__title { font-size: clamp(19px, 1.7vw, 22px); font-weight: 700; line-height: 1.25; letter-spacing: -0.02em; }
+.tile--sm .tile__title { font-size: 17px; line-height: 1.30; letter-spacing: -0.015em; }
+.tile__hmw { font-family: var(--font-sans); font-size: 15px; font-weight: 400; line-height: 1.55; color: var(--c-body); }
+.cs-section__body { font-size: 16px; line-height: 1.70; color: var(--c-body); max-width: 34em; }
+.cs-section__body p + p { margin-top: var(--s-4); }
+.decision__text { font-size: 16px; line-height: 1.70; max-width: 34em; }
+.cs-hero__meta, .tile__role, .cast__caption { font-size: 13px; line-height: 1.5; color: var(--c-label); }
+.cs-rail__value, .refusals__table td { font-size: 14px; line-height: 1.60; }
+.label, .cs-section__label, .tile__eyebrow, .cs-hero__eyebrow, .cs-rail__label { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; }
+.cast__caption { font-family: var(--font-sans); }
+
+/* Italic was doing the emphasis. Colour does it now, one per heading. */
+.cs-hero__title em,
+.section-heading em,
+.cs-section__heading em,
+.decision__heading em,
+.hero__h1 em {
+  font-style: normal;
+  font-weight: inherit;
+  color: var(--tile-acc, var(--c-accent-deep));
+}
+
+em.stat-num {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.35em;
+  font-variant-numeric: tabular-nums;
+  color: var(--tile-acc, var(--c-accent-deep));
+}
+
+.cs-section { padding-top: var(--gap-section); }
+.cs-hero { padding-top: var(--s-7); }
+.decision { margin-top: var(--s-8); }
+.cs-wrap { max-width: 1100px; }
+
+.decision__ghost {
+  font-size: clamp(72px, 9vw, 120px);
+  font-weight: 800;
+  font-style: normal;
+  letter-spacing: -0.04em;
+  color: color-mix(in srgb, var(--tile-acc, var(--c-ink)) 12%, transparent);
+  opacity: 1;
+}
+
+/* --- The stated line. Loud by inversion: lighter and narrower, not
+       bigger and bolder, so it stands apart instead of competing. ------- */
+
+.decision__tradeoff,
+.no-metrics__line {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: clamp(20px, 2.1vw, 26px);
+  line-height: 1.30;
+  letter-spacing: -0.015em;
+  color: var(--c-ink);
+  max-width: 22ch;
+  text-wrap: balance;
+}
+
+.decision__tradeoff {
+  padding: var(--s-5) 0;
+  border-top: 1px solid var(--c-rule-strong);
+  border-bottom: 1px solid var(--c-rule-strong);
+}
+
+.decision__tradeoff .label-inline,
+.no-metrics__label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--tile-acc, var(--c-accent-deep));
+}
+
+.no-metrics {
+  background: var(--c-surface);
+  border: 1px solid var(--c-rule);
+  border-left: 3px solid var(--tile-acc, var(--c-accent-deep));
+  border-radius: var(--tile-radius);
+  padding: var(--s-5) var(--s-6);
+}
+
+.no-metrics__body { font-size: 14px; line-height: 1.75; max-width: 34em; }
+
+/* --- Illustration slots stay honestly empty, and look deliberate. ------ */
+
+.slot, .plate, .cast {
+  background: var(--c-surface-2);
+  border: 1px dashed var(--c-slot-border);
+  color: var(--c-muted);
+}
+
+.plate { padding: 0; }
+.plate__half { padding: var(--s-6); }
+.cast--tile { width: 72px; height: 72px; border-radius: var(--tile-radius); }
+.cast--rail { width: 56px; height: 56px; border-radius: 12px; }
+.cast img { border-radius: inherit; }
+
+.rmark { border-style: dashed; }
+
+/* --- Destination band. Three doors at the moment someone is persuaded. - */
+
+.cs-next { display: block; margin-top: var(--gap-section); }
+
+.csband {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--grid-gap);
+}
+
+.csband .tile { min-height: var(--row); }
+.csband__next { grid-column: span 2; }
+
+@media (max-width: 1099px) {
+  .csband { grid-template-columns: repeat(2, 1fr); }
+  .csband__next { grid-column: span 2; }
+}
+
+@media (max-width: 699px) {
+  .csband { grid-template-columns: 1fr; }
+  .csband__next { grid-column: span 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navsheet { transition: none; }
+}
+
+/* The theme toggle moved out of the sidebar, so the old nested selectors no
+   longer reach it. Restate what it needs inside the dock. */
+.dock .theme-toggle {
+  position: static;
+  margin: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--c-surface);
+  border: 1px solid var(--c-rule);
+}
+
+.dock .theme-toggle svg { width: 16px; height: 16px; }

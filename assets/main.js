@@ -593,20 +593,61 @@
     targets.forEach(function (el) { observer.observe(el); });
   }
 
+
+  /* One nav for every width. The sidebar is gone, so the grid navigates
+     itself and this is the only route to the pages the grid does not hold.
+     Same component at every breakpoint, which removes the old desktop
+     sidebar / mobile drawer split entirely. */
+  function navSheet() {
+    var open = document.getElementById("navOpen");
+    var close = document.getElementById("navClose");
+    var sheet = document.getElementById("navsheet");
+    if (!open || !sheet) return;
+
+    var lastFocus = null;
+
+    function show() {
+      lastFocus = document.activeElement;
+      sheet.classList.add("is-open");
+      open.setAttribute("aria-expanded", "true");
+      document.body.style.overflow = "hidden";
+      if (close) close.focus();
+    }
+
+    function hide() {
+      sheet.classList.remove("is-open");
+      open.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    open.addEventListener("click", show);
+    if (close) close.addEventListener("click", hide);
+
+    /* Clicking the ground closes it. The links sit in a list, so a click
+       that lands on the sheet itself was aimed at nothing. */
+    sheet.addEventListener("click", function (e) {
+      if (e.target === sheet) hide();
+    });
+
+    sheet.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("click", hide);
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && sheet.classList.contains("is-open")) hide();
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
-    heroImageCheck();
     scrollProgress();
-    heroIntro();
     scrollReveal();
     navSpy();
-    alignNavToHero();
     penLines();
-    burgerMenu();
     themeToggle();
-    photoStack();
     toolHeadlineHover();
     toolHeadlineHint();
-    heroStopDrop();
     decisionSpy();
+    navSheet();
   });
 })();

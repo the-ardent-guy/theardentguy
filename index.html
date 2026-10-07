@@ -1,279 +1,188 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rishabh Jain, Creative Director and Product Designer</title>
-<meta name="description" content="Rishabh Jain. Creative Director, Product Designer, and AI builder based in Bengaluru. Real work builds lore. Story and value first. Screens next.">
+<title>Rishabh Jain, Product Designer</title>
+<meta name="description" content="Rishabh Jain. Product designer, builder and illustrator. Story and meaning first, screens second. Case studies on Produsa, Supaca, Hasta, Bizotico and VIST Labs.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/style.css">
-<script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
+<script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
 </head>
 <body>
 
 <div class="scroll-progress" aria-hidden="true"></div>
 
-<nav class="sidebar">
-  <a class="sidebar__logo" href="/">R</a>
-  <button class="sidebar__burger" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
-  <div class="sidebar__nav">
-    <a href="#work" data-section="work">Work</a>
-    <a href="#statements" data-section="statements">Statements</a>
-    <a href="/desserts.html">Desserts</a>
-    <a href="#contact" data-section="contact">Contact</a>
-    <a href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume</a>
-  </div>
-  <button class="theme-toggle" type="button" aria-label="Toggle dark mode"></button>
-</nav>
+<div class="dock">
+  <button class="dock__btn" id="navOpen" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navsheet">
+    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 4h14M1 8h14M1 12h14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+  </button>
+  <button class="dock__btn theme-toggle" type="button" aria-label="Toggle dark mode"></button>
+</div>
+
+<div class="navsheet" id="navsheet" role="dialog" aria-modal="true" aria-label="Menu">
+  <button class="navsheet__close" id="navClose" type="button" aria-label="Close menu">
+    <svg viewBox="0 0 16 16" aria-hidden="true" style="width:14px;height:14px"><path d="M3 3l10 10M13 3L3 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+  </button>
+  <ul class="navsheet__list">
+    <li><a href="/#work">Work</a></li>
+    <li><a href="/desserts.html">Desserts</a></li>
+    <li><a href="/studio.html">Studio</a></li>
+    <li><a href="/#contact">Contact</a></li>
+    <li><a href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume</a></li>
+  </ul>
+</div>
 
 <main>
+  <div class="homewrap" id="work">
 
-  <!-- ================= HERO ================= -->
-  <section class="hero" id="about">
-    <div class="hero__media" aria-hidden="true"></div>
-    <div class="hero__media-fallback" hidden>[ IMAGE: Rishabh at a wooden table in the mountains, his hand-drawn characters around him, clear sky and peaks above ]</div>
+    <!-- The grid is the site. The row unit is 204px, derived from the
+         portrait's 3:4 ratio, so every tile is either 204 or 424 tall and
+         the mosaic cannot grow a hole. DOM order follows the four-column
+         reading order, so tab order and the mobile stack are both right. -->
+    <div class="bento">
 
-    <div class="hero__col">
-      <div class="hero__headline">
-        <h1 class="hero__h1">
-          <span class="hero__group hero__group--1">
-            <span class="line tool-headline" data-tools="figma,shopify,make">Product Designer<span class="hero-stop-origin" id="heroStopOrigin">.</span></span>
-            <span class="line tool-headline" data-tools="claude,cursor,n8n">Builder.</span>
-            <span class="line">Illustrator.</span>
-            <span class="line">Maladaptive</span>
-            <span class="line">Daydreamer.</span>
-          </span>
-        </h1>
-        <p class="hero__sub">I believe real work builds lore.<br>Story and value first. Screens next.</p>
+      <section class="tile tile--plain a-intro" aria-label="Introduction">
+        <h1 class="intro__lead">Product Designer. Builder. Illustrator. Maladaptive Daydreamer.</h1>
+        <p class="intro__sub">The guy who brings his own characters to the table. Story and meaning first, screens second.</p>
+      </section>
+
+      <!-- Ballast, not content. No eyebrow, no title, no link: every other
+           tile is a door, and a caption here would break that rule. -->
+      <div class="tile tile--plain tile--portrait a-portrait" aria-hidden="true">
+        <div class="print"><img src="/assets/hero.jpg" alt=""></div>
       </div>
 
-      <div class="hero__foot">
-        <div class="hero__scroll" aria-hidden="true">
-          <span>scroll</span>
-          <svg viewBox="0 0 12 16" aria-hidden="true">
-            <path d="M6 1 V13 M2 9 L6 13 L10 9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+      <a class="tile a-produsa" href="/produsa.html" style="--tile-acc: var(--acc-produsa);">
+        <div class="cast cast--tile">[ CAST ]</div>
+        <p class="tile__eyebrow">Produsa</p>
+        <h2 class="tile__title">Turning a website build into a conversation.</h2>
+        <p class="tile__hmw">How might we let a non-technical owner build a real website by talking, and trust what the system tells them?</p>
+        <div class="tile__foot">
+          <p class="tile__role">Product Designer and Builder<br>Produsa Labs &middot; 2026</p>
+          <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="wrap">
-
-    <!-- ================= WORK ================= -->
-    <section class="section" id="work">
-      <p class="label reveal">Work</p>
-      <h2 class="section-heading reveal">Selected Pro<span class="drop-target" id="dropTarget">j</span>ects</h2>
-
-      <div class="bento reveal">
-
-          <a class="tile tile--big" href="/produsa.html" style="--tile-acc: var(--acc-produsa);">
-            <div class="cast cast--tile">[ CAST: Mahesh, bearings, Nashik ]</div>
-            <p class="tile__eyebrow">Produsa</p>
-            <h3 class="tile__title">Turning a website build into a conversation.</h3>
-            <p class="tile__hmw">How might we let a non-technical owner build a real website by talking, and trust what the system tells them?</p>
-            <div class="tile__foot">
-              <p class="tile__role">Product Designer and Builder<br>Produsa Labs &middot; 2026</p>
-              <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </div>
-          </a>
-
-          <a class="tile tile--tall" href="/supaca.html" style="--tile-acc: var(--acc-supaca);">
-            <div class="cast cast--tile">[ CAST: a collector who will not meet a dealer ]</div>
-            <p class="tile__eyebrow">Supaca</p>
-            <h3 class="tile__title">A private network for India's supercar owners.</h3>
-            <p class="tile__hmw">How might we give owners a verified place to belong, where the reason to open the app is the next drive?</p>
-            <div class="tile__foot">
-              <p class="tile__role">Lead UI/UX Designer<br>2024 to 2025</p>
-              <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </div>
-          </a>
-
-          <a class="tile tile--wide" href="/hasta.html" style="--tile-acc: var(--acc-hasta);">
-            <p class="tile__eyebrow">Hasta</p>
-            <h3 class="tile__title">An AI palm reader that shows what it read.</h3>
-            <p class="tile__hmw">How might we make a reading that feels specific, shows where every claim comes from, and earns money without fear?</p>
-            <div class="tile__foot">
-              <p class="tile__role">Lead Designer, UI/UX/AIX &middot; 2026</p>
-              <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </div>
-          </a>
-
-          <a class="tile tile--wide" href="/bizotico.html" style="--tile-acc: var(--acc-bizotico);">
-            <p class="tile__eyebrow">Bizotico, now The Timekeepers</p>
-            <h3 class="tile__title">Competing with the marketplaces selling your own brands.</h3>
-            <p class="tile__hmw">How might we give buyers a reason to buy direct, when the same watches are on every marketplace?</p>
-            <div class="tile__foot">
-              <p class="tile__role">E-commerce Designer &middot; 2023 to 2024</p>
-              <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </div>
-          </a>
-
-          <a class="tile tile--wide" href="/vistlabs.html" style="--tile-acc: var(--acc-vistlabs);">
-            <div class="cast cast--tile">[ CAST: a bank compliance officer ]</div>
-            <p class="tile__eyebrow">VIST Labs, Illinois</p>
-            <h3 class="tile__title">One website, two audiences: banks and growers.</h3>
-            <p class="tile__hmw">How might we read as a regulated technology company to a lender, and stay the obvious choice for a grower?</p>
-            <div class="tile__foot">
-              <p class="tile__role">Product Designer, solo &middot; Bleed and Margins</p>
-              <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </div>
-          </a>
-
-          <a class="tile tile--sm" href="/sintero.html" style="--tile-acc: var(--acc-sintero);">
-            <p class="tile__eyebrow">Sintero</p>
-            <h3 class="tile__title">A spec-grade web and print system.</h3>
-            <div class="tile__foot">
-              <p class="tile__role">Digital Design Lead</p>
-              <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </div>
-          </a>
-
-          <a class="tile tile--sm" href="/koodaikind.html" style="--tile-acc: var(--acc-koodaikind);">
-            <p class="tile__eyebrow">Koodai Kind</p>
-            <h3 class="tile__title">A mobile-first koodai storefront.</h3>
-            <div class="tile__foot">
-              <p class="tile__role">Product and e-commerce design</p>
-              <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </div>
-          </a>
-
-          <a class="tile tile--sm tile--plain" href="/studio.html">
-            <p class="tile__eyebrow">Bleed and Margins</p>
-            <h3 class="tile__title">Freelance and brand work.</h3>
-            <p class="tile__hmw">The studio, and the client work that runs through it.</p>
-            <div class="tile__foot">
-              <p class="tile__role">Studio</p>
-              <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </div>
-          </a>
-
-          <a class="tile tile--sm tile--plain" href="/desserts.html">
-            <p class="tile__eyebrow">Desserts</p>
-            <h3 class="tile__title">The drawings, and the characters.</h3>
-            <p class="tile__hmw">Where the cast comes from.</p>
-            <div class="tile__foot">
-              <p class="tile__role">Illustration</p>
-              <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </div>
-          </a>
-
-      </div>
-
-
-    </section>
-
-    <!-- ================= STATEMENTS ================= -->
-    <section class="section" id="statements">
-      <p class="label reveal">What I've been up to</p>
-      <h2 class="section-heading reveal">Some things worth mentioning.</h2>
-
-      <div class="stack-wrap reveal">
-        <div class="stack" id="stack">
-          <button class="stack__card" type="button" style="--r:-8deg"
-            data-desc="Curated the design and digital experience for a drive event with Ferrari India.">
-            <span class="slot">[ IMAGE: Ferrari India drive event ]</span>
-          </button>
-          <button class="stack__card" type="button" style="--r:6deg"
-            data-desc="Built a desktop app for my cat. He passed. The app is still running.">
-            <span class="slot">[ IMAGE: Ezra, the desktop app for my cat ]</span>
-          </button>
-          <button class="stack__card" type="button" style="--r:-4deg"
-            data-desc="Stood up against police brutality in college. There is an article with my picture.">
-            <span class="slot">[ IMAGE: the newspaper article, with my picture ]</span>
-          </button>
-          <button class="stack__card" type="button" style="--r:7deg"
-            data-desc="Made a dating app that matches you based on your trauma.">
-            <span class="slot">[ IMAGE: Lurch, the dating app ]</span>
-          </button>
-          <button class="stack__card" type="button" style="--r:-5deg"
-            data-desc="Built AI agents that run a marketing department autonomously.">
-            <span class="slot">[ IMAGE: the autonomous marketing agents ]</span>
-          </button>
-          <button class="stack__card" type="button" style="--r:4deg"
-            data-desc="Organised open mics, music jams, and poetry nights across Bengaluru for four years.">
-            <span class="slot">[ IMAGE: open mics across Bengaluru ]</span>
-          </button>
-        </div>
-        <p class="stack__desc" id="stackDesc" aria-live="polite"></p>
-        <p class="stack__hint">Tap a card</p>
-      </div>
-    </section>
-
-    <!-- ================= RESUME ================= -->
-    <section class="section" id="resume">
-      <p class="label reveal">Resume</p>
-      <h2 class="section-heading reveal">The short version is on one page.</h2>
-      <a class="resume-cta reveal" href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">
-        View resume
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3v5h5M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM9 13l3 3 3-3M12 16V9"/></svg>
       </a>
-    </section>
 
-    <!-- ================= TESTIMONIALS ================= -->
-    <section class="section" id="testimonials">
-      <p class="label reveal">People say</p>
-      <h2 class="section-heading reveal">A few words from people I've worked with.</h2>
-
-      <div class="testimonials">
-        <figure class="testimonial reveal">
-          <blockquote class="testimonial__quote is-placeholder">[ TESTIMONIAL 1: Boit Club stakeholder. Drop the quote in once permission to publish the name is confirmed. ]</blockquote>
-          <figcaption class="testimonial__name">Name to confirm</figcaption>
-          <p class="testimonial__company">Boit Club</p>
-        </figure>
-        <figure class="testimonial reveal">
-          <blockquote class="testimonial__quote is-placeholder">[ TESTIMONIAL 2: Bleed and Margins client. Sintero or Koodai Kind founder. ]</blockquote>
-          <figcaption class="testimonial__name">Name to confirm</figcaption>
-          <p class="testimonial__company">Bleed and Margins client</p>
-        </figure>
-        <figure class="testimonial reveal">
-          <blockquote class="testimonial__quote is-placeholder">[ TESTIMONIAL 3: Collaborator or peer. Someone from the Produsa or agents build. ]</blockquote>
-          <figcaption class="testimonial__name">Name to confirm</figcaption>
-          <p class="testimonial__company">Collaborator</p>
-        </figure>
-      </div>
-    </section>
-
-    <!-- ================= DESSERTS ================= -->
-    <section class="section" id="desserts">
-      <p class="label reveal">Desserts</p>
-      <h2 class="section-heading reveal">The other things I make.</h2>
-      <p class="desserts-teaser__para reveal">Political satire. Illustrations. Posters. An animated show in progress. Apps that should not exist but do.</p>
-
-      <div class="portal reveal">
-        <div class="slot">[ IMAGE: desserts portal banner, something creative goes here ]</div>
-      </div>
-
-      <div class="desserts-teaser__block reveal">
-        <a class="desserts-teaser__link" href="/desserts.html">
-          See the desserts
-          <svg class="arrow" viewBox="0 0 44 22" aria-hidden="true">
-            <path d="M2 11 C 12 6, 22 16, 40 11 M32 4 L41 11 L32 18"/>
-          </svg>
-        </a>
-        <div class="desserts-teaser__border">
-          <div class="slot slot--svg">[ SVG: loose hand-drawn border around this block ]</div>
+      <a class="tile a-supaca" href="/supaca.html" style="--tile-acc: var(--acc-supaca);">
+        <p class="tile__eyebrow">Supaca</p>
+        <h2 class="tile__title">A private network for India's supercar owners.</h2>
+        <p class="tile__hmw">How might we give owners a verified place to belong, where the reason to open the app is the next drive?</p>
+        <div class="tile__foot">
+          <p class="tile__role">Lead UI/UX Designer<br>2024 to 2025</p>
+          <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </div>
-      </div>
-    </section>
+      </a>
 
-    <!-- ================= CONTACT ================= -->
-    <section class="section" id="contact">
-      <p class="label reveal">Contact</p>
-      <h2 class="section-heading reveal">Let's talk.</h2>
-      <p class="contact__para reveal">Open to senior product design roles, Shopify partnerships, and AI-native product work.</p>
+      <a class="tile tile--sm tile--plain a-desserts" href="/desserts.html">
+        <p class="tile__eyebrow">Desserts</p>
+        <h2 class="tile__title">The drawings, and the characters.</h2>
+        <div class="tile__foot">
+          <p class="tile__role">Illustration</p>
+          <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </a>
 
-      <a class="contact__email reveal" href="mailto:theardentguy@gmail.com">theardentguy@gmail.com</a>
+      <a class="tile a-hasta" href="/hasta.html" style="--tile-acc: var(--acc-hasta);">
+        <div class="cast cast--tile">[ CAST ]</div>
+        <p class="tile__eyebrow">Hasta</p>
+        <h2 class="tile__title">An AI palm reader that shows what it read.</h2>
+        <p class="tile__hmw">How might we make a reading that feels specific, shows where every claim comes from, and earns money without fear?</p>
+        <div class="tile__foot">
+          <p class="tile__role">Lead Designer, UI/UX/AIX &middot; 2026</p>
+          <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </a>
 
-      <p class="contact__links reveal">
-        <a href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener">LinkedIn</a>
-        &nbsp;&middot;&nbsp;
-        <a href="https://bleedandmargins.com" target="_blank" rel="noopener">bleedandmargins.com</a>
-      </p>
-    </section>
+      <a class="tile a-bizotico" href="/bizotico.html" style="--tile-acc: var(--acc-bizotico);">
+        <div class="cast cast--tile">[ CAST ]</div>
+        <p class="tile__eyebrow">Bizotico, now The Timekeepers</p>
+        <h2 class="tile__title">Competing with the marketplaces selling your own brands.</h2>
+        <p class="tile__hmw">How might we give buyers a reason to buy direct, when the same watches are on every marketplace?</p>
+        <div class="tile__foot">
+          <p class="tile__role">E-commerce Designer &middot; 2023 to 2024</p>
+          <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </a>
 
+      <a class="tile tile--sm a-koodai" href="/koodaikind.html" style="--tile-acc: var(--acc-koodaikind);">
+        <p class="tile__eyebrow">Koodai Kind</p>
+        <h2 class="tile__title">A mobile-first koodai storefront.</h2>
+        <div class="tile__foot">
+          <p class="tile__role">Product and e-commerce</p>
+          <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </a>
+
+      <!-- The only centre-aligned tile on the page, and the only one with
+           48px side padding. Its distinction is alignment and air, not
+           colour, and deliberately not an inverted dark panel. -->
+      <section class="tile tile--plain tile--quote a-quote" aria-label="Testimonial">
+        <p class="q">[ TESTIMONIAL: one quote belongs here once a name and permission are confirmed. Nothing invented in the meantime. ]</p>
+        <p class="attr">Pending permission</p>
+      </section>
+
+      <a class="tile tile--sm a-sintero" href="/sintero.html" style="--tile-acc: var(--acc-sintero);">
+        <p class="tile__eyebrow">Sintero</p>
+        <h2 class="tile__title">A spec-grade web and print system.</h2>
+        <div class="tile__foot">
+          <p class="tile__role">Digital Design Lead</p>
+          <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </a>
+
+      <a class="tile a-vistlabs" href="/vistlabs.html" style="--tile-acc: var(--acc-vistlabs);">
+        <div class="cast cast--tile">[ CAST ]</div>
+        <p class="tile__eyebrow">VIST Labs, Illinois</p>
+        <h2 class="tile__title">One website, two audiences: banks and growers.</h2>
+        <p class="tile__hmw">How might we read as a regulated technology company to a lender, and stay the obvious choice for a grower?</p>
+        <div class="tile__foot">
+          <p class="tile__role">Product Designer, solo<br>Bleed and Margins</p>
+          <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </a>
+
+      <!-- Six lines that used to sit behind six photographs that do not
+           exist. No link and no accent wash, so it cannot be mistaken for
+           a case study. -->
+      <section class="tile tile--plain a-notes" aria-label="Also true">
+        <p class="tile__eyebrow">Also true</p>
+        <div class="notes__grid">
+          <p class="notes__item">Curated the design and digital experience for a drive event with Ferrari India.</p>
+          <p class="notes__item">Built a desktop app for my cat. He passed. The app is still running.</p>
+          <p class="notes__item">Stood up against police brutality in college. There is an article with my picture.</p>
+          <p class="notes__item">Made a dating app that matches you based on your trauma.</p>
+          <p class="notes__item">Built AI agents that run a marketing department autonomously.</p>
+          <p class="notes__item">Organised open mics, music jams, and poetry nights across Bengaluru for four years.</p>
+        </div>
+      </section>
+
+      <section class="tile tile--plain a-contact" id="contact" aria-label="Contact">
+        <p class="tile__eyebrow">Contact</p>
+        <h2 class="tile__title">Available for product design and consulting work.</h2>
+        <div class="tile__foot">
+          <p class="tile__role">
+            <a href="mailto:theardentguy@gmail.com">theardentguy@gmail.com</a><br>
+            <a href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener">LinkedIn</a>
+            &middot;
+            <a href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume</a>
+          </p>
+          <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </section>
+
+      <a class="tile tile--sm tile--plain a-studio" href="/studio.html">
+        <p class="tile__eyebrow">Bleed and Margins</p>
+        <h2 class="tile__title">The studio.</h2>
+        <div class="tile__foot">
+          <p class="tile__role">Freelance and brand work</p>
+          <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+      </a>
+
+    </div>
   </div>
 </main>
 
