@@ -3498,6 +3498,10 @@ em.stat-num {
 .bento--home {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* The earlier pass declared nine fixed 204px tracks. Bands size to their
+     own content now, so the explicit track list has to be cleared or every
+     auto-placed band is crushed into a 204px row and overflows it. */
+  grid-template-rows: none;
   grid-auto-rows: auto;
   grid-template-areas: none;
   gap: var(--grid-gap);
@@ -3525,13 +3529,15 @@ em.stat-num {
 /* --- Inside a band: media on the left, the argument on the right ------- */
 
 .bento--home .tile__in {
-  position: static;
-  inset: auto;
+  /* Stays relative. The per-project accent wash is an absolutely positioned
+     ::after with inset:0, so making this static lets the wash escape its own
+     panel and stretch across the page. That was the overlap. */
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 0;
   padding: var(--tile-pad);
-  height: auto;
+  height: 100%;
   min-height: 0;
   transition: none;
 }
@@ -3573,8 +3579,13 @@ em.stat-num {
   visibility: visible;
   pointer-events: auto;
   width: auto;
-  position: static;
+  /* Stays relative with its z-index. The accent wash is a ::after on the
+     panel, so anything without a stacking context paints underneath it. */
+  position: relative;
+  z-index: 1;
 }
+
+.bento--home .tile__media { position: relative; z-index: 1; }
 
 .bento--home .tile--band .tile__more {
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
