@@ -53,20 +53,34 @@
     <div class="cs-layout">
       <div class="cs-main">
 
+        <div class="no-metrics">
+          <p class="no-metrics__label">In short</p>
+          <p class="no-metrics__line">In a category that runs on fear and stock paragraphs, can an AI reading be made checkable?</p>
+          <p class="no-metrics__body">
+            <b>Role.</b> Lead designer on a one-month team build: product research, the canon, UI/UX, the reading output and chat behaviour, the hand card, pricing and the ethics rails. Built with a small engineering team.<br>
+            <b>The decisions that matter.</b> Every claim names the line it was read from and the book that says so. The model has to declare whether it saw each line clearly, faintly or not at all. One price, on screen before you pay, with no subscription.<br>
+            <b>Result.</b> 850 readings in the first two months, of which about 40 were paid manuscripts.<br>
+            <b>Link.</b> <a href="https://hasta.produsa.app" target="_blank" rel="noopener">hasta.produsa.app</a>
+          </p>
+        </div>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">The brief</p>
+          <h2 class="cs-section__heading">Palmistry is not science, and Hasta does not pretend it is.</h2>
+          <div class="cs-section__body">
+            <p>It started as a team exercise, built in one month alongside Produsa and launched in August 2026 on a Produsa subdomain. I picked this category because demand for it is still huge, and it went on to make money.</p>
+            <p>The design question is the interesting part. Every product in this space either guesses and dresses the guess up as certainty, or sells fear and then sells the remedy for it. So: in a category built on fear-selling, can you design an AI reading that a person can check against their own hand?</p>
+          </div>
+          <div class="cs-full">
+            <div class="slot">[ IMAGE: the landing page, one photo and one price, shown up front ]</div>
+          </div>
+        </section>
+
         <section class="cs-section reveal">
           <p class="cs-section__label">Overview</p>
           <h2 class="cs-section__heading">Most palm apps guess. Hasta names the line, and the book, behind every reading.</h2>
           <div class="cs-section__body">
-            <p>Hasta reads a photo of your palm through three traditions: Samudrika Shastra, Western chiromancy and the Chinese five-element school. Frontier models run each reading from a canon compiled out of classical texts. You get a free reading, a full manuscript for &#8377;99, and a hand card to share.</p>
-            <p>We built it in one month and launched in August 2026. It converts 4.7% of free readings into paid manuscripts, without subscriptions or fear-selling.</p>
-          </div>
-          <div class="no-metrics">
-            <p class="no-metrics__label">A note on the category</p>
-            <p class="no-metrics__line">Palm reading is still a grey area as a product.</p>
-            <p class="no-metrics__body">Hasta started as a team drill, and I picked this category because demand for it is still huge. It went on to make money. Everything below is an attempt to build inside a category that mostly runs on fear, without using any of the fear.</p>
-          </div>
-          <div class="cs-full">
-            <div class="slot">[ IMAGE: the landing page, one photo and one price, shown up front ]</div>
+            <p>Hasta reads a photo of your palm through three traditions: Samudrika Shastra, Western chiromancy and the Chinese five-element school. Each reading is written from a rulebook we built out of classical texts, so the model cannot use a term we did not give it. You get a free reading, a full manuscript for &#8377;99, and a hand card to share.</p>
           </div>
         </section>
 
@@ -96,36 +110,7 @@
           </div>
           <div class="cs-section__body" style="margin-top:28px;">
             <p>That left three problems to solve. <b>Generic readings:</b> most tools read from a handful of features and fill the rest with cold-reading lines that fit anyone. <b>Fear-led monetisation:</b> doom predictions, dated forecasts, remedies to buy, renewals nobody asked for. <b>No sources:</b> nobody says which tradition or text a claim comes from.</p>
-          </div>
-          <div class="decision__tradeoff" style="margin-top:36px;">
-            <span class="label-inline">Problem statement</span>
-            How might we make an AI palm reading that feels specific to the person, shows where every claim comes from, and earns money without fear?
-          </div>
-        </section>
-
-        <section class="cs-section reveal">
-          <p class="cs-section__label">Research</p>
-          <h2 class="cs-section__heading">Readings sound the same because they draw from too few features.</h2>
-          <div class="cs-section__body">
-            <p><b>Market teardown.</b> I studied Indian astrology platforms like AstroTalk and Astroyogi, along with the AI palm-scanner apps, for the monetisation patterns to avoid.</p>
-            <p><b>Canon study.</b> I directed a study of six palmistry traditions and supplied the source material: deep research, transcripts of classical books and lectures, and voice recordings of practising pandits. It was compiled into a report, The Shastras of the Hand, which I reviewed.</p>
-            <p><b>The key finding.</b> Hand shape plus three lines gives the model very little to work with. A larger, accurate vocabulary lets it say more specific things. Specificity was a data problem before it was a writing problem.</p>
-            <p><b>What to keep out.</b> Earth, Air, Fire and Water hand types date from the mid-twentieth century and cannot be sold as tradition. DMIT and finger-ratio claims are pseudoscience.</p>
-          </div>
-        </section>
-
-        <section class="cs-section reveal">
-          <p class="cs-section__label">The canon</p>
-          <h2 class="cs-section__heading">Ten sources, merged into one rulebook, so the same sign always means the same thing.</h2>
-          <div class="cs-section__body">
-            <p>Of the six traditions studied, three made it into the product.</p>
-            <p><b>Samudrika:</b> the Garuda Purana, chapter LXV on the auspicious marks, and K.C. Sen's Hast Samudrika Shastra. About 116 entries.</p>
-            <p><b>Western:</b> W.G. Benham's The Laws of Scientific Hand Reading, 1900. About 185 entries.</p>
-            <p><b>Chinese:</b> shuxiang, the five-element school.</p>
-            <p>The rulebook loads into the model as cached ground truth, with a fixed vocabulary of lines, mounts and classical signs. The model can only read using these terms, which is what makes citing sources possible at all.</p>
-          </div>
-          <div class="cs-full">
-            <div class="slot">[ IMAGE: the canon on the site, shown as the books it came from ]</div>
+            <p>The first one turned out to be a supply problem before it was a writing problem. Hand shape plus three lines gives a model very little to work with, so it fills the gap with lines that fit anyone. A larger, accurate vocabulary of signs lets it say something specific instead.</p>
           </div>
         </section>
 
@@ -140,17 +125,16 @@
             <p class="decision__text">No product in the category says where a claim comes from, which means no reading can be checked.</p>
             <hr class="rule decision__rule">
             <p class="decision__sublabel">The decision</p>
-            <p class="decision__text is-decision">Each part of the reading shows the line or mount it was read from, and which book says so, with a collapsible panel for the full reasoning. The output schema makes the model declare, for every line, whether it saw it clearly, faintly or not at all, so it cannot describe a line it never saw. The user can check the reading against their own hand.</p>
+            <p class="decision__text is-decision">Each part of the reading shows the line or mount it was read from, and which book says so, with a collapsible panel for the full reasoning. The form the model has to fill in makes it declare, for every line, whether it saw that line clearly, faintly or not at all. It cannot describe a line it never saw, because there is nowhere in the format to put it.</p>
             <div class="decision__tradeoff">
-              <span class="label-inline">The trade-off</span>
-              Showing the working makes readings feel less magical. Being checkable mattered more.
+              Showing the working makes a reading feel less magical, and it is the only version a person can hold up against their own palm.
             </div>
             <div class="plate">
               <div class="plate__grid">
                 <div class="plate__half"><span><span class="plate__state">What we killed</span>[ DRAWING: a confident reading about a line the model never actually saw ]</span></div>
                 <div class="plate__half"><span><span class="plate__state">What we shipped</span>[ DRAWING: the same reading, each claim tagged with its line and its book, one marked "seen faintly" ]</span></div>
               </div>
-              <p class="plate__caption">Trade-off plate 01. The schema will not let it describe what it did not see.</p>
+              <p class="plate__caption">Plate 01. The format will not let it describe what it did not see.</p>
             </div>
           </div>
 
@@ -161,11 +145,7 @@
             <p class="decision__text">The three traditions do not always agree, and the easy move is to quietly pick one.</p>
             <hr class="rule decision__rule">
             <p class="decision__sublabel">The decision</p>
-            <p class="decision__text is-decision">Every conflict goes on a register: nine so far, five with a ruling, three with a recorded lean, and one, the serpent mark, still open. When a reading touches a conflict, it says which school says what. Where all three agree, it says that too. The health line is best when absent, in all three.</p>
-            <div class="decision__tradeoff">
-              <span class="label-inline">The trade-off</span>
-              A reading that admits an open question sounds less certain. It is also the version a user can check.
-            </div>
+            <p class="decision__text is-decision">Every conflict goes on a register: nine so far, five with a ruling, three with a recorded lean, and one, the serpent mark, still open. When a reading touches a conflict, it says which school says what. Where all three agree, it says that too, as with the health line, which is best when absent in all three. A reading that admits an open question sounds less certain, and it is the version a person can check.</p>
           </div>
 
           <div class="decision" id="d3">
@@ -175,11 +155,7 @@
             <p class="decision__text">Generic output is the category's defining failure, and nobody in it measures the thing.</p>
             <hr class="rule decision__rule">
             <p class="decision__sublabel">The decision</p>
-            <p class="decision__text is-decision">One layer of the prompt, "read this hand, not a hand", bans specific cold-reading phrases. A weekly eval harness uses an independent model to score every reading for faithfulness, distinctiveness and genericness, and the scores are tracked release over release.</p>
-            <div class="decision__tradeoff">
-              <span class="label-inline">The trade-off</span>
-              Every release costs extra eval runs. Generic readings are the category's biggest failure, so it is the one thing measured.
-            </div>
+            <p class="decision__text is-decision">One layer of the prompt, "read this hand, not a hand", bans the cold-reading phrases by name. Then every week a second AI model grades a sample of readings on how faithful they are to the rulebook and how specific they are to the hand, and we track that score release by release. It is the one thing we measure, because it is the one thing the category gets wrong.</p>
           </div>
 
           <div class="decision" id="d4">
@@ -189,11 +165,7 @@
             <p class="decision__text">Personality types like INFJ spread because people like owning a label about themselves.</p>
             <hr class="rule decision__rule">
             <p class="decision__sublabel">The decision</p>
-            <p class="decision__text is-decision">Hasta gives the palm the same role. Each reading produces a shareable hand card with a custom motif and the person's dominant readings, an identity marker drawn from their own hand. The card also carries the privacy promise, so every share repeats it to someone new.</p>
-            <div class="decision__tradeoff">
-              <span class="label-inline">The trade-off</span>
-              A card compresses a full reading into a few lines, which risks reducing it to a horoscope label. Keeping only the dominant readings, drawn from the person's actual hand, keeps it specific.
-            </div>
+            <p class="decision__text is-decision">Hasta gives the palm the same role. Each reading produces a shareable hand card with a custom motif and the person's dominant readings, an identity marker drawn from their own hand. The card also carries the privacy promise, so every share repeats it to someone new. A card does compress a full reading into a few lines, which is how it turns into a horoscope label; keeping only the dominant readings, drawn from the actual hand, is what holds it back from that.</p>
             <div class="cs-full">
               <div class="slot">[ IMAGE: the hand card, with its custom motif ]</div>
             </div>
@@ -207,89 +179,33 @@
             <hr class="rule decision__rule">
             <p class="decision__sublabel">The decision</p>
             <p class="decision__text is-decision">The free reading reads both hands and opens the heart, head and life lines side by side. The full manuscript, at &#8377;99, adds the fate line, the mounts, the thumb, and what moves between the two hands. There is nothing to sign up for, one price, paid once, and it is on screen before you pay.</p>
-            <div class="decision__tradeoff">
-              <span class="label-inline">The trade-off</span>
-              This gives up the category's most reliable revenue levers. It still converts at 4.7%.
-            </div>
+            <p class="decision__text is-decision" style="margin-top:16px;">The brief ruled out the rest of the category's standard kit, and we held to it: no subscriptions, expiring credits or timers, no results behind a paywall, no signup before the reading, no compatibility scores out of 36, no dated doom forecasts, no gemstone or remedy upsells, and no health or lifespan predictions, which are enforced as a rule in the prompt and checked in the weekly grading.</p>
           </div>
         </section>
 
         <section class="cs-section reveal">
-          <p class="cs-section__label">Other decisions</p>
-          <h2 class="cs-section__heading">Seven smaller calls.</h2>
+          <p class="cs-section__label">The canon</p>
+          <h2 class="cs-section__heading">Three traditions, merged into one rulebook, so the same sign always means the same thing.</h2>
           <div class="cs-section__body">
-            <p><b>Read both hands.</b> In Samudrika the passive hand, prarabdha, holds what you were born with, and the active hand, agami, what you are building. The Chinese and Western schools say the same. Hasta reads both and shows what moves between them.</p>
-            <p><b>Guide the photo before it is taken.</b> Do's and don'ts appear before the camera opens, with an alignment overlay and an upload fallback. A bad photo is caught before the wait, not after it.</p>
-            <p><b>A lenient on-device check.</b> Photos that are too small, dark or blurry get flagged before an expensive AI call. Some borderline photos still reach the model, because rejecting a usable photo is worse.</p>
-            <p><b>Snap, Read, Keep.</b> About three minutes from start to reading. The wait shows the steps of the reading, and the result is kept as a manuscript.</p>
-            <p><b>Ask the reader.</b> A follow-up chat grounded in the saved reading, so it cannot contradict it or invent a line.</p>
-            <p><b>Refuse bad inputs.</b> A diagram or a cupped hand gets a polite decline instead of a made-up reading, and error states stay in Hasta's voice.</p>
-            <p><b>Privacy at the point of doubt.</b> The photo is deleted after the reading, with no tracking and no ads. The promise repeats on the upload screen, the report and the hand card.</p>
+            <p>Six traditions were studied and three made it into the product: Samudrika, from the Garuda Purana and K.C. Sen's Hast Samudrika Shastra; Western, from W.G. Benham's The Laws of Scientific Hand Reading, 1900; and the Chinese five-element school, shuxiang. Earth, Air, Fire and Water hand types were kept out, because they date from the mid-twentieth century and cannot be sold as tradition, and DMIT and finger-ratio claims were kept out as pseudoscience.</p>
+            <p>Merged, that becomes a fixed vocabulary of lines, mounts and classical signs, and the model reads only from it. That restriction is what makes citing a source possible at all.</p>
           </div>
           <div class="cs-full">
-            <div class="slot">[ IMAGE: reading both hands, prarabdha and agami ]</div>
+            <div class="slot">[ IMAGE: the canon on the site, shown as the books it came from ]</div>
           </div>
         </section>
 
         <section class="cs-section reveal">
-          <p class="cs-section__label">Category norms we dropped</p>
-          <h2 class="cs-section__heading">Each of these is standard in the category, and each was ruled out in the brief.</h2>
-          <div class="refusals">
-            <table class="refusals__table">
-              <thead>
-                <tr><th>What we cut</th><th>Why it was tempting</th><th>Why it went</th><th>What we did instead</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><span class="rmark" aria-hidden="true">[ 1 ]</span>Subscriptions, expiring credits and timers</td>
-                  <td data-label="Why it was tempting">Recurring revenue and urgency</td>
-                  <td data-label="Why it went">Users get charged for things they forgot, under pressure that is not real</td>
-                  <td data-label="What we did instead">One price, paid once</td>
-                </tr>
-                <tr>
-                  <td><span class="rmark" aria-hidden="true">[ 2 ]</span>Results behind a paywall</td>
-                  <td data-label="Why it was tempting">High conversion pressure</td>
-                  <td data-label="Why it went">Users pay before knowing if it works</td>
-                  <td data-label="What we did instead">A free reading of the three major lines</td>
-                </tr>
-                <tr>
-                  <td><span class="rmark" aria-hidden="true">[ 3 ]</span>Signup before the reading</td>
-                  <td data-label="Why it was tempting">Captures leads</td>
-                  <td data-label="Why it went">A wall before any value</td>
-                  <td data-label="What we did instead">Nothing to sign up for</td>
-                </tr>
-                <tr>
-                  <td><span class="rmark" aria-hidden="true">[ 4 ]</span>Compatibility scores</td>
-                  <td data-label="Why it was tempting">Kundli matching runs on scores out of 36</td>
-                  <td data-label="Why it went">A number turns a relationship into a verdict</td>
-                  <td data-label="What we did instead">Saath: two people, two hands, no score</td>
-                </tr>
-                <tr>
-                  <td><span class="rmark" aria-hidden="true">[ 5 ]</span>Doom and dated forecasts</td>
-                  <td data-label="Why it was tempting">Fear sells readings</td>
-                  <td data-label="Why it went">It is the fear-selling we set out to avoid</td>
-                  <td data-label="What we did instead">Tendencies only, no dates</td>
-                </tr>
-                <tr>
-                  <td><span class="rmark" aria-hidden="true">[ 6 ]</span>Gemstone and remedy upsells</td>
-                  <td data-label="Why it was tempting">Standard revenue on astrology platforms</td>
-                  <td data-label="Why it went">Selling a fix for a fear you created</td>
-                  <td data-label="What we did instead">No gemstones</td>
-                </tr>
-                <tr>
-                  <td><span class="rmark" aria-hidden="true">[ 7 ]</span>Health and lifespan predictions</td>
-                  <td data-label="Why it was tempting">Users expect the life line to mean length of life</td>
-                  <td data-label="Why it went">A wrong reading could cause real harm</td>
-                  <td data-label="What we did instead">Enforced as a rule in the prompt and the evals</td>
-                </tr>
-                <tr>
-                  <td><span class="rmark" aria-hidden="true">[ 8 ]</span>Elemental hand types and DMIT</td>
-                  <td data-label="Why it was tempting">Familiar, and they sound scientific</td>
-                  <td data-label="Why it went">A modern invention, and pseudoscience</td>
-                  <td data-label="What we did instead">Kept out of the canon</td>
-                </tr>
-              </tbody>
-            </table>
+          <p class="cs-section__label">Smaller calls</p>
+          <h2 class="cs-section__heading">Four that shaped the experience around the reading.</h2>
+          <div class="cs-section__body">
+            <p><b>Read both hands.</b> In Samudrika the passive hand, prarabdha, holds what you were born with, and the active hand, agami, what you are building. The Chinese and Western schools say the same. Hasta reads both and shows what moves between them.</p>
+            <p><b>Deal with the photo before the wait, not after it.</b> Do's and don'ts appear before the camera opens, with an alignment overlay and an upload fallback, and an on-device check flags photos that are too small, dark or blurry before an expensive call. The check is deliberately lenient, because rejecting a usable photo is worse than passing a borderline one. A diagram or a cupped hand gets a polite decline instead of a made-up reading.</p>
+            <p><b>Ask the reader.</b> A follow-up chat grounded in the saved reading, so it cannot contradict it or invent a line that was never there.</p>
+            <p><b>Privacy at the point of doubt.</b> The photo is deleted after the reading, with no tracking and no ads. The promise repeats on the upload screen, the report and the hand card, because the moment of doubt is the upload.</p>
+          </div>
+          <div class="cs-full">
+            <div class="slot">[ IMAGE: reading both hands, prarabdha and agami, with the source panel open ]</div>
           </div>
         </section>
 
@@ -297,30 +213,27 @@
           <p class="cs-section__label">Visual system</p>
           <h2 class="cs-section__heading">Designed like a kundli book, the hand-kept astrology record many Indian families own.</h2>
           <div class="cs-section__body">
-            <p><b>Palette.</b> Cream parchment #F6EEDC for reading, deep brown for the immersive sections, sindoor red #A33B2A for actions, and ochre for labels.</p>
-            <p><b>Type.</b> A small-caps Roman display face for headings, and an italic book serif for the reading itself.</p>
-            <p><b>Motifs.</b> Filigree corners, Roman numerals, and the canon shown as book spines. Devanagari and Chinese terms sit inline with their meaning.</p>
-            <p><b>Photography.</b> Warm, candlelit hands. Real palms and real lines.</p>
+            <p>Cream parchment for the reading, deep brown for the immersive sections, a sindoor red for actions. A small-caps Roman display face for headings and an italic book serif for the reading itself. Filigree corners, Roman numerals, the canon shown as book spines, and Devanagari and Chinese terms set inline with their meaning. The photography is warm and candlelit, and uses real palms.</p>
           </div>
           <div class="cs-full">
-            <div class="slot">[ IMAGE: sample reading lines, and the Snap, Read, Keep flow ]</div>
+            <div class="slot">[ IMAGE: one annotated spread of the reading, callouts on the source panel, the conflict note and the refusal state ]</div>
           </div>
         </section>
 
         <section class="cs-section reveal">
           <p class="cs-section__label">Outcome</p>
-          <h2 class="cs-section__heading"><em>4.7%</em> free-to-paid conversion, with no fear-selling, subscriptions or dark patterns.</h2>
+          <h2 class="cs-section__heading"><em>850</em> readings in the first two months, and about 40 paid manuscripts.</h2>
           <div class="cs-section__body">
-            <p>850 readings in the first two months. Built in one month, launched August 2026, live at hasta.produsa.app.</p>
+            <p>That is a 4.7% free-to-paid conversion, with no subscriptions, no fear-selling and nothing hidden behind a timer. Built in one month, launched August 2026, live at hasta.produsa.app.</p>
           </div>
         </section>
 
         <section class="cs-section reveal">
-          <p class="cs-section__label">How I used AI</p>
-          <h2 class="cs-section__heading">The prompt was a design surface.</h2>
+          <p class="cs-section__label">What I did on the AI side</p>
+          <h2 class="cs-section__heading">Who wrote the canon, and who wrote the voice.</h2>
           <div class="cs-section__body">
-            <p>The canon was compiled with deep research from the source material I gathered: transcripts of classical books and lectures, and recordings of practising pandits. Frontier models run the readings, with the rulebook loaded as cached ground truth.</p>
-            <p>I wrote the voice, the banned phrases and the grounding rules alongside the interface, and treated the output schema as part of the UX. Reading quality is checked weekly by an eval harness running an independent model.</p>
+            <p>I gathered the source material: classical texts, transcripts of books and lectures, and voice recordings of practising pandits. The synthesis into one report, The Shastras of the Hand, was AI-assisted research that I commissioned, read and edited. What entered the rulebook, what stayed out, and how conflicts were ruled were my calls.</p>
+            <p>I wrote the voice, the banned phrases and the grounding rules alongside the interface, and treated the shape of the model's output as part of the UX, because it is the thing that decides whether a reading can cite a source or refuse a bad photo.</p>
           </div>
         </section>
 

@@ -2937,3 +2937,548 @@ em.stat-num {
 }
 
 .dock .theme-toggle svg { width: 16px; height: 16px; }
+
+/* ==========================================================================
+   THE CURTAIN AND THE ROW
+   Third pass. Two client-specified mechanics, and the structural changes
+   they force. Appended on purpose: the cascade here is source-ordered, so
+   these rules are meant to win over everything above.
+
+   The structural change in one line: the mosaic is now BAND-PARTITIONED.
+   The 204px row unit survives untouched, but every tile belongs to exactly
+   one horizontal band and no tile straddles two. That is the single
+   property that lets a tile expand to the full row without one pixel of
+   reflow, because an expanded tile covers exactly its own band and the
+   document height never changes.
+   ========================================================================== */
+
+:root {
+  --curtain-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --xp-dur: 0.34s;          /* the growth */
+  --xp-fade: 0.24s;         /* the detail arriving */
+  --tile-pad-sm: 24px;
+  --more-gap: 64px;         /* air between the headline and the detail */
+}
+
+/* --------------------------------------------------------------------------
+   1. THE CURTAIN
+   One screen, one photograph, nothing else.
+
+   .curtain is the scroll runway and always holds 100svh in flow.
+   .curtain__frame is static by default, which is exactly what no-JS and
+   reduced-motion want: a plain full screen you scroll past. main.js adds
+   .curtain-live to <html> and promotes the frame to fixed, then lifts it
+   at 1.4x scroll speed so the sheet leaves faster than the grid arrives.
+   -------------------------------------------------------------------------- */
+
+.curtain {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+}
+
+.curtain__frame {
+  position: relative;
+  height: 100%;
+  overflow: clip;
+  background: var(--c-bg);
+}
+
+.js.curtain-live .curtain__frame {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100svh;
+  z-index: 50;
+  will-change: transform;
+}
+
+.js.curtain-live .curtain.is-lifted .curtain__frame {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Full colour. Never greyscale, never duotone, no filter of any kind.
+   The crop is governed below. */
+.curtain__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  display: block;
+}
+
+/* THE CROP BUDGET.
+   Source is 1200x1600 (3:4). Measured on that source, the protected band
+   runs from y 0.43 (a little air above the word WHOA., which sits at 0.455)
+   down to y 0.80 (the green character's striped socks and the near edge of
+   the tabletop). That band is 0.37 of the image height.
+
+   With object-fit: cover the visible fraction of image height is
+   v = 0.75 * (viewportH / viewportW). Holding a 0.37 band therefore needs a
+   viewport no wider than about 2:1. Each step below sets object-position-y
+   so the window's top edge lands at roughly y 0.43 for that aspect band.
+
+   What is protected: WHOA., both drawn characters whole, him, the tabletop.
+   What is spent, in this order: the sky, the snow ridge, the top of the
+   bare trees, then the near bench and the foreground grass. On a 1440x900
+   screen the ridge is gone. That is the deliberate trade: the characters
+   are the argument, the mountain is only where it happened. Below 3:4 the
+   full height is kept and the crop happens sideways instead, where there
+   is 0.18 of slack on each side. */
+@media (min-aspect-ratio: 3/4)   { .curtain__img { object-position: 50% 100%; } }
+@media (min-aspect-ratio: 11/10) { .curtain__img { object-position: 50% 90%; } }
+@media (min-aspect-ratio: 29/20) { .curtain__img { object-position: 50% 81%; } }
+@media (min-aspect-ratio: 8/5)   { .curtain__img { object-position: 50% 74%; } }
+@media (min-aspect-ratio: 9/5)   { .curtain__img { object-position: 50% 66%; } }
+@media (min-aspect-ratio: 11/5)  { .curtain__img { object-position: 50% 58%; } }
+
+.curtain__cue {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px 9px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(20, 21, 24, 0.10);
+  color: #141518;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: var(--cue, 1);
+}
+
+.curtain__cue svg { width: 11px; height: 13px; }
+
+@media (max-width: 699px) {
+  .curtain__cue { bottom: 20px; }
+}
+
+/* --------------------------------------------------------------------------
+   2. THE BANDS
+   Nine rows of 204px. Six bands: 1, 2, 2, 2, 1, 1 rows tall.
+   No tile straddles a band boundary, which is the whole contract.
+   -------------------------------------------------------------------------- */
+
+.homewrap--curtained { padding-top: var(--s-8); }
+
+.bento--home {
+  position: relative;            /* offsetLeft/offsetTop resolve against this */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(9, var(--row));
+  grid-auto-rows: var(--row);
+  gap: var(--grid-gap);
+  grid-template-areas:
+    "intro    intro    intro    intro"
+    "produsa  produsa  supaca   supaca"
+    "produsa  produsa  supaca   supaca"
+    "hasta    hasta    bizotico bizotico"
+    "hasta    hasta    bizotico bizotico"
+    "vistlabs vistlabs notes    notes"
+    "vistlabs vistlabs notes    notes"
+    "koodai   sintero  desserts studio"
+    "contact  contact  contact  contact";
+}
+
+/* The cell is now bare. All the chrome moved to .tile__in, which is the
+   thing that grows. The cell itself never moves, so the grid cannot. */
+.bento--home .tile {
+  padding: 0;
+  background: none;
+  border: 0;
+  overflow: visible;
+  display: block;
+  min-height: 0;
+}
+
+.bento--home .tile::after { display: none; }
+
+.bento--home .tile__in {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: var(--tile-pad);
+  background: var(--c-surface);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--tile-radius);
+  overflow: hidden;
+}
+
+.bento--home .tile--sm .tile__in { padding: var(--tile-pad-sm); }
+
+/* The per-project accent wash, moved onto the panel so it grows with it. */
+.bento--home .tile:not(.tile--plain) .tile__in::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--tile-acc, transparent);
+  opacity: 0.05;
+  pointer-events: none;
+  transition: opacity 0.2s var(--ease);
+}
+
+.bento--home .tile__lead,
+.bento--home .tile__more { position: relative; z-index: 1; }
+
+.bento--home .tile__lead {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.bento--home .tile__foot { margin-top: auto; padding-top: var(--s-5); }
+
+.bento--home a.tile:hover .tile__in,
+.bento--home a.tile:focus-visible .tile__in { border-color: var(--c-rule-strong); }
+
+.bento--home a.tile:focus-visible { outline: none; }
+
+.bento--home a.tile:focus-visible .tile__in {
+  outline: 2px solid var(--c-ink);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   3. THE DETAIL
+   Below the expansion breakpoint, and for every pointer that cannot hover,
+   this is simply part of the tile. There is no hidden content anywhere and
+   no interaction that does nothing.
+   -------------------------------------------------------------------------- */
+
+.tile__more {
+  margin-top: var(--s-5);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--c-rule);
+  display: grid;
+  row-gap: var(--s-4);
+  column-gap: var(--s-6);
+}
+
+.fact { min-width: 0; }
+
+.fact__k {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tile-acc, var(--c-label));
+  margin-bottom: 5px;
+}
+
+.fact__v {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--c-body);
+  max-width: 44ch;
+}
+
+/* --------------------------------------------------------------------------
+   4. THE INTRO AND CONTACT BANDS
+   Both are full-width 204px bands, so both use the width instead of
+   stacking in a corner of it.
+   -------------------------------------------------------------------------- */
+
+.intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  column-gap: var(--s-9);
+  align-items: end;
+}
+
+.intro__lead { max-width: 20ch; }
+.intro__sub { margin-top: 0; max-width: 40ch; }
+
+.contact {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--s-9);
+  align-items: end;
+}
+
+.contact .tile__title { max-width: 22ch; }
+
+.contact__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  font-size: 15px;
+  color: var(--c-body);
+}
+
+.contact__links a {
+  color: var(--c-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--c-rule-strong);
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.2s var(--ease);
+}
+
+.contact__links a:hover,
+.contact__links a:focus-visible { text-decoration-color: var(--c-ink); }
+
+.notes__grid { margin-top: var(--s-4); }
+.notes__item { font-size: 14px; padding: 13px 0; }
+
+/* --------------------------------------------------------------------------
+   5. THE EXPANSION
+   Runs only where it can be honest: a fine pointer that can hover, on a
+   viewport wide enough to hold a four-column band. Everywhere else the
+   detail is simply printed in the tile (rules above), which is why there
+   is no dead interaction on touch.
+
+   How it works, and why nothing moves:
+     - .tile keeps its grid cell. It is never re-placed, so the grid cannot
+       reflow and the document height is constant. No scroll jump, ever.
+     - .tile__in is absolutely positioned over that cell at inset 0. Opening
+       sets left/right to negative offsets measured by main.js, so the panel
+       reaches both edges of the band. It paints over its row-mates, which
+       stay exactly where they are underneath.
+     - --lead-w pins the headline column to the width it already had, and
+       --more-w pins the detail column. Nothing re-wraps while the panel
+       grows, and the title, the role and the arrow do not move by a pixel.
+       The click target under the cursor is therefore stationary.
+   -------------------------------------------------------------------------- */
+
+@media (hover: hover) and (pointer: fine) and (min-width: 1100px) {
+
+  .bento--home .tile.tile--expands .tile__in {
+    position: absolute;
+    inset: 0;
+    height: auto;
+    display: grid;
+    grid-template-columns: var(--lead-w, 1fr) minmax(0, 1fr);
+    column-gap: var(--more-gap);
+    align-items: stretch;
+    transition:
+      left var(--xp-dur) var(--curtain-ease),
+      right var(--xp-dur) var(--curtain-ease),
+      border-color 0.2s var(--ease);
+  }
+
+  .bento--home .tile.tile--expands .tile__more {
+    grid-column: 2;
+    grid-row: 1;
+    width: var(--more-w, 100%);
+    align-self: center;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+    opacity: 0;
+    transform: translateX(20px);
+    transition:
+      opacity var(--xp-fade) var(--ease),
+      transform 0.3s var(--curtain-ease);
+  }
+
+  /* Two registers. A 2-row tile opens into a column of prose beside the
+     headline. A 1-row tile opens into a spec strip across the band. */
+  .bento--home .tile.tile--expands:not(.tile--sm) .tile__more {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--s-5);
+  }
+
+  .bento--home .tile.tile--expands.tile--sm .tile__more {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    row-gap: 0;
+  }
+
+  .bento--home .tile.tile--expands.is-open { z-index: 20; }
+
+  .bento--home .tile.tile--expands.is-open .tile__in {
+    left: var(--xl, 0px);
+    right: var(--xr, 0px);
+    border-color: var(--c-rule-strong);
+  }
+
+  .bento--home .tile.tile--expands.is-open .tile__in::after { opacity: 0.07; }
+
+  .bento--home .tile.tile--expands.is-open .tile__more {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0.1s, 0.1s;
+  }
+
+  .bento--home .tile.tile--expands.is-open .tile__title { color: var(--tile-acc, var(--c-ink)); }
+
+  /* Breathing space is the point of the open state, so the measure gets
+     shorter rather than the panel getting busier. */
+  .bento--home .tile.tile--expands:not(.tile--sm) .fact__v { max-width: 56ch; }
+  .bento--home .tile.tile--expands.tile--sm .fact__v { font-size: 13px; max-width: none; }
+  .bento--home .tile.tile--expands.tile--sm .fact__k { margin-bottom: 4px; }
+}
+
+/* --------------------------------------------------------------------------
+   6. 700 to 1099: two columns, content-sized rows, detail printed inline.
+   The 204px unit is a four-column contract. Below four columns the grid
+   re-authors itself, which it already did before this pass.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1099px) {
+  .bento--home {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+    grid-auto-rows: auto;
+    gap: 16px;
+    grid-template-areas:
+      "intro    intro"
+      "produsa  produsa"
+      "supaca   supaca"
+      "hasta    hasta"
+      "bizotico bizotico"
+      "vistlabs vistlabs"
+      "notes    notes"
+      "koodai   sintero"
+      "desserts studio"
+      "contact  contact";
+  }
+
+  .bento--home .tile__in { padding: 28px; min-height: 180px; }
+  .bento--home .tile--sm .tile__in { padding: var(--tile-pad-sm); min-height: 0; }
+
+  /* At two columns a case-study tile is 650px or wider, so the detail sits
+     beside the headline rather than under it. Same information, no hover. */
+  .bento--home .tile:not(.tile--sm) .tile__more {
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  }
+
+  .bento--home .tile--sm .tile__more { grid-template-columns: minmax(0, 1fr); }
+
+  .intro, .contact { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-5); }
+  .intro__lead { max-width: 26ch; }
+  .intro__sub { max-width: 52ch; }
+
+  .homewrap { padding: var(--s-8) 40px var(--gap-block); }
+  .homewrap--curtained { padding-top: var(--s-7); }
+}
+
+/* --------------------------------------------------------------------------
+   7. Under 700: one column.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 699px) {
+  .bento--home {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: none;
+    grid-auto-rows: auto;
+    gap: 12px;
+  }
+
+  .bento--home > * { grid-area: auto !important; }
+  .bento--home .tile__in,
+  .bento--home .tile--sm .tile__in { padding: var(--s-5); min-height: 0; }
+  .bento--home .tile:not(.tile--sm) .tile__more { grid-template-columns: minmax(0, 1fr); }
+
+  .notes__grid { grid-template-columns: minmax(0, 1fr); }
+  .notes__item:nth-child(2) { border-top: 1px solid var(--c-rule); padding-top: 13px; }
+
+  .homewrap { padding: var(--s-7) 20px var(--s-9); }
+  .homewrap--curtained { padding-top: var(--s-6); }
+
+  .fact__v { font-size: 14px; }
+}
+
+/* --------------------------------------------------------------------------
+   8. Reduced motion.
+   The curtain does not animate: it is a static full screen you scroll past,
+   which is the default state of the CSS anyway, and main.js never promotes
+   it. The expansion still happens on hover and on focus, instantly, so the
+   detail stays reachable by every route.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .curtain__frame { position: relative !important; transform: none !important; }
+  .curtain__cue { opacity: 1 !important; }
+
+  .bento--home .tile.tile--expands .tile__in,
+  .bento--home .tile.tile--expands .tile__more,
+  .bento--home .tile.tile--expands .tile__in::after,
+  .bento--home .tile__title,
+  .bento--home .tile__arrow { transition: none !important; }
+
+  .bento--home .tile.tile--expands.is-open .tile__more { transition-delay: 0s !important; }
+}
+
+/* --------------------------------------------------------------------------
+   9. Corrections from the first render pass.
+   -------------------------------------------------------------------------- */
+
+/* The cue belongs on the page gutter, not floating in the middle of the
+   table where a white pill sits on white planks. */
+.curtain__cue {
+  left: var(--margin);
+  bottom: var(--margin);
+  transform: none;
+}
+
+@media (max-width: 699px) {
+  .curtain__cue { left: 20px; bottom: 24px; }
+}
+
+/* .intro and .contact are also .tile__lead, which is a flex column. Say so
+   at the same specificity or the two-column layout never applies. */
+.bento--home .tile__lead.intro,
+.bento--home .tile__lead.contact {
+  display: grid;
+  align-items: end;
+  column-gap: var(--s-9);
+}
+
+.bento--home .tile__lead.intro { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
+.bento--home .tile__lead.contact { grid-template-columns: minmax(0, 1fr) auto; }
+
+@media (max-width: 1099px) {
+  .bento--home .tile__lead.intro,
+  .bento--home .tile__lead.contact {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--s-5);
+  }
+}
+
+/* A 424px tile holding four short blocks was growing a hole in its middle.
+   Anchor the question to the bottom of the headline column instead, so the
+   tile reads as two set blocks with a field of air between them rather
+   than a short block with a gap under it. Closed and open resolve
+   identically, because the column keeps the same width and the same
+   height either way, so nothing moves when a tile expands. */
+.bento--home .tile__hmw { margin-top: auto; padding-top: var(--s-6); }
+.bento--home .tile__foot { margin-top: 0; padding-top: var(--s-5); }
+.bento--home .tile--sm .tile__foot,
+.bento--home .tile--plain .tile__foot { margin-top: auto; }
+
+@media (max-width: 1099px) {
+  /* Content-sized rows below four columns, so there is no field to fill. */
+  .bento--home .tile__hmw { margin-top: var(--s-4); padding-top: 0; }
+}
+
+/* The contact band is 204 tall and holds four short lines. Bottom-aligned
+   it looked dropped; centred, the band reads as one closing line. */
+.bento--home .tile__lead.contact { align-content: center; }
+
+@media (max-width: 1099px) {
+  .bento--home .tile__lead.contact { align-content: start; }
+}
+
+/* Contrast correction, measured not assumed.
+   In dark, --c-label (#7E848C) carried .tile__role at 13px over a tile that
+   also has a 5% accent wash. On the lighter accents that wash lifts the
+   background enough to land the pair at 4.16:1, under the 4.5 floor.
+   Measured again at #8C9299: 4.99:1 against the worst tile (Hasta) and
+   better everywhere else. */
+:root[data-theme="dark"] { --c-label: #8C9299; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --c-label: #8C9299; }
+}

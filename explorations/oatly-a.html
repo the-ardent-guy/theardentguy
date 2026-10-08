@@ -1,0 +1,1178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Large Print</title>
+<meta name="description" content="Exploration A. Rishabh Jain, product designer. Everything a portfolio usually buries in small print, set at poster scale.">
+
+<!--
+  DIRECTION: LARGE PRINT
+  Exploration A of two. Copy-as-graphic position.
+
+  Reference finding that drives everything: oatly.com in 2026 is NOT a loud
+  website. It is a quiet bone-coloured card catalogue, hairline-ruled, small
+  type, footer laid out as a table. Every loud thing on it is a PHOTOGRAPHED
+  OBJECT. The site is a vitrine. The shouting is in the stuff.
+
+  Rishabh has one photograph and will supply no illustration. So the objects
+  cannot be shot or drawn. They have to be SET. Type is the only graphic.
+
+  Taken from Oatly: the hairline grid, the ruled spec panels, the caption bar
+  with a category chip, the footer as a table, flat uncompromised colour,
+  two paper weights, the die-cut page edge, the running band, the density.
+  Not taken: the voice, the handwriting, the stickers, the photography, the
+  pastel low-contrast pairings, the jokes.
+
+  No em-dashes anywhere in this file, by standing instruction.
+  No simulated hand, no sketch, no faked drawing. Every mark here is
+  mechanical: rules, bars, brackets, arrows with straight segments.
+  Designed to be finished with zero illustration added, ever.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* ===========================================================
+   1. TOKENS
+   Palette structure taken from Oatly's real extracted CSS
+   variables, values shifted so they are his. Two paper
+   weights, one ink, four print accents. All pairings below
+   clear 4.5:1 for body text.
+   =========================================================== */
+:root{
+  --stock:   #FBF7EA;        /* the page. warm press sheet */
+  --card:    #FFFEF6;        /* card stock */
+  --board:   #EFE9D7;        /* heavier board, inset panels */
+  --board-2: #E2DBC6;
+
+  --ink:     #111111;        /* not pure black. pure black vibrates at 1px on cream */
+  --ink-70:  #46413A;        /* 9.9:1 on card */
+  --ink-45:  #6B6459;        /* 5.8:1 on card. the floor for secondary text. */
+  --rule:    #111111;
+  --soft:    rgba(17,17,17,.26);
+
+  --yellow:  #FFC53D;        /* ink on it: 11:1 */
+  --red:     #D63A26;        /* cream on it: 4.6:1, passes at any size */
+  --red-ink: #C0301C;        /* red as text on cream: 5.2:1 */
+  --blue:    #1B3C8C;        /* cream on it: 10:1 */
+  --green:   #2E7D4F;        /* cream on it: 5.0:1 */
+
+  --shout: 'Anton', Impact, 'Haettenschweiler', sans-serif;
+  --body:  'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --spec:  'Courier Prime', 'Courier New', monospace;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; padding:14px; overflow-x:hidden;
+  background:var(--stock); color:var(--ink);
+  font-family:var(--body); font-size:16px; line-height:1.55;
+}
+/* height:auto matters. the width/height content attributes map to CSS
+   width/height as presentational hints, and a used height of 1600px
+   silently beats aspect-ratio. */
+img{max-width:100%; height:auto; display:block}
+a{color:inherit}
+h1,h2,h3,h4,p,ul,ol,dl,figure,table{margin:0}
+ul,ol{padding:0;list-style:none}
+table{border-collapse:collapse;width:100%}
+
+/* ===========================================================
+   2. THE DIE CUT
+   A perforated frame on the viewport. Oatly ticks its page
+   edge like a tear-off. Mechanical, repeating, not drawn.
+   =========================================================== */
+.perf{
+  position:fixed; inset:6px; pointer-events:none; z-index:80; opacity:.5;
+  background:
+    repeating-linear-gradient(90deg,var(--ink) 0 3px,transparent 3px 9px) top left/100% 1px no-repeat,
+    repeating-linear-gradient(90deg,var(--ink) 0 3px,transparent 3px 9px) bottom left/100% 1px no-repeat,
+    repeating-linear-gradient(180deg,var(--ink) 0 3px,transparent 3px 9px) top left/1px 100% no-repeat,
+    repeating-linear-gradient(180deg,var(--ink) 0 3px,transparent 3px 9px) top right/1px 100% no-repeat;
+}
+.sheet{max-width:1360px; margin:0 auto; border:1px solid var(--rule); background:var(--card)}
+
+/* ===========================================================
+   3. SHARED FURNITURE
+   =========================================================== */
+.strip{
+  font-family:var(--spec); font-size:10.5px; letter-spacing:.14em;
+  text-transform:uppercase; line-height:1.4;
+  border-bottom:1px solid var(--rule); display:flex; flex-wrap:wrap;
+}
+.strip > *{padding:7px 12px; border-right:1px solid var(--soft)}
+.strip > *:last-child{border-right:0}
+@media(min-width:900px){ .strip > *:last-child{margin-left:auto; border-left:1px solid var(--soft)} }
+
+.chip{
+  display:inline-block; font-family:var(--spec); font-weight:700;
+  font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  padding:3px 7px 2px; border:1px solid var(--ink); background:var(--card);
+  line-height:1.3; white-space:nowrap;
+}
+.chip--y{background:var(--yellow)}
+.chip--b{background:var(--blue);color:var(--card);border-color:var(--blue)}
+.chip--r{background:var(--red);color:var(--card);border-color:var(--red)}
+.chip--g{background:var(--green);color:var(--card);border-color:var(--green)}
+.chip--n{background:var(--board)}
+
+.sec{border-top:1px solid var(--rule)}
+.sec__bar{
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  padding:9px 16px; border-bottom:1px solid var(--rule); background:var(--board);
+}
+.sec__bar h2{
+  font-family:var(--spec); font-weight:700; font-size:11px;
+  letter-spacing:.2em; text-transform:uppercase;
+}
+.sec__bar .note{
+  font-family:var(--spec); font-size:10.5px; letter-spacing:.06em;
+  color:var(--ink-45); text-transform:uppercase;
+}
+@media(min-width:760px){ .sec__bar .note{margin-left:auto} }
+
+.lede{font-size:17px; line-height:1.5; max-width:62ch}
+.small{font-family:var(--spec); font-size:11.5px; line-height:1.65; color:var(--ink-45)}
+
+/* grid and flex children default to min-width:auto, which lets an image's
+   intrinsic width or a long word blow a track open and push the page wider
+   than the viewport. this is the guard. */
+.mast > *,.intro > *,.slabpair > *,.shelf > *,.batch > *,.made > *,
+.absent > *,.sworn li > *,.rules li > *,.plate__cap > *,.pack > *{min-width:0}
+.spec dd,.pack__spec dd,.made__b dd,.panel__row{min-width:0; overflow-wrap:break-word}
+
+/* mechanical screen tint. a printing halftone, not a sketch. */
+.screen{
+  background-image:radial-gradient(var(--ink) 1px, transparent 1.3px);
+  background-size:7px 7px; opacity:.16;
+}
+
+/* ===========================================================
+   4. SHELF EDGE (nav)
+   =========================================================== */
+.edge{
+  position:sticky; top:14px; z-index:70; background:var(--card);
+  border-bottom:1px solid var(--rule); display:flex; align-items:stretch; flex-wrap:wrap;
+}
+.edge__brand{
+  font-family:var(--shout); font-size:17px; letter-spacing:.02em;
+  text-transform:uppercase; padding:9px 14px 7px;
+  border-right:1px solid var(--rule); white-space:nowrap;
+}
+.edge__sku{
+  font-family:var(--spec); font-size:10px; letter-spacing:.12em;
+  text-transform:uppercase; padding:11px 12px; color:var(--ink-45);
+  border-right:1px solid var(--soft); display:flex; align-items:center;
+}
+@media(max-width:560px){ .edge__sku{display:none} }
+.edge nav{display:flex; margin-left:auto; flex-wrap:wrap}
+.edge nav a{
+  font-family:var(--spec); font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; text-decoration:none;
+  padding:11px 13px; border-left:1px solid var(--soft);
+  display:flex; align-items:center;
+}
+.edge nav a:hover,.edge nav a:focus-visible{background:var(--yellow)}
+
+/* ===========================================================
+   5. MASTHEAD
+   The photograph is not a portrait. It is him at a table in the
+   mountains with two of his own invented characters composited
+   in, one of them saying WHOA. It is the strapline, literally.
+   So it runs full width, in colour, and the strapline captions
+   it. The only illustration on this page is the illustration
+   that already existed inside the only photograph.
+   =========================================================== */
+.mast{display:grid; grid-template-columns:1fr}
+@media(min-width:900px){
+  .mast{grid-template-columns:1.45fr 1fr}
+  .mast__panel{border-right:1px solid var(--rule)}
+}
+.mast > *{min-width:0}
+.mast__panel{padding:34px 20px 26px; min-width:0}
+.mast__side{padding:34px 20px 26px; display:flex; flex-direction:column; justify-content:flex-end; background:var(--board); min-width:0}
+.mast__kick{
+  font-family:var(--spec); font-size:11px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--ink-70); margin-bottom:18px;
+}
+.wordmark{
+  font-family:var(--shout); line-height:.84; text-transform:uppercase;
+  font-size:clamp(56px,13.5vw,152px); letter-spacing:-.012em; margin:0;
+}
+.wordmark .dot{color:var(--red-ink)}
+
+/* a contents index. a catalogue device, and it earns the board panel. */
+.index{border:1px solid var(--rule); background:var(--card); max-width:560px}
+.index__h{
+  font-family:var(--spec); font-size:10px; letter-spacing:.18em; font-weight:700;
+  text-transform:uppercase; padding:8px 11px; border-bottom:1px solid var(--rule);
+  background:var(--board-2);
+}
+.index li{display:grid; grid-template-columns:auto 1fr auto; gap:11px; align-items:baseline; border-bottom:1px solid var(--soft)}
+.index li:last-child{border-bottom:0}
+.index li span{font-family:var(--spec); font-size:10px; color:var(--ink-45); padding-left:11px}
+.index li em{font-family:var(--spec); font-size:10px; font-style:normal; color:var(--ink-45); padding-right:11px}
+.index li a{
+  text-decoration:none; font-family:var(--shout); text-transform:uppercase;
+  font-size:clamp(15px,1.5vw,19px); padding:9px 0; display:block;
+}
+/* the numerals are --ink-45, which is 5.9:1 on card stock but only
+   3.7:1 once the row goes yellow. darken them on hover. */
+.index li:hover{background:var(--yellow)}
+.index li:hover span,.index li:hover em{color:var(--ink-70)}
+
+.spec{border:1px solid var(--rule); background:var(--card); max-width:560px; margin-top:26px}
+.spec dl{display:grid; grid-template-columns:auto 1fr; margin:0}
+.spec dt{
+  font-family:var(--spec); font-size:10.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-45);
+  padding:7px 10px; border-bottom:1px solid var(--soft);
+  border-right:1px solid var(--soft); white-space:nowrap;
+}
+.spec dd{
+  margin:0; padding:7px 10px; font-size:13.5px; font-weight:500;
+  border-bottom:1px solid var(--soft);
+}
+.spec dl > :nth-last-child(1),.spec dl > :nth-last-child(2){border-bottom:0}
+
+/* full width photographic plate. responsive crop band, tuned to the
+   source so the two characters and the WHOA stay inside the frame
+   at every width. in colour: the characters are the point. */
+.plate{margin:0; border-top:1px solid var(--rule); background:var(--board)}
+.plate__frame{overflow:hidden; border-bottom:1px solid var(--rule); background:var(--board-2)}
+.plate__frame img{
+  width:100%; min-width:0; display:block;
+  aspect-ratio:4/5; object-fit:cover; object-position:center 55%;
+}
+@media(min-width:720px){ .plate__frame img{aspect-ratio:16/10; object-position:center 55%} }
+@media(min-width:1080px){ .plate__frame img{aspect-ratio:2/1; object-position:center 58%} }
+
+.plate__cap{display:grid; grid-template-columns:1fr; background:var(--card)}
+@media(min-width:900px){
+  .plate__cap{grid-template-columns:1.6fr 1fr}
+  .plate__cap > div:first-child{border-right:1px solid var(--rule)}
+}
+.plate__strap{
+  padding:20px 18px; font-family:var(--shout); text-transform:uppercase;
+  font-size:clamp(23px,4.1vw,54px); line-height:.98; min-width:0;
+}
+.plate__strap b{color:var(--red-ink); font-weight:inherit}
+.plate__meta{padding:16px 18px; min-width:0}
+.plate__meta .row{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:10px}
+.plate__meta .row span:first-child{
+  font-family:var(--spec); font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+}
+.plate__meta p{font-family:var(--spec); font-size:10.5px; line-height:1.65; color:var(--ink-45)}
+
+/* ===========================================================
+   6. RUNNING BAND
+   =========================================================== */
+.band{
+  background:var(--ink); color:var(--card);
+  border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+  overflow:hidden; white-space:nowrap;
+}
+.band__run{display:inline-block; animation:slide 38s linear infinite; will-change:transform}
+.band span{
+  font-family:var(--shout); font-size:clamp(21px,3.2vw,34px);
+  text-transform:uppercase; letter-spacing:.01em; padding:9px 0; display:inline-block;
+}
+.band i{font-style:normal; color:var(--yellow); padding:0 .55em}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ===========================================================
+   7. SLABS. Copy as graphic. The whole position, in one rule.
+   =========================================================== */
+.slab{padding:38px 18px 34px; border-bottom:1px solid var(--rule); min-width:0}
+.slab:last-child{border-bottom:0}
+.slab__label{
+  font-family:var(--spec); font-size:10px; letter-spacing:.18em;
+  text-transform:uppercase; margin-bottom:18px; opacity:.72;
+}
+.slab__line{
+  font-family:var(--shout); text-transform:uppercase; line-height:.88;
+  letter-spacing:-.01em; font-size:clamp(40px,10.4vw,142px);
+}
+.slab__sub{
+  margin-top:20px; max-width:52ch; font-size:15.5px; line-height:1.5;
+  padding-top:14px; border-top:1px solid currentColor;
+}
+.slab__meta{margin-top:16px; display:flex; gap:8px; flex-wrap:wrap}
+
+/* the headline slab composes as a poster: line left, read-out right */
+@media(min-width:1000px){
+  .slab--poster{display:grid; grid-template-columns:1.55fr 1fr; gap:34px; align-items:end}
+  .slab--poster > *{min-width:0}
+  .slab--poster .slab__label{grid-column:1/-1; margin-bottom:4px}
+  .slab--poster .slab__line{margin-bottom:-.09em}
+  .slab--poster .slab__sub{margin-top:0}
+}
+.slab--y{background:var(--yellow); color:var(--ink)}
+.slab--b{background:var(--blue); color:var(--card)}
+.slab--k{background:var(--board-2); color:var(--ink)}
+.slab--y .chip,.slab--b .chip,.slab--k .chip{background:transparent; border-color:currentColor; color:inherit}
+
+.slabpair{display:grid; grid-template-columns:1fr}
+@media(min-width:900px){
+  .slabpair{grid-template-columns:1.25fr 1fr}
+  .slabpair > .slab{border-bottom:0}
+  .slabpair > .slab:first-child{border-right:1px solid var(--rule)}
+}
+.slabpair .slab__line{font-size:clamp(32px,5.4vw,66px)}
+
+/* ===========================================================
+   8. INTRO (what this is)
+   =========================================================== */
+.intro{display:grid; grid-template-columns:1fr}
+@media(min-width:900px){
+  .intro{grid-template-columns:1.3fr 1fr}
+  .intro__a{border-right:1px solid var(--rule)}
+}
+.intro__a{padding:28px 18px}
+.intro__a p + p{margin-top:14px}
+.intro__b{background:var(--yellow); padding:28px 18px; display:flex; flex-direction:column; justify-content:center}
+.intro__b p{font-family:var(--shout); text-transform:uppercase; font-size:clamp(30px,4.6vw,54px); line-height:.94}
+.intro__b .src{
+  font-family:var(--spec); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase;
+  margin-top:18px; padding-top:12px; border-top:1px solid var(--ink);
+}
+
+/* ===========================================================
+   9. THE WORK (packages)
+   =========================================================== */
+.shelf{display:grid; grid-template-columns:1fr; border-top:1px solid var(--rule)}
+@media(min-width:720px){ .shelf{grid-template-columns:1fr 1fr} }
+@media(min-width:1080px){ .shelf{grid-template-columns:repeat(3,1fr)} }
+
+.pack{
+  border-right:1px solid var(--rule); border-bottom:1px solid var(--rule);
+  background:var(--card); display:flex; flex-direction:column;
+  text-decoration:none; color:inherit; position:relative;
+  transition:transform .14s ease, box-shadow .14s ease;
+}
+.pack:hover,.pack:focus-visible{transform:translate(-3px,-3px); box-shadow:5px 5px 0 var(--ink); z-index:5}
+.pack:focus-visible{outline:2px solid var(--blue); outline-offset:-3px}
+/* spans chosen so the grid never leaves a hole:
+   3 col: (2+1)(1+2)(3)    2 col: (2)(1+1)(2)(2) */
+@media(min-width:720px){ .pack--wide{grid-column:span 2} .pack--full{grid-column:1/-1} }
+
+.pack__band{height:9px; border-bottom:1px solid var(--rule)}
+.pack__top{display:flex; align-items:center; gap:8px; padding:7px 11px; border-bottom:1px solid var(--rule); flex-wrap:wrap}
+.pack__no{font-family:var(--spec); font-size:10px; letter-spacing:.1em; color:var(--ink-45); margin-left:auto}
+.pack__face{padding:22px 14px 26px; flex:1; position:relative; overflow:hidden; min-width:0}
+/* a card two tracks wide gets two columns of content, so the width is
+   used rather than left as a hole beside the name */
+@media(min-width:900px){
+  .pack--wide .pack__face{display:grid; grid-template-columns:1.05fr 1fr; gap:26px; align-items:start}
+  .pack--wide .pack__face > *{min-width:0}
+}
+.facenote{margin-top:16px; padding-top:13px; border-top:1px solid var(--soft)}
+.facenote h4{
+  font-family:var(--spec); font-size:9.5px; letter-spacing:.14em; font-weight:700;
+  text-transform:uppercase; color:var(--ink-45); margin-bottom:5px;
+}
+.facenote p{font-size:13.5px; line-height:1.5}
+.facenote .term{font-family:var(--spec); font-weight:700; background:var(--yellow); padding:1px 4px; border:1px solid var(--ink)}
+.pack__name{
+  font-family:var(--shout); text-transform:uppercase; line-height:.88;
+  font-size:clamp(40px,7.4vw,64px); letter-spacing:-.01em; position:relative;
+}
+.pack--wide .pack__name,.pack--full .pack__name{font-size:clamp(44px,8.4vw,92px)}
+.pack__claim{margin-top:13px; font-size:16px; line-height:1.35; font-weight:600; max-width:30ch; position:relative}
+.pack__sub{margin-top:9px; font-size:13.5px; line-height:1.5; color:var(--ink-70); max-width:48ch; position:relative}
+.pack__dots{position:absolute; right:-16px; bottom:-16px; width:130px; height:130px; pointer-events:none}
+
+.pack__note{border-top:1px solid var(--soft); padding:12px}
+.pack__note h4,.pack__out h4{
+  font-family:var(--spec); font-size:9.5px; letter-spacing:.14em; font-weight:700;
+  text-transform:uppercase; color:var(--ink-45); margin-bottom:5px;
+}
+.pack__note p{font-size:13.5px; line-height:1.5}
+.pack__note .term{font-family:var(--spec); font-weight:700; background:var(--yellow); padding:1px 4px; border:1px solid var(--ink)}
+
+.pack__spec{border-top:1px solid var(--rule)}
+.pack__spec dl{display:grid; grid-template-columns:auto 1fr; margin:0}
+.pack__spec dt{
+  font-family:var(--spec); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-45); padding:5px 10px; border-right:1px solid var(--soft);
+  border-bottom:1px solid var(--soft); white-space:nowrap;
+}
+.pack__spec dd{margin:0; padding:5px 10px; font-family:var(--spec); font-size:11.5px; border-bottom:1px solid var(--soft); line-height:1.45}
+.pack__spec dl > :nth-last-child(1),.pack__spec dl > :nth-last-child(2){border-bottom:0}
+
+.pack__out{border-top:1px solid var(--rule); padding:12px; background:var(--board)}
+.pack__out p{font-size:13.5px; font-weight:600; line-height:1.4}
+
+/* VIST, full width, two columns */
+.pack--full .pack__face{display:grid; grid-template-columns:1fr; gap:24px}
+@media(min-width:900px){ .pack--full .pack__face{grid-template-columns:1.15fr 1fr; align-items:start} }
+.panel{border:1px solid var(--rule); background:var(--board-2)}
+.panel__h{padding:7px 11px; border-bottom:1px solid var(--rule); font-family:var(--spec); font-size:10px; letter-spacing:.16em; font-weight:700; text-transform:uppercase}
+.panel__big{padding:18px 11px 8px; font-family:var(--shout); line-height:.92; font-size:clamp(30px,5vw,50px); text-transform:uppercase}
+.panel__body{padding:0 11px 14px; font-size:13.5px; line-height:1.5; max-width:42ch}
+.panel__row{display:flex; justify-content:space-between; gap:12px; padding:7px 11px; border-top:1px solid var(--soft); font-family:var(--spec); font-size:11px}
+.panel__row b{font-weight:700; text-align:right}
+
+/* ===========================================================
+   10. REFUSALS TABLE
+   =========================================================== */
+.refuse th,.refuse td{
+  text-align:left; vertical-align:top; padding:12px;
+  border-bottom:1px solid var(--soft); border-right:1px solid var(--soft);
+}
+.refuse th{
+  font-family:var(--spec); font-size:9.5px; letter-spacing:.14em; font-weight:700;
+  text-transform:uppercase; background:var(--board); border-bottom:1px solid var(--rule); color:var(--ink-70);
+}
+.refuse td:last-child,.refuse th:last-child{border-right:0}
+.refuse tbody tr:last-child td{border-bottom:0}
+.refuse .c1{width:16%; font-family:var(--spec); font-size:11px; letter-spacing:.06em; text-transform:uppercase; font-weight:700}
+.refuse .c2{width:40%; font-size:15px; font-weight:600; line-height:1.38}
+.refuse .c3{width:44%; font-size:13.5px; color:var(--ink-70); line-height:1.5}
+.refuse tbody tr:hover{background:var(--board)}
+@media(max-width:760px){
+  .refuse thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .refuse tr{display:block; border-bottom:1px solid var(--rule); padding:5px 0}
+  .refuse tbody tr:last-child{border-bottom:0}
+  .refuse td{display:block; width:auto !important; border:0; padding:3px 12px}
+  .refuse .c1{padding-top:13px; color:var(--red-ink)}
+  .refuse .c3{padding-bottom:13px}
+}
+
+/* ===========================================================
+   11. PRINCIPLES
+   =========================================================== */
+.rules li{
+  display:grid; grid-template-columns:auto 1fr; gap:14px; align-items:baseline;
+  padding:16px; border-bottom:1px solid var(--soft);
+}
+.rules li:last-child{border-bottom:0}
+.rules li:hover{background:var(--board)}
+.rules .n{font-family:var(--spec); font-size:11px; font-weight:700; color:var(--red-ink)}
+.rules .t{font-family:var(--shout); text-transform:uppercase; line-height:.98; font-size:clamp(23px,3.6vw,42px)}
+
+/* ===========================================================
+   12. STATEMENTS
+   =========================================================== */
+.sworn li{
+  display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:start;
+  padding:17px 16px; border-bottom:1px solid var(--soft);
+}
+.sworn li:last-child{border-bottom:0}
+.sworn li:hover{background:var(--board)}
+.sworn .n{font-family:var(--spec); font-size:11px; font-weight:700; color:var(--ink-45); padding-top:6px}
+.sworn .t{font-size:clamp(18px,2.3vw,25px); line-height:1.28; font-weight:600; max-width:44ch}
+
+/* ===========================================================
+   13. NOT ON THIS PAGE
+   =========================================================== */
+.absent{display:grid; grid-template-columns:1fr}
+@media(min-width:880px){ .absent{grid-template-columns:repeat(3,1fr)} }
+.absent > div{padding:22px 16px; border-right:1px solid var(--soft); border-bottom:1px solid var(--soft)}
+.absent > div:last-child{border-right:0}
+.absent h3{
+  font-family:var(--shout); text-transform:uppercase; line-height:.96;
+  font-size:clamp(24px,3.2vw,34px); margin-bottom:12px;
+}
+.absent p{font-size:14px; line-height:1.55; color:var(--ink-70)}
+.absent .chip{margin-top:14px}
+.slots{display:grid; grid-template-columns:1fr 1fr 1fr; gap:7px; margin-top:16px}
+.slot{
+  border:1px solid var(--soft); background:var(--board); min-height:54px;
+  display:flex; align-items:flex-end; padding:7px;
+  font-family:var(--spec); font-size:9px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--ink-45); line-height:1.4;
+}
+
+/* ===========================================================
+   14. BATCH + CONTACT + FOOTER
+   =========================================================== */
+.batch{display:grid; grid-template-columns:1fr}
+@media(min-width:720px){ .batch{grid-template-columns:1fr 1fr 1fr} .batch > a{border-right:1px solid var(--soft)} .batch > a:last-child{border-right:0} }
+.mini{padding:22px 16px; text-decoration:none; color:inherit; transition:background .14s ease; display:block}
+.mini:hover,.mini:focus-visible{background:var(--board)}
+.mini h3{font-family:var(--shout); font-size:clamp(28px,4vw,44px); text-transform:uppercase; line-height:.95}
+.mini p{margin-top:9px; font-size:14px; line-height:1.5; color:var(--ink-70); max-width:40ch}
+.mini .row{margin-top:13px; display:flex; gap:7px; flex-wrap:wrap; align-items:center}
+
+.made{display:grid; grid-template-columns:1fr}
+@media(min-width:880px){ .made{grid-template-columns:1.25fr 1fr} .made__a{border-right:1px solid var(--rule)} }
+.made__a{padding:32px 18px}
+.made__a h3{font-family:var(--shout); font-size:clamp(40px,7.4vw,86px); line-height:.9; text-transform:uppercase}
+.made__cta{display:flex; gap:10px; flex-wrap:wrap; margin-top:24px}
+.btn{
+  display:inline-flex; align-items:center; gap:9px; text-decoration:none;
+  border:1px solid var(--ink); background:var(--card); padding:11px 15px;
+  font-family:var(--spec); font-size:11.5px; letter-spacing:.12em;
+  text-transform:uppercase; font-weight:700;
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.btn:hover,.btn:focus-visible{transform:translate(-2px,-2px); box-shadow:4px 4px 0 var(--ink)}
+.btn--f{background:var(--ink); color:var(--card)}
+.btn--f:hover,.btn--f:focus-visible{box-shadow:4px 4px 0 var(--red)}
+.btn--off{color:var(--ink-45); border-color:var(--soft); pointer-events:none}
+.btn svg{width:20px; height:10px; flex:none}
+.made__b{background:var(--board)}
+.made__b dl{display:grid; grid-template-columns:auto 1fr; margin:0}
+.made__b dt{
+  font-family:var(--spec); font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-45); padding:10px 12px; border-bottom:1px solid var(--soft);
+  border-right:1px solid var(--soft); white-space:nowrap;
+}
+.made__b dd{margin:0; padding:10px 12px; font-family:var(--spec); font-size:12px; border-bottom:1px solid var(--soft); line-height:1.5; overflow-wrap:anywhere}
+.made__b dd a{text-decoration:none; border-bottom:1px solid var(--red-ink); color:var(--red-ink)}
+.made__b dl > :nth-last-child(1),.made__b dl > :nth-last-child(2){border-bottom:0}
+
+.foot{border-top:1px solid var(--rule); display:grid; grid-template-columns:repeat(2,1fr)}
+@media(min-width:720px){ .foot{grid-template-columns:repeat(4,1fr)} }
+.foot a{
+  padding:12px; border-right:1px solid var(--soft); border-bottom:1px solid var(--soft);
+  font-family:var(--spec); font-size:10.5px; letter-spacing:.11em; text-transform:uppercase;
+  text-decoration:none; text-align:center;
+}
+.foot a:hover,.foot a:focus-visible{background:var(--yellow)}
+.colophon{
+  padding:14px 16px; font-family:var(--spec); font-size:10px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--ink-45); line-height:1.7;
+  display:flex; gap:18px; flex-wrap:wrap; justify-content:space-between;
+}
+
+/* ===========================================================
+   15. MOTION, GATED
+   =========================================================== */
+.reveal{opacity:0; transform:translateY(10px); transition:opacity .5s ease, transform .5s ease}
+.reveal.in{opacity:1; transform:none}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important}
+  .band__run{animation:none; transform:none}
+  .reveal{opacity:1; transform:none}
+  .pack:hover,.btn:hover{transform:none}
+}
+
+.skip{position:absolute; left:-9999px; top:0; background:var(--ink); color:var(--card); padding:10px 14px; z-index:200; font-family:var(--spec); font-size:12px}
+.skip:focus{left:14px; top:14px}
+:focus-visible{outline:2px solid var(--blue); outline-offset:2px}
+</style>
+</head>
+
+<body>
+<div class="perf" aria-hidden="true"></div>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- mechanical marks only. straight segments, no simulated hand. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="m-arrow">
+      <path d="M1 5h30M25 1l6 4-6 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter"/>
+    </g>
+  </defs>
+</svg>
+
+<div class="sheet">
+
+  <!-- ============ REGULATORY STRIP ============ -->
+  <div class="strip" aria-hidden="true">
+    <span>Rishabh Jain</span>
+    <span>Product designer and consultant</span>
+    <span>Bengaluru, India</span>
+    <span>Index 2026</span>
+  </div>
+
+  <!-- ============ NAV ============ -->
+  <header class="edge">
+    <div class="edge__brand">The Ardent Guy</div>
+    <div class="edge__sku">Portfolio / 01</div>
+    <nav aria-label="Primary">
+      <a href="#work">Work</a>
+      <a href="#refused">Refused</a>
+      <a href="#how">How</a>
+      <a href="#statements">Statements</a>
+      <a href="../desserts.html">Desserts</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="main">
+
+  <!-- ============ 1. MASTHEAD ============ -->
+  <section class="mast" aria-labelledby="mh">
+    <div class="mast__panel">
+      <p class="mast__kick" id="mh">Product designer. Builder. Illustrator. Maladaptive daydreamer.</p>
+      <h1 class="wordmark">The<br>Ardent<br>Guy<span class="dot">.</span></h1>
+    </div>
+
+    <div class="mast__side">
+      <nav class="index" aria-label="Contents">
+        <p class="index__h">Contents</p>
+        <ol>
+          <li><span>01</span><a href="#work">Selected work</a><em>5</em></li>
+          <li><span>02</span><a href="#refused">What we refused</a><em>8</em></li>
+          <li><span>03</span><a href="#how">How the work gets made</a><em>6</em></li>
+          <li><span>04</span><a href="#statements">Six statements</a><em>6</em></li>
+          <li><span>05</span><a href="#absent">Not on this page</a><em>3</em></li>
+        </ol>
+      </nav>
+
+      <div class="spec" style="margin-top:22px">
+        <dl>
+          <dt>Working on</dt><dd>Product design and consulting, research through build</dd>
+          <dt>Based</dt><dd>Bengaluru, India. Works remote.</dd>
+          <dt>Studio</dt><dd>Bleed &amp; Margins</dd>
+          <dt>On this page</dt><dd>Five case studies, two smaller builds, six statements</dd>
+          <dt>Method</dt><dd>Story and meaning first. Screens second.</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2. THE PLATE ============ -->
+  <figure class="plate">
+    <div class="plate__frame">
+      <img src="../assets/hero.jpg"
+           alt="Rishabh Jain sitting at a wooden picnic table in the mountains, seen from behind, with two of his own illustrated characters drawn into the photograph sitting at the table with him. One of them is saying whoa."
+           width="1200" height="1600">
+    </div>
+    <figcaption class="plate__cap">
+      <div class="plate__strap">The guy who brings <b>his own characters</b> to the table.</div>
+      <div class="plate__meta">
+        <div class="row">
+          <span>Fig. 1 &nbsp;Rishabh Jain</span>
+          <span class="chip chip--n">Photograph</span>
+          <span class="chip chip--y">Characters drawn in</span>
+        </div>
+        <p>
+          The only photograph on this site, and the only place the characters
+          appear. Everything after this is set in type, which is the honest way
+          to present work when three of the five products can no longer be shown.
+        </p>
+      </div>
+    </figcaption>
+  </figure>
+
+  <!-- ============ RUNNING BAND ============ -->
+  <div class="band" aria-hidden="true">
+    <div class="band__run">
+      <span>Story and meaning first<i>/</i>Screens second<i>/</i>Story and meaning first<i>/</i>Screens second<i>/</i>Story and meaning first<i>/</i>Screens second<i>/</i>Story and meaning first<i>/</i>Screens second<i>/</i></span>
+    </div>
+  </div>
+
+  <!-- ============ 2. WHAT THIS IS ============ -->
+  <section class="sec" aria-labelledby="wt">
+    <div class="sec__bar">
+      <h2 id="wt">What this is</h2>
+      <span class="note">Five case studies, 1,500 to 2,500 words each</span>
+    </div>
+
+    <div class="intro">
+      <div class="intro__a">
+        <p class="lede">
+          Five finished case studies. Each one follows a project from the first
+          question to the thing that shipped, and each decision in them ends where
+          decisions actually end, which is in a trade-off rather than a win.
+        </p>
+        <p class="lede">
+          Most of them carry a table of what was refused and why. Those tables
+          are usually the most useful page in a write-up and the least read, so a
+          summary of all of them is on this page, below the work.
+        </p>
+        <p class="small" style="margin-top:18px">
+          Where a project has no numbers, it says so. Where a product is no longer
+          online, it says that too. Nothing on this page is estimated, inferred
+          from something adjacent, or borrowed from a neighbouring metric.
+        </p>
+      </div>
+      <div class="intro__b">
+        <p>Done only<br>when it<br>is done.</p>
+        <p class="src">Working standard</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3. SLAB: FALSE CONFIRMATION ============ -->
+  <section class="sec" aria-label="Key finding">
+    <div class="slab slab--y slab--poster">
+      <p class="slab__label">The finding the work turned on</p>
+      <p class="slab__line">False<br>confirmation.</p>
+      <div>
+        <p class="slab__sub">
+          In an alpha test with four real business owners, nearly every failure was
+          the same failure: the system claiming something was true when it was not.
+          Naming it changed what the product had to do next.
+        </p>
+        <div class="slab__meta">
+          <span class="chip">Produsa</span>
+          <span class="chip">Alpha, 4 owners</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4. THE WORK ============ -->
+  <section class="sec" id="work" aria-labelledby="wk">
+    <div class="sec__bar">
+      <h2 id="wk">Selected work</h2>
+      <span class="chip chip--n">Five projects</span>
+      <span class="note">Open any card for the full case study</span>
+    </div>
+
+    <div class="shelf">
+
+      <!-- 01 PRODUSA -->
+      <a class="pack pack--wide" href="../produsa.html">
+        <div class="pack__band" style="background:var(--yellow)"></div>
+        <div class="pack__top">
+          <span class="chip chip--y">AI product</span>
+          <span class="chip">Produsa Labs</span>
+          <span class="pack__no">01 / 05</span>
+        </div>
+        <div class="pack__face">
+          <div class="screen pack__dots" aria-hidden="true"></div>
+          <div>
+            <h3 class="pack__name">Produsa</h3>
+            <p class="pack__claim">Turning a website build into a conversation.</p>
+          </div>
+          <div>
+            <p class="pack__sub" style="margin-top:0">
+              An AI studio that scopes, designs, builds and edits websites for small
+              business owners in tier-2 and tier-3 Indian cities, over chat, in their
+              own language.
+            </p>
+            <div class="facenote">
+              <h4>Research spine</h4>
+              <p>
+                An alpha with four real owners, where nearly every failure was the
+                system claiming something was true when it was not. The team named it
+                <span class="term">false confirmation</span> and built against it.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="pack__spec">
+          <dl>
+            <dt>Role</dt><dd>Product Designer and Builder</dd>
+            <dt>Period</dt><dd>Feb to Oct 2026</dd>
+            <dt>Team</dt><dd>4</dd>
+          </dl>
+        </div>
+        <div class="pack__out">
+          <h4>Outcome</h4>
+          <p>600+ sites in the first two months after the August 2026 launch, with paying users.</p>
+        </div>
+      </a>
+
+      <!-- 02 SUPACA -->
+      <a class="pack" href="../supaca.html">
+        <div class="pack__band" style="background:var(--blue)"></div>
+        <div class="pack__top">
+          <span class="chip chip--b">Private network</span>
+          <span class="pack__no">02 / 05</span>
+        </div>
+        <div class="pack__face">
+          <div class="screen pack__dots" aria-hidden="true"></div>
+          <h3 class="pack__name">Supaca</h3>
+          <p class="pack__claim">A private network for India's supercar owners.</p>
+          <p class="pack__sub">
+            Verified owners, real clubs, one screen showing who is coming to the
+            drive and what they are bringing. Roughly 3,000 to 6,000 owners
+            nationally, with cars worth 2 to 20 crore.
+          </p>
+        </div>
+        <div class="pack__spec">
+          <dl>
+            <dt>Role</dt><dd>Lead UI/UX Designer</dd>
+            <dt>Period</dt><dd>Nov 2024 to Nov 2025</dd>
+            <dt>Status</dt><dd>v1 rebuilt by the team into the live beta</dd>
+          </dl>
+        </div>
+        <div class="pack__out">
+          <h4>Outcome</h4>
+          <p>340 verified owners. Zero fake members.</p>
+        </div>
+      </a>
+
+      <!-- 03 HASTA -->
+      <a class="pack" href="../hasta.html">
+        <div class="pack__band" style="background:var(--red)"></div>
+        <div class="pack__top">
+          <span class="chip chip--r">AI, cited</span>
+          <span class="pack__no">03 / 05</span>
+        </div>
+        <div class="pack__face">
+          <div class="screen pack__dots" aria-hidden="true"></div>
+          <h3 class="pack__name">Hasta</h3>
+          <p class="pack__claim">An AI palm reader that shows what it read.</p>
+          <p class="pack__sub">
+            Reads a palm through three traditions and cites the book behind every
+            claim it makes.
+          </p>
+        </div>
+        <div class="pack__note">
+          <h4>Logged, not resolved</h4>
+          <p>Nine conflicts between the three schools are recorded in the product. One of them is still open.</p>
+        </div>
+        <div class="pack__spec">
+          <dl>
+            <dt>Role</dt><dd>Lead Designer, UI/UX/AIX</dd>
+            <dt>Build</dt><dd>1 month, launched August 2026</dd>
+            <dt>Live at</dt><dd>hasta.produsa.app</dd>
+          </dl>
+        </div>
+        <div class="pack__out">
+          <h4>Outcome</h4>
+          <p>4.7% free to paid. 850 readings in two months. No subscriptions and no fear-selling.</p>
+        </div>
+      </a>
+
+      <!-- 04 BIZOTICO -->
+      <a class="pack pack--wide" href="../bizotico.html">
+        <div class="pack__band" style="background:var(--green)"></div>
+        <div class="pack__top">
+          <span class="chip chip--g">E-commerce</span>
+          <span class="chip">Now The Timekeepers</span>
+          <span class="pack__no">04 / 05</span>
+        </div>
+        <div class="pack__face">
+          <div class="screen pack__dots" aria-hidden="true"></div>
+          <div>
+            <h3 class="pack__name">Bizotico</h3>
+            <p class="pack__claim">Competing with the marketplaces selling your own brands.</p>
+          </div>
+          <div>
+            <p class="pack__sub" style="margin-top:0">
+              25+ international watch brands, sold direct against the platforms that
+              carry the same stock at the same price.
+            </p>
+            <div class="facenote">
+              <h4>Why there is nothing to look at</h4>
+              <p>The storefront now trades as The Timekeepers, so what is left of this one is the campaign record and the reasoning.</p>
+            </div>
+          </div>
+        </div>
+        <div class="pack__spec">
+          <dl>
+            <dt>Role</dt><dd>E-commerce Designer</dd>
+            <dt>Where</dt><dd>Bengaluru</dd>
+            <dt>Period</dt><dd>6 months, 2023 to 2024</dd>
+          </dl>
+        </div>
+        <div class="pack__out">
+          <h4>Outcome</h4>
+          <p>7.85x ROAS on a May 2024 campaign. About Rs 53,000 of ad spend against Rs 4,16,131 in net sales. Around 30 orders a month early on. Still live two years later.</p>
+        </div>
+      </a>
+
+      <!-- 05 VIST LABS -->
+      <a class="pack pack--full" href="../vistlabs.html">
+        <div class="pack__band" style="background:var(--board-2)"></div>
+        <div class="pack__top">
+          <span class="chip chip--n">Two audiences</span>
+          <span class="chip">Via Bleed &amp; Margins</span>
+          <span class="pack__no">05 / 05</span>
+        </div>
+        <div class="pack__face">
+          <div>
+            <h3 class="pack__name">VIST Labs</h3>
+            <p class="pack__claim">One website, two audiences. Repositioning VIST Labs for banks and growers.</p>
+            <p class="pack__sub">
+              89% of US community banks have no plans to serve the cannabis industry
+              (RMA, 2024). So the homepage had to read as a technology company,
+              while growers got their own vocabulary one level further down the
+              same page. One site, two readings, neither audience written down to.
+            </p>
+            <div class="pack__spec" style="margin-top:22px;border-top:1px solid var(--soft)">
+              <dl>
+                <dt>Role</dt><dd>Product Designer, solo</dd>
+                <dt>Period</dt><dd>3 months</dd>
+                <dt>Client</dt><dd>VIST Labs, Illinois</dd>
+                <dt>Status</dt><dd>Site is offline. Nothing left to show.</dd>
+              </dl>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__h">Results, as recorded</div>
+            <p class="panel__big">No metrics.<br>I never installed<br>analytics.</p>
+            <p class="panel__body">
+              Nothing was measured on this build, so there is nothing to report.
+              What the project has instead is the reasoning: why each audience was
+              given the page in the order it was given, and what that cost.
+            </p>
+            <div class="panel__row"><span>Traffic</span><b>Not recorded</b></div>
+            <div class="panel__row"><span>Conversion</span><b>Not recorded</b></div>
+            <div class="panel__row"><span>Qualified leads</span><b>Not recorded</b></div>
+            <div class="panel__row"><span>Decision record</span><b>Complete, in the case study</b></div>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ============ 5. ALSO IN THIS BATCH ============ -->
+  <section class="sec" aria-labelledby="ab">
+    <div class="sec__bar">
+      <h2 id="ab">Smaller work</h2>
+      <span class="note">No metrics recorded on any of these</span>
+    </div>
+    <div class="batch">
+      <a class="mini" href="../sintero.html">
+        <h3>Sintero</h3>
+        <p>A spec-grade web and print system. One set of rules that had to hold on a screen and on a press sheet.</p>
+        <div class="row">
+          <span class="chip">Digital Design Lead</span>
+          <span class="chip chip--n">Bleed &amp; Margins</span>
+        </div>
+      </a>
+      <a class="mini" href="../koodaikind.html">
+        <h3>Koodai Kind</h3>
+        <p>A mobile-first storefront for heritage Indian craft, built for the phone it would actually be opened on.</p>
+        <div class="row">
+          <span class="chip">Storefront</span>
+          <span class="chip chip--n">Bleed &amp; Margins</span>
+        </div>
+      </a>
+      <a class="mini" href="../desserts.html">
+        <h3>Desserts</h3>
+        <p>Personal illustration work, kept separate from the client work on purpose. The characters live here.</p>
+        <div class="row">
+          <span class="chip">Personal</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ 6. WHAT WE REFUSED ============ -->
+  <section class="sec" id="refused" aria-labelledby="rf">
+    <div class="sec__bar">
+      <h2 id="rf">What we refused</h2>
+      <span class="note">Short version. Full reasoning sits in each case study.</span>
+    </div>
+
+    <div style="padding:16px">
+      <table class="refuse">
+        <thead>
+          <tr><th scope="col">Project</th><th scope="col">What was refused</th><th scope="col">What that meant</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="c1">Produsa</td>
+            <td class="c2">Letting the system confirm anything it had not actually done.</td>
+            <td class="c3">The alpha with four real owners named the failure: false confirmation. Nearly every breakage was the system claiming something was true when it was not.</td>
+          </tr>
+          <tr>
+            <td class="c1">Supaca</td>
+            <td class="c2">Open sign-up.</td>
+            <td class="c3">340 verified owners and zero fake members, in a country with roughly 3,000 to 6,000 owners of this kind in total. A smaller network, on purpose.</td>
+          </tr>
+          <tr>
+            <td class="c1">Hasta</td>
+            <td class="c2">Subscriptions, and selling through fear.</td>
+            <td class="c3">4.7% free to paid and 850 readings in two months without either one. The two easiest revenue mechanics in this category were the two we did not use.</td>
+          </tr>
+          <tr>
+            <td class="c1">Hasta</td>
+            <td class="c2">Hiding the places where the three traditions disagree.</td>
+            <td class="c3">Nine conflicts logged inside the product, one still open. A reader that cites its sources has to show you when its sources disagree.</td>
+          </tr>
+          <tr>
+            <td class="c1">VIST Labs</td>
+            <td class="c2">One voice for two audiences.</td>
+            <td class="c3">Banks got a technology company. Growers got their own vocabulary, one level further down the same page. With 89% of US community banks having no plans to serve the industry (RMA, 2024), the first read had to be the sober one.</td>
+          </tr>
+          <tr>
+            <td class="c1">VIST Labs</td>
+            <td class="c2">Reporting numbers that were never measured.</td>
+            <td class="c3">No analytics were installed on that build, so there is no result to report, and there is no version of this page where one appears.</td>
+          </tr>
+          <tr>
+            <td class="c1">Bizotico</td>
+            <td class="c2">No refusal table on this one.</td>
+            <td class="c3">Not every project produces one. This was six months of commercial work that performed, and it is presented that way.</td>
+          </tr>
+          <tr>
+            <td class="c1">This site</td>
+            <td class="c2">Printing praise nobody has agreed to have printed.</td>
+            <td class="c3">Three people have said generous things about this work. Permission to quote them was never confirmed, so three boxes stay empty.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ 7. HOW HE WORKS ============ -->
+  <section class="sec" id="how" aria-labelledby="hw">
+    <div class="sec__bar">
+      <h2 id="hw">How the work gets made</h2>
+      <span class="note">Standing rules, applied across projects</span>
+    </div>
+    <ol class="rules">
+      <li><span class="n">01</span><span class="t">Invent the story, never invent the state.</span></li>
+      <li><span class="n">02</span><span class="t">Say what a static site cannot do.</span></li>
+      <li><span class="n">03</span><span class="t">Trust is built in the edge cases.</span></li>
+      <li><span class="n">04</span><span class="t">Privacy fails closed.</span></li>
+      <li><span class="n">05</span><span class="t">A dead button costs more later.</span></li>
+      <li><span class="n">06</span><span class="t">Done only when it is done.</span></li>
+    </ol>
+  </section>
+
+  <!-- ============ 8. SLAB PAIR: THE VIST DISCLOSURE ============ -->
+  <section class="sec" aria-label="Two figures from the work">
+    <div class="slabpair">
+      <div class="slab slab--b">
+        <p class="slab__label">The number that set the brief</p>
+        <p class="slab__line">89% of US community banks have no plans to serve the industry.</p>
+        <p class="slab__sub">
+          Risk Management Association, 2024. It is the reason the VIST Labs homepage
+          leads as a technology company and not as a cannabis company.
+        </p>
+        <div class="slab__meta"><span class="chip">VIST Labs</span><span class="chip">RMA, 2024</span></div>
+      </div>
+      <div class="slab slab--k">
+        <p class="slab__label">And the number that does not exist</p>
+        <p class="slab__line">No metrics.<br>I never installed analytics.</p>
+        <p class="slab__sub">
+          Said plainly rather than left out. A portfolio that reports only the
+          projects it measured is reporting a selection, not a record.
+        </p>
+        <div class="slab__meta"><span class="chip">VIST Labs</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 9. SIX STATEMENTS ============ -->
+  <section class="sec" id="statements" aria-labelledby="st">
+    <div class="sec__bar">
+      <h2 id="st">Six statements</h2>
+      <span class="note">All true. None of them illustrated.</span>
+    </div>
+    <ol class="sworn">
+      <li><span class="n">01</span><span class="t">Curated the design and digital experience for a drive event with Ferrari India.</span></li>
+      <li><span class="n">02</span><span class="t">Built a desktop app for my cat. He passed. The app is still running.</span></li>
+      <li><span class="n">03</span><span class="t">Stood up against police brutality in college. There is an article with my picture.</span></li>
+      <li><span class="n">04</span><span class="t">Made a dating app that matches you based on your trauma.</span></li>
+      <li><span class="n">05</span><span class="t">Built AI agents that run a marketing department autonomously.</span></li>
+      <li><span class="n">06</span><span class="t">Organised open mics, music jams, and poetry nights across Bengaluru for four years.</span></li>
+    </ol>
+  </section>
+
+  <!-- ============ 10. NOT ON THIS PAGE ============ -->
+  <section class="sec" id="absent" aria-labelledby="np">
+    <div class="sec__bar">
+      <h2 id="np">Not on this page</h2>
+      <span class="note">Stated once, here, rather than quietly worked around</span>
+    </div>
+    <div class="absent">
+      <div>
+        <h3>No testimonials</h3>
+        <p>
+          Three people have said generous things about this work. None of them has
+          been asked for permission to be quoted, so none of them is printed here.
+          The three boxes stay empty until that permission is given in writing.
+        </p>
+        <div class="slots" aria-hidden="true">
+          <div class="slot">Reserved</div>
+          <div class="slot">Reserved</div>
+          <div class="slot">Reserved</div>
+        </div>
+      </div>
+      <div>
+        <h3>No product screens for three of the five</h3>
+        <p>
+          VIST Labs is offline. Supaca v1 was rebuilt by the team into the live
+          beta. Bizotico now trades as The Timekeepers. What remains of those three
+          is the reasoning, which was the part that was mine in any case.
+        </p>
+        <span class="chip chip--n">VIST / Supaca / Bizotico</span>
+      </div>
+      <div>
+        <h3>No numbers where nothing was measured</h3>
+        <p>
+          VIST Labs, Sintero and Koodai Kind carry no metrics. Nothing was
+          instrumented on any of them, so nothing is claimed for any of them.
+        </p>
+        <span class="chip chip--n">Three projects</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 11. CONTACT ============ -->
+  <section class="sec" id="contact" aria-labelledby="ct">
+    <div class="sec__bar">
+      <h2 id="ct">Contact</h2>
+      <span class="note">Bengaluru, India. Works remote.</span>
+    </div>
+
+    <div class="made">
+      <div class="made__a">
+        <h3>Bring the<br>problem,<br>not the<br>screen.</h3>
+        <p class="lede" style="margin-top:22px">
+          Product work end to end: research, interface, the build if you want it
+          built, and a written record of every trade-off made along the way, so
+          whoever touches it next knows why it is the way it is.
+        </p>
+        <div class="made__cta">
+          <a class="btn btn--f" href="mailto:theardentguy@gmail.com">Start a conversation
+            <svg viewBox="0 0 32 10" aria-hidden="true"><use href="#m-arrow"/></svg>
+          </a>
+          <a class="btn" href="../studio.html">Bleed &amp; Margins</a>
+          <span class="btn btn--off">Resume, PDF pending</span>
+        </div>
+      </div>
+
+      <div class="made__b">
+        <dl>
+          <dt>Name</dt><dd>Rishabh Jain</dd>
+          <dt>Studio</dt><dd>Bleed &amp; Margins</dd>
+          <dt>Location</dt><dd>Bengaluru, India. Remote-first.</dd>
+          <dt>Email</dt><dd><a href="mailto:theardentguy@gmail.com">theardentguy@gmail.com</a></dd>
+          <dt>Work shown</dt><dd>5 case studies, 2 smaller builds</dd>
+          <dt>Last updated</dt><dd>2026</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <!-- ============ FOOTER AS TABLE ============ -->
+  <nav class="foot" aria-label="Footer">
+    <a href="../produsa.html">Produsa</a>
+    <a href="../supaca.html">Supaca</a>
+    <a href="../hasta.html">Hasta</a>
+    <a href="../bizotico.html">Bizotico</a>
+    <a href="../vistlabs.html">VIST Labs</a>
+    <a href="../sintero.html">Sintero</a>
+    <a href="../koodaikind.html">Koodai Kind</a>
+    <a href="../desserts.html">Desserts</a>
+  </nav>
+  <div class="colophon">
+    <span>&copy; 2026 Rishabh Jain</span>
+    <span>Direction: Large Print, exploration A</span>
+    <span>One photograph. Everything else is set.</span>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var els = document.querySelectorAll('.reveal');
+  if (reduce.matches || !('IntersectionObserver' in window)) {
+    els.forEach(function(el){ el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.15 });
+  els.forEach(function(el){ io.observe(el); });
+})();
+</script>
+
+</body>
+</html>

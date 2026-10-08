@@ -53,12 +53,38 @@
     <div class="cs-layout">
       <div class="cs-main">
 
+        <div class="no-metrics">
+          <p class="no-metrics__label">In short</p>
+          <p class="no-metrics__line">A shop owner should be able to get a real website by talking, in their own language.</p>
+          <p class="no-metrics__body">
+            <b>Role.</b> Product Designer and Builder at Produsa Labs, in a team of four, February to October 2026.<br>
+            <b>The decisions that matter.</b> The chat can only say "done" when the page has actually changed. The agent says plainly what a static site cannot do, and offers the thing that works instead. The whole build runs inside a messaging app, in multiple languages.<br>
+            <b>Result.</b> 600+ sites built in the first two months after the August 2026 launch.<br>
+            <b>Link.</b> [ LINK: the live product ]
+          </p>
+        </div>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">Where this starts</p>
+          <h2 class="cs-section__heading">A bakery owner uploaded her photos and was told "done" three times before they appeared.</h2>
+          <div class="cs-section__body">
+            <p>That came out of the alpha test, and only because I read the full chat transcripts instead of the session summaries. The summary did not show it. The transcript did, three times, over a page that had not changed.</p>
+            <p>We named the pattern false confirmation: the system saying something was true when it was not. Almost every failure in the test traced back to it, and it set the agenda for the rest of my work on Produsa.</p>
+          </div>
+          <blockquote class="testimonial" style="margin-top:32px;">
+            <p class="testimonial__quote is-placeholder">[ QUOTE: the bakery owner's own words from the test session, about being told the photos were up ]</p>
+            <p class="testimonial__company">[ NAME, business, city ]</p>
+          </blockquote>
+          <div class="cs-full">
+            <div class="slot">[ IMAGE: the transcript, three "done" replies over a page that never changed ]</div>
+          </div>
+        </section>
+
         <section class="cs-section reveal">
           <p class="cs-section__label">Overview</p>
           <h2 class="cs-section__heading">An agent interviews the owner the way a developer would scope a project, then builds the site.</h2>
           <div class="cs-section__body">
-            <p>Produsa builds a full website through a conversation. The agent reads the brand from references, builds the site, and lets the owner refine it by chatting. It works in a web studio and over a messaging app, in multiple languages.</p>
-            <p>Produsa launched in August 2026. I worked on it from February, through launch, until October.</p>
+            <p>Produsa builds a full website through a conversation. The agent reads the brand from references, builds the site, and lets the owner refine it by chatting, in a web studio or over a messaging app. It launched in August 2026, and I worked on it from February until October.</p>
           </div>
           <div class="cs-full">
             <div class="slot">[ IMAGE: the studio, chat on the left, the live site building in the centre ]</div>
@@ -90,43 +116,17 @@
             </table>
           </div>
           <div class="cs-section__body" style="margin-top:28px;">
-            <p>The people we designed for run a bakery, a bearings distributor, a cafe. Most are not fluent in English, design or development language.</p>
-            <p><b>The thesis:</b> if the whole build is done by agents, the cost of a good website falls and the quality holds.</p>
-          </div>
-          <div class="decision__tradeoff" style="margin-top:36px;">
-            <span class="label-inline">Problem statement</span>
-            How might we let a non-technical owner build and edit a real website by talking, and trust what the system tells them?
+            <p>The people we designed for run a bakery, a bearings distributor, a cafe. Most are not fluent in English, design or development language. If agents do the whole build, the cost of a good website falls far enough for them to afford one.</p>
           </div>
         </section>
 
         <section class="cs-section reveal">
-          <p class="cs-section__label">Research</p>
-          <h2 class="cs-section__heading">Almost every failure traced back to one pattern, which we named false confirmation.</h2>
+          <p class="cs-section__label">The alpha test</p>
+          <h2 class="cs-section__heading">Four owners, one week before launch, and a very short list of ways the system lied.</h2>
           <div class="cs-section__body">
-            <p><b>Vocabulary.</b> Owners could not answer "pick a type scale", but they could answer "who is this for?" and "show me two sites you like". Discovery had to match their mental model, so it asks about intent, and the agent translates that into design decisions.</p>
-            <p><b>Alpha user test.</b> Before the August launch we ran a structured usability test with four real business owners: a steel trader, a bearings distributor, a cat cafe and a boutique bakery. Discovery tested well. When we synthesised the findings, the failures converged on the system saying something was true when it was not.</p>
-          </div>
-          <div class="cs-section__body" style="margin-top:20px;">
-            <p>The chat said "done" to edits it never applied, for most of the owners. It invented clients, prices and testimonials, even when the brief said not to. A build that had died kept animating its progress bar into the high nineties. One owner asked for a cart and checkout on a static site, and the system added buttons that did nothing, then said the cart would "switch on when you ship it for real".</p>
-          </div>
-          <div class="no-metrics">
-            <p class="no-metrics__label">The turning point</p>
-            <p class="no-metrics__line">Reading the full transcripts instead of the summaries.</p>
-            <p class="no-metrics__body">One bakery owner uploaded her photos and was told "done" three times before they actually appeared. The fix was not a smarter agent. It was an honest one.</p>
-          </div>
-        </section>
-
-        <section class="cs-section reveal">
-          <p class="cs-section__label">The system</p>
-          <h2 class="cs-section__heading">A set of specialist agents, each with one job and a defined handoff.</h2>
-          <div class="cs-section__body">
-            <p>Research, art direction, content, build, then a QA pass. When quality drops, the team can see which stage failed.</p>
-            <p>At my studio, Bleed and Margins, I had led a team through website projects for D2C brands, and every project ran the same way: research the brand, study the competitors, set the creative direction, write the content, build, then review. So the agent structure came naturally. Each step became a specialist agent with its own skill file and handoff. Designing the pipeline mostly meant writing down a process I already ran with people.</p>
-            <p>On high-stakes calls, like art direction and whether a brief is feasible, agents debate a position against a critique. I designed that debate so disagreement is cheap and the losing argument is logged. Debate costs time and tokens, so it only runs on the few decisions that change the outcome.</p>
-            <p>The user never sees any of this. Internal states collapse into one plain message: still working.</p>
-          </div>
-          <div class="cs-full">
-            <div class="slot">[ IMAGE: the agent pipeline, research to art direction to content to build to QA ]</div>
+            <p>Before the August launch we ran a structured usability test with four real business owners: a steel trader, a bearings distributor, a cat cafe and a boutique bakery.</p>
+            <p>Discovery tested well. Owners could not answer "pick a type scale", but they could answer "who is this for?" and "show me two sites you like", so that is what the interview asks, and the agent turns the answers into design decisions.</p>
+            <p>Everything else that failed, failed the same way. The chat said "done" to edits it never applied. It invented clients, prices and testimonials, even when the brief said not to. A build that had died kept animating its progress bar toward 100%. One owner asked for a cart and checkout on a static site, and the system added buttons that did nothing, then said the cart would "switch on when you ship it for real".</p>
           </div>
         </section>
 
@@ -141,17 +141,16 @@
             <p class="decision__text">The chat used to decide it had succeeded based on what the model said, or because a version got saved.</p>
             <hr class="rule decision__rule">
             <p class="decision__sublabel">The decision</p>
-            <p class="decision__text is-decision">I moved success checks to the result, so the assistant's confidence matches what actually happened. The reply can only claim a change if the page itself changed. For images, the system checks that the image data is embedded on the page, not just that an upload tool ran.</p>
+            <p class="decision__text is-decision">I moved the success check to the result. The reply can only claim a change if the page itself changed. For images, the system checks that the image data is on the page, not just that an upload tool ran.</p>
             <div class="decision__tradeoff">
-              <span class="label-inline">The trade-off</span>
-              Sometimes the chat now says "I could not apply that" where it used to say "done". That reads as a weaker assistant for one message. This single change fixed false confirmation.
+              Sometimes the chat now says "I could not apply that" where it used to say "done". For one message it reads as a weaker assistant, and it is the change that fixed false confirmation.
             </div>
             <div class="plate">
               <div class="plate__grid">
                 <div class="plate__half"><span><span class="plate__state">What we killed</span>[ DRAWING: the chat saying "done!" over a page that never changed, owner smiling at nothing ]</span></div>
                 <div class="plate__half"><span><span class="plate__state">What we shipped</span>[ DRAWING: the chat admitting it could not apply the edit, owner mildly annoyed but informed ]</span></div>
               </div>
-              <p class="plate__caption">Trade-off plate 01. The confident lie, beside the useful admission.</p>
+              <p class="plate__caption">Plate 01. The confident lie, beside the useful admission.</p>
             </div>
           </div>
 
@@ -162,32 +161,24 @@
             <p class="decision__text">A finished Produsa site is static. It cannot run a cart, checkout, payments or logins. The system was promising all four.</p>
             <hr class="rule decision__rule">
             <p class="decision__sublabel">The decision</p>
-            <p class="decision__text is-decision">The agent refuses those requests plainly and offers what works instead: an order-by-message button on each product, or a quote button that opens the enquiry form with the item filled in. I also found the "switches on when you ship" promise written into the system prompt itself, and removed it everywhere.</p>
-            <div class="decision__tradeoff">
-              <span class="label-inline">The trade-off</span>
-              Saying "I cannot build a live checkout" can lose a sale in the moment. A dead button costs more later.
-            </div>
+            <p class="decision__text is-decision">The agent refuses those requests plainly and offers what works instead: an order-by-message button on each product, or a quote button that opens the enquiry form with the item filled in. I also found the "switches on when you ship" promise written into the system prompt itself, and removed it everywhere. Saying "I cannot build a live checkout" can lose a sale in the moment, and a button that does nothing costs more a week later.</p>
           </div>
 
           <div class="decision" id="d3">
             <span class="decision__ghost" aria-hidden="true">03</span>
             <h3 class="decision__heading">Progress that cannot lie.</h3>
             <p class="decision__sublabel">What happened</p>
-            <p class="decision__text">A build takes minutes. An earlier version once froze at 20% for 15 minutes while the build ran fine underneath it.</p>
+            <p class="decision__text">A build takes minutes, and the wait lied in both directions. One version froze at 20% for 15 minutes while the build ran fine underneath it. Another kept climbing toward 100% on a build that had already died.</p>
             <hr class="rule decision__rule">
             <p class="decision__sublabel">The decision</p>
-            <p class="decision__text is-decision">The narration can be dramatic, but system status has to be accurate. Progress stops at 90 to 95% until the build is finished, so it never looks done while it is stuck. When the system needs the user, every agent card switches to "Waiting for input". The wait has four layers: a pulse before the first event, narration paced to the median build time with a real clock, a panel showing elapsed time and finished agents, and a live scene that falls back to that panel if it fails to load.</p>
-            <p class="decision__text is-decision" style="margin-top:16px;">Progress survives a refresh, a reconnect or a missed event. Loading, waiting and error states were each designed as their own screens, and the chat is never silent. If a provider key runs out of credits, the build switches to the next valid one. A lapsed site is paused, never deleted.</p>
-            <div class="decision__tradeoff">
-              <span class="label-inline">The trade-off</span>
-              Real progress moves in uneven jumps, and "still working" is less comforting than a fake 92%. The user test showed the fake version is what loses trust.
-            </div>
+            <p class="decision__text is-decision">Those are two problems, so they got two fixes. The bar is driven by real build events, so it survives a refresh, a reconnect or a missed event, and it stops at 90 to 95% until the build finishes, which keeps a slow build from looking like a finished one. When the system needs the user, every agent card switches to "Waiting for input".</p>
+            <p class="decision__text is-decision" style="margin-top:16px;">A build that has stopped is not a progress problem, and no honest bar can cover it, so failure got its own screen: "something went wrong on our side, your work is saved, try again in a minute". Loading, waiting and error were each designed as separate states, the chat is never silent, and every recovery is logged, so a calm screen never hides a real outage from the team.</p>
             <div class="plate">
               <div class="plate__grid">
                 <div class="plate__half"><span><span class="plate__state">What we killed</span>[ DRAWING: a progress bar at 98% on a build that died ten minutes ago ]</span></div>
-                <div class="plate__half"><span><span class="plate__state">What we shipped</span>[ DRAWING: the bar held at 92% with a real clock and a named agent still working ]</span></div>
+                <div class="plate__half"><span><span class="plate__state">What we shipped</span>[ DRAWING: the same dead build saying so, work saved, one button to try again ]</span></div>
               </div>
-              <p class="plate__caption">Trade-off plate 02. Invent the story, never invent the state.</p>
+              <p class="plate__caption">Plate 02. Narrate the wait, never invent the state.</p>
             </div>
           </div>
 
@@ -198,37 +189,23 @@
             <p class="decision__text">The owners we designed for already live inside a messaging app, and most of them do not work in English.</p>
             <hr class="rule decision__rule">
             <p class="decision__sublabel">The decision</p>
-            <p class="decision__text is-decision">The full pipeline runs inside that messaging app, in multiple languages. A shop owner can scope, build and edit a real website without installing anything or using English. For these users, the chat is the product.</p>
+            <p class="decision__text is-decision">The full pipeline runs inside that messaging app, in multiple languages. A shop owner can scope, build and edit a real website without installing anything or using English.</p>
             <div class="decision__tradeoff">
-              <span class="label-inline">The trade-off</span>
-              A chat thread is a smaller canvas than the studio, and output quality still varies by language. We accepted that to remove the two biggest barriers: an app to learn and a language to speak.
+              A chat thread is a much smaller canvas than the studio, and output quality still varies by language. We took both to remove the two biggest barriers: an app to learn and a language to speak.
             </div>
           </div>
         </section>
 
         <section class="cs-section reveal">
-          <p class="cs-section__label">Other decisions</p>
-          <h2 class="cs-section__heading">Six smaller calls, each with a cost.</h2>
+          <p class="cs-section__label">Behind the chat</p>
+          <h2 class="cs-section__heading">Specialist agents, each with one job and a defined handoff.</h2>
           <div class="cs-section__body">
-            <p><b>A discovery interview before the build.</b> A few intent questions, then the owner picks an art direction, and the agent makes the design decisions after that. More steps than a single prompt box, accepted because an unscoped prompt produces a generic site.</p>
-            <p><b>The centre panel is always the website.</b> Research streams in, then a live clickable site, then an updating overlay during edits, then a live URL. The render pipeline has to be fast and cannot break, which moved real engineering work downstream.</p>
-            <p><b>Reference-grounded builds.</b> The agent builds from the owner's own material and sites they like, so a bearings distributor and a cat cafe look like different companies. A weak reference gives a weak build, so I built a curated library across niches to keep the floor high.</p>
-            <p><b>Editing by chat.</b> After the first build, owners refine by talking. Most of my conversational UX work lived here, especially intent resolution: the model gets an exact map of the current page, so each instruction lands on a real section. Plain language is easy for the owner and hard for the system.</p>
-            <p><b>Behavioural checks as a gate.</b> Every generated screen, and Produsa's own interface, is checked against written rules: smart defaults, a live prototype before any signup wall, the user's idea carried through signup, no hard blocks mid-edit, no fake urgency. A failed check gets one mandatory revision. It slows down shipping a good-looking screen, which is how dark patterns stay out.</p>
-          </div>
-        </section>
-
-        <section class="cs-section reveal">
-          <p class="cs-section__label">Pricing</p>
-          <h2 class="cs-section__heading">One wallet, one balance, no fake discounts.</h2>
-          <div class="cs-section__body">
-            <p><b>One wallet.</b> Building, editing and keeping a site live all draw from the same credits, so owners deal with one balance instead of separate bills.</p>
-            <p><b>Monthly plans.</b> Each plan gives a monthly credit allotment, so owners can keep editing without counting every change. Top-ups refill it.</p>
-            <p><b>Clarity.</b> A plain "where your credits go" view, and a free entry window so owners see value before the paywall.</p>
-            <p><b>No fake discounts.</b> I pulled the strike-through "was" prices from the pricing page, because those prices never existed.</p>
+            <p>Research, art direction, content, build, then a QA pass. When quality drops, the team can see which stage failed. On the two calls that change the outcome, art direction and whether a brief is feasible, two agents argue it out and the losing argument is kept.</p>
+            <p>At my studio, Bleed and Margins, I had led a team through website projects for D2C brands, and every project ran the same way: research the brand, study the competitors, set the creative direction, write the content, build, then review. So the agent structure came naturally. Each step became a specialist agent with its own skill file and handoff. Designing the pipeline mostly meant writing down a process I already ran with people.</p>
+            <p>The user never sees any of this. Internal states collapse into one plain message: still working.</p>
           </div>
           <div class="cs-full">
-            <div class="slot">[ IMAGE: the pricing and credits view, one balance ]</div>
+            <div class="slot">[ IMAGE: the agent pipeline, research to art direction to content to build to QA ]</div>
           </div>
         </section>
 
@@ -242,37 +219,25 @@
               </thead>
               <tbody>
                 <tr>
-                  <td><span class="rmark" aria-hidden="true">[ 1 ]</span>Heavy animation and 3D cards on generated sites</td>
-                  <td data-label="Why it was tempting">Looks impressive in a demo</td>
-                  <td data-label="Why it went">Every site started to look like the same template</td>
-                  <td data-label="What we did instead">Light CSS reveals on scroll</td>
-                </tr>
-                <tr>
-                  <td><span class="rmark" aria-hidden="true">[ 2 ]</span>"Built in 30 seconds" in marketing</td>
+                  <td><span class="rmark" aria-hidden="true">[ 1 ]</span>"Built in 30 seconds" in marketing</td>
                   <td data-label="Why it was tempting">A strong ad hook</td>
                   <td data-label="Why it went">A real build takes minutes. False speed breaks trust and risks ad-policy rejection</td>
                   <td data-label="What we did instead">Marketing states the real build time</td>
                 </tr>
                 <tr>
-                  <td><span class="rmark" aria-hidden="true">[ 3 ]</span>App, dashboard and API claims</td>
-                  <td data-label="Why it was tempting">Makes the product sound bigger</td>
-                  <td data-label="Why it went">Produsa builds websites. Owners would sign up for things it cannot do</td>
-                  <td data-label="What we did instead">Copy rewritten to match what the product does</td>
-                </tr>
-                <tr>
-                  <td><span class="rmark" aria-hidden="true">[ 4 ]</span>Rupee prices on the build button</td>
+                  <td><span class="rmark" aria-hidden="true">[ 2 ]</span>Rupee prices on the build button</td>
                   <td data-label="Why it was tempting">Feels transparent</td>
                   <td data-label="Why it went">Money at the point of action makes owners hesitate on every build</td>
                   <td data-label="What we did instead">Credits on the button, rupee comparison in the wallet</td>
                 </tr>
                 <tr>
-                  <td><span class="rmark" aria-hidden="true">[ 5 ]</span>Silently swapping in a generated image</td>
+                  <td><span class="rmark" aria-hidden="true">[ 3 ]</span>Silently swapping in a generated image</td>
                   <td data-label="Why it was tempting">Keeps the build from failing when a photo cannot be used</td>
                   <td data-label="Why it went">The owner believes it is their photo. False confirmation again</td>
                   <td data-label="What we did instead">The agent says the photo could not be used</td>
                 </tr>
                 <tr>
-                  <td><span class="rmark" aria-hidden="true">[ 6 ]</span>Greeting owners by first name</td>
+                  <td><span class="rmark" aria-hidden="true">[ 4 ]</span>Greeting owners by first name</td>
                   <td data-label="Why it was tempting">Feels personal</td>
                   <td data-label="Why it went">A third of stored names are not first names, so many greetings would be wrong</td>
                   <td data-label="What we did instead">A plain "Hey"</td>
@@ -283,10 +248,24 @@
         </section>
 
         <section class="cs-section reveal">
-          <p class="cs-section__label">Outcome</p>
-          <h2 class="cs-section__heading"><em>600+</em> sites built in the first two months after launch, with paying users.</h2>
+          <p class="cs-section__label">Smaller calls</p>
+          <h2 class="cs-section__heading">Four that shaped the rest of the work.</h2>
           <div class="cs-section__body">
-            <p>False confirmation was closed at the source, with a regression test for each case from the user test. Honest refusals replaced the dead commerce buttons. The full build and edit flow runs over chat, in multiple languages.</p>
+            <p><b>Reference-grounded builds.</b> The agent builds from the owner's own material and sites they like, so a bearings distributor and a cat cafe look like different companies. A weak reference gives a weak build, so I built a curated library across niches to keep the floor high.</p>
+            <p><b>Editing by chat.</b> After the first build, owners refine by talking. The model gets an exact map of the current page, so a vague instruction still lands on a real section.</p>
+            <p><b>Behavioural checks as a gate.</b> Every generated screen, and Produsa's own interface, is checked against written rules: smart defaults, a live prototype before any signup wall, no hard blocks mid-edit, no fake urgency. A failed check gets one mandatory revision before it ships.</p>
+            <p><b>One wallet, no fake discounts.</b> Building, editing and hosting all draw on the same credits, so owners deal with one balance and a plain "where your credits go" view. I pulled the strike-through "was" prices off the pricing page, because those prices never existed.</p>
+          </div>
+          <div class="cs-full">
+            <div class="slot">[ IMAGE: the pricing and credits view, one balance ]</div>
+          </div>
+        </section>
+
+        <section class="cs-section reveal">
+          <p class="cs-section__label">Outcome</p>
+          <h2 class="cs-section__heading"><em>600+</em> sites built in the first two months after launch.</h2>
+          <div class="cs-section__body">
+            <p>The product has paying users. False confirmation was closed at the source, with a check for each failure case from the alpha test, so the same lie cannot ship twice.</p>
           </div>
         </section>
 
@@ -294,8 +273,7 @@
           <p class="cs-section__label">How I used AI</p>
           <h2 class="cs-section__heading">The prompt was a design surface.</h2>
           <div class="cs-section__body">
-            <p>Produsa runs on frontier Claude models, with multi-model routing that sends some tasks to Kimi. I used Codex for development tasks, running parallel agent sessions to build my parts of the system.</p>
-            <p>I wrote the skill files that define what each agent can do, and set up the web-designer agent to study core design principles before it builds. The agent's voice, its refusals and its grounding rules were written together with the interface, and the output schema was treated as part of the UX.</p>
+            <p>I wrote the skill files that define what each agent can do, and set up the web-designer agent to study core design principles before it builds. The agent's voice, its refusals and its grounding rules were written alongside the interface, in the same files. I used Codex to build my parts of the system.</p>
           </div>
         </section>
 
@@ -303,9 +281,9 @@
           <p class="cs-section__label">Reflection</p>
           <h2 class="cs-section__heading">What I would carry forward.</h2>
           <div class="cs-section__body">
-            <p><b>Honesty is not enough on its own.</b> Users want stores, and a static site cannot be one. The guardrail is a bridge until the product can actually do commerce.</p>
-            <p><b>Models default to saying yes.</b> Honesty had to be engineered in against that, and it needs tests to stay in place. Next time I would build the structural checks earlier.</p>
-            <p><b>Language quality is uneven.</b> Reaching tier-2 and tier-3 users in their own language is the point, and output quality still varies by language. Closing that gap matters more than polishing the English experience.</p>
+            <p><b>Honesty is not enough on its own.</b> Owners want stores, and a static site cannot be one. The refusal is a bridge until the product can do commerce.</p>
+            <p><b>Models default to saying yes.</b> Honesty had to be built in against that, and it needs tests to stay in place. Next time I would write the structural checks before the first build, not after a user test.</p>
+            <p><b>Language quality is uneven.</b> Reaching tier-2 and tier-3 owners in their own language is the whole point, and the output is still better in English. Closing that gap matters more than polishing the English version.</p>
           </div>
         </section>
 
@@ -318,11 +296,11 @@
         </div>
         <div class="cs-rail__group">
           <p class="cs-rail__label">My role</p>
-          <p class="cs-rail__value">Product roadmap<br>UI/UX and page layout<br>Agent voice and chat behaviour<br>Multi-agent debate<br>Pricing and top-ups<br>Failure and progress states</p>
+          <p class="cs-rail__value">Product roadmap<br>UI/UX and page layout<br>Agent voice and chat behaviour<br>Pricing and top-ups<br>Failure and progress states</p>
         </div>
         <div class="cs-rail__group">
           <p class="cs-rail__label">Also built</p>
-          <p class="cs-rail__value">Skill files, a web-designer agent, a content-curator agent, a cross-niche reference library, provider failover</p>
+          <p class="cs-rail__value">Skill files, a web-designer agent, a content-curator agent, a cross-niche reference library</p>
         </div>
         <div class="cs-rail__group">
           <p class="cs-rail__label">Team</p>

@@ -639,7 +639,205 @@
     });
   }
 
+  /* ----------------------------------------------------------------------
+     THE CURTAIN
+     One full screen holding the photograph, lifted away on scroll.
+
+     The CSS leaves .curtain__frame static inside a 100svh runway, which is
+     the correct no-JS and reduced-motion result: a plain full screen you
+     scroll past. Only here do we promote it to a fixed layer and lift it.
+
+     It lifts at 1.4x the scroll rate. At 1:1 the frame's bottom edge would
+     ride exactly on the grid's top edge, which is just a hero scrolling
+     away. At 1.4x the sheet leaves faster than the grid arrives, a band of
+     ground opens between the two, and the grid rises into it. The sheet is
+     fully clear after 0.71 of a screen, so nobody is held hostage.
+
+     The photograph travels with its frame rather than staying pinned to
+     the viewport. A pinned image would be eaten from the bottom up, which
+     takes the characters first and ends on empty sky. This way the sky
+     goes first and the characters are the last thing to leave.
+     ---------------------------------------------------------------------- */
+  function curtain() {
+    var wrap = document.getElementById("curtain");
+    if (!wrap) return;
+    var frame = wrap.querySelector(".curtain__frame");
+    if (!frame) return;
+    if (reduce) return;
+
+    document.documentElement.classList.add("curtain-live");
+
+    var LIFT = 1.4;
+    var ticking = false;
+    var gone = false;
+
+    function paint() {
+      ticking = false;
+      var vh = window.innerHeight || document.documentElement.clientHeight || 800;
+      var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+      var p = y / vh;
+      if (p < 0) p = 0;
+      var lift = p * LIFT;
+      if (lift > 1) lift = 1;
+
+      frame.style.transform = "translate3d(0," + (-lift * 100).toFixed(3) + "%,0)";
+      frame.style.setProperty("--cue", (1 - Math.min(1, p * 4)).toFixed(3));
+
+      var off = lift >= 1;
+      if (off !== gone) {
+        gone = off;
+        wrap.classList.toggle("is-lifted", off);
+      }
+    }
+
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(paint);
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    paint();
+  }
+
+  /* ----------------------------------------------------------------------
+     ROW EXPANSION
+     Hovering or focusing a project tile grows it to the full width of its
+     band and reveals the detail that was already in the markup.
+
+     The only thing this function does is measure and set four custom
+     properties per tile. All the state is one class, .is-open, and all the
+     motion is CSS.
+
+       --xl, --xr   negative left/right offsets that reach the band edges
+       --lead-w     the headline column, pinned to the width it already had
+       --more-w     the detail column, pinned so nothing re-wraps mid-growth
+
+     Why nothing moves: the grid cell is never re-placed. Only .tile__in,
+     which is absolutely positioned over that cell, changes its left and
+     right. The document height is constant, so the page cannot jump, and
+     the title, role and arrow sit at exactly the same coordinates open or
+     closed, so the click target under the cursor never shifts.
+
+     Why a mouse sweep does not set the page flashing: a 140ms hover intent.
+     A sweep crosses a tile in well under that and opens nothing.
+
+     Why only one tile is reachable per band: once a tile is open its panel
+     covers its row-mates, so they cannot receive a pointer. Leaving the
+     band closes it. This is a real cost of "takes the whole row" and it is
+     deliberate rather than accidental.
+     ---------------------------------------------------------------------- */
+  function rowExpand() {
+    var grid = document.getElementById("bands");
+    if (!grid) return;
+
+    var tiles = Array.prototype.slice.call(grid.querySelectorAll(".tile.tile--expands"));
+    if (!tiles.length) return;
+
+    var mq = window.matchMedia("(hover: hover) and (pointer: fine) and (min-width: 1100px)");
+    var openTile = null;
+    var openTimer = null;
+    var closeTimer = null;
+    var INTENT = reduce ? 220 : 140;
+    var GRACE = 90;
+
+    function moreGap() {
+      var v = window.getComputedStyle(document.documentElement).getPropertyValue("--more-gap");
+      return parseFloat(v) || 64;
+    }
+
+    function measure() {
+      if (!mq.matches) return;
+      var gw = grid.clientWidth;
+      var gap = moreGap();
+
+      tiles.forEach(function (t) {
+        var inner = t.querySelector(".tile__in");
+        if (!inner) return;
+        var pad = parseFloat(window.getComputedStyle(inner).paddingLeft) || 32;
+        var l = t.offsetLeft;
+        var w = t.offsetWidth;
+        var leadW = Math.max(0, w - pad * 2);
+        var moreW = Math.max(0, gw - pad * 2 - leadW - gap);
+
+        t.style.setProperty("--xl", (-l) + "px");
+        t.style.setProperty("--xr", (-(gw - l - w)) + "px");
+        t.style.setProperty("--lead-w", leadW + "px");
+        t.style.setProperty("--more-w", moreW + "px");
+      });
+    }
+
+    function shut() {
+      if (!openTile) return;
+      openTile.classList.remove("is-open");
+      openTile = null;
+    }
+
+    function openUp(t) {
+      if (openTile === t) return;
+      shut();
+      openTile = t;
+      t.classList.add("is-open");
+    }
+
+    tiles.forEach(function (t) {
+      t.addEventListener("pointerenter", function (e) {
+        if (!mq.matches) return;
+        if (e.pointerType && e.pointerType !== "mouse") return;
+        clearTimeout(closeTimer);
+        clearTimeout(openTimer);
+        openTimer = setTimeout(function () { openUp(t); }, INTENT);
+      });
+
+      t.addEventListener("pointerleave", function (e) {
+        if (e.pointerType && e.pointerType !== "mouse") return;
+        clearTimeout(openTimer);
+        closeTimer = setTimeout(function () { if (openTile === t) shut(); }, GRACE);
+      });
+
+      /* Keyboard parity. Focus is deliberate, so it opens with no delay.
+         :focus-visible keeps a mouse click from opening and navigating at
+         the same moment. */
+      t.addEventListener("focus", function () {
+        if (!mq.matches) return;
+        var kb = true;
+        try { kb = t.matches(":focus-visible"); } catch (err) { kb = true; }
+        if (!kb) return;
+        clearTimeout(closeTimer);
+        clearTimeout(openTimer);
+        openUp(t);
+      });
+
+      t.addEventListener("blur", function () {
+        if (openTile === t) shut();
+      });
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && openTile) shut();
+    });
+
+    measure();
+
+    if ("ResizeObserver" in window) {
+      new ResizeObserver(function () { measure(); }).observe(grid);
+    } else {
+      window.addEventListener("resize", measure);
+    }
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(measure).catch(function () {});
+    }
+
+    function onMq() { shut(); measure(); }
+    if (mq.addEventListener) mq.addEventListener("change", onMq);
+    else if (mq.addListener) mq.addListener(onMq);
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
+    curtain();
+    rowExpand();
     scrollProgress();
     scrollReveal();
     navSpy();
