@@ -1,343 +1,716 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Produsa, turning a website build into a conversation</title>
-<meta name="description" content="An AI studio that scopes, designs, builds and edits websites for small business owners, over chat, in their own language. Product design case study by Rishabh Jain.">
+<meta name="description" content="Produsa researches, designs and builds websites for small businesses through a chat, on the web or on WhatsApp. Product design case study by Rishabh Jain.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/style.css">
-<script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
+<style>
+/* Produsa case study. Self-contained and light only, on purpose: the shared
+   stylesheet carries four appended override layers and a dark theme, and
+   neither belongs on this page. */
+
+:root {
+  --bg:        #F7F6F3;
+  --surface:   #FFFFFF;
+  --rule:      #E4E0DA;
+  --rule-soft: #EDEAE4;
+  --ink:       #141518;   /* 16.9:1 */
+  --body:      #43464B;   /* 8.8:1  */
+  --soft:      #5C6066;   /* 6.1:1  */
+  --label:     #6A6E75;   /* 4.6:1  */
+  --accent:    #1E4C6B;   /* 8.4:1  */
+
+  --sans: "Figtree", ui-sans-serif, "Segoe UI", system-ui, sans-serif;
+  --measure: 34em;
+  --gap: clamp(64px, 7vw, 104px);
+  --pad: clamp(20px, 5vw, 72px);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--body);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.72;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; }
+
+::selection { background: rgba(20,21,24,.10); }
+
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 var(--pad); }
+
+/* --- Top bar ----------------------------------------------------------- */
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  padding: 28px 0 0;
+  font-size: 14px;
+  color: var(--label);
+}
+
+.top a { text-decoration: none; transition: color .18s ease; }
+.top a:hover, .top a:focus-visible { color: var(--ink); }
+.top__links { display: flex; gap: 22px; }
+
+/* --- Masthead ---------------------------------------------------------- */
+
+.head { padding: clamp(56px, 9vw, 104px) 0 0; }
+
+.eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 20px;
+}
+
+h1 {
+  margin: 0;
+  max-width: 17ch;
+  font-size: clamp(34px, 5.2vw, 60px);
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -.032em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.standfirst {
+  margin: 28px 0 0;
+  max-width: 44ch;
+  font-size: clamp(18px, 1.9vw, 21px);
+  line-height: 1.6;
+  color: var(--soft);
+}
+
+/* --- Two columns ------------------------------------------------------- */
+
+.layout { display: block; padding-bottom: clamp(80px, 10vw, 140px); }
+
+.col { max-width: var(--measure); }
+
+@media (min-width: 1100px) {
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 176px;
+    gap: clamp(56px, 6vw, 96px);
+    align-items: start;
+  }
+}
+
+/* --- The one detail rail, kept to the bare necessity ------------------- */
+
+.rail {
+  margin: var(--gap) 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.rail__label {
+  margin: 0 0 12px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--label);
+}
+
+.rail ol { list-style: none; margin: 0; padding: 0; }
+.rail li + li { margin-top: 9px; }
+
+.rail a {
+  display: flex;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--soft);
+  transition: color .18s ease;
+}
+
+.rail a:hover, .rail a:focus-visible { color: var(--ink); }
+.rail a.is-active { color: var(--ink); font-weight: 600; }
+.rail .n { flex: none; color: var(--label); font-variant-numeric: tabular-nums; }
+
+@media (min-width: 1100px) {
+  .rail { position: sticky; top: 48px; margin-top: calc(var(--gap) + 8px); }
+}
+
+/* --- Sections ---------------------------------------------------------- */
+
+section { padding-top: var(--gap); }
+
+h2 {
+  margin: 0 0 28px;
+  max-width: 24ch;
+  font-size: clamp(24px, 2.9vw, 32px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -.024em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+h3 {
+  margin: 0 0 16px;
+  max-width: 28ch;
+  font-size: clamp(19px, 2.1vw, 23px);
+  font-weight: 700;
+  line-height: 1.28;
+  letter-spacing: -.018em;
+  color: var(--ink);
+}
+
+p { margin: 0 0 20px; }
+p:last-child { margin-bottom: 0; }
+
+.lead-note {
+  margin: 36px 0 0;
+  padding: 26px 0 0;
+  border-top: 1px solid var(--rule);
+  max-width: 40ch;
+  font-size: clamp(19px, 2.1vw, 23px);
+  line-height: 1.45;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -.012em;
+}
+
+.hmw {
+  margin: 36px 0 0;
+  padding: 28px 0;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  max-width: 34ch;
+  font-size: clamp(20px, 2.3vw, 26px);
+  line-height: 1.34;
+  font-weight: 500;
+  letter-spacing: -.015em;
+  color: var(--ink);
+}
+
+/* --- Lists ------------------------------------------------------------- */
+
+ul.plain, ol.steps { margin: 0; padding: 0; list-style: none; }
+
+ul.plain li, ol.steps li {
+  position: relative;
+  padding: 16px 0 16px 34px;
+  border-top: 1px solid var(--rule-soft);
+}
+
+ul.plain li:first-child, ol.steps li:first-child { border-top: 0; padding-top: 0; }
+
+ul.plain li::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 27px;
+  width: 6px;
+  height: 1px;
+  background: var(--label);
+}
+ul.plain li:first-child::before { top: 11px; }
+
+ol.steps { counter-reset: s; }
+ol.steps li { counter-increment: s; }
+ol.steps li::before {
+  content: counter(s);
+  position: absolute;
+  left: 0;
+  top: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+ol.steps li:first-child::before { top: 0; }
+
+.principles li b { color: var(--ink); font-weight: 600; }
+
+/* --- Tables ------------------------------------------------------------ */
+
+.meta { width: 100%; border-collapse: collapse; margin-top: 40px; }
+
+.meta th, .meta td {
+  text-align: left;
+  vertical-align: top;
+  padding: 15px 0;
+  border-top: 1px solid var(--rule);
+  font-weight: 400;
+}
+
+.meta tr:first-child th, .meta tr:first-child td { border-top: 1px solid var(--ink); }
+
+.meta th {
+  width: 150px;
+  padding-right: 28px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--label);
+  line-height: 1.9;
+}
+
+.meta td { font-size: 15px; line-height: 1.65; color: var(--body); }
+
+.compare { width: 100%; border-collapse: collapse; margin-top: 8px; }
+
+.compare th {
+  text-align: left;
+  padding: 0 24px 12px 0;
+  border-bottom: 1px solid var(--ink);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.compare td {
+  vertical-align: top;
+  padding: 16px 24px 16px 0;
+  border-bottom: 1px solid var(--rule-soft);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.compare th:last-child, .compare td:last-child { padding-right: 0; }
+
+@media (max-width: 700px) {
+  .meta th { display: block; width: auto; padding: 0 0 2px; border-top: 0; }
+  .meta td { display: block; padding: 0 0 18px; border-top: 0; }
+  .meta tr { display: block; padding-top: 16px; border-top: 1px solid var(--rule); }
+  .meta tr:first-child { border-top: 1px solid var(--ink); }
+  .meta tr:first-child th, .meta tr:first-child td { border-top: 0; }
+
+  .compare thead { display: none; }
+  .compare, .compare tbody, .compare tr, .compare td { display: block; width: 100%; }
+  .compare tr { padding: 18px 0; border-bottom: 1px solid var(--rule-soft); }
+  .compare td { padding: 0; border: 0; }
+  .compare td + td { margin-top: 10px; }
+  .compare td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 3px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--label);
+  }
+}
+
+/* --- Pipeline ---------------------------------------------------------- */
+
+.flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin: 0 0 28px;
+  padding: 24px 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.flow span {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.flow i { font-style: normal; color: var(--label); font-size: 13px; }
+
+/* --- Decisions --------------------------------------------------------- */
+
+.decision { padding-top: clamp(48px, 5.5vw, 72px); }
+.decision:first-of-type { padding-top: 8px; }
+
+.decision__n {
+  display: block;
+  margin-bottom: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.why {
+  margin: 24px 0 0;
+  padding: 22px 26px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.68;
+}
+
+.why b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* --- Image space ------------------------------------------------------- */
+
+figure { margin: 40px 0 0; }
+
+.shot {
+  display: grid;
+  place-items: center;
+  padding: 28px;
+  text-align: center;
+  background: var(--surface);
+  border: 1px dashed #CFCABF;
+  border-radius: 12px;
+  color: #8E939A;
+  font-size: 12px;
+  line-height: 1.55;
+  letter-spacing: .01em;
+  min-height: 300px;
+}
+
+.shot--tall { min-height: 440px; }
+.shot--wide { min-height: 360px; }
+
+@media (max-width: 700px) {
+  .shot { min-height: 200px; padding: 22px; }
+  .shot--tall, .shot--wide { min-height: 240px; }
+}
+
+/* Full-measure images are allowed to breathe past the text column. */
+@media (min-width: 1100px) {
+  figure.bleed { width: calc(100% + 120px); }
+}
+
+/* --- Results ----------------------------------------------------------- */
+
+.results { margin: 0 0 28px; padding: 0; list-style: none; }
+
+.results li {
+  padding: 18px 0;
+  border-top: 1px solid var(--rule);
+  font-size: clamp(17px, 1.8vw, 19px);
+  line-height: 1.45;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.results li:last-child { border-bottom: 1px solid var(--rule); }
+
+/* --- Foot -------------------------------------------------------------- */
+
+.foot {
+  margin-top: var(--gap);
+  padding: 32px 0 64px;
+  border-top: 1px solid var(--rule);
+  font-size: 14px;
+  color: var(--label);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.foot a { text-decoration: none; transition: color .18s ease; }
+.foot a:hover, .foot a:focus-visible { color: var(--ink); }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+
+html { scroll-behavior: smooth; }
+</style>
 </head>
 <body>
 
-<div class="scroll-progress" aria-hidden="true"></div>
+<div class="wrap">
 
-<div class="dock">
-  <button class="dock__btn" id="navOpen" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navsheet">
-    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 4h14M1 8h14M1 12h14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-  </button>
-  <button class="dock__btn theme-toggle" type="button" aria-label="Toggle dark mode"></button>
-</div>
+  <nav class="top" aria-label="Site">
+    <a href="/">Rishabh Jain</a>
+    <span class="top__links">
+      <a href="/#work">Work</a>
+      <a href="/desserts.html">Desserts</a>
+      <a href="/#contact">Contact</a>
+    </span>
+  </nav>
 
-<div class="navsheet" id="navsheet" role="dialog" aria-modal="true" aria-label="Menu">
-  <button class="navsheet__close" id="navClose" type="button" aria-label="Close menu">
-    <svg viewBox="0 0 16 16" aria-hidden="true" style="width:14px;height:14px"><path d="M3 3l10 10M13 3L3 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-  </button>
-  <ul class="navsheet__list">
-    <li><a href="/#work">Work</a></li>
-    <li><a href="/desserts.html">Desserts</a></li>
-    <li><a href="/studio.html">Studio</a></li>
-    <li><a href="/#contact">Contact</a></li>
-    <li><a href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume</a></li>
-  </ul>
-</div>
+  <header class="head">
+    <p class="eyebrow">Produsa</p>
+    <h1>Turning a website build into a conversation</h1>
+    <p class="standfirst">Produsa is a product from Produsa Labs. It researches, designs and builds websites for small businesses through a chat, on the web or on WhatsApp.</p>
+  </header>
 
-<main style="--tile-acc: var(--acc-produsa);">
-  <div class="cs-wrap">
+  <div class="layout">
+    <main class="col">
 
-    <a class="backlink" href="/#work">
-      <svg viewBox="0 0 14 12" aria-hidden="true"><path d="M6 1 L1 6 L6 11 M1 6 H13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Work
-    </a>
+      <section id="overview" style="padding-top: clamp(40px, 5vw, 56px);">
+        <h2 class="sr-head" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">Overview</h2>
+        <table class="meta">
+          <tbody>
+            <tr><th scope="row">Role</th><td>Product Designer &amp; Builder</td></tr>
+            <tr><th scope="row">Team</th><td>4: two designers, a developer and a project head</td></tr>
+            <tr><th scope="row">Timeline</th><td>February to October 2026, launched August 2026</td></tr>
+            <tr><th scope="row">Platforms</th><td>Web studio and WhatsApp</td></tr>
+            <tr><th scope="row">My work</th><td>Product direction, UX and UI design, studio layout, the conversational experience, token pricing, and agent orchestration, including the self-correcting and standards loops</td></tr>
+            <tr><th scope="row">Outcome</th><td>500+ builds and 290 live websites in the first two months after launch, with owners now paying for hosting</td></tr>
+          </tbody>
+        </table>
 
-    <header class="cs-hero">
-      <p class="cs-hero__eyebrow">Produsa</p>
-      <h1 class="cs-hero__title">Turning a website build into a <em>conversation</em>.</h1>
-      <p class="cs-hero__meta">Product Designer and Builder &middot; Produsa Labs &middot; Feb to Oct 2026</p>
-      <hr class="rule cs-hero__rule">
-    </header>
+        <p class="lead-note">Owners can't judge a design themselves, so they rely on what the chat tells them. The hardest part of the work was making sure everything the chat said was true.</p>
 
-    <div class="cs-layout">
-      <div class="cs-main">
+        <figure class="bleed">
+          <div class="shot shot--tall">[ IMAGE: hero, the Produsa studio with a site mid-build ]</div>
+        </figure>
+      </section>
 
-        <div class="no-metrics">
-          <p class="no-metrics__label">In short</p>
-          <p class="no-metrics__line">A shop owner should be able to get a real website by talking, in their own language.</p>
-          <p class="no-metrics__body">
-            <b>Role.</b> Product Designer and Builder at Produsa Labs, in a team of four, February to October 2026.<br>
-            <b>The decisions that matter.</b> The chat can only say "done" when the page has actually changed. The agent says plainly what a static site cannot do, and offers the thing that works instead. The whole build runs inside a messaging app, in multiple languages.<br>
-            <b>Result.</b> 600+ sites built in the first two months after the August 2026 launch.<br>
-            <b>Link.</b> [ LINK: the live product ]
-          </p>
+      <section id="context">
+        <h2>Context</h2>
+        <p>At Produsa Labs, we set out to run an agency's whole process with AI agents. A website project at an agency follows the same steps every time: research, niche, brand, prototype, build. We turned each step into an agent. Websites came first because that was the process I knew best.</p>
+      </section>
+
+      <section id="problem">
+        <h2>The problem</h2>
+        <p>A good website still costs too much for many small businesses in India, especially outside the big cities. Owners have two options, and neither works for them.</p>
+
+        <table class="compare">
+          <thead>
+            <tr><th scope="col">Agencies</th><th scope="col">Website builders</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="Agencies">Expensive, with weeks of back-and-forth</td>
+              <td data-label="Website builders">Expect the owner to make every design decision</td>
+            </tr>
+            <tr>
+              <td data-label="Agencies">Use terms the owner doesn't know</td>
+              <td data-label="Website builders">English-first and built around templates</td>
+            </tr>
+            <tr>
+              <td data-label="Agencies">The owner can't edit the site afterwards</td>
+              <td data-label="Website builders">Fixed monthly plans, whether the owner edits or not</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="hmw">How might we give a small business owner a good website they can afford, without asking them to know anything about design?</p>
+      </section>
+
+      <section id="users">
+        <h2>Users</h2>
+        <p>Owners of small and mid-sized businesses: a bakery, a bearings distributor, a cafe, a steel trader. They run their business on WhatsApp, and many don't work in English. They can describe their business, but they can't describe a website.</p>
+        <ul class="plain">
+          <li>What they can answer: who their customers are, what they sell, and sites they like.</li>
+          <li>What they can't: layouts, typography, colour systems and information architecture.</li>
+        </ul>
+        <p style="margin-top:20px;">So the product asks the first kind of question and makes the second kind of decision for them.</p>
+      </section>
+
+      <section id="research">
+        <h2>Research: the alpha test</h2>
+        <p>Before launch, we ran a moderated usability test with four owners: a steel trader, a bearings distributor, a cat cafe and a bakery. The discovery questions worked. Three problems kept coming up:</p>
+        <ol class="steps">
+          <li>The chat said "done" when nothing had changed. One bakery owner was told three times that her photos were up before they appeared.</li>
+          <li>The agent misread requests, especially when owners wrote in their own language.</li>
+          <li>Owners couldn't tell whether a slow build was still running or had stopped.</li>
+        </ol>
+        <p style="margin-top:24px;">In all three, the system either gave the owner false feedback or no feedback at all. That shaped most of what I designed after the test.</p>
+      </section>
+
+      <section id="principles">
+        <h2>Design principles</h2>
+        <ul class="plain principles">
+          <li><b>Truthful feedback.</b> The chat only confirms what's actually on the page.</li>
+          <li><b>Visible system status.</b> The owner always knows what's happening and how far along the build is.</li>
+          <li><b>Zero design questions.</b> The owner shares their business, and the agents make the design decisions.</li>
+          <li><b>Transparent cost.</b> The cost of every action is visible when the owner takes it.</li>
+        </ul>
+      </section>
+
+      <section id="how">
+        <h2>How it works</h2>
+        <p>The build follows the order an agency works in:</p>
+        <div class="flow">
+          <span>Research</span><i>then</i>
+          <span>Niche</span><i>then</i>
+          <span>Brand design</span><i>then</i>
+          <span>Prototype</span><i>then</i>
+          <span>Website</span>
         </div>
+        <p>An art director agent, a content agent and an SEO agent work on each build. Each agent checks its output against written standards and fixes it before handing it on. Owners can share their old website as a reference.</p>
+        <figure class="bleed">
+          <div class="shot shot--wide">[ IMAGE: the agent pipeline, from research to live website ]</div>
+        </figure>
+      </section>
 
-        <section class="cs-section reveal">
-          <p class="cs-section__label">Where this starts</p>
-          <h2 class="cs-section__heading">A bakery owner uploaded her photos and was told "done" three times before they appeared.</h2>
-          <div class="cs-section__body">
-            <p>That came out of the alpha test, and only because I read the full chat transcripts instead of the session summaries. The summary did not show it. The transcript did, three times, over a page that had not changed.</p>
-            <p>We named the pattern false confirmation: the system saying something was true when it was not. Almost every failure in the test traced back to it, and it set the agenda for the rest of my work on Produsa.</p>
-          </div>
-          <blockquote class="testimonial" style="margin-top:32px;">
-            <p class="testimonial__quote is-placeholder">[ QUOTE: the bakery owner's own words from the test session, about being told the photos were up ]</p>
-            <p class="testimonial__company">[ NAME, business, city ]</p>
-          </blockquote>
-          <div class="cs-full">
-            <div class="slot">[ IMAGE: the transcript, three "done" replies over a page that never changed ]</div>
-          </div>
-        </section>
+      <section id="decisions">
+        <h2>Key decisions</h2>
 
-        <section class="cs-section reveal">
-          <p class="cs-section__label">Overview</p>
-          <h2 class="cs-section__heading">An agent interviews the owner the way a developer would scope a project, then builds the site.</h2>
-          <div class="cs-section__body">
-            <p>Produsa builds a full website through a conversation. The agent reads the brand from references, builds the site, and lets the owner refine it by chatting, in a web studio or over a messaging app. It launched in August 2026, and I worked on it from February until October.</p>
-          </div>
-          <div class="cs-full">
-            <div class="slot">[ IMAGE: the studio, chat on the left, the live site building in the centre ]</div>
-          </div>
-        </section>
+        <article class="decision" id="d1">
+          <span class="decision__n">01</span>
+          <h3>WhatsApp onboarding with no sign-up</h3>
+          <p>The owner messages a number, answers a few questions about their business, and gets a designed prototype back in the chat. Their phone number creates the account automatically, and they're asked for an email later. The first prototype comes out of the 15 free tokens.</p>
+          <p class="why"><b>Why:</b> We considered a sign-up step before the first build and dropped it. Every extra step added friction between the owner and seeing their site appear, and that first prototype is what wins them over. Collecting details after the first build kept time to value as short as possible.</p>
+          <figure>
+            <div class="shot shot--tall">[ IMAGE: WhatsApp, from first message to prototype ]</div>
+          </figure>
+        </article>
 
-        <section class="cs-section reveal">
-          <p class="cs-section__label">The problem</p>
-          <h2 class="cs-section__heading">For a small business owner in a tier-2 or tier-3 Indian city, a good website is out of reach.</h2>
-          <div class="refusals">
-            <table class="refusals__table">
-              <thead>
-                <tr><th>Agencies</th><th>Drag-and-drop builders</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Expensive quotes and weeks of back-and-forth</td>
-                  <td data-label="Drag-and-drop builders">Expect the user to know what a hero section or a grid is</td>
-                </tr>
-                <tr>
-                  <td>Technical vocabulary the owner does not speak</td>
-                  <td data-label="Drag-and-drop builders">English-first interfaces</td>
-                </tr>
-                <tr>
-                  <td>A site the owner cannot edit afterwards</td>
-                  <td data-label="Drag-and-drop builders">The owner still makes every design decision alone</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="cs-section__body" style="margin-top:28px;">
-            <p>The people we designed for run a bakery, a bearings distributor, a cafe. Most are not fluent in English, design or development language. If agents do the whole build, the cost of a good website falls far enough for them to afford one.</p>
-          </div>
-        </section>
+        <article class="decision" id="d2">
+          <span class="decision__n">02</span>
+          <h3>Questions about the business only</h3>
+          <p>On the web, the owner types what they want to build. The agent asks specific follow-up questions about the business, then asks for the logo and the feel they want. The build starts once it has enough to work with.</p>
+          <p class="why"><b>Why:</b> The owner knows their business, and we know design. The questions cover what only the owner can tell us, which keeps cognitive load low, and the agents handle every design decision.</p>
+          <figure>
+            <div class="shot">[ IMAGE: prompt, follow-up questions, logo and style, build starting ]</div>
+          </figure>
+        </article>
 
-        <section class="cs-section reveal">
-          <p class="cs-section__label">The alpha test</p>
-          <h2 class="cs-section__heading">Four owners, one week before launch, and a very short list of ways the system lied.</h2>
-          <div class="cs-section__body">
-            <p>Before the August launch we ran a structured usability test with four real business owners: a steel trader, a bearings distributor, a cat cafe and a boutique bakery.</p>
-            <p>Discovery tested well. Owners could not answer "pick a type scale", but they could answer "who is this for?" and "show me two sites you like", so that is what the interview asks, and the agent turns the answers into design decisions.</p>
-            <p>Everything else that failed, failed the same way. The chat said "done" to edits it never applied. It invented clients, prices and testimonials, even when the brief said not to. A build that had died kept animating its progress bar toward 100%. One owner asked for a cart and checkout on a static site, and the system added buttons that did nothing, then said the cart would "switch on when you ship it for real".</p>
-          </div>
-        </section>
+        <article class="decision" id="d3">
+          <span class="decision__n">03</span>
+          <h3>A studio where the site builds in front of the owner</h3>
+          <p>The chat sits on the left, and the site builds live in the centre and stays clickable throughout. An active agent panel shows which agent is working (research, art direction, content, SEO or build), and a version history below the preview lists every earlier version of the site.</p>
+          <p class="why"><b>Why:</b> Watching the site take shape builds trust. Owners see a team of agents working for them, and that's a feeling we designed for on purpose.</p>
+          <figure class="bleed">
+            <div class="shot shot--tall">[ IMAGE: full studio layout, annotated: chat, preview, active agent, version history ]</div>
+          </figure>
+        </article>
 
-        <section class="cs-section reveal">
-          <p class="cs-section__label">Key decisions</p>
-          <h2 class="cs-section__heading">Four calls that decide whether a person can trust the machine.</h2>
+        <article class="decision" id="d4">
+          <span class="decision__n">04</span>
+          <h3>A chat that only claims what's true</h3>
+          <ul class="plain">
+            <li>The chat confirms a change only after it shows up on the page. For photos, it checks that the image is actually on the site.</li>
+            <li>The progress bar follows real build events and stops short of 100% until the site is ready.</li>
+            <li>If a step runs longer than usual, the chat says so.</li>
+            <li>If a build fails, a clear error state appears and the owner's work is saved.</li>
+            <li>After each build, the chat offers more than one next step as options.</li>
+          </ul>
+          <p class="why" style="margin-top:28px;"><b>Why:</b> The first version confirmed changes as soon as the agent made the request, before checking the page. That's what told the bakery owner her photos were up three times. Owners who can't judge the site themselves stopped trusting the chat after one false "done".</p>
+          <figure class="bleed">
+            <div class="shot shot--wide">[ IMAGE: before and after, "done" over an unchanged page, then the corrected reply ]</div>
+          </figure>
+        </article>
 
-          <div class="decision" id="d1">
-            <span class="decision__ghost" aria-hidden="true">01</span>
-            <h3 class="decision__heading">"Done" only when it is done.</h3>
-            <p class="decision__sublabel">What happened</p>
-            <p class="decision__text">The chat used to decide it had succeeded based on what the model said, or because a version got saved.</p>
-            <hr class="rule decision__rule">
-            <p class="decision__sublabel">The decision</p>
-            <p class="decision__text is-decision">I moved the success check to the result. The reply can only claim a change if the page itself changed. For images, the system checks that the image data is on the page, not just that an upload tool ran.</p>
-            <div class="decision__tradeoff">
-              Sometimes the chat now says "I could not apply that" where it used to say "done". For one message it reads as a weaker assistant, and it is the change that fixed false confirmation.
-            </div>
-            <div class="plate">
-              <div class="plate__grid">
-                <div class="plate__half"><span><span class="plate__state">What we killed</span>[ DRAWING: the chat saying "done!" over a page that never changed, owner smiling at nothing ]</span></div>
-                <div class="plate__half"><span><span class="plate__state">What we shipped</span>[ DRAWING: the chat admitting it could not apply the edit, owner mildly annoyed but informed ]</span></div>
-              </div>
-              <p class="plate__caption">Plate 01. The confident lie, beside the useful admission.</p>
-            </div>
-          </div>
+        <article class="decision" id="d5">
+          <span class="decision__n">05</span>
+          <h3>Building in the owner's own language</h3>
+          <p>The chat works in Indian languages, so owners can describe their business and ask for changes in the language they run it in. The agents understand the request and build from it, and the owner never has to switch to English.</p>
+          <p class="why"><b>Why:</b> Many of these owners don't work in English, and in the alpha test the agent misread requests written in their own language. An English-only builder would have shut out the owners Produsa was built for.</p>
+          <figure>
+            <div class="shot">[ IMAGE: a regional-language request in the chat and the site change it produced ]</div>
+          </figure>
+        </article>
 
-          <div class="decision" id="d2">
-            <span class="decision__ghost" aria-hidden="true">02</span>
-            <h3 class="decision__heading">Say what a static site cannot do.</h3>
-            <p class="decision__sublabel">What happened</p>
-            <p class="decision__text">A finished Produsa site is static. It cannot run a cart, checkout, payments or logins. The system was promising all four.</p>
-            <hr class="rule decision__rule">
-            <p class="decision__sublabel">The decision</p>
-            <p class="decision__text is-decision">The agent refuses those requests plainly and offers what works instead: an order-by-message button on each product, or a quote button that opens the enquiry form with the item filled in. I also found the "switches on when you ship" promise written into the system prompt itself, and removed it everywhere. Saying "I cannot build a live checkout" can lose a sale in the moment, and a button that does nothing costs more a week later.</p>
-          </div>
+        <article class="decision" id="d6">
+          <span class="decision__n">06</span>
+          <h3>Tokens as the one unit of cost</h3>
+          <p>Building, editing and hosting are all paid in tokens. The first site is free to build and publish with 15 tokens. After that, a build costs 10 tokens, and keeping a site live costs 10 tokens a month. The monthly plans are bundles of tokens with extras such as a custom domain. The owner sees their balance in the chat as they work, so they know what an action costs before they take it.</p>
+          <p class="why"><b>Why:</b> Owners edit in bursts, not on a schedule, and a fixed monthly plan charged them the same whether they edited or not. With tokens, they pay for building, editing and hosting as they use them.</p>
+          <figure>
+            <div class="shot">[ IMAGE: token balance in the chat, and the wallet ]</div>
+          </figure>
+        </article>
+      </section>
 
-          <div class="decision" id="d3">
-            <span class="decision__ghost" aria-hidden="true">03</span>
-            <h3 class="decision__heading">Progress that cannot lie.</h3>
-            <p class="decision__sublabel">What happened</p>
-            <p class="decision__text">A build takes minutes, and the wait lied in both directions. One version froze at 20% for 15 minutes while the build ran fine underneath it. Another kept climbing toward 100% on a build that had already died.</p>
-            <hr class="rule decision__rule">
-            <p class="decision__sublabel">The decision</p>
-            <p class="decision__text is-decision">Those are two problems, so they got two fixes. The bar is driven by real build events, so it survives a refresh, a reconnect or a missed event, and it stops at 90 to 95% until the build finishes, which keeps a slow build from looking like a finished one. When the system needs the user, every agent card switches to "Waiting for input".</p>
-            <p class="decision__text is-decision" style="margin-top:16px;">A build that has stopped is not a progress problem, and no honest bar can cover it, so failure got its own screen: "something went wrong on our side, your work is saved, try again in a minute". Loading, waiting and error were each designed as separate states, the chat is never silent, and every recovery is logged, so a calm screen never hides a real outage from the team.</p>
-            <div class="plate">
-              <div class="plate__grid">
-                <div class="plate__half"><span><span class="plate__state">What we killed</span>[ DRAWING: a progress bar at 98% on a build that died ten minutes ago ]</span></div>
-                <div class="plate__half"><span><span class="plate__state">What we shipped</span>[ DRAWING: the same dead build saying so, work saved, one button to try again ]</span></div>
-              </div>
-              <p class="plate__caption">Plate 02. Narrate the wait, never invent the state.</p>
-            </div>
-          </div>
+      <section id="results">
+        <h2>Results</h2>
+        <ul class="results">
+          <li>500+ builds in the first two months after the August 2026 launch</li>
+          <li>290 websites shipped and live</li>
+          <li>Owners have started paying to keep their sites hosted</li>
+          <li>Many owners build their websites in their own language</li>
+        </ul>
+        <p>Produsa has reached business owners in tier 2 cities who don't speak English, people that AI tools and website builders rarely reach. They describe their business in their own language, and they come away with a live website.</p>
+        <figure class="bleed">
+          <div class="shot shot--wide">[ IMAGE: grid of sites built on Produsa ]</div>
+        </figure>
+      </section>
 
-          <div class="decision" id="d4">
-            <span class="decision__ghost" aria-hidden="true">04</span>
-            <h3 class="decision__heading">The whole build over chat, in the user's language.</h3>
-            <p class="decision__sublabel">What happened</p>
-            <p class="decision__text">The owners we designed for already live inside a messaging app, and most of them do not work in English.</p>
-            <hr class="rule decision__rule">
-            <p class="decision__sublabel">The decision</p>
-            <p class="decision__text is-decision">The full pipeline runs inside that messaging app, in multiple languages. A shop owner can scope, build and edit a real website without installing anything or using English.</p>
-            <div class="decision__tradeoff">
-              A chat thread is a much smaller canvas than the studio, and output quality still varies by language. We took both to remove the two biggest barriers: an app to learn and a language to speak.
-            </div>
-          </div>
-        </section>
+      <section id="myrole">
+        <h2>My role</h2>
+        <p>I set the product direction and designed the UX and UI, the studio layout and the whole conversational experience. Our developer led development, and the two of us designers worked alongside him on the build. I built and debugged the agent orchestration, including the self-correcting and standards loops.</p>
+      </section>
 
-        <section class="cs-section reveal">
-          <p class="cs-section__label">Behind the chat</p>
-          <h2 class="cs-section__heading">Specialist agents, each with one job and a defined handoff.</h2>
-          <div class="cs-section__body">
-            <p>Research, art direction, content, build, then a QA pass. When quality drops, the team can see which stage failed. On the two calls that change the outcome, art direction and whether a brief is feasible, two agents argue it out and the losing argument is kept.</p>
-            <p>At my studio, Bleed and Margins, I had led a team through website projects for D2C brands, and every project ran the same way: research the brand, study the competitors, set the creative direction, write the content, build, then review. So the agent structure came naturally. Each step became a specialist agent with its own skill file and handoff. Designing the pipeline mostly meant writing down a process I already ran with people.</p>
-            <p>The user never sees any of this. Internal states collapse into one plain message: still working.</p>
-          </div>
-          <div class="cs-full">
-            <div class="slot">[ IMAGE: the agent pipeline, research to art direction to content to build to QA ]</div>
-          </div>
-        </section>
+      <section id="reflection">
+        <h2>Reflection</h2>
+        <ul class="plain principles">
+          <li><b>Write the feedback rules before the first build.</b> The "done" problem only showed up in usability testing. Next time, I'd decide what the chat is allowed to claim, and how it verifies each claim, before any agent runs.</li>
+          <li><b>A proven process made the agents easier to design.</b> Every step in the pipeline already existed in agency work with real clients, so each agent had a clear job and a clear standard to check against.</li>
+        </ul>
+      </section>
 
-        <section class="cs-section reveal">
-          <p class="cs-section__label">What we refused</p>
-          <h2 class="cs-section__heading">Each of these was considered, and most were partly built before we cut them.</h2>
-          <div class="refusals">
-            <table class="refusals__table">
-              <thead>
-                <tr><th>What we cut</th><th>Why it was tempting</th><th>Why it went</th><th>What we did instead</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><span class="rmark" aria-hidden="true">[ 1 ]</span>"Built in 30 seconds" in marketing</td>
-                  <td data-label="Why it was tempting">A strong ad hook</td>
-                  <td data-label="Why it went">A real build takes minutes. False speed breaks trust and risks ad-policy rejection</td>
-                  <td data-label="What we did instead">Marketing states the real build time</td>
-                </tr>
-                <tr>
-                  <td><span class="rmark" aria-hidden="true">[ 2 ]</span>Rupee prices on the build button</td>
-                  <td data-label="Why it was tempting">Feels transparent</td>
-                  <td data-label="Why it went">Money at the point of action makes owners hesitate on every build</td>
-                  <td data-label="What we did instead">Credits on the button, rupee comparison in the wallet</td>
-                </tr>
-                <tr>
-                  <td><span class="rmark" aria-hidden="true">[ 3 ]</span>Silently swapping in a generated image</td>
-                  <td data-label="Why it was tempting">Keeps the build from failing when a photo cannot be used</td>
-                  <td data-label="Why it went">The owner believes it is their photo. False confirmation again</td>
-                  <td data-label="What we did instead">The agent says the photo could not be used</td>
-                </tr>
-                <tr>
-                  <td><span class="rmark" aria-hidden="true">[ 4 ]</span>Greeting owners by first name</td>
-                  <td data-label="Why it was tempting">Feels personal</td>
-                  <td data-label="Why it went">A third of stored names are not first names, so many greetings would be wrong</td>
-                  <td data-label="What we did instead">A plain "Hey"</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
+    </main>
 
-        <section class="cs-section reveal">
-          <p class="cs-section__label">Smaller calls</p>
-          <h2 class="cs-section__heading">Four that shaped the rest of the work.</h2>
-          <div class="cs-section__body">
-            <p><b>Reference-grounded builds.</b> The agent builds from the owner's own material and sites they like, so a bearings distributor and a cat cafe look like different companies. A weak reference gives a weak build, so I built a curated library across niches to keep the floor high.</p>
-            <p><b>Editing by chat.</b> After the first build, owners refine by talking. The model gets an exact map of the current page, so a vague instruction still lands on a real section.</p>
-            <p><b>Behavioural checks as a gate.</b> Every generated screen, and Produsa's own interface, is checked against written rules: smart defaults, a live prototype before any signup wall, no hard blocks mid-edit, no fake urgency. A failed check gets one mandatory revision before it ships.</p>
-            <p><b>One wallet, no fake discounts.</b> Building, editing and hosting all draw on the same credits, so owners deal with one balance and a plain "where your credits go" view. I pulled the strike-through "was" prices off the pricing page, because those prices never existed.</p>
-          </div>
-          <div class="cs-full">
-            <div class="slot">[ IMAGE: the pricing and credits view, one balance ]</div>
-          </div>
-        </section>
-
-        <section class="cs-section reveal">
-          <p class="cs-section__label">Outcome</p>
-          <h2 class="cs-section__heading"><em>600+</em> sites built in the first two months after launch.</h2>
-          <div class="cs-section__body">
-            <p>More than 250 of those are shipped and in use by the owners who made them. That gap between built and shipped is the one the product is really judged on, and it is the number I would watch next.</p>
-            <p>The product has paying users. The count is not mine to publish.</p>
-            <p>False confirmation was closed at the source, with a check for each failure case from the alpha test, so the same lie cannot ship twice.</p>
-          </div>
-        </section>
-
-        <section class="cs-section reveal">
-          <p class="cs-section__label">How I used AI</p>
-          <h2 class="cs-section__heading">The prompt was a design surface.</h2>
-          <div class="cs-section__body">
-            <p>I wrote the skill files that define what each agent can do, and set up the web-designer agent to study core design principles before it builds. The agent's voice, its refusals and its grounding rules were written alongside the interface, in the same files. I used Codex to build my parts of the system.</p>
-          </div>
-        </section>
-
-        <section class="cs-section reveal">
-          <p class="cs-section__label">Reflection</p>
-          <h2 class="cs-section__heading">What I would carry forward.</h2>
-          <div class="cs-section__body">
-            <p><b>Honesty is not enough on its own.</b> Owners want stores, and a static site cannot be one. The refusal is a bridge until the product can do commerce.</p>
-            <p><b>Models default to saying yes.</b> Honesty had to be built in against that, and it needs tests to stay in place. Next time I would write the structural checks before the first build, not after a user test.</p>
-            <p><b>Language quality is uneven.</b> Reaching tier-2 and tier-3 owners in their own language is the whole point, and the output is still better in English. Closing that gap matters more than polishing the English version.</p>
-          </div>
-        </section>
-
-      </div>
-
-      <aside class="cs-rail" aria-label="Project details">
-        <div class="cs-rail__group cs-rail__cast">
-          <div class="cast cast--rail">[ CAST ]</div>
-          <p class="cast__caption">Mahesh, sells bearings in Nashik, has never typed a URL.</p>
-        </div>
-        <div class="cs-rail__group">
-          <p class="cs-rail__label">My role</p>
-          <p class="cs-rail__value">Product roadmap<br>UI/UX and page layout<br>Agent voice and chat behaviour<br>Pricing and top-ups<br>Failure and progress states</p>
-        </div>
-        <div class="cs-rail__group">
-          <p class="cs-rail__label">Also built</p>
-          <p class="cs-rail__value">Skill files, a web-designer agent, a content-curator agent, a cross-niche reference library</p>
-        </div>
-        <div class="cs-rail__group">
-          <p class="cs-rail__label">Team</p>
-          <p class="cs-rail__value">Four. The rest of the team built the backend, hosting and the messaging integration.</p>
-        </div>
-        <div class="cs-rail__group">
-          <p class="cs-rail__label">Timeline</p>
-          <p class="cs-rail__value">Feb to Oct 2026<br>Launched August 2026</p>
-        </div>
-        <div class="cs-rail__group">
-          <p class="cs-rail__label">Tools</p>
-          <p class="cs-rail__value">Figma, Claude Code, Codex</p>
-        </div>
-        <div class="cs-rail__group">
-          <p class="cs-rail__label">Decisions</p>
-          <ol class="cs-rail__index">
-            <li><a href="#d1"><span class="cs-rail__num">01</span><span>"Done" only when it is done</span></a></li>
-            <li><a href="#d2"><span class="cs-rail__num">02</span><span>Say what a static site cannot do</span></a></li>
-            <li><a href="#d3"><span class="cs-rail__num">03</span><span>Progress that cannot lie</span></a></li>
-            <li><a href="#d4"><span class="cs-rail__num">04</span><span>The whole build over chat</span></a></li>
-          </ol>
-        </div>
-      </aside>
-    </div>
-
-    <nav class="cs-next reveal">
-      <a href="/supaca.html">
-        <span class="small">Next case study</span>
-        Supaca
-      </a>
-    </nav>
-
+    <aside class="rail" aria-label="Key decisions">
+      <p class="rail__label">Key decisions</p>
+      <ol>
+        <li><a href="#d1"><span class="n">01</span><span>WhatsApp onboarding</span></a></li>
+        <li><a href="#d2"><span class="n">02</span><span>Business questions only</span></a></li>
+        <li><a href="#d3"><span class="n">03</span><span>The studio</span></a></li>
+        <li><a href="#d4"><span class="n">04</span><span>Only claims what's true</span></a></li>
+        <li><a href="#d5"><span class="n">05</span><span>The owner's own language</span></a></li>
+        <li><a href="#d6"><span class="n">06</span><span>Tokens</span></a></li>
+      </ol>
+    </aside>
   </div>
-</main>
 
-<script src="/assets/main.js"></script>
+  <footer class="foot">
+    <span>Rishabh Jain, Produsa</span>
+    <a href="/#work">All work</a>
+  </footer>
+
+</div>
+
+<script>
+/* Marks which decision you are reading. Nothing else on the page is scripted. */
+(function () {
+  var links = document.querySelectorAll(".rail a");
+  if (!links.length || !("IntersectionObserver" in window)) return;
+
+  var byId = {}, targets = [];
+  links.forEach(function (a) {
+    var el = document.getElementById(a.getAttribute("href").slice(1));
+    if (el) { byId[el.id] = a; targets.push(el); }
+  });
+  if (!targets.length) return;
+
+  var io = new IntersectionObserver(function (entries) {
+    /* Nearest the top of the band wins, so a fast scroll cannot leave a
+       stale mark behind. */
+    var best = null;
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      if (!best || e.boundingClientRect.top < best.boundingClientRect.top) best = e;
+    });
+    if (!best) return;
+    links.forEach(function (a) { a.classList.remove("is-active"); });
+    byId[best.target.id].classList.add("is-active");
+  }, { rootMargin: "-15% 0px -65% 0px" });
+
+  targets.forEach(function (t) { io.observe(t); });
+})();
+</script>
+
 </body>
 </html>
