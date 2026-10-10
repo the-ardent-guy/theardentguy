@@ -1,0 +1,235 @@
+/* Design pass v2. Additive only.
+   Loaded last on every page, after style.css or case.css. Nothing here
+   changes copy, colour, font, layout or the hero. Four things:
+   paper grain, paper cards, the ink blot, the tagline clusters. */
+
+:root {
+  --v2-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  /* A warm grey about 9% darker than the card fill. */
+  --v2-card-edge: #E3DFD7;
+  --v2-card-shadow: 0 12px 24px -12px rgba(60, 45, 20, .18);
+  --v2-ink: #141518;
+}
+
+:root[data-theme="dark"] {
+  --v2-card-edge: #2B2E34;
+  --v2-card-shadow: 0 12px 24px -12px rgba(0, 0, 0, .55);
+  --v2-ink: #0B0C0E;
+}
+
+/* --- 1. Paper grain on the page background ---------------------------- */
+
+/* One static tile, rendered once. No per-frame filter, so it costs nothing
+   on scroll. The existing body::after in style.css is a different layer and
+   is disabled below so these do not stack. */
+.v2-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: .05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+}
+
+body::after { display: none !important; }
+
+:root[data-theme="dark"] .v2-grain { mix-blend-mode: screen; opacity: .03; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .v2-grain { mix-blend-mode: screen; opacity: .03; }
+}
+
+/* The hero photograph is a photograph. The grain stays off it. */
+.curtain, .curtain__frame, .tile--portrait { position: relative; z-index: 2; }
+
+/* --- 2. Paper cards ---------------------------------------------------- */
+
+.bento--home .tile__in {
+  border-color: var(--v2-card-edge);
+  box-shadow: none;
+  transition: transform 300ms var(--v2-ease), box-shadow 300ms var(--v2-ease);
+}
+
+/* Grain clipped to the card, so each one reads as a sheet resting on the
+   page rather than a panel cut out of it. Slightly stronger than the page. */
+.bento--home .tile__in::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .07;
+  mix-blend-mode: multiply;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+}
+
+:root[data-theme="dark"] .bento--home .tile__in::before { mix-blend-mode: screen; opacity: .04; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .bento--home .tile__in::before { mix-blend-mode: screen; opacity: .04; }
+}
+
+/* The card's own content already sits above the accent wash at z-index 1,
+   so the grain at 0 slots underneath it without touching the stacking. */
+
+.bento--home .tile__media,
+.bento--home .tile__media .slot { transition: transform 300ms var(--v2-ease); }
+
+@media (hover: hover) and (pointer: fine) {
+  a.tile:hover .tile__in,
+  a.tile:focus-visible .tile__in {
+    transform: translateY(-4px);
+    box-shadow: var(--v2-card-shadow);
+  }
+  a.tile:hover .tile__media .slot,
+  a.tile:focus-visible .tile__media .slot { transform: scale(1.02); }
+}
+
+/* --- 3. The ink blot --------------------------------------------------- */
+
+.v2-blot {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  background: var(--v2-ink);
+  clip-path: circle(0% at var(--bx, 50%) var(--by, 50%));
+  will-change: clip-path;
+}
+
+/* An irregular edge, so it does not read as a perfect circle. */
+.v2-blot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  filter: url(#v2-blotedge);
+  clip-path: inherit;
+}
+
+.v2-blot.is-spreading { animation: v2-spread 500ms var(--v2-ease) forwards; }
+.v2-blot.is-clearing  { animation: v2-clear 400ms var(--v2-ease) forwards; }
+
+@keyframes v2-spread {
+  from { clip-path: circle(0% at var(--bx, 50%) var(--by, 50%)); }
+  to   { clip-path: circle(150% at var(--bx, 50%) var(--by, 50%)); }
+}
+
+@keyframes v2-clear {
+  from { clip-path: circle(150% at var(--bx, 50%) var(--by, 50%)); }
+  to   { clip-path: circle(0% at var(--bx, 50%) var(--by, 50%)); }
+}
+
+.v2-blot__defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* View Transitions where the browser has them. Same ink, same timing. */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) { animation: none; }
+  ::view-transition-new(root) { animation: v2-fadein 400ms var(--v2-ease); }
+}
+
+@keyframes v2-fadein { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  /* A 200ms crossfade instead of the wash. */
+  .v2-blot.is-spreading,
+  .v2-blot.is-clearing { animation: none; }
+  .v2-blot { transition: opacity 200ms linear; clip-path: none; opacity: 0; }
+  .v2-blot.is-spreading { opacity: 1; }
+  .v2-blot.is-clearing { opacity: 0; }
+  ::view-transition-new(root) { animation: v2-fadein 200ms linear; }
+}
+
+/* --- 4. The tagline clusters ------------------------------------------ */
+
+.intro__lead .w {
+  position: relative;
+  display: inline-block;
+  border: 0;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  cursor: default;
+  transition: opacity 300ms var(--v2-ease);
+}
+
+.intro__lead.is-focused .w:not(.is-on) { opacity: .4; }
+
+.v2-cluster {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.v2-cluster b {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin: -16px 0 0 -16px;
+  opacity: 0;
+  transform: translate(0, 0) scale(.6) rotate(-12deg);
+  /* A spring at roughly stiffness 260, damping 18: a short overshoot that
+     settles once. CSS cannot run a real spring, so this is the curve that
+     matches it most closely without pulling in a library. */
+  transition:
+    opacity 340ms var(--v2-ease),
+    transform 420ms cubic-bezier(.34, 1.56, .64, 1);
+}
+
+.v2-cluster img { width: 28px; height: 28px; display: block; }
+
+.w.is-on .v2-cluster b {
+  opacity: 1;
+  transform: translate(var(--dx), var(--dy)) scale(1) rotate(0deg);
+}
+
+/* Out: reverse at 1.5x, no stagger. */
+.w:not(.is-on) .v2-cluster b {
+  transition-duration: 227ms, 280ms;
+  transition-delay: 0ms !important;
+}
+
+.v2-cluster b.v2-slot {
+  width: auto;
+  height: auto;
+  padding: 6px 9px;
+  border-radius: 7px;
+  background: var(--c-surface, #fff);
+  border: 1px solid var(--v2-card-edge);
+  font-family: var(--font-body, system-ui);
+  font-size: 10px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--c-label, #666);
+  white-space: nowrap;
+  margin: -13px 0 0 -34px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-cluster {
+    position: static;
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .v2-cluster b { position: static; margin: 0; opacity: 1; transform: none; transition: none; }
+  .intro__lead.is-focused .w:not(.is-on) { opacity: 1; }
+}
