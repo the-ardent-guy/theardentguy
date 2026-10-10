@@ -1,284 +1,221 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Supaca, a private network for India's supercar owners</title>
-<meta name="description" content="Verified owners, real clubs, and one screen that shows who is coming to the drive and what they are bringing. Product design case study by Rishabh Jain.">
+<title>Supaca, designing trust for a private network of supercar owners</title>
+<meta name="description" content="A members-only app for verified supercar owners in India, where clubs run their drives and members RSVP with the car they're bringing. Case study by Rishabh Jain.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/style.css">
-<script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
+<link rel="stylesheet" href="/assets/case.css">
 </head>
 <body>
 
-<div class="scroll-progress" aria-hidden="true"></div>
+<div class="wrap">
 
-<div class="dock">
-  <button class="dock__btn" id="navOpen" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navsheet">
-    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 4h14M1 8h14M1 12h14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-  </button>
-  <button class="dock__btn theme-toggle" type="button" aria-label="Toggle dark mode"></button>
-</div>
+  <nav class="top" aria-label="Site">
+    <a href="/">Rishabh Jain</a>
+    <span class="top__links">
+      <a href="/#work">Work</a>
+      <a href="/desserts.html">Desserts</a>
+      <a href="/#contact">Contact</a>
+    </span>
+  </nav>
 
-<div class="navsheet" id="navsheet" role="dialog" aria-modal="true" aria-label="Menu">
-  <button class="navsheet__close" id="navClose" type="button" aria-label="Close menu">
-    <svg viewBox="0 0 16 16" aria-hidden="true" style="width:14px;height:14px"><path d="M3 3l10 10M13 3L3 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-  </button>
-  <ul class="navsheet__list">
-    <li><a href="/#work">Work</a></li>
-    <li><a href="/desserts.html">Desserts</a></li>
-    <li><a href="/studio.html">Studio</a></li>
-    <li><a href="/#contact">Contact</a></li>
-    <li><a href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume</a></li>
-  </ul>
-</div>
+  <header class="head">
+    <p class="eyebrow">Supaca</p>
+    <h1>Designing trust for a private network of supercar owners</h1>
+    <p class="standfirst">Supaca is a members-only app for verified supercar owners in India, where clubs run their drives and members RSVP with the car they're bringing. The beta is live, with real owners on the waitlist. This case study covers the v1 design, which I led end to end.</p>
+  </header>
 
-<main style="--tile-acc: var(--acc-supaca);">
-  <div class="cs-wrap">
+  <div class="layout">
+    <main class="col">
 
-    <a class="backlink" href="/#work">
-      <svg viewBox="0 0 14 12" aria-hidden="true"><path d="M6 1 L1 6 L6 11 M1 6 H13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Work
-    </a>
+      <section id="overview" style="padding-top: clamp(40px, 5vw, 56px);">
+        <h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">Overview</h2>
+        <table class="meta">
+          <tbody>
+            <tr><th scope="row">Role</th><td>Lead UI/UX Designer</td></tr>
+            <tr><th scope="row">Team</th><td>Me on design, with the engineering team building the product</td></tr>
+            <tr><th scope="row">Timeline</th><td>November 2024 to November 2025 (v1 design), beta now live</td></tr>
+            <tr><th scope="row">Platform</th><td>Mobile-first web app</td></tr>
+            <tr><th scope="row">My work</th><td>User research, information architecture, the access model, onboarding and verification, visual design, and every screen in v1</td></tr>
+          </tbody>
+        </table>
 
-    <header class="cs-hero">
-      <p class="cs-hero__eyebrow">Supaca</p>
-      <h1 class="cs-hero__title">Designing a private network for India's <em>supercar owners</em>.</h1>
-      <p class="cs-hero__meta">Lead UI/UX Designer &middot; Nov 2024 to Nov 2025 &middot; Launched v1</p>
-      <hr class="rule cs-hero__rule">
-    </header>
+        <p class="lead-note">Supaca only works if every member knows everyone else is a real owner. The hardest part was designing a gate strict enough to make membership mean something, while keeping joining simple.</p>
 
-    <div class="cs-layout">
-      <div class="cs-main">
+        <figure class="bleed">
+          <div class="shot shot--tall">[ IMAGE: hero, the live beta landing page ]</div>
+        </figure>
+      </section>
 
-        <div class="no-metrics">
-          <p class="no-metrics__label">In short</p>
-          <p class="no-metrics__line">A few thousand supercar owners ran their entire social world through forwarded WhatsApp messages.</p>
-          <p class="no-metrics__body">
-            <b>Role.</b> Lead UI/UX Designer, November 2024 to November 2025. Research, information architecture, the access model and every screen. The engineering team built it.<br>
-            <b>The decisions that matter.</b> One access rule in place of five permission profiles. A member proves who they are by verifying their car. Privacy fails closed, so a club you cannot access returns "not found" rather than "access denied".<br>
-            <b>Result.</b> v1 launched in November 2025 with 340 verified owners, every club real, no fake members or listings.<br>
-            <b>Link.</b> [ LINK: the live product ]
-          </p>
-        </div>
+      <section id="problem">
+        <h2>The problem</h2>
+        <p>Supercar owners in India already had clubs, but no product built for them. As creative director at one of those clubs, I saw how they actually ran: on scattered WhatsApp groups. There was no way to verify who owned a car, drives were organised through forwarded messages, high-value sales ran on trust, and expensive cars sat parked for weeks with nowhere to go.</p>
 
-        <section class="cs-section reveal">
-          <p class="cs-section__label">The one screen</p>
-          <h2 class="cs-section__heading">You do not RSVP to the drive. You RSVP with the car you are bringing.</h2>
-          <div class="cs-section__body">
-            <p>A network needs one reason to open the app, and for this community it was never going to be a feed. Everything in Supaca points at the event page.</p>
-            <p>When a member RSVPs they choose which car they are bringing. The "Who's coming" list shows each attendee with a verified badge and a colour-coded pill for their car's make. Before anyone wrote a line of that screen, it had already decided the rest of the product: if the car is the thing you bring, the car has to be proven, and proving it has to gate everything else.</p>
-          </div>
-          <div class="cs-full">
-            <div class="slot">[ IMAGE: my v1 event page, the RSVP-with-your-car step and the Who's coming list ]</div>
-          </div>
-        </section>
+        <p class="hmw">How might we give verified owners a private place to belong, where the main reason to open the app is the next drive?</p>
+      </section>
 
-        <section class="cs-section reveal">
-          <p class="cs-section__label">Overview</p>
-          <h2 class="cs-section__heading">Verified owners, real clubs, and a vendor channel kept at arm's length.</h2>
-          <div class="cs-section__body">
-            <p>Supaca is a members-only app for verified supercar owners in India. Clubs run their drives and events on it, members RSVP with the car they are bringing, and dealers and detailers reach them through a controlled vendor channel.</p>
-            <p>I designed and launched v1 over a year, from November 2024 to November 2025.</p>
-          </div>
-        </section>
+      <section id="users">
+        <h2>Users</h2>
+        <table class="compare">
+          <thead>
+            <tr><th scope="col">Archetype</th><th scope="col">Who they are</th><th scope="col">What they need</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="Archetype">Member</td>
+              <td data-label="Who they are">A verified supercar owner</td>
+              <td data-label="What they need">The next drive, and who's coming with what car</td>
+            </tr>
+            <tr>
+              <td data-label="Archetype">Club owner</td>
+              <td data-label="Who they are">Runs a club and invites members</td>
+              <td data-label="What they need">Growth tools, and a way to vet who joins</td>
+            </tr>
+            <tr>
+              <td data-label="Archetype">Vendor</td>
+              <td data-label="Who they are">Dealerships, detailers and tuners</td>
+              <td data-label="What they need">Reach, at arm's length from members</td>
+            </tr>
+            <tr>
+              <td data-label="Archetype">Admin</td>
+              <td data-label="Who they are">Approves members and claims</td>
+              <td data-label="What they need">A human check at the end of every gate</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
 
-        <section class="cs-section reveal">
-          <p class="cs-section__label">The problem</p>
-          <h2 class="cs-section__heading">Their social world ran on scattered WhatsApp groups.</h2>
-          <div class="cs-section__body">
-            <p>India has roughly 3,000 to 6,000 supercar owners, with cars worth &#8377;2 to 20 crore each. None of the existing platforms were built for them.</p>
-            <p><b>No verified identity.</b> No way to know who actually owns a car. <b>No structure for events.</b> Drives were organised through forwarded messages. <b>High-ticket sales on trust.</b> Cars and parts changed hands through forwarded photos. <b>Idle cars.</b> Many owners had a crore of machine parked for weeks, with nowhere to take it.</p>
-          </div>
-          <blockquote class="testimonial" style="margin-top:32px;">
-            <p class="testimonial__quote">"I don't want to deal with dealers or agents. I want to sell it very discreetly."</p>
-            <p class="testimonial__company">A collector, during discovery</p>
-          </blockquote>
-          <div class="cs-section__body" style="margin-top:24px;">
-            <p>That sentence is why the marketplace shows sellers anonymously to anyone outside the gate, and why no part of the product reveals who a person is without them choosing to.</p>
-          </div>
-        </section>
+      <section id="research">
+        <h2>Research</h2>
+        <p>Through my club, I had direct access to owners and organisers, and tested ideas with them throughout. I mapped real clubs and their access rules (open, private, referral-only, women-only). Three findings shaped the design:</p>
+        <ol class="steps">
+          <li>Owners would only join a network where every member was verified.</li>
+          <li>Owners wanted somewhere to drive. The event was the reason to come back.</li>
+          <li>Clubs already existed. The product had to bring them in instead of replacing them.</li>
+        </ol>
+        <p style="margin-top:24px;">I also flagged the cold-start risk early, and we agreed on one rule: never fake a member, an attendee or a listing.</p>
+      </section>
 
-        <section class="cs-section reveal">
-          <p class="cs-section__label">Research</p>
-          <h2 class="cs-section__heading">An empty network kills a members' club, so we never faked one.</h2>
-          <div class="cs-section__body">
-            <p><b>Direct access, and a conflict.</b> As creative director at Boit Club, one of the clubs on the founders' list, I could put ideas in front of owners and club organisers directly. I was also inside one of the communities I was designing for, which is worth naming rather than selling as neutral research.</p>
-            <p><b>Supply mapping.</b> We mapped the founders' list of clubs into real, verified entries, including Boit Club, Club P11, RaceTech, Marque One and Throttle 97. Each club's own access rules, open, private, referral-only, women-only, mapped to how it would appear in the product.</p>
-            <p><b>The cold-start risk.</b> The plan was to launch only into real, seeded clubs with real dated events, under one rule: never fake a member, an attendee or a listing. One fake would break the trust the product depends on.</p>
-          </div>
-          <div class="refusals">
-            <table class="refusals__table">
-              <thead>
-                <tr><th>Step</th><th>The exclusivity ladder</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>1</td><td data-label="The exclusivity ladder">Invite only</td></tr>
-                <tr><td>2</td><td data-label="The exclusivity ladder">Garage verification: registration certificate and insurance</td></tr>
-                <tr><td>3</td><td data-label="The exclusivity ladder">Manual approval for the founding cohort</td></tr>
-                <tr><td>4</td><td data-label="The exclusivity ladder">A permanent "Founding 100" badge</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
+      <section id="process">
+        <h2>Process</h2>
+        <p>I set four principles before any screen: every member is verified by a human, members never pay, nothing is shared without consent, and every path leads to the next drive. I then fixed the information architecture, so every screen had a defined slot and new features could be added without restructuring navigation. I wireframed the core flows and tested them with owners before visual design.</p>
+        <figure class="bleed">
+          <div class="shot shot--wide">[ IMAGE: information architecture, from invite to the members' area ]</div>
+        </figure>
+        <figure class="bleed">
+          <div class="shot shot--tall">[ IMAGE: wireframes, the gate, the event page and garage verification ]</div>
+        </figure>
+      </section>
 
-        <section class="cs-section reveal">
-          <p class="cs-section__label">Key decisions</p>
-          <h2 class="cs-section__heading">Five decisions that hold the event page up.</h2>
+      <section id="decisions">
+        <h2>Key decisions</h2>
 
-          <div class="decision" id="d1">
-            <span class="decision__ghost" aria-hidden="true">01</span>
-            <h3 class="decision__heading">Five permission profiles, collapsed into two access tiers.</h3>
-            <p class="decision__sublabel">What happened</p>
-            <p class="decision__text">Four archetypes plus pending applicants implied five permission profiles: approved owner, club owner without a car, vendor, admin and pending applicant. A separate rule set for each would have scattered access logic across every screen.</p>
-            <hr class="rule decision__rule">
-            <p class="decision__sublabel">The decision</p>
-            <p class="decision__text is-decision">Two tiers instead. <b>Full:</b> approved, with at least one verified car, sees the members' world. <b>Limited:</b> everyone else, where sellers appear anonymous, there are no DMs, and no member data is visible. Signup kept three plain-English doors, Owner, Club Owner and Vendor. Instead of five rule sets, every screen asks one question: does this person have a verified car?</p>
-            <div class="decision__tradeoff">
-              Two tiers are coarser than five profiles, so the edge cases get less nuance than a product manager would want. Every screen behaves the same way in exchange.
-            </div>
-          </div>
+        <article class="decision" id="d1">
+          <span class="decision__n">01</span>
+          <h3>Two access tiers in place of five permission profiles</h3>
+          <p>Four archetypes plus pending applicants implied five permission profiles. I designed two tiers instead. Full members are approved with at least one verified car and see the members' area. Limited users see sellers as anonymous, have no DMs, and see no member data. Signup kept three plain entry points: Owner, Club Owner and Vendor.</p>
+          <p class="why"><b>Why:</b> Separate rules per profile would have scattered access logic across every screen. Following Tesler's law, the complexity moved into one rule no user has to reason about.</p>
+          <p class="why"><b>Trade-off:</b> Two tiers give some edge cases less nuance, in exchange for every screen behaving predictably.</p>
+        </article>
 
-          <div class="decision" id="d2">
-            <span class="decision__ghost" aria-hidden="true">02</span>
-            <h3 class="decision__heading">Verification through the garage.</h3>
-            <p class="decision__sublabel">What happened</p>
-            <p class="decision__text">Proving a person is who they say they are, and proving they own a supercar, are usually two separate problems.</p>
-            <hr class="rule decision__rule">
-            <p class="decision__sublabel">The decision</p>
-            <p class="decision__text is-decision">A member proves who they are by verifying their car. One document, the registration certificate, proves both identity and ownership, and an admin approves it. Approving a member marks all their cars verified. Until then, the app stays locked. Verification is what makes the membership worth having, so we never charged members for it.</p>
-          </div>
+        <article class="decision" id="d2">
+          <span class="decision__n">02</span>
+          <h3>Verification through the garage</h3>
+          <p>A member proves who they are by verifying their car. One registration document proves both identity and ownership, an admin approves it, and until then the app stays locked.</p>
+          <p class="why"><b>Why:</b> One document covered both checks, so members went through a single step. Because the gate does the work, members never pay.</p>
+          <p class="why"><b>Trade-off:</b> Verification adds friction at signup, and for an exclusive network that friction is what makes membership worth having.</p>
+        </article>
 
-          <div class="decision" id="d3">
-            <span class="decision__ghost" aria-hidden="true">03</span>
-            <h3 class="decision__heading">Privacy fails closed.</h3>
-            <p class="decision__sublabel">What happened</p>
-            <p class="decision__text">Every convenience we considered turned out to leak something: a club's existence, a member's identity, a face.</p>
-            <hr class="rule decision__rule">
-            <p class="decision__sublabel">The decision</p>
-            <p class="decision__text is-decision"><b>No silent joins.</b> Members join a club only by choosing to, or by an owner's approval. Matching members to clubs by their car and adding them automatically would be convenient, and on a trust product it would be a breach. <b>A private club you cannot access looks like it does not exist.</b> The app returns "not found" instead of "access denied", because "denied" confirms the club exists. <b>Identity revealed only on purpose.</b> When tiers mix, people stay anonymous until someone explicitly reveals who they are. <b>Initials, not faces.</b> Member avatars use initials, and photography is reserved for cars, clubs and events.</p>
-            <p class="decision__text is-decision" style="margin-top:16px;">One deliberate exception: login says "No account found for this email" instead of a vague error. At the front door a clear message converts better, and the invite-only copy explains why. A private club is different, because its existence is itself the sensitive fact.</p>
-            <div class="plate">
-              <div class="plate__grid">
-                <div class="plate__half"><span><span class="plate__state">What we killed</span>[ DRAWING: "Access denied" on a private club, quietly confirming the club is real ]</span></div>
-                <div class="plate__half"><span><span class="plate__state">What we shipped</span>[ DRAWING: the same screen returning "not found", the club invisible to anyone outside it ]</span></div>
-              </div>
-              <p class="plate__caption">Plate 01. An error message can leak a membership list.</p>
-            </div>
-          </div>
+        <article class="decision" id="d3">
+          <span class="decision__n">03</span>
+          <h3>Privacy that fails closed</h3>
+          <p>Members join a club only by choosing to or by an owner's approval. A private club you can't access returns "not found" instead of "access denied", because "denied" confirms it exists. When tiers mix, people stay anonymous until someone chooses to reveal who they are, and member avatars use initials.</p>
+          <p class="why"><b>Why:</b> Auto-adding members to clubs that matched their car would have been convenient, but on a trust product it would have broken consent.</p>
+        </article>
 
-          <div class="decision" id="d4">
-            <span class="decision__ghost" aria-hidden="true">04</span>
-            <h3 class="decision__heading">Clubs exist before their owners arrive.</h3>
-            <p class="decision__sublabel">What happened</p>
-            <p class="decision__text">An empty network is the fastest way to lose a members' club, and the first club owner to arrive would have found nothing.</p>
-            <hr class="rule decision__rule">
-            <p class="decision__sublabel">The decision</p>
-            <p class="decision__text is-decision">The real clubs from research were already in the app at launch. A club owner claims their existing club instead of building one from nothing, or creates a new one if theirs is not listed. Once claimed, the owner invites members, and the invite does the vetting: a member arrives already known to a club, then verifies their garage. Members land in a club that already has a name, a crest and other owners in it. The cost sits on our side: someone has to curate and maintain that club data before a single person asks for it.</p>
-            <div class="cs-full">
-              <div class="slot">[ IMAGE: wireframes, the gate, the event page, and four-step garage verification ]</div>
-            </div>
-          </div>
+        <article class="decision" id="d4">
+          <span class="decision__n">04</span>
+          <h3>RSVP with your car</h3>
+          <p>Every part of the app leads to the event page. When members RSVP, they choose which car they're bringing, and "Who's coming" shows each attendee with a verified badge and a colour-coded pill for their car's make.</p>
+          <p class="why"><b>Why:</b> This one screen delivers both findings from research: belonging, through seeing who's coming, and exclusivity, through the verification behind every name.</p>
+          <figure class="bleed">
+            <div class="shot shot--tall">[ IMAGE: event page, "Who's coming" with car pills ]</div>
+          </figure>
+        </article>
 
-          <div class="decision" id="d5">
-            <span class="decision__ghost" aria-hidden="true">05</span>
-            <h3 class="decision__heading">Who pays, designed into the flows.</h3>
-            <p class="decision__sublabel">What happened</p>
-            <p class="decision__text">Money anywhere near the members' experience would have undercut the thing the gate was building.</p>
-            <hr class="rule decision__rule">
-            <p class="decision__sublabel">The decision</p>
-            <p class="decision__text is-decision"><b>Members never pay.</b> There is no fee at the door. <b>Club owners pay for their tools.</b> The first year is free, then &#8377;25,000 a year for the owner plan. <b>The paywall only reaches the owner.</b> If an owner's plan lapses, only their dashboard is locked, and the club stays live for its members. <b>A member-fee toggle, off by default.</b> Owners can choose to charge their own members; left off, the member flow is untouched.</p>
-            <div class="decision__tradeoff">
-              Charging owners instead of members means growth depends entirely on club owners seeing value first. That is why the first year is free.
-            </div>
-          </div>
-        </section>
+        <article class="decision" id="d5">
+          <span class="decision__n">05</span>
+          <h3>Clubs that exist before their owners arrive</h3>
+          <p>Real clubs are pre-seeded. A club owner claims theirs or creates one, then invites members, so the invite does the vetting and members never land in an empty room.</p>
+          <p class="why"><b>Trade-off:</b> Club data has to be curated and maintained before anyone asks for it.</p>
+        </article>
 
-        <section class="cs-section reveal">
-          <p class="cs-section__label">Smaller calls</p>
-          <h2 class="cs-section__heading">Three that kept the system legible.</h2>
-          <div class="cs-section__body">
-            <p><b>Information architecture first.</b> I fixed the route map before designing any screen, so every screen filled a defined slot and new features could be added without restructuring navigation.</p>
-            <p><b>Filters in sheets, not tabs.</b> A Vendors tab on the Clubs page was rejected. Filters live in bottom sheets, which keeps each page to one job.</p>
-            <p><b>One accent, one meaning for green.</b> Supaca Red is the only brand colour. Emerald means one thing, verified, and appears nowhere else. Labels stay in plain English: "You approve every request" instead of a settings matrix.</p>
-          </div>
-        </section>
+        <article class="decision" id="d6">
+          <span class="decision__n">06</span>
+          <h3>Keeping money out of the member experience</h3>
+          <p>Members never pay. Club owners pay for their tools, and if a plan lapses, only the owner's dashboard locks while the club stays live. A member-fee toggle exists for owners, off by default.</p>
+          <p class="why"><b>Why:</b> Charging members to join would have put a price on the one thing that made membership valuable.</p>
+        </article>
+      </section>
 
-        <section class="cs-section reveal">
-          <p class="cs-section__label">Outcome</p>
-          <h2 class="cs-section__heading"><em>340</em> verified owners, against a national market of three to six thousand.</h2>
-          <div class="cs-section__body">
-            <p>Read that number against its ceiling, not against consumer-app benchmarks. Each owner was personally invited by an existing verified member.</p>
-            <p>v1 launched in November 2025, after a year of research, design and build. Real clubs only, mapped from research, with zero fake members, attendees or listings. One access rule in place of five permission profiles, and the invite-only model held without exception.</p>
-            <p>The team has since rebuilt it into the beta that is live today, with club onboarding open and a vendor layer on the way.</p>
-          </div>
-          <div class="no-metrics">
-            <p class="no-metrics__label">Whose screens these are</p>
-            <p class="no-metrics__line">Every screen in this case study is mine, from v1.</p>
-            <p class="no-metrics__body">The team has continued the product since, and the later additions, the vendor layer among them, are theirs rather than mine.</p>
-          </div>
-          <div class="cs-full">
-            <div class="slot">[ IMAGE: the v1 gate, the waitlist with the Founding 100 counter, and the invite-only login ]</div>
-          </div>
-        </section>
+      <section id="supporting">
+        <h2>Supporting decisions</h2>
+        <ul class="plain">
+          <li>Filters in bottom sheets instead of a Vendors tab, keeping each page to one job through progressive disclosure.</li>
+          <li>Familiar patterns like a five-tab bottom nav and story-style carousels carry new ideas such as verification, following Jakob's law.</li>
+          <li>One meaning per colour: one brand accent, and green means only "verified".</li>
+          <li>Plain language: "You approve every request" replaces a settings matrix.</li>
+        </ul>
+      </section>
 
-        <section class="cs-section reveal">
-          <p class="cs-section__label">Reflection</p>
-          <h2 class="cs-section__heading">What I would carry forward.</h2>
-          <div class="cs-section__body">
-            <p><b>Decide the structure before the screens.</b> Fixing the information architecture first meant new features had a place to go without redesigning navigation.</p>
-            <p><b>Trust is built in the edge cases.</b> The decisions that mattered most were small: who can see a private club, whether a member joins anything without asking, what a stranger sees before verification. Each one could cost more trust than any feature could earn back.</p>
-          </div>
-        </section>
+      <section id="outcome">
+        <h2>Outcome</h2>
+        <ul class="results">
+          <li>v1 designed end to end over a year, from research to every screen</li>
+          <li>The beta is live, with real owners joining through the waitlist</li>
+          <li>One access rule in place of five permission profiles</li>
+          <li>The v1 structure held, and the team rebuilt it into today's beta</li>
+        </ul>
+        <figure class="bleed">
+          <div class="shot shot--wide">[ IMAGE: the live beta, the gate, the waitlist and the invite-only login ]</div>
+        </figure>
+      </section>
 
-      </div>
+      <section id="reflection">
+        <h2>Reflection</h2>
+        <ul class="plain principles">
+          <li><b>Set the structure before the screens.</b> Fixing the information architecture first gave new features a place to go without redesigning navigation.</li>
+          <li><b>The edge cases carried the trust.</b> Who can see a private club, whether a member joins anything without asking, and what a stranger sees before verification each mattered more than any single feature.</li>
+        </ul>
+      </section>
 
-      <aside class="cs-rail" aria-label="Project details">
-        <div class="cs-rail__group cs-rail__cast">
-          <div class="cast cast--rail">[ CAST ]</div>
-          <p class="cast__caption">A collector who will not meet a dealer, and has a crore parked in the garage.</p>
-        </div>
-        <div class="cs-rail__group">
-          <p class="cs-rail__label">My role</p>
-          <p class="cs-rail__value">Research with owners and club organisers<br>Information architecture<br>The access model<br>Every screen in v1</p>
-        </div>
-        <div class="cs-rail__group">
-          <p class="cs-rail__label">Team</p>
-          <p class="cs-rail__value">The engineering team built it</p>
-        </div>
-        <div class="cs-rail__group">
-          <p class="cs-rail__label">Timeline</p>
-          <p class="cs-rail__value">Nov 2024 to Nov 2025<br>v1 launched Nov 2025</p>
-        </div>
-        <div class="cs-rail__group">
-          <p class="cs-rail__label">Tools</p>
-          <p class="cs-rail__value">Figma, Fable</p>
-        </div>
-        <div class="cs-rail__group">
-          <p class="cs-rail__label">Decisions</p>
-          <ol class="cs-rail__index">
-            <li><a href="#d1"><span class="cs-rail__num">01</span><span>Two access tiers, not five profiles</span></a></li>
-            <li><a href="#d2"><span class="cs-rail__num">02</span><span>Verification through the garage</span></a></li>
-            <li><a href="#d3"><span class="cs-rail__num">03</span><span>Privacy fails closed</span></a></li>
-            <li><a href="#d4"><span class="cs-rail__num">04</span><span>Clubs exist before their owners</span></a></li>
-            <li><a href="#d5"><span class="cs-rail__num">05</span><span>Who pays</span></a></li>
-          </ol>
-        </div>
-      </aside>
-    </div>
+    </main>
 
-    <nav class="cs-next reveal">
-      <a href="/vistlabs.html">
-        <span class="small">Next case study</span>
-        VIST Labs
-      </a>
-    </nav>
-
+    <aside class="rail" aria-label="Key decisions">
+      <p class="rail__label">Key decisions</p>
+      <ol>
+        <li><a href="#d1"><span class="n">01</span><span>Two access tiers</span></a></li>
+        <li><a href="#d2"><span class="n">02</span><span>Verification through the garage</span></a></li>
+        <li><a href="#d3"><span class="n">03</span><span>Privacy that fails closed</span></a></li>
+        <li><a href="#d4"><span class="n">04</span><span>RSVP with your car</span></a></li>
+        <li><a href="#d5"><span class="n">05</span><span>Clubs before their owners</span></a></li>
+        <li><a href="#d6"><span class="n">06</span><span>Money out of the experience</span></a></li>
+      </ol>
+    </aside>
   </div>
-</main>
 
-<script src="/assets/main.js"></script>
+  <footer class="foot">
+    <span>Rishabh Jain, Supaca</span>
+    <a href="/#work">All work</a>
+  </footer>
+
+</div>
+
+<script src="/assets/case.js"></script>
+
 </body>
 </html>
