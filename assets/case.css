@@ -15,7 +15,10 @@
   --accent:    #1E4C6B;   /* 8.4:1  */
 
   --sans: "Figtree", ui-sans-serif, "Segoe UI", system-ui, sans-serif;
-  --measure: 34em;
+  /* Was 34em, about 68 characters. 42em is roughly 84, which is past the
+     60 to 75 that reads most comfortably, but it is the width asked for.
+     This is the one knob: drop it to 38em if lines feel long. */
+  --measure: 42em;
   --gap: clamp(64px, 7vw, 104px);
   --pad: clamp(20px, 5vw, 72px);
 }
@@ -39,7 +42,7 @@ a { color: inherit; }
 
 ::selection { background: rgba(20,21,24,.10); }
 
-.wrap { max-width: 1180px; margin: 0 auto; padding: 0 var(--pad); }
+.wrap { max-width: 1400px; margin: 0 auto; padding: 0 var(--pad); }
 
 /* --- Top bar ----------------------------------------------------------- */
 
@@ -388,7 +391,14 @@ figure { margin: 40px 0 0; }
 
 /* Full-measure images are allowed to breathe past the text column. */
 @media (min-width: 1100px) {
-  figure.bleed { width: calc(100% + 120px); }
+  figure.bleed { width: calc(100% + 180px); }
+}
+
+/* The wider column gives the placeholders more to work with. */
+@media (min-width: 1200px) {
+  .shot { min-height: 360px; }
+  .shot--tall { min-height: 520px; }
+  .shot--wide { min-height: 420px; }
 }
 
 /* --- Results ----------------------------------------------------------- */
@@ -430,93 +440,3 @@ figure { margin: 40px 0 0; }
 }
 
 html { scroll-behavior: smooth; }
-
-/* ==========================================================================
-   TWO COLUMNS, 1200px AND UP
-   The page was 41% stacked figures. They move into a second column beside
-   the prose that introduces them, which costs almost no height and uses the
-   space that was sitting empty.
-
-   Body text stays one column on purpose. Running prose in two columns on a
-   scrolling page makes the reader go down one and back up the next, or cuts
-   a column at the viewport edge. The goal was fewer scrolls, not harder
-   reading.
-   ========================================================================== */
-
-@media (min-width: 1200px) {
-  .wrap { max-width: 1320px; }
-
-  .layout { grid-template-columns: minmax(0, 1fr) 168px; gap: 64px; }
-
-  /* Each section becomes prose left, figures right. The heading spans both
-     so it still reads as the start of a section. */
-  .col > section {
-    display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-    column-gap: 48px;
-    align-content: start;
-  }
-
-  .col > section > h2 { grid-column: 1 / -1; }
-
-  .col > section > *:not(figure):not(h2) { grid-column: 1; }
-
-  /* Figures stack down the right column, starting level with the first
-     paragraph rather than after the last one. */
-  .col > section > figure {
-    grid-column: 2;
-    grid-row: 2 / span 200;
-    align-self: start;
-    margin-top: 0;
-  }
-
-  .col > section > figure ~ figure { margin-top: 20px; }
-
-  /* A section with no figure keeps a reading measure instead of stretching
-     across the full width. */
-  .col > section:not(:has(> figure)) > *:not(h2) { max-width: var(--measure); }
-  .col > section:not(:has(> figure)) { grid-template-columns: minmax(0, 1fr); }
-  .col > section:not(:has(> figure)) > * { grid-column: 1; }
-
-  /* Decisions do the same thing one level down. */
-  .decision {
-    display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-    column-gap: 48px;
-    align-content: start;
-  }
-
-  .decision > h3 { grid-column: 1 / -1; }
-  .decision > *:not(figure):not(h3) { grid-column: 1; }
-
-  .decision > figure {
-    grid-column: 2;
-    grid-row: 2 / span 200;
-    align-self: start;
-    margin-top: 0;
-  }
-
-  .decision:not(:has(> figure)) { grid-template-columns: minmax(0, 1fr); }
-  .decision:not(:has(> figure)) > * { grid-column: 1; max-width: var(--measure); }
-
-  /* A figure in a column does not need to bleed past anything. */
-  figure.bleed { width: auto; }
-
-  /* Shorter now that figures sit beside the text rather than under it. */
-  .shot { min-height: 240px; }
-  .shot--tall { min-height: 320px; }
-  .shot--wide { min-height: 260px; }
-
-  /* With the figures out of the vertical run, the gaps can come in. */
-  :root { --gap: 76px; }
-  .decision { padding-top: 56px; }
-}
-
-/* :has carries this layout. Without it, everything stays in the single
-   column it already was, which is the current live behaviour. */
-@supports not (selector(:has(*))) {
-  @media (min-width: 1200px) {
-    .col > section, .decision { display: block; }
-    .col > section > figure, .decision > figure { margin-top: 40px; }
-  }
-}
