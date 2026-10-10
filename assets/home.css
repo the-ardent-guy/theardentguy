@@ -1,0 +1,351 @@
+/* Homepage. Loads after case.css, which carries the tokens, the grain and
+   the type. Built to the art direction plan, 11 Oct 2026.
+
+   The hand layer, margin doodles, drawn underlines, the vines on the
+   Desserts card and the Illustrator and Daydreamer hover clusters, is not
+   in here. Every one of those has to be drawn by Rishabh, and none of the
+   drawings exist yet. Where a drawing belongs, there is a labelled slot
+   and a comment saying so. */
+
+/* --- Hero -------------------------------------------------------------- */
+
+.hero { padding: clamp(28px, 4vw, 48px) 0 0; }
+
+.hero__frame {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--paper-2);
+  aspect-ratio: 16 / 10;
+}
+
+.hero__frame img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; }
+
+@media (max-width: 760px) {
+  .hero__frame { aspect-ratio: 4 / 5; }
+  .hero__frame img { object-position: 50% 58%; }
+}
+
+/* --- The tagline, and its hover clusters ------------------------------- */
+
+/* No gap between the hero and this: the plan calls the old one out. */
+.tagline { padding: clamp(28px, 3.5vw, 44px) 0 0; }
+
+.tagline__line {
+  margin: 0;
+  max-width: 20ch;
+  font-family: var(--display);
+  font-variation-settings: "opsz" 96;
+  font-size: clamp(34px, 7vw, 88px);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -.02em;
+  color: var(--ink);
+}
+
+.w {
+  position: relative;
+  display: inline-block;
+  cursor: default;
+  transition: opacity var(--t-ui) var(--ease);
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+}
+
+/* The others drop back so the hovered word carries the line. */
+.tagline.is-focused .w:not(.is-on) { opacity: .4; }
+
+/* Stand-in for the drawn underline. The real one is one of Rishabh's own
+   strokes traced to SVG, which does not exist yet. */
+.w::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: .06em;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--mustard);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--t-ui) var(--ease);
+}
+
+.w.is-on::after { transform: scaleX(1); }
+
+.cluster {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.cluster b {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin: -21px 0 0 -21px;
+  border-radius: 10px;
+  background: var(--paper-2);
+  opacity: 0;
+  transform: translate(0, 0) scale(.6) rotate(-12deg);
+  transition:
+    opacity var(--t-ui) var(--ease),
+    transform var(--t-ui) var(--ease);
+}
+
+.cluster img, .cluster svg { width: 22px; height: 22px; }
+
+/* Logos sit as ink until the cluster is open, so they read as part of the
+   drawing rather than as a brand wall. */
+.cluster img { filter: grayscale(1) contrast(.2) brightness(.35); transition: filter var(--t-ui) var(--ease); }
+.w.is-on .cluster img { filter: none; }
+
+.w.is-on .cluster b {
+  opacity: 1;
+  transform: translate(var(--dx), var(--dy)) scale(1) rotate(0deg);
+}
+
+/* Out is faster and unstaggered. */
+.w:not(.is-on) .cluster b { transition-duration: 220ms; transition-delay: 0ms !important; }
+
+.cluster b.slot {
+  width: auto;
+  height: auto;
+  padding: 7px 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .04em;
+  color: var(--graphite);
+  white-space: nowrap;
+  margin: -14px 0 0 -40px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* No spring. The items become a static row under the word. */
+  .cluster { position: static; width: auto; height: auto; display: flex; gap: 8px; margin-top: 10px; }
+  .cluster b { position: static; margin: 0; opacity: 1; transform: none; }
+  .tagline.is-focused .w:not(.is-on) { opacity: 1; }
+}
+
+/* --- Work cards -------------------------------------------------------- */
+
+.work { padding: clamp(64px, 8vw, 112px) 0 0; }
+
+.cards { display: grid; gap: clamp(20px, 2.4vw, 32px); }
+
+.card {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(20px, 2.6vw, 36px);
+  padding: clamp(20px, 2.2vw, 28px);
+  background: var(--paper-2);
+  border-radius: 20px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform var(--t-ui) var(--ease);
+}
+
+@media (min-width: 860px) {
+  .card { grid-template-columns: 3fr 2fr; align-items: center; }
+  /* Alternating, so the page does not read as one repeated template. */
+  .card:nth-of-type(even) .card__media { order: 2; }
+  .card--lead { grid-template-columns: 1fr; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card:hover, .card:focus-visible { transform: translateY(-4px); }
+  .card:hover .card__media img,
+  .card:hover .shot { transform: scale(1.03); }
+  .card:hover .card__title::after { transform: scaleX(1); }
+}
+
+.card__media {
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+.card__media img, .card__media .shot {
+  width: 100%;
+  transition: transform 520ms var(--ease);
+}
+
+.card--lead .card__media { aspect-ratio: 16 / 9; }
+
+.card__label {
+  margin: 0 0 14px;
+  font-family: var(--mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--graphite);
+}
+
+.card__title {
+  position: relative;
+  display: inline-block;
+  margin: 0 0 12px;
+  max-width: 18ch;
+  font-family: var(--display);
+  font-variation-settings: "opsz" 48;
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  color: var(--ink);
+}
+
+.card--lead .card__title { max-width: 22ch; }
+
+.card__title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--mustard);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--t-ui) var(--ease);
+}
+
+.card__line { margin: 0; max-width: 34ch; color: var(--graphite); font-size: 17px; line-height: 1.5; }
+
+.chip {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--mustard);
+  color: #1C1B18;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .04em;
+}
+
+/* --- Entry: once, on the way in ---------------------------------------- */
+
+.rise { opacity: 0; transform: translateY(16px); }
+.rise.is-in { opacity: 1; transform: none; transition: opacity 520ms var(--ease), transform 520ms var(--ease); }
+
+@media (prefers-reduced-motion: reduce) {
+  .rise, .rise.is-in { opacity: 1; transform: none; transition: none; }
+  .card:hover { transform: none; }
+  .card__media img, .card__media .shot { transition: none; }
+}
+
+/* --- Desserts: the one card allowed to break the rules ----------------- */
+
+.wild {
+  margin-top: clamp(40px, 5vw, 72px);
+  padding: clamp(28px, 4vw, 52px);
+  background: var(--jumper);
+  color: var(--paper);
+  border-radius: 20px;
+  transform: rotate(-1deg);
+  width: calc(100% + clamp(0px, 2vw, 40px));
+  margin-left: calc(clamp(0px, 2vw, 40px) / -2);
+  text-decoration: none;
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.wild__label { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; opacity: .8; margin: 0 0 16px; }
+
+.wild__title {
+  margin: 0 0 14px;
+  max-width: 18ch;
+  font-family: var(--display);
+  font-variation-settings: "opsz" 48;
+  font-size: clamp(26px, 3.4vw, 40px);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -.02em;
+}
+
+.wild__line { margin: 0; max-width: 40ch; opacity: .9; }
+
+.wild__pin {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.wild__pin .shot {
+  background: rgba(243, 238, 228, .12);
+  color: rgba(243, 238, 228, .72);
+  min-height: 150px;
+  border-radius: 14px;
+}
+
+.wild__pin .shot:nth-child(odd) { transform: rotate(-1.5deg); }
+.wild__pin .shot:nth-child(even) { transform: rotate(1.5deg); }
+
+/* The drawn vines grow in from two corners when the card enters view.
+   Rishabh supplies the two corner pieces and the separate leaves. */
+
+/* --- Also true --------------------------------------------------------- */
+
+.also { padding: clamp(64px, 8vw, 112px) 0 0; }
+
+.also__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); column-gap: clamp(28px, 4vw, 56px); }
+
+.also__grid p {
+  margin: 0;
+  padding: 18px 0;
+  border-top: 1px solid var(--rule);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+/* --- Small work, studio, contact --------------------------------------- */
+
+.minor { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: clamp(20px, 2.4vw, 32px); margin-top: clamp(20px, 2.4vw, 32px); }
+
+.mini {
+  display: block;
+  padding: clamp(22px, 2.4vw, 30px);
+  background: var(--paper-2);
+  border-radius: 20px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform var(--t-ui) var(--ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mini:hover, .mini:focus-visible { transform: translateY(-4px); }
+}
+
+.mini__label { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--graphite); margin: 0 0 12px; }
+
+.mini__title {
+  margin: 0;
+  font-family: var(--display);
+  font-variation-settings: "opsz" 24;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -.015em;
+}
+
+.contact { padding: clamp(64px, 8vw, 112px) 0 clamp(72px, 9vw, 120px); }
+
+.contact h2 { margin-bottom: 20px; }
+
+.contact a { color: var(--jumper); text-underline-offset: 4px; }
