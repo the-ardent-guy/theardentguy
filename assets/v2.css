@@ -233,3 +233,43 @@ body::after { display: none !important; }
   .v2-cluster b { position: static; margin: 0; opacity: 1; transform: none; transition: none; }
   .intro__lead.is-focused .w:not(.is-on) { opacity: 1; }
 }
+
+/* --- Cards cut back ---------------------------------------------------
+   The cards now carry a project name, the problem as the headline, one
+   outcome and a role. With the fact stack gone the headline can take the
+   weight it should have had all along. */
+
+.bento--home .tile__title {
+  font-size: clamp(24px, 2.7vw, 34px);
+  line-height: 1.12;
+  letter-spacing: -.025em;
+  max-width: 20ch;
+}
+
+.bento--home .tile--sm .tile__title,
+.bento--home .tile--pair .tile__title {
+  font-size: clamp(20px, 2vw, 25px);
+  line-height: 1.18;
+  max-width: 22ch;
+}
+
+/* Says what kind of project it is, without a sentence doing the work. */
+.tag {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 3px 8px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 9px;
+  letter-spacing: .1em;
+  vertical-align: 2px;
+  opacity: .85;
+}
+
+/* One fact left, so it reads as a closing line rather than a column. */
+.bento--home .tile--band .tile__more {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 46ch;
+}
+
+.bento--home .tile__more .fact__v { font-size: 15px; }
