@@ -440,3 +440,29 @@ figure { margin: 40px 0 0; }
 }
 
 html { scroll-behavior: smooth; }
+
+/* --- A client quote ----------------------------------------------------
+   Only used where a real, attributed one exists. */
+
+.quote {
+  margin: 40px 0 0;
+  padding: 28px 0 0;
+  border-top: 2px solid var(--ink);
+  max-width: 38ch;
+}
+
+.quote__text {
+  margin: 0;
+  font-size: clamp(19px, 2.1vw, 24px);
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: -.01em;
+  color: var(--ink);
+}
+
+.quote__who {
+  margin: 14px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--label);
+}

@@ -1,0 +1,36 @@
+Sintero, based in Bengaluru, makes luxury sintered stone and large-format porcelain surfaces. Through Bleed & Margins, I designed its brand identity and led the digital design of its website and Shopify store.
+Brand and Digital Design Lead, at Bleed & Margins
+[dates]
+Shopify website and store
+Brand identity, information architecture, UI, the design system, the specification enquiry flow, and build direction
+Live at sintero.in, with surfaces specified in projects for JW Marriott and Prestige Group
+Sintero's buyers are architects, interior designers and developers who specify large volumes of surface on trust. The hard part was making one brand carry both technical credibility and a luxury feel.
+Sintero had manufacturing depth and current sintering technology, but a brand presence that didn't match either. Two things made it harder:
+The buyer specifies instead of buying. An architect chooses the surface, and the order follows months later.
+The material is unfamiliar. Sintered stone's advantages are barely known outside the design community, so the brand had to explain and reassure at once.
+How might we make Sintero read as credible and premium to a specifier, and turn their interest into an enquiry?
+I mapped the specification path in luxury interiors, which runs from awareness to samples and specs, then a meeting and a project order. Two findings shaped the design:
+In luxury surfaces, brand trust is a technical concern as much as a marketing one.
+Sintero's biggest competitor was unfamiliarity with the material.
+An identity with restraint
+Near-black and charcoal with a single warm gold accent, a monoline wordmark, and serif display headings with clean body text. The identity uses the same restraint as the surfaces themselves.
+Specifiers judge a brand before they ever touch a slab. A quiet, precise identity let Sintero sit beside the developers and hotel groups it wanted to supply.
+A site built for the specifier
+The information architecture leads with collections, project references and technical resources, and routes to an enquiry flow written for specification requests in place of a "buy now" path.
+A homeowner browsing gets a more technical journey. I chose the specifier as the primary user, since they drive the orders.
+Material specs as products
+In the Shopify store, downloadable material specs are set up as products. A specifier browses finishes the way they'd browse a catalogue, downloads the specs they need, and the store captures them as a lead.
+Sintero sells through projects, so a checkout for slabs made no sense. Treating specs as products turned the store into the enquiry funnel the business actually needed.
+Opening with the process
+The homepage opens on how sintering works, condensing "nature's million-year rock formation process into days", before the finished interiors. The headline is "Nature, Refined."
+Specifiers had to understand the material before they'd trust it, and opening on the process set Sintero apart from competitors that open on a styled room.
+The room-setting imagery buyers expect comes later in the page.
+A store the client manages
+Collections and specs run through Shopify's CMS, so the client adds new finishes and swaps project photography without a developer.
+Live at sintero.in, with the identity, website and store working as one brand
+Sintero surfaces specified in projects for JW Marriott and Prestige Group
+The store works mainly as an enquiry funnel, with specs downloaded as products
+The client manages collections without developer support
+"Subtle, premium, very design-first." The change was noticed "from clients to dealers."
+Aditya Jain, Partner, Sintero
+Design the enquiry flow as the main conversion from day one. The store became an enquiry funnel, and planning it that way from the first wireframe would have shaped the IA sooner
