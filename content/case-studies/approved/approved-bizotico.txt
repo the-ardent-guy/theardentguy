@@ -1,0 +1,28 @@
+Bizotico, a Bengaluru distributor, holds Indian rights for 25+ international watch brands, including Scuderia Ferrari, Roamer, Obaku and Earnshaw. I redesigned its direct store so buyers had a reason to buy from the distributor. It still runs today as The Timekeepers.
+E-commerce Designer, leading a graphic designer alongside the marketing team
+6 months, 2023 to 2024, Bengaluru
+Shopify, desktop and mobile
+Research, information architecture, flows, UI/UX, conversion design, Shopify build and the campaign creative system
+7.85x ROAS on a May 2024 campaign, still live two years on
+The same watches were a tap away on Amazon and Myntra. The hard part was giving buyers a reason to skip them.
+Marketplaces cost Bizotico margin on every watch, and an earlier direct store never became a real sales channel. The new store had to fit 25+ brands, from under ₹5,000 to above ₹60,000, into one catalogue without the premium lines losing weight. It also had to suit mobile buyers who expect cash on delivery, which carries higher return risk.
+How might we give buyers a reason to buy direct, when the same watches are on every marketplace?
+I mapped every product by movement, strap, style and price, and grouped the range into four price bands. A competitive review showed marketplaces win on price and delivery, but can't match what only a distributor has: its own warranty, servicing and direct pricing. I then mapped the key flows, from browsing by brand, price or gift through to checkout.
+Four ways into one catalogue
+Buyers start from the brand, the watch type, the budget or the person they're buying for. Top brands get their own homepage rows, and smaller labels sit under "Offbeat brands you wish you knew".
+Every product has to be tagged across all four facets, which is more catalogue work in exchange for easier discovery.
+A reason to buy direct
+The store leads with a 2-year Bizotico warranty, a personalised service station and direct discounts. A trust bar on every page states returns, COD and warranty, and an authorised-partner block names the marketplaces Bizotico supplies, as proof of authenticity. Verified Google reviews from the offline store solved the cold start on reviews, and on-wrist videos and to-scale images show real size before purchase.
+Naming the marketplaces reminds buyers they exist, but authenticity mattered more.
+Conversion built for mobile buyers
+COD stays, with 10% off prepaid orders to cut returns. A sticky offer bar, quick view and an add-to-cart within thumb reach keep buying fast, and WhatsApp support answers questions before purchase.
+One creative system for 25+ brands
+Every ad used one fixed template, so one designer could produce creatives for every brand, and each ad linked straight to the product it showed. Deep discounts stayed on fashion brands, while premium lines held at 5% to 20% off so they never looked like clearance stock.
+The ads look alike, which we accepted for speed and recognition.
+A store the client runs alone
+Every component maps to a Shopify theme section, so adding a brand takes a collection and a banner, with no developer needed.
+7.85x ROAS on a May 2024 campaign: about ₹53,000 in ad spend against ₹4,16,131 in net sales (shared with the marketing team, who ran the ads)
+About 30 orders a month in the early months
+25+ brands run by the client without developer support
+Still live more than two years later, as The Timekeepers
+Set template tiers from day one. Brand-led navigation worked but was maintenance-heavy. Fixed tiers for premium and fashion brands would have cut setup time.
