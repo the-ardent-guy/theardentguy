@@ -1,20 +1,18 @@
 /* Design pass v2. Additive only.
    Loaded last on every page, after style.css or case.css. Nothing here
-   changes copy, colour, font, layout or the hero. Four things:
-   paper grain, paper cards, the ink blot, the tagline clusters. */
+   changes copy, colour, font, layout or the hero. Three things:
+   paper grain, paper cards, the tagline clusters. */
 
 :root {
   --v2-ease: cubic-bezier(0.22, 1, 0.36, 1);
   /* A warm grey about 9% darker than the card fill. */
   --v2-card-edge: #E3DFD7;
   --v2-card-shadow: 0 12px 24px -12px rgba(60, 45, 20, .18);
-  --v2-ink: #141518;
 }
 
 :root[data-theme="dark"] {
   --v2-card-edge: #2B2E34;
   --v2-card-shadow: 0 12px 24px -12px rgba(0, 0, 0, .55);
-  --v2-ink: #0B0C0E;
 }
 
 /* --- 1. Paper grain on the page background ---------------------------- */
@@ -87,61 +85,6 @@ body::after { display: none !important; }
   }
   a.tile:hover .tile__media .slot,
   a.tile:focus-visible .tile__media .slot { transform: scale(1.02); }
-}
-
-/* --- 3. The ink blot --------------------------------------------------- */
-
-.v2-blot {
-  position: fixed;
-  inset: 0;
-  z-index: 9998;
-  pointer-events: none;
-  background: var(--v2-ink);
-  clip-path: circle(0% at var(--bx, 50%) var(--by, 50%));
-  will-change: clip-path;
-}
-
-/* An irregular edge, so it does not read as a perfect circle. */
-.v2-blot::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: inherit;
-  filter: url(#v2-blotedge);
-  clip-path: inherit;
-}
-
-.v2-blot.is-spreading { animation: v2-spread 500ms var(--v2-ease) forwards; }
-.v2-blot.is-clearing  { animation: v2-clear 400ms var(--v2-ease) forwards; }
-
-@keyframes v2-spread {
-  from { clip-path: circle(0% at var(--bx, 50%) var(--by, 50%)); }
-  to   { clip-path: circle(150% at var(--bx, 50%) var(--by, 50%)); }
-}
-
-@keyframes v2-clear {
-  from { clip-path: circle(150% at var(--bx, 50%) var(--by, 50%)); }
-  to   { clip-path: circle(0% at var(--bx, 50%) var(--by, 50%)); }
-}
-
-.v2-blot__defs { position: absolute; width: 0; height: 0; overflow: hidden; }
-
-/* View Transitions where the browser has them. Same ink, same timing. */
-@media (prefers-reduced-motion: no-preference) {
-  ::view-transition-old(root) { animation: none; }
-  ::view-transition-new(root) { animation: v2-fadein 400ms var(--v2-ease); }
-}
-
-@keyframes v2-fadein { from { opacity: 0; } to { opacity: 1; } }
-
-@media (prefers-reduced-motion: reduce) {
-  /* A 200ms crossfade instead of the wash. */
-  .v2-blot.is-spreading,
-  .v2-blot.is-clearing { animation: none; }
-  .v2-blot { transition: opacity 200ms linear; clip-path: none; opacity: 0; }
-  .v2-blot.is-spreading { opacity: 1; }
-  .v2-blot.is-clearing { opacity: 0; }
-  ::view-transition-new(root) { animation: v2-fadein 200ms linear; }
 }
 
 /* --- 4. The tagline clusters ------------------------------------------ */

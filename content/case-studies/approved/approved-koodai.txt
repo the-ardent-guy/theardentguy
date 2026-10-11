@@ -1,0 +1,31 @@
+Koodai Kind is a founder-led brand selling the wire-woven koodai bag, handwoven in Coimbatore. Through Bleed & Margins, I art-directed the brand's campaign and designed and built its Shopify storefront, so the koodai could be bought like any contemporary bag.
+Product Designer and Art Director, at Bleed & Margins
+[dates]
+Shopify, mobile-first, with pay-to-book orders
+Storefront UX and UI, product page, colour system, the bindu page loader, Shopify theme edits, and campaign art direction
+Live at koodaikind.com, selling, and featured in newspapers
+The koodai is a heritage object that's also a contemporary bag. The hard part was presenting both at once, so buyers chose it for how it looks and works instead of out of nostalgia.
+Most heritage-craft brands sell the koodai through nostalgia, asking buyers to save the artisan or the tradition. Meanwhile, a new generation was picking it up because they liked it (Elle India, 2025). Koodai Kind wanted to sell the bag on its design: wire-woven, spill-resistant and light, with its heritage shown as part of the product. Its buyers were finding it on their phones.
+How might we make a heritage bag as shoppable and desirable as any contemporary one, for a buyer discovering it on a phone?
+I reviewed how heritage-craft brands present their products, and found the same visual shorthand everywhere: sepia tones, textured backgrounds, artisan hands in close-up, and heavy serif type. To a younger, design-literate buyer, that reads as a product that needs justifying. Coverage of the koodai trend, and comparisons between Prada's 2024 market bags and koodais, showed Indian everyday objects entering global style as originals.
+Heritage as part of the product
+The site keeps the koodai's roots visible, through "Made in Coimbatore", Tamil product names with translations, and the story of where the bag comes from. The photography and layout present it as a contemporary bag, worn in real settings by the people who'd buy it today.
+Leading with nostalgia would have asked buyers to buy out of duty. Leaving the heritage out would have hidden what makes the bag distinctive.
+A mobile-first product page where the bag leads
+Product pages open on the bag in use, with the weave, lining and structure notes below. Wire construction and the spill-resistant lining appear as features in callouts.
+A buyer who wants full material detail up front has to scroll.
+A colour system taken from the weaves
+The colour selector and site accents come from the bags' own stripe colours, and the campaign was shot in context instead of on white.
+The palette is tied to the current range, so new colourways need palette work.
+Pay to book, for a handwoven product
+Every bag is woven by hand, so stock can't be held like a factory product. We chose a pay-to-book system: buyers pay to reserve their bag, and delivery is estimated at 2 to 3 weeks.
+Holding stock ahead of demand didn't fit handwoven production. Paying to book secured each order before the weaving started, and the delivery estimate set honest expectations.
+The bindu page loader
+The founder brought one reference: S.H. Raza's Bindu, the point from which all form radiates. Every koodai starts at a knot, so the bindu became the site's guiding idea, and a page loader in which a dot expands into concentric rings before the storefront appears. It shipped as designed.
+It adds a moment before the store loads, on a site where speed affects conversion. We judged the brand moment worth it.
+Live at koodaikind.com, with a full storefront and campaign
+Selling steadily through the pay-to-book system
+Featured in newspapers [name the publications]
+A reusable product page and colour selector for every product
+Set success metrics at kickoff. Sales are good, but without agreed targets for bookings and mobile conversion, I can't show exactly how well the storefront performs.
+Test the loader against load time. The bindu loader sets the brand's tone, and I'd measure its effect on bounce rate to confirm it's worth the extra second.

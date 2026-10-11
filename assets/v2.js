@@ -1,15 +1,15 @@
-/* Design pass v2. Additive only: the grain layer, the ink blot transition
-   and the tagline clusters. Vanilla, because the site has no build step and
-   nothing here needs a library. The one thing a library would buy is a real
-   spring, and a single overshoot curve gets close enough to be worth not
-   shipping 40KB for it. */
+/* Design pass v2. Additive only: the grain layer and the tagline clusters.
+   Vanilla, because the site has no build step and nothing here needs a
+   library. The one thing a library would buy is a real spring, and a
+   single overshoot curve gets close enough to be worth not shipping 40KB
+   for it. */
 
 (function () {
   "use strict";
 
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* --- 1. The grain layer, and the blot's rough edge -------------------- */
+  /* --- 1. The grain layer ------------------------------------------------ */
 
   function scaffold() {
     if (!document.querySelector(".v2-grain")) {
@@ -18,87 +18,6 @@
       g.setAttribute("aria-hidden", "true");
       document.body.appendChild(g);
     }
-
-    if (!document.getElementById("v2-blotedge")) {
-      var ns = "http://www.w3.org/2000/svg";
-      var svg = document.createElementNS(ns, "svg");
-      svg.setAttribute("class", "v2-blot__defs");
-      svg.setAttribute("aria-hidden", "true");
-      svg.innerHTML =
-        '<filter id="v2-blotedge">' +
-        '<feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="2" seed="7" result="n"/>' +
-        '<feDisplacementMap in="SourceGraphic" in2="n" scale="34" xChannelSelector="R" yChannelSelector="G"/>' +
-        "</filter>";
-      document.body.appendChild(svg);
-    }
-  }
-
-  /* --- 3. The ink blot --------------------------------------------------
-     Spread from the click point, a short hold, then the page loads and the
-     ink clears. Navigation is never blocked: if the next page is slow the
-     ink clears anyway and the browser carries on. */
-
-  var SPREAD = 500, HOLD = 100, CLEAR = 400, GIVE_UP = 1500;
-
-  function blotEl() {
-    var b = document.querySelector(".v2-blot");
-    if (!b) {
-      b = document.createElement("div");
-      b.className = "v2-blot";
-      b.setAttribute("aria-hidden", "true");
-      document.body.appendChild(b);
-    }
-    return b;
-  }
-
-  function sameOrigin(a) {
-    return a && a.href && a.origin === location.origin &&
-           !a.hasAttribute("download") && a.target !== "_blank";
-  }
-
-  function inkTo(href, x, y) {
-    var b = blotEl();
-    b.style.setProperty("--bx", x + "px");
-    b.style.setProperty("--by", y + "px");
-    b.classList.remove("is-clearing");
-    /* reflow so the animation restarts cleanly */
-    void b.offsetWidth;
-    b.classList.add("is-spreading");
-
-    var went = false;
-    function go() { if (!went) { went = true; location.href = href; } }
-
-    setTimeout(go, (reduce ? 200 : SPREAD) + HOLD);
-    /* Hard stop. Never leave someone looking at a black screen. */
-    setTimeout(function () {
-      if (!went) { b.classList.remove("is-spreading"); go(); }
-    }, GIVE_UP);
-  }
-
-  function transitions() {
-    document.addEventListener("click", function (e) {
-      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      var a = e.target.closest ? e.target.closest("a") : null;
-      if (!sameOrigin(a)) return;
-
-      var url = new URL(a.href);
-      if (url.pathname === location.pathname) return;   /* in-page anchor */
-      /* Only into a case study, which is what the brief asks for. */
-      if (!/\.html$/.test(url.pathname) && url.pathname !== "/") return;
-
-      e.preventDefault();
-      inkTo(a.href, e.clientX, e.clientY);
-    });
-
-    /* Arriving: clear the ink to reveal the page. Back navigation plays
-       this half only, which is what a bfcache restore gives us for free. */
-    window.addEventListener("pageshow", function () {
-      var b = document.querySelector(".v2-blot");
-      if (!b) return;
-      b.classList.remove("is-spreading");
-      b.classList.add("is-clearing");
-      setTimeout(function () { b.remove(); }, (reduce ? 200 : CLEAR) + 60);
-    });
   }
 
   /* --- 4. The tagline clusters ------------------------------------------
@@ -214,7 +133,6 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     scaffold();
-    transitions();
     tagline();
   });
 })();
