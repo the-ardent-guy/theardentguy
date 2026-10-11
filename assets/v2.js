@@ -270,3 +270,39 @@
     io.observe(curtain);
   });
 })();
+
+/* The clock on the photograph. His time, not the reader's, so someone in
+   another timezone sees what time it is where he is. */
+(function () {
+  "use strict";
+  document.addEventListener("DOMContentLoaded", function () {
+    var el = document.getElementById("localTime");
+    if (!el) return;
+
+    function tick() {
+      var t;
+      try {
+        t = new Intl.DateTimeFormat("en-GB", {
+          timeZone: "Asia/Kolkata",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false
+        }).format(new Date());
+      } catch (e) {
+        /* No timezone data: drop the clock rather than show the wrong hour. */
+        var row = el.closest(".now__time");
+        if (row) row.remove();
+        return;
+      }
+      el.textContent = t;
+      el.setAttribute("datetime", t);
+    }
+
+    tick();
+    /* Line up with the next minute, then once a minute after that. */
+    setTimeout(function () {
+      tick();
+      setInterval(tick, 60000);
+    }, (60 - new Date().getSeconds()) * 1000);
+  });
+})();
