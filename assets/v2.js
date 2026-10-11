@@ -33,9 +33,7 @@
     ],
     "Builder.": [
       { logo: "cursor.svg", label: "Cursor" },
-      { logo: "claude.svg", label: "Claude" },
-      { logo: "shopify.svg", label: "Shopify" },
-      { logo: "n8n.svg", label: "n8n" },
+      { logo: "claude.svg", label: "Claude Code" },
       { logo: "make.svg", label: "Make" }
     ],
     /* Rishabh\'s own drawings. Slots until the SVGs exist. */
