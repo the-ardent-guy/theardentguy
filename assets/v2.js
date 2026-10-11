@@ -44,7 +44,7 @@
   };
 
   function tagline() {
-    var line = document.querySelector(".intro__lead");
+    var line = document.querySelector(".intro__roles") || document.querySelector(".intro__lead");
     if (!line) return;
 
     var phrases = Object.keys(CLUSTERS);

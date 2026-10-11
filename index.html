@@ -19,25 +19,20 @@
      and nowhere else, and a maroon hairline across the photograph breaks
      the rule that this site has exactly two fixed controls. -->
 
-<div class="dock">
-  <button class="dock__btn" id="navOpen" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navsheet">
-    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 4h14M1 8h14M1 12h14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-  </button>
-  <button class="dock__btn theme-toggle" type="button" aria-label="Toggle dark mode"></button>
-</div>
-
-<div class="navsheet" id="navsheet" role="dialog" aria-modal="true" aria-label="Menu">
-  <button class="navsheet__close" id="navClose" type="button" aria-label="Close menu">
-    <svg viewBox="0 0 16 16" aria-hidden="true" style="width:14px;height:14px"><path d="M3 3l10 10M13 3L3 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-  </button>
-  <ul class="navsheet__list">
-    <li><a href="/#work">Work</a></li>
-    <li><a href="/desserts.html">Desserts</a></li>
-    <li><a href="/studio.html">Studio</a></li>
-    <li><a href="/#contact">Contact</a></li>
-    <li><a href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume</a></li>
-  </ul>
-</div>
+<header class="bar">
+  <div class="bar__in">
+    <a class="bar__me" href="/">
+      <span class="bar__mark" aria-hidden="true">R</span>
+      rish.design
+    </a>
+    <nav class="bar__nav" aria-label="Site">
+      <a href="#work">Work</a>
+      <a href="#writing">Writing</a>
+      <a href="/desserts.html">Desserts</a>
+    </nav>
+    <a class="bar__cta" href="#contact">Get in touch <span aria-hidden="true">&#8594;</span></a>
+  </div>
+</header>
 
 <!-- THE CURTAIN.
      One screen, one photograph, nothing else. The photograph is the tagline
@@ -75,8 +70,8 @@
       <section class="tile tile--plain a-intro" aria-label="Introduction">
         <div class="tile__in">
           <div class="tile__lead intro">
-            <h1 class="intro__lead">Product Designer. Builder. Illustrator. Maladaptive Daydreamer.</h1>
-            <p class="intro__sub">The guy who brings his own characters to the table. Story and meaning first, screens second.</p>
+            <h1 class="intro__lead"><b>Rish</b>, <span class="intro__roles">Product Designer. Builder. Illustrator. Maladaptive Daydreamer.</span></h1>
+            <p class="intro__sub">I design products people have to trust, mostly AI ones, and I build the parts I can. Before a screen exists I have usually drawn the person who will use it. Currently building <a href="https://produsa.dev" target="_blank" rel="noopener">Produsa</a>.</p>
           </div>
         </div>
       </section>
@@ -271,7 +266,7 @@
            everybody notices a placeholder. Restore this band the day a name
            and a permission exist, as a 1-row band above contact. -->
 
-      <section class="tile tile--plain a-blog" aria-label="Writing">
+      <section class="tile tile--plain a-blog" id="writing" aria-label="Writing">
         <div class="tile__in">
           <p class="tile__eyebrow">Writing</p>
           <h2 class="tile__title">Essays on design, AI and the work</h2>

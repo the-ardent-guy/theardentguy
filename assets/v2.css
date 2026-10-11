@@ -89,7 +89,7 @@ body::after { display: none !important; }
 
 /* --- 4. The tagline clusters ------------------------------------------ */
 
-.intro__lead .w {
+.intro__roles .w, .intro__lead .w {
   position: relative;
   display: inline-block;
   border: 0;
@@ -103,7 +103,7 @@ body::after { display: none !important; }
   transition: opacity 300ms var(--v2-ease);
 }
 
-.intro__lead.is-focused .w:not(.is-on) { opacity: .4; }
+.intro__roles.is-focused .w:not(.is-on), .intro__lead.is-focused .w:not(.is-on) { opacity: .4; }
 
 .v2-cluster {
   position: absolute;
@@ -174,7 +174,7 @@ body::after { display: none !important; }
     margin-top: 10px;
   }
   .v2-cluster b { position: static; margin: 0; opacity: 1; transform: none; transition: none; }
-  .intro__lead.is-focused .w:not(.is-on) { opacity: 1; }
+  .intro__roles.is-focused .w:not(.is-on), .intro__lead.is-focused .w:not(.is-on) { opacity: 1; }
 }
 
 /* --- Cards cut back ---------------------------------------------------
@@ -302,3 +302,115 @@ body::after { display: none !important; }
 }
 
 .blog .slot { min-height: 180px; margin: 0; }
+
+/* --- The sticky bar ---------------------------------------------------
+   A rounded pill that floats over the page. It carries the nav that used
+   to sit behind the dock's menu button, so both are gone. */
+
+.bar {
+  position: sticky;
+  top: 16px;
+  z-index: 400;
+  padding: 0 var(--margin, 24px);
+  margin-top: 16px;
+}
+
+.bar__in {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 10px 10px 16px;
+  background: var(--c-surface);
+  border: 1px solid var(--v2-card-edge);
+  border-radius: 999px;
+  box-shadow: 0 6px 18px -12px rgba(60, 45, 20, .22);
+}
+
+.bar__me {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -.01em;
+  color: var(--c-ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.bar__mark {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--c-bg);
+  border: 1px solid var(--v2-card-edge);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.bar__nav {
+  display: flex;
+  gap: 24px;
+  margin-left: auto;
+  font-size: 15px;
+}
+
+.bar__nav a {
+  color: var(--c-body);
+  text-decoration: none;
+  transition: color 180ms var(--v2-ease);
+}
+
+.bar__nav a:hover, .bar__nav a:focus-visible { color: var(--c-ink); }
+
+.bar__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border: 1px solid var(--v2-card-edge);
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--c-ink);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 180ms var(--v2-ease), border-color 180ms var(--v2-ease);
+}
+
+.bar__cta:hover, .bar__cta:focus-visible {
+  background: var(--c-ink);
+  border-color: var(--c-ink);
+  color: var(--c-bg);
+}
+
+@media (max-width: 760px) {
+  .bar { top: 10px; padding: 0 16px; }
+  .bar__in { gap: 12px; padding: 8px 8px 8px 12px; }
+  .bar__nav { display: none; }
+  .bar__me { font-size: 14px; }
+  .bar__cta { padding: 8px 14px; font-size: 14px; }
+}
+
+/* The curtain used to sit under a transparent page top. Now there is a bar
+   above it, so the curtain starts below the bar rather than behind it. */
+.bar + main .curtain,
+.bar ~ .wrap .curtain { margin-top: 0; }
+
+/* --- The intro card, name and role ------------------------------------ */
+
+.intro__lead b { font-weight: 800; }
+
+.intro__roles { font-weight: 400; color: var(--c-body-soft); }
+
+.intro__sub a {
+  color: var(--c-ink);
+  font-weight: 600;
+  text-decoration-color: var(--acc-produsa);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
