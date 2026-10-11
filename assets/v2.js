@@ -38,9 +38,8 @@
       { logo: "n8n.svg", label: "n8n" },
       { logo: "make.svg", label: "Make" }
     ],
-    /* Rishabh's own drawings. Slots until the SVGs exist. */
-    "Illustrator.": [{ slot: "pen" }, { slot: "brush" }, { slot: "character" }],
-    "Maladaptive Daydreamer.": [{ slot: "cloud" }, { slot: "cloud" }, { slot: "cloud" }]
+    /* Rishabh\'s own drawings. Slots until the SVGs exist. */
+    "Illustrator.": [{ slot: "pen" }, { slot: "brush" }, { slot: "character" }]
   };
 
   function tagline() {
