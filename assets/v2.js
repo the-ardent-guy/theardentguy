@@ -29,7 +29,7 @@
   var CLUSTERS = {
     "Product Designer.": [
       { logo: "figma.svg", label: "Figma" },
-      { slot: "tools TBC" }
+      { logo: "shopify.svg", label: "Shopify" }
     ],
     "Builder.": [
       { logo: "cursor.svg", label: "Cursor" },
