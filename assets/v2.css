@@ -307,13 +307,29 @@ body::after { display: none !important; }
    A rounded pill that floats over the page. It carries the nav that used
    to sit behind the dock's menu button, so both are gone. */
 
+/* Fixed rather than sticky, so it takes no space in the flow and the
+   photograph still opens the page at full height. Hidden until the
+   curtain has gone by: the bar belongs to the grid, not to the picture. */
 .bar {
-  position: sticky;
+  position: fixed;
   top: 16px;
+  left: 0;
+  right: 0;
   z-index: 400;
   padding: 0 var(--margin, 24px);
-  margin-top: 16px;
 }
+
+/* Without JS it simply stays visible, rather than never appearing. */
+.js .bar {
+  transform: translateY(-140%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 340ms var(--v2-ease), opacity 240ms var(--v2-ease);
+}
+
+.js .bar.is-up { transform: none; opacity: 1; pointer-events: auto; }
+
+@media (prefers-reduced-motion: reduce) { .js .bar { transition: none; } }
 
 .bar__in {
   max-width: 1120px;
@@ -329,9 +345,6 @@ body::after { display: none !important; }
 }
 
 .bar__me {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   font-weight: 600;
   font-size: 15px;
   letter-spacing: -.01em;
@@ -340,17 +353,6 @@ body::after { display: none !important; }
   white-space: nowrap;
 }
 
-.bar__mark {
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--c-bg);
-  border: 1px solid var(--v2-card-edge);
-  font-size: 13px;
-  font-weight: 700;
-}
 
 .bar__nav {
   display: flex;

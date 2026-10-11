@@ -170,3 +170,27 @@
     paint();
   });
 })();
+
+/* The bar belongs to the grid, not to the photograph. It stays away while
+   the curtain is on screen and comes down as the grid arrives. */
+(function () {
+  "use strict";
+  document.addEventListener("DOMContentLoaded", function () {
+    var bar = document.querySelector(".bar");
+    var curtain = document.getElementById("curtain");
+    if (!bar) return;
+
+    /* No curtain on this page, or no observer: just show it. */
+    if (!curtain || !("IntersectionObserver" in window)) {
+      bar.classList.add("is-up");
+      return;
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      /* Down once the picture has left, away again when it returns. */
+      bar.classList.toggle("is-up", !entries[0].isIntersecting);
+    }, { threshold: 0, rootMargin: "-64px 0px 0px 0px" });
+
+    io.observe(curtain);
+  });
+})();
