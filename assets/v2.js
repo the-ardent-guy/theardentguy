@@ -18,6 +18,19 @@
       g.setAttribute("aria-hidden", "true");
       document.body.appendChild(g);
     }
+
+    if (!document.querySelector(".shaft")) {
+      var sh = document.createElement("div");
+      sh.className = "shaft";
+      sh.setAttribute("aria-hidden", "true");
+      sh.innerHTML =
+        '<svg viewBox="0 0 56 16" fill="none" stroke="currentColor" stroke-linecap="round">' +
+        '<path d="M2 8 H54" stroke-width="2"/>' +
+        '<path d="M46 2 L54 8 L46 14" stroke-width="2" stroke-linejoin="round"/>' +
+        '<path d="M2 8 L9 3" stroke-width="1.5"/><path d="M2 8 L9 13" stroke-width="1.5"/>' +
+        "</svg>";
+      document.body.appendChild(sh);
+    }
   }
 
   /* --- 4. The tagline clusters ------------------------------------------
@@ -26,105 +39,137 @@
      single readable sentence in the source and for anything that does not
      run JS. */
 
-  var CLUSTERS = {
-    "Product Designer.": [
-      { logo: "figma.svg", label: "Figma" },
-      { logo: "shopify.svg", label: "Shopify" }
-    ],
-    "Builder.": [
-      { logo: "cursor.svg", label: "Cursor" },
-      { logo: "claude.svg", label: "Claude Code" },
-      { logo: "make.svg", label: "Make" }
-    ],
-    /* Rishabh\'s own drawings. Slots until the SVGs exist. */
-    "Illustrator.": [{ slot: "pen" }, { slot: "brush" }, { slot: "character" }]
-  };
+  /* --- The phrases, the marks and the arrow ---------------------------
+     The three phrases become buttons. Hovering one lights its own marks
+     and dims the others. Illustrator has no marks, so it gets the arrow
+     instead: see the comment on .shaft in v2.css for why an arrow and not
+     a logo. */
+
+  var PHRASES = ["Product Designer.", "Builder.", "Illustrator."];
+  var ARROW_ROW = 2;          /* Illustrator */
+  var FULL_FLIGHTS = 2;       /* then a short drop, so it stops demanding attention */
+  var RATE_MS = 400;          /* ignore re-entry inside this, for a jittering cursor */
+
+  var flights = 0, lastAngle = null, lastFire = 0;
+
+  function pickAngle() {
+    var a, d;
+    do {
+      a = Math.random() * 360;
+      d = Math.abs(a - lastAngle);
+      if (d > 180) d = 360 - d;
+    } while (lastAngle !== null && d < 60);
+    lastAngle = a;
+    return a;
+  }
+
+  function strike(x, y) {
+    var el = document.querySelector(".shaft");
+    if (!el) return;
+
+    var now = Date.now();
+    if (now - lastFire < RATE_MS) return;
+    lastFire = now;
+
+    var deg = pickAngle();
+    var rad = deg * Math.PI / 180;
+    var full = flights < FULL_FLIGHTS;
+    var dist = full ? 1.15 * Math.max(innerWidth, innerHeight) : 64;
+    flights++;
+
+    var sx = x + Math.cos(rad) * dist;
+    var sy = y + Math.sin(rad) * dist;
+    var spin = "rotate(" + (deg + 180) + "deg)";
+
+    if (reduce) {
+      /* No projectile. It is simply already landed. */
+      el.style.transition = "none";
+      el.style.transform = "translate(" + x + "px," + y + "px) " + spin;
+      el.style.opacity = "1";
+      return;
+    }
+
+    el.style.transition = "none";
+    el.style.transform = "translate(" + sx + "px," + sy + "px) " + spin +
+                         " scaleX(" + (full ? 1.5 : 1.2) + ")";
+    el.style.opacity = "0";
+    void el.offsetWidth;   /* commit the start state before animating off it */
+
+    el.style.transition = "transform " + (full ? 340 : 220) +
+                          "ms cubic-bezier(.34,1.56,.64,1), opacity " +
+                          (full ? 80 : 100) + "ms linear";
+    el.style.transform = "translate(" + x + "px," + y + "px) " + spin + " scaleX(1)";
+    el.style.opacity = "1";
+  }
+
+  function unstrike() {
+    var el = document.querySelector(".shaft");
+    if (!el) return;
+    el.style.transition = "opacity 160ms linear";
+    el.style.opacity = "0";
+  }
 
   function tagline() {
-    var line = document.querySelector(".intro__roles") || document.querySelector(".intro__lead");
+    var line = document.querySelector(".intro__roles");
+    var marks = document.getElementById("marks");
     if (!line) return;
 
-    var phrases = Object.keys(CLUSTERS);
     var text = line.textContent.trim();
-    /* Only rebuild if the copy is still exactly the four phrases. If it
-       changed, leave it alone rather than mangle it. */
-    if (text !== phrases.join(" ")) return;
+    /* Keyed to the phrase list, so editing the sentence disables this
+       rather than mangling it. */
+    if (text !== PHRASES.join(" ")) return;
 
     line.textContent = "";
-    phrases.forEach(function (p, idx) {
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "w";
-      btn.appendChild(document.createTextNode(p));
-
-      var cl = document.createElement("span");
-      cl.className = "v2-cluster";
-      cl.setAttribute("aria-hidden", "true");
-
-      CLUSTERS[p].forEach(function (item) {
-        var b = document.createElement("b");
-        if (item.logo) {
-          var img = document.createElement("img");
-          img.src = "/assets/logos/" + item.logo;
-          img.alt = "";
-          img.width = 28; img.height = 28;
-          b.appendChild(img);
-        } else {
-          b.className = "v2-slot";
-          b.textContent = item.slot;
-        }
-        cl.appendChild(b);
-      });
-
-      btn.appendChild(cl);
-      line.appendChild(btn);
-      if (idx < phrases.length - 1) line.appendChild(document.createTextNode(" "));
+    PHRASES.forEach(function (p, i) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "w";
+      b.setAttribute("data-row", i);
+      b.textContent = p;
+      line.appendChild(b);
+      if (i < PHRASES.length - 1) line.appendChild(document.createTextNode(" "));
     });
 
     var words = Array.prototype.slice.call(line.querySelectorAll(".w"));
-    var SPREAD_DEG = 150, STAGGER = 40;
+    var fine = window.matchMedia("(min-width: 1100px) and (hover: hover) and (pointer: fine)");
+
+    function open(w, x, y) {
+      words.forEach(function (o) { o.classList.toggle("is-on", o === w); });
+      line.classList.add("is-focused");
+      var row = Number(w.getAttribute("data-row"));
+      if (marks) marks.setAttribute("data-on", row);
+      if (row === ARROW_ROW && fine.matches) {
+        if (typeof x !== "number") {
+          var r = w.getBoundingClientRect();
+          x = r.left + r.width / 2;
+          y = r.top + r.height / 2;
+        }
+        strike(x, y);
+      }
+    }
+
+    function close() {
+      words.forEach(function (o) { o.classList.remove("is-on"); });
+      line.classList.remove("is-focused");
+      if (marks) marks.removeAttribute("data-on");
+      unstrike();
+    }
 
     words.forEach(function (w) {
-      var items = Array.prototype.slice.call(w.querySelectorAll(".v2-cluster b"));
-      var radius = 48 + Math.min(items.length, 6) * 4;   /* 48 to 72px */
-
-      items.forEach(function (el, i) {
-        var t = items.length === 1 ? 0.5 : i / (items.length - 1);
-        var rad = (-90 - SPREAD_DEG / 2 + SPREAD_DEG * t) * Math.PI / 180;
-        el.style.setProperty("--dx", Math.round(Math.cos(rad) * radius) + "px");
-        el.style.setProperty("--dy", Math.round(Math.sin(rad) * radius) + "px");
-      });
-
-      function open() {
-        words.forEach(function (o) { if (o !== w) o.classList.remove("is-on"); });
-        w.classList.add("is-on");
-        line.classList.add("is-focused");
-        if (!reduce) items.forEach(function (el, i) { el.style.transitionDelay = (i * STAGGER) + "ms"; });
-      }
-
-      function close() {
-        w.classList.remove("is-on");
-        line.classList.remove("is-focused");
-        items.forEach(function (el) { el.style.transitionDelay = "0ms"; });
-      }
-
-      if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-        w.addEventListener("mouseenter", open);
+      if (fine.matches) {
+        w.addEventListener("mouseenter", function (e) { open(w, e.clientX, e.clientY); });
         w.addEventListener("mouseleave", close);
       }
-      w.addEventListener("focus", open);
+      w.addEventListener("focus", function () { open(w); });
       w.addEventListener("blur", close);
       w.addEventListener("click", function (e) {
         e.preventDefault();
-        if (w.classList.contains("is-on")) close(); else open();
+        if (w.classList.contains("is-on")) close(); else open(w, e.clientX, e.clientY);
       });
     });
 
     document.addEventListener("click", function (e) {
-      if (!line.contains(e.target)) {
-        words.forEach(function (w) { w.classList.remove("is-on"); });
-        line.classList.remove("is-focused");
-      }
+      if (!line.contains(e.target)) close();
     });
   }
 
@@ -147,6 +192,38 @@
     if (cards.length < 2) return;
     var order = cards.slice();
 
+    /* On a pointer the stack announces itself by moving under the cursor.
+       On a phone it did not announce itself at all, so two of these three
+       photographs were unreachable and the card read as one dead
+       placeholder. A counter and a row of dots, built here rather than in
+       the markup so the no-JS page is not promising an interaction it
+       cannot deliver. */
+    var nav = document.createElement("div");
+    nav.className = "pile__nav";
+    var dots = document.createElement("span");
+    dots.className = "pile__dots";
+    dots.setAttribute("aria-hidden", "true");
+    var marks = cards.map(function () {
+      var d = document.createElement("span");
+      d.className = "pile__dot";
+      dots.appendChild(d);
+      return d;
+    });
+    var hint = document.createElement("span");
+    hint.className = "pile__hint";
+    hint.textContent = "Tap to change";
+    nav.appendChild(dots);
+    nav.appendChild(hint);
+    (cap || pile).insertAdjacentElement("afterend", nav);
+
+    /* The caption is the only thing that changes on tap, so it is the part
+       that has to be announced. */
+    if (cap) cap.setAttribute("aria-live", "polite");
+
+    cards.forEach(function (c, i) {
+      c.setAttribute("aria-label", "Photograph " + (i + 1) + " of " + cards.length + ". Show the next one.");
+    });
+
     function paint() {
       order.forEach(function (c, i) {
         c.classList.remove("is-front", "is-mid", "is-back");
@@ -154,6 +231,8 @@
         c.setAttribute("aria-hidden", i === 0 ? "false" : "true");
         c.tabIndex = i === 0 ? 0 : -1;
       });
+      var at = cards.indexOf(order[0]);
+      marks.forEach(function (d, i) { d.classList.toggle("is-on", i === at); });
       if (cap) cap.textContent = order[0].getAttribute("data-cap") || "";
     }
 

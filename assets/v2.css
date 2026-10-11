@@ -105,75 +105,14 @@ body::after { display: none !important; }
 
 .intro__roles.is-focused .w:not(.is-on), .intro__lead.is-focused .w:not(.is-on) { opacity: .4; }
 
-.v2-cluster {
-  position: absolute;
-  left: 50%;
-  bottom: 100%;
-  width: 0;
-  height: 0;
-  pointer-events: none;
-  z-index: 5;
-}
 
-.v2-cluster b {
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  margin: -16px 0 0 -16px;
-  opacity: 0;
-  transform: translate(0, 0) scale(.6) rotate(-12deg);
-  /* A spring at roughly stiffness 260, damping 18: a short overshoot that
-     settles once. CSS cannot run a real spring, so this is the curve that
-     matches it most closely without pulling in a library. */
-  transition:
-    opacity 340ms var(--v2-ease),
-    transform 420ms cubic-bezier(.34, 1.56, .64, 1);
-}
 
-.v2-cluster img { width: 28px; height: 28px; display: block; }
 
-.w.is-on .v2-cluster b {
-  opacity: 1;
-  transform: translate(var(--dx), var(--dy)) scale(1) rotate(0deg);
-}
 
 /* Out: reverse at 1.5x, no stagger. */
-.w:not(.is-on) .v2-cluster b {
-  transition-duration: 227ms, 280ms;
-  transition-delay: 0ms !important;
-}
 
-.v2-cluster b.v2-slot {
-  width: auto;
-  height: auto;
-  padding: 6px 9px;
-  border-radius: 7px;
-  background: var(--c-surface, #fff);
-  border: 1px solid var(--v2-card-edge);
-  font-family: var(--font-body, system-ui);
-  font-size: 10px;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: var(--c-label, #666);
-  white-space: nowrap;
-  margin: -13px 0 0 -34px;
-}
 
 @media (prefers-reduced-motion: reduce) {
-  .v2-cluster {
-    position: static;
-    width: auto;
-    height: auto;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 10px;
-  }
-  .v2-cluster b { position: static; margin: 0; opacity: 1; transform: none; transition: none; }
   .intro__roles.is-focused .w:not(.is-on), .intro__lead.is-focused .w:not(.is-on) { opacity: 1; }
 }
 
@@ -390,12 +329,32 @@ body::after { display: none !important; }
   color: var(--c-bg);
 }
 
+/* Below 760px the nav is gone and the bar is deliberately two things: the
+   name and the one action. That only reads as a decision if the action sits
+   on the right edge. .bar__nav carried the margin-left:auto that pushed it
+   there, so hiding the nav used to strand the CTA in the left third with
+   about 140px of empty pill beside it, which read as a bug. The auto margin
+   moves to the CTA for exactly the widths where the nav is hidden.
+   Both controls go to 44px so they are thumb-sized; the bar keeps its 60px
+   height because 44 + 8 + 8 is what it already was. */
 @media (max-width: 760px) {
   .bar { top: 10px; padding: 0 16px; }
   .bar__in { gap: 12px; padding: 8px 8px 8px 12px; }
   .bar__nav { display: none; }
-  .bar__me { font-size: 14px; }
-  .bar__cta { padding: 8px 14px; font-size: 14px; }
+
+  .bar__me {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 15px;
+  }
+
+  .bar__cta {
+    margin-left: auto;
+    padding: 8px 16px;
+    font-size: 14px;
+    min-height: 44px;
+  }
 }
 
 /* The curtain used to sit under a transparent page top. Now there is a bar
@@ -415,4 +374,284 @@ body::after { display: none !important; }
   text-decoration-color: var(--acc-produsa);
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
+}
+
+/* ======================================================================
+   MOBILE PASS
+   Everything below is the phone. The grid already stacks and nothing
+   overflows at 360, 390, 414 or 768, verified by rendering rather than by
+   reading: documentElement.scrollWidth equals clientWidth at every one.
+   What was wrong was composition and touch, not structure.
+
+   Deliberately NOT touched: the intro card and its tagline clusters, at
+   any width. That block is being redesigned elsewhere.
+   ====================================================================== */
+
+/* --- The curtain, on a phone ------------------------------------------
+   The crop steps in style.css all start at min-aspect-ratio 3/4, so every
+   phone in portrait fell through to the base 50% 50% and the phone case
+   was an accident rather than a decision. It happened to be close, because
+   below 3:4 the full image height is kept and the crop goes sideways, and
+   the subject is almost horizontally centred. Close is not the same as
+   right, and at tall aspects it runs out.
+
+   Measured on the 1200x1600 source, as fractions of width:
+     green character, left edge   0.235
+     WHOA.                        0.32 to 0.41
+     mustard character            0.385 to 0.49
+     him, right edge              0.75
+     picnic table, bench to bench 0.19 to 0.80
+   So the band that must survive is 0.235 to 0.75, and its centre is 0.493,
+   not 0.50. With object-fit: cover the visible width fraction is
+   v = aspect / 0.75, and the window's left edge lands at P * (1 - v).
+
+   At P = 48% the margins either side of the protected band come out even:
+     360x800   v 0.600  window 0.192 to 0.792   0.043 left, 0.042 right
+     390x844   v 0.616  window 0.184 to 0.800   0.051 left, 0.050 right
+     414x896   v 0.616  window 0.184 to 0.800   0.051 left, 0.050 right
+     360x880   v 0.545  window 0.218 to 0.764   0.017 left, 0.014 right
+   That last one is the worst viewport a phone realistically produces. At
+   50% it left 0.0075, about four screen pixels, between the green
+   character's arm and the edge, which is a character pinned to the frame.
+   48% roughly doubles the worst case and balances it, and at 390 and 414
+   it also brings the left bench back inside the frame.
+
+   74/100 rather than 3/4 so this can never collide with the first
+   min-aspect-ratio step at exactly 3:4. */
+@media (max-aspect-ratio: 74/100) {
+  .curtain__img { object-position: 48% 50%; }
+}
+
+/* --- Anchors clear the bar --------------------------------------------
+   The bar is fixed at top 10px and 60px tall, so it owns the first 70px.
+   Without this, Get in touch jumps to #contact and the bar sits on the
+   heading it just took you to. */
+#work, #writing, #contact { scroll-margin-top: 86px; }
+
+@media (max-width: 760px) {
+
+  /* --- Card headlines ---------------------------------------------------
+     1.12 is a desktop line height, set when these headlines ran one or two
+     lines at 34px. On a phone they are 24px over three lines and 1.12
+     closes them into a block. */
+  .bento--home .tile__title { line-height: 1.2; }
+
+  /* --- Writing ----------------------------------------------------------
+     Three embeds that are 180px tall each, stacked, made this the tallest
+     card on the page at 732px: a fifth of the whole homepage spent on
+     three identical grey rectangles that say the same seven words. Until
+     the embeds are real they should take the room a stub deserves. */
+  .blog { gap: 12px; margin-top: 18px; }
+  .blog .slot { min-height: 124px; }
+
+  /* --- Contact ----------------------------------------------------------
+     The three links were 23px tall, which is half a thumb. The negative
+     margin keeps the visual spacing while the hit area grows. */
+  .contact__links { gap: 0 20px; }
+  .contact__links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin: -10px 0;
+  }
+}
+
+/* --- The photo pile ---------------------------------------------------
+   Three photographs sharing one card. On a pointer you get a hover; on a
+   phone you got nothing at all, so it read as a single static placeholder
+   and two of the three lines were unreachable. The stack now shows its own
+   edges, and v2.js adds a counter underneath. */
+.pile__card .slot {
+  border: 1px solid var(--v2-card-edge);
+  background-clip: padding-box;
+}
+
+/* Back cards sit slightly down and in, so the pile reads as a pile from
+   across the room rather than only at its rotated corners. */
+.pile__card.is-mid  { transform: rotate(var(--r, 0deg)) scale(.965) translateY(6px); }
+.pile__card.is-back { transform: rotate(var(--r, 0deg)) scale(.93) translateY(12px); }
+
+.pile__nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.pile__dots { display: flex; gap: 6px; }
+
+.pile__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--v2-card-edge);
+  transition: background-color 240ms var(--v2-ease);
+}
+
+.pile__dot.is-on { background: var(--c-body); }
+
+.pile__hint {
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--c-label, #777);
+}
+
+/* The caption reserved 3em for its tallest line and left a gap under the
+   shorter ones. The nav row now sits directly below it. */
+.pile__cap { min-height: 0; margin-top: 14px; }
+
+@media (max-width: 760px) {
+  /* A photograph needs more than 260px of a 390px screen to be a
+     photograph rather than a thumbnail. */
+  .pile { height: 300px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pile__card.is-mid,
+  .pile__card.is-back { transition: none; }
+  .pile__dot { transition: none; }
+}
+
+/* --- desserts.html and studio.html ------------------------------------
+   These two still carry the old floating dock at bottom right. It is
+   position: fixed, so it sits on whatever the page ends with: at 390 it
+   lands on top of a tag pill on studio.html and on the artwork on
+   desserts.html. Give the page a floor the dock can stand on. */
+.dock ~ main { padding-bottom: 104px; }
+
+/* --- Pair tiles, unpaired --------------------------------------------
+   .tile--pair carries min-height 340px so two of them sitting side by side
+   in a desktop row come out level. In the single column there is no row to
+   level against, so on the Desserts card, which has no image, that floor
+   was just 180px of empty paper between the headline and the role line. */
+@media (max-width: 699px) {
+  .bento--home .tile--pair .tile__in { min-height: 0; }
+}
+
+/* --- The two app cards at tablet --------------------------------------
+   At 1100 and up Ezra takes a quarter and Lurch takes the rest, which is
+   the uneven pairing that stops the row reading as a template. Below that
+   the grid drops to two columns and Lurch was still spanning both, so it
+   could not sit beside Ezra and wrapped to its own row. That left Ezra
+   alone in column one with an empty cell next to it, about 400px square of
+   nothing, which at 768 is the largest hole on the page.
+   In a two column grid the pair is even by definition, so let them pair. */
+@media (min-width: 700px) and (max-width: 1099px) {
+  .bento--home .a-lurch { grid-column: span 1; }
+}
+
+/* --- The marks row, and the arrow ------------------------------------
+   Replaces the cluster that fanned out of each phrase. That failed three
+   times for one reason: it needed clear space above a heading that wraps,
+   and "above the word" on a wrapped heading is the previous line of the
+   heading. It also sat inside .tile__in, which is overflow:hidden.
+
+   The marks now sit in their own row under the heading, in flow, at a
+   reserved height so nothing on the page moves. At rest they are grey
+   silhouettes. Hover a phrase and its own marks take brand colour.
+   Illustrator has no tools and never will, so its payload is the arrow. */
+
+.marks {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 14px;
+  height: 20px;          /* reserved, so no state changes the card height */
+}
+
+.mk {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  transition: transform 380ms cubic-bezier(.34, 1.56, .64, 1);
+  transition-delay: calc(var(--i) * 55ms);
+}
+
+/* Two layers, crossfaded. The mask reads only the alpha, so the rest state
+   is a flat silhouette in our own grey; the img underneath carries the
+   brand colour and arrives on hover. Same URL, so one cache entry. */
+.mk::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--c-label);
+  -webkit-mask: var(--mk) center / contain no-repeat;
+          mask: var(--mk) center / contain no-repeat;
+  transition: opacity 260ms var(--v2-ease);
+  transition-delay: calc(var(--i) * 55ms);
+}
+
+.mk img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 260ms var(--v2-ease);
+  transition-delay: calc(var(--i) * 55ms);
+}
+
+.marks[data-on="0"] .mk[data-for="0"] img,
+.marks[data-on="1"] .mk[data-for="1"] img { opacity: 1; }
+
+.marks[data-on="0"] .mk[data-for="0"]::before,
+.marks[data-on="1"] .mk[data-for="1"]::before { opacity: 0; }
+
+.marks[data-on="0"] .mk[data-for="0"],
+.marks[data-on="1"] .mk[data-for="1"] { transform: translateY(-2px); }
+
+/* Out is faster and unstaggered. A bounce on the way out reads as a bug. */
+.marks:not([data-on]) .mk,
+.marks[data-on] .mk:not([data-for="0"]):not([data-for="1"]) {
+  transition-delay: 0ms;
+}
+
+.marks:not([data-on]) .mk {
+  transition-duration: 180ms;
+  transition-timing-function: var(--v2-ease);
+  transition-delay: 0ms;
+}
+
+/* Anything without mask support keeps both states, using a filter. */
+@supports not ((-webkit-mask: url("")) or (mask: url(""))) {
+  .mk::before { display: none; }
+  .mk img { opacity: 1; filter: grayscale(1) opacity(.5); transition: filter 260ms var(--v2-ease); }
+  .marks[data-on="0"] .mk[data-for="0"] img,
+  .marks[data-on="1"] .mk[data-for="1"] img { filter: none; }
+}
+
+/* The phrase being hovered takes ink; the others step back. Colour, not
+   opacity: at 40% alpha the paper grain shows through the letterforms. */
+.intro__roles .w { transition: color 180ms var(--v2-ease); }
+.intro__roles.is-focused .w:not(.is-on) { color: var(--c-label); opacity: 1; }
+.intro__roles .w.is-on { color: var(--c-ink); }
+
+/* --- The arrow --------------------------------------------------------
+   Illustrator is a word about drawing, and an arrow is a thing you draw.
+   It is the pin for the one row that has no logos: it marks the pointer
+   while that phrase is active, and leaves when it does.
+
+   Fixed on the body, never inside the card, which is the whole reason it
+   can come from off screen at all. Do not move it into a tile. */
+.shaft {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 56px;
+  height: 16px;
+  margin: -8px 0 0 -56px;      /* puts the tip at the transform point */
+  transform-origin: 100% 50%;  /* rotation and stretch pivot on the tip */
+  z-index: 450;
+  pointer-events: none;
+  opacity: 0;
+  color: var(--c-ink);
+  will-change: transform, opacity;
+}
+
+.shaft svg { width: 100%; height: 100%; display: block; }
+
+@media (max-width: 1099px) {
+  .marks { margin-top: 12px; }
 }

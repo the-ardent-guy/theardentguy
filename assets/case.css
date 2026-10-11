@@ -466,3 +466,57 @@ html { scroll-behavior: smooth; }
   line-height: 1.5;
   color: var(--label);
 }
+
+/* ======================================================================
+   MOBILE PASS
+   ====================================================================== */
+
+/* --- The rail, on a phone ---------------------------------------------
+   .layout is a grid at 1100 and up, where .rail is a sticky column on the
+   right and does its job: it tells you the shape of the argument and marks
+   where you are in it. Below 1100 the grid collapses to display: block and
+   the rail, being the last child, falls to the bottom of the page. It is
+   the only child there, so nothing looked broken, and that is why it went
+   unnoticed: a table of contents sitting underneath the contents.
+
+   On a phone these pages run from 6,900px to 12,900px, which is eight to
+   fifteen screens. Produsa is fifteen screens with no map at all, because
+   the only map is at the end. Flex plus order moves it above the read
+   without touching the markup, so it arrives where a contents list is
+   worth something: after the lede has said what this is, before the
+   fifteen screens start.
+
+   To put it back, delete this block. Nothing else depends on it. */
+@media (max-width: 1099px) {
+  .layout { display: flex; flex-direction: column; }
+  .rail { order: -1; }
+
+  /* It is the first thing after the lede now, not a footnote, so it gets
+     the spacing of an opening block rather than of a trailing one. */
+  .rail {
+    margin: clamp(40px, 7vw, 64px) 0 0;
+    padding: 18px 0 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* Two columns of short labels rather than one tall list, so five or six
+     decisions cost about 90px instead of 180px at the top of the page. */
+  .rail ol {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 20px;
+  }
+
+  .rail li + li { margin-top: 0; }
+
+  /* The marker is meaningless here: the list is off screen by the time you
+     are reading a decision, so a bolded item is just noise that was last
+     correct several screens ago. */
+  .rail a.is-active { color: var(--soft); font-weight: 400; }
+}
+
+/* One column is better than two cramped ones once the labels wrap to three
+   lines each, which is where they land below about 380px. */
+@media (max-width: 379px) {
+  .rail ol { grid-template-columns: minmax(0, 1fr); gap: 9px; }
+}
