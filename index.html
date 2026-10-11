@@ -85,8 +85,8 @@
         <div class="tile__in">
           <div class="tile__media"><div class="slot">[ IMAGE: the studio, chat on the left and the site building in the centre ]</div></div>
           <div class="tile__lead">
-            <p class="tile__eyebrow">Produsa <span class="tag">AI project</span></p>
-            <h2 class="tile__title">Turning a website build into a conversation</h2>
+            <p class="tile__eyebrow">Produsa</p>
+            <h2 class="tile__title">An AI platform that turns a website build into a conversation</h2>
             <div class="tile__foot">
               <p class="tile__role">Product Designer and Builder<br>Produsa Labs, 2026</p>
               <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -108,7 +108,7 @@
             <p class="tile__eyebrow">Supaca</p>
             <h2 class="tile__title">Designing trust for a private network of supercar owners</h2>
             <div class="tile__foot">
-              <p class="tile__role">Lead UI/UX Designer<br>2024 to 2025</p>
+              <p class="tile__role">Lead UI/UX Designer<br>Mobile app, 2024 to 2025</p>
               <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             </div>
           </div>
@@ -145,17 +145,17 @@
         <div class="tile__in">
           <div class="tile__media"><div class="slot">[ IMAGE: the old homepage beside the new one, same scale ]</div></div>
           <div class="tile__lead">
-            <p class="tile__eyebrow">VIST Labs</p>
+            <p class="tile__eyebrow">VIST Labs, Illinois USA</p>
             <h2 class="tile__title">Repositioning a post-harvest technology company for banks and growers</h2>
             <div class="tile__foot">
-              <p class="tile__role">Product Designer, solo<br>Bleed and Margins, 2025</p>
+              <p class="tile__role">Product Designer, solo<br>2025</p>
               <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             </div>
           </div>
           <div class="tile__more">
             <div class="fact fact--lead">
               <p class="fact__k">Outcome</p>
-              <p class="fact__v">Launched on vistlabs.com as the client's primary site.</p>
+              <p class="fact__v">Launched as the client's primary site. VIST later changed direction and went back to its old one.</p>
             </div>
           </div>
         </div>
@@ -164,19 +164,54 @@
       <!-- Six lines that used to sit behind six photographs that do not
            exist. No link and no accent wash, so it cannot be mistaken for
            a case study, and it does not expand. -->
-      <section class="tile tile--plain a-notes" aria-label="Also true">
+      <!-- Two things that are not client work and are not case studies, so
+           they sit at the smaller size. Each links out to the thing itself. -->
+      <a class="tile tile--pair tile--sm a-cat" href="CAT_APP_URL" target="_blank" rel="noopener">
         <div class="tile__in">
+          <div class="tile__media"><div class="slot">[ IMAGE: Ezra ]</div></div>
           <div class="tile__lead">
-            <p class="tile__eyebrow">Also true</p>
-            <div class="notes__grid">
-              <p class="notes__item">Curated the design and digital experience for a drive event with Ferrari India.</p>
-              <p class="notes__item">Built a desktop app for my cat. He passed. The app is still running.</p>
-              <p class="notes__item">Stood up against police brutality in college. There is an article with my picture.</p>
-              <p class="notes__item">Made a dating app that matches you based on your trauma.</p>
-              <p class="notes__item">Built AI agents that run a marketing department autonomously.</p>
-              <p class="notes__item">Organised open mics, music jams, and poetry nights across Bengaluru for four years.</p>
+            <p class="tile__eyebrow">Ezra</p>
+            <h2 class="tile__title">Built a desktop app for my cat. He passed. The app is still running.</h2>
+            <div class="tile__foot">
+              <p class="tile__role">Desktop app</p>
+              <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             </div>
           </div>
+        </div>
+      </a>
+
+      <a class="tile tile--pair tile--sm a-lurch" href="DATING_APP_URL" target="_blank" rel="noopener">
+        <div class="tile__in">
+          <div class="tile__media"><div class="slot">[ IMAGE: Lurch ]</div></div>
+          <div class="tile__lead">
+            <p class="tile__eyebrow">Lurch</p>
+            <h2 class="tile__title">Made a dating app that matches you based on your trauma.</h2>
+            <div class="tile__foot">
+              <p class="tile__role">[ one line on why I built it ]</p>
+              <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Photographs stacked on each other. Tap and the next one comes to
+           the front. Replaces the lines that were only ever captions for
+           pictures that were not there. -->
+      <section class="tile tile--pair tile--plain a-moments" aria-label="Also true">
+        <div class="tile__in">
+          <p class="tile__eyebrow">Also true</p>
+          <div class="pile" id="pile">
+            <button class="pile__card" type="button" style="--r:-3deg" data-cap="Curated the design and digital experience for a drive event with Ferrari India.">
+              <span class="slot">[ PHOTO: the Ferrari India drive event ]</span>
+            </button>
+            <button class="pile__card" type="button" style="--r:2.5deg" data-cap="Stood up against police brutality in college. There is an article with my picture.">
+              <span class="slot">[ PHOTO: the newspaper article ]</span>
+            </button>
+            <button class="pile__card" type="button" style="--r:-1.5deg" data-cap="Organised open mics, music jams, and poetry nights across Bengaluru for four years.">
+              <span class="slot">[ PHOTO: an open mic night ]</span>
+            </button>
+          </div>
+          <p class="pile__cap" id="pileCap">Curated the design and digital experience for a drive event with Ferrari India.</p>
         </div>
       </section>
 
@@ -201,20 +236,27 @@
             <p class="tile__eyebrow">Sintero</p>
             <h2 class="tile__title">Brand identity and a specification-led website for a luxury stone brand</h2>
             <div class="tile__foot">
-              <p class="tile__role">Digital Design Lead</p>
+              <p class="tile__role">Brand and Digital Design Lead</p>
               <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             </div>
           </div>
         </div>
-      </a>
+      
+          <div class="tile__more">
+            <div class="fact fact--lead">
+              <p class="fact__k">Outcome</p>
+              <p class="fact__v">Specified in projects for JW Marriott and Prestige Group.</p>
+            </div>
+          </div>
+        </a>
 
       <a class="tile tile--pair tile--sm tile--plain a-desserts" href="/desserts.html">
         <div class="tile__in">
           <div class="tile__lead">
             <p class="tile__eyebrow">Desserts</p>
-            <h2 class="tile__title">Political satire in pen, posters, photography, and a show in progress.</h2>
+            <h2 class="tile__title">Where the characters come from</h2>
             <div class="tile__foot">
-              <p class="tile__role">Illustration</p>
+              <p class="tile__role">Illustration, posters, and whatever else</p>
               <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             </div>
           </div>
@@ -226,6 +268,19 @@
            worse than silence: nobody notices an absent testimonial, and
            everybody notices a placeholder. Restore this band the day a name
            and a permission exist, as a 1-row band above contact. -->
+
+      <section class="tile tile--plain a-blog" aria-label="Writing">
+        <div class="tile__in">
+          <p class="tile__eyebrow">Writing</p>
+          <h2 class="tile__title">Essays on design, AI and the work</h2>
+          <div class="blog">
+            <div class="slot">[ EMBED: Medium or Substack post ]</div>
+            <div class="slot">[ EMBED: Medium or Substack post ]</div>
+            <div class="slot">[ EMBED: Medium or Substack post ]</div>
+          </div>
+        </div>
+      </section>
+
 
       <section class="tile tile--plain a-contact" id="contact" aria-label="Contact">
         <div class="tile__in">

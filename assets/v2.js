@@ -136,3 +136,37 @@
     tagline();
   });
 })();
+
+/* The photo pile. Tap the front card and it goes to the back, so three
+   photographs share one card's worth of space. */
+(function () {
+  "use strict";
+  document.addEventListener("DOMContentLoaded", function () {
+    var pile = document.getElementById("pile");
+    var cap = document.getElementById("pileCap");
+    if (!pile) return;
+
+    var cards = Array.prototype.slice.call(pile.querySelectorAll(".pile__card"));
+    if (cards.length < 2) return;
+    var order = cards.slice();
+
+    function paint() {
+      order.forEach(function (c, i) {
+        c.classList.remove("is-front", "is-mid", "is-back");
+        c.classList.add(i === 0 ? "is-front" : i === order.length - 1 ? "is-back" : "is-mid");
+        c.setAttribute("aria-hidden", i === 0 ? "false" : "true");
+        c.tabIndex = i === 0 ? 0 : -1;
+      });
+      if (cap) cap.textContent = order[0].getAttribute("data-cap") || "";
+    }
+
+    cards.forEach(function (c) {
+      c.addEventListener("click", function () {
+        order.push(order.shift());
+        paint();
+      });
+    });
+
+    paint();
+  });
+})();

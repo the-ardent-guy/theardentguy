@@ -216,3 +216,71 @@ body::after { display: none !important; }
 }
 
 .bento--home .tile__more .fact__v { font-size: 15px; }
+
+/* --- New homepage blocks ---------------------------------------------- */
+
+/* The two app cards sit at the smaller size; the pile and the blogs take
+   the widths their content needs. */
+.bento--home .a-cat,
+.bento--home .a-lurch,
+.bento--home .a-moments { grid-column: span 2; }
+.bento--home .a-blog { grid-column: 1 / -1; }
+
+@media (max-width: 1099px) {
+  .bento--home .a-cat,
+  .bento--home .a-lurch,
+  .bento--home .a-moments { grid-column: span 1; }
+}
+
+/* Photographs stacked on each other. Tap and the next comes to the front,
+   which is the only way these lines work without six separate images. */
+.pile {
+  position: relative;
+  margin-top: 20px;
+  height: 260px;
+}
+
+.pile__card {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transform: rotate(var(--r, 0deg));
+  transition: transform 300ms var(--v2-ease), opacity 300ms var(--v2-ease);
+}
+
+.pile__card .slot {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px -12px rgba(60, 45, 20, .22);
+}
+
+.pile__card.is-front { transform: rotate(0deg) scale(1.02); z-index: 3; }
+.pile__card.is-mid   { z-index: 2; }
+.pile__card.is-back  { z-index: 1; }
+
+.pile__cap {
+  margin: 18px 0 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--c-body);
+  min-height: 3em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pile__card { transition: none; }
+}
+
+/* Writing. Three embeds across, stacking down as the column narrows. */
+.blog {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.blog .slot { min-height: 180px; margin: 0; }
