@@ -205,6 +205,7 @@
 
   var toys = [];
   var W = 0, H = 0, D = 0, R = 0;
+  var BW = 0, BH = 0;   /* the well in the corner */
   var rect = null;
   var raf = 0, running = false, still = 0, dead = 0, last = 0;
   var held = null, inview = false, dropped = false;
@@ -232,7 +233,7 @@
       el.appendChild(face);
       frag.appendChild(el);
 
-      return { el: el, x: 0, y: 0, vx: 0, vy: 0, sp: 0, spv: 0, tx: 0, ty: 0,
+      return { el: el, x: 0, y: 0, px: 0, py: 0, vx: 0, vy: 0, sp: 0, spv: 0, tx: 0, ty: 0,
                bx: t.bx, by: t.by,
                lift: 0, rx: 0, ry: 0, rn: 0, calm: false, was: "" };
     });
@@ -243,25 +244,33 @@
 
   function measure() {
     rect = BOX.getBoundingClientRect();
+    W = rect.width;
     H = rect.height;
-    if (!H) return false;
+    if (!W || !H) return false;
 
-    /* Everything is derived from the one dimension nobody is allowed to
-       change: the height of the card. Three counters across the floor and
-       two in the valleys over them has to fit inside it with air to spare,
-       which sets the diameter, and the floor has to be too short to take a
-       fourth, which sets the width. Get the width wrong in the generous
-       direction and all five lie down in a row. */
-    D = Math.round(clamp(H * 0.345, 32, 50));
+    /* The box is the whole card now, so nothing may be read off its height
+       any more. The diameter used to be 0.345 of a 132px bin, and 0.345 of
+       a card is the 50px cap sitting over a floor that goes on growing,
+       which is five counters lying in a row along the bottom of the card.
+       46 and 42 are the two sizes the bin shipped with. They are stated
+       here, and everything else is derived from them instead. */
+    D = W < 560 ? 42 : 46;
     R = D / 2;
     BOX.style.setProperty("--d", D + "px");
-    BOX.style.setProperty("--step", (D * 0.036).toFixed(2) + "px");
-    BOX.style.setProperty("--toys-w", Math.round(H * 1.3) + "px");
 
-    /* Read back, because the line above is what decides it. */
-    rect = BOX.getBoundingClientRect();
-    W = rect.width;
-    return !!W;
+    /* The well in the bottom-right corner, 173 by 133: the same bin as
+       before, for the same reason. Circles never climb a floor that still
+       has room on it, so a floor wider than about 1.4 times its own drop
+       lets all five sit in one row. At 1.3 it takes three and the last two
+       have nowhere to go but up, which is what makes the pile a heap.
+
+       What has changed is that the bin is now a well cut into a counter
+       top rather than the whole box. The pile still lives in it and still
+       comes home to it, and a counter can now be thrown out of it and
+       across the card, which is the whole point. */
+    BW = Math.min(W, Math.round(D * 3.77));
+    BH = Math.min(Math.round(D * 2.9), Math.max(D + 8, Math.round(H * 0.55)));
+    return true;
   }
 
   /* --- Solver ----------------------------------------------------------- */
@@ -322,6 +331,63 @@
     a.vx = -a.vx * WALL;
   }
 
+  /* What a counter does when it meets a floor. Two floors read this now,
+     the card's own and the counter top, so it says it once. */
+  function land(a, dt) {
+    if (a.vy > 0) {
+      if (Math.abs(a.vy) < CALM) {
+        a.vy = 0;
+      } else {
+        /* A real landing: it skids and it starts turning. */
+        a.spv += a.vx * 0.6;
+        a.vx *= 0.8;
+        a.vy = -a.vy * WALL;
+      }
+    }
+    /* Floor friction as a rate, not as a kick per contact. Weak on
+       purpose: it has to lose to the sideways tilt, because the tilt is
+       what walks a thrown counter back to the corner. Too strong and a
+       fling just stops dead in the middle of the card. */
+    a.vx *= Math.max(0, 1 - 2.4 * dt);
+    a.spv *= Math.max(0, 1 - 6 * dt);
+  }
+
+  /* The counter top, and the step down into the well in its corner.
+
+     Both faces are one way, and which side a body came from is the whole
+     reason the substep records where it was. Anything that falls onto the
+     counter is held up by it and slides off the step into the well, which
+     is how a thrown counter finds its way home from anywhere on the card.
+     Anything already underneath passes straight through, which is what
+     lets the hand put a counter down wherever it likes without an unseen
+     surface shoving it back out.
+
+     The face of the step is solid from the well side, and that is the part
+     that earns its keep: it is the short floor that keeps the pile a heap
+     of three and two rather than a row of five.
+
+     Nothing ever comes to rest on the counter. There is no static friction
+     in here, so the sideways tilt moves whatever lands on it, and 0.3g from
+     a standing start covers 2px in a twelfth of a second against the 0.9px
+     the rest test allows. The counter is always a transit, never a shelf,
+     so it never has to be drawn and nothing is ever seen to float on it. */
+  function counter(a, impulse, dt) {
+    /* Not on the one in your hand. The hand outranks the furniture. */
+    if (a === held) return;
+    var fx = W - BW + R;
+    var fy = H - BH - R;
+    if (a.x >= fx || a.y <= fy) return;
+    if (a.px >= fx) {
+      a.x = fx;
+      if (impulse && a.vx < 0) bounceX(a, -1);
+      return;
+    }
+    if (a.py <= fy) {
+      a.y = fy;
+      if (impulse) land(a, dt);
+    }
+  }
+
   function walls(a, impulse, dt) {
     var maxX = W - R - 6, maxY = H - R - 6;
     if (a.x < R + 6) {
@@ -333,24 +399,7 @@
     }
     if (a.y > maxY) {
       a.y = maxY;
-      if (impulse) {
-        if (a.vy > 0) {
-          if (Math.abs(a.vy) < CALM) {
-            a.vy = 0;
-          } else {
-            /* A real landing: it skids and it starts turning. */
-            a.spv += a.vx * 0.6;
-            a.vx *= 0.8;
-            a.vy = -a.vy * WALL;
-          }
-        }
-        /* Floor friction as a rate, not as a kick per contact. Weak on
-           purpose: it has to lose to the sideways tilt, because the tilt is
-           what walks a thrown counter back to the corner. Too strong and a
-           fling just stops dead in the middle of the card. */
-        a.vx *= Math.max(0, 1 - 2.4 * dt);
-        a.spv *= Math.max(0, 1 - 6 * dt);
-      }
+      if (impulse) land(a, dt);
     } else if (a.y < R + 6) {
       /* A lid. The box is closed on all four sides, which is the only way
          the geometry is guaranteed: nothing can ever come to rest outside
@@ -366,10 +415,16 @@
         }
       }
     }
+    counter(a, impulse, dt);
   }
 
   function step(dt) {
     var i, j, a, d = Math.max(0, 1 - AIR * dt);
+
+    /* Where every body was when this substep started, including the calm
+       ones and the one in hand. The counter top is one way and this is the
+       only thing that can say which side of it a body is arriving from. */
+    for (i = 0; i < toys.length; i++) { a = toys[i]; a.px = a.x; a.py = a.y; }
 
     for (i = 0; i < toys.length; i++) {
       a = toys[i];
@@ -537,18 +592,26 @@
       t.rn = 0; t.calm = false; t.rx = 0; t.ry = 0;
       t.sp = (i % 2 ? 1 : -1) * (5 + i * 4);
       if (fromAbove) {
-        /* Strung along the lid and let go. The box is closed, so they fall
-           from inside it: about 85px, which at this gravity is a third of a
+        /* Strung along the counter and let go, so they fall the depth of
+           the well: about 85px, which at this gravity is a third of a
            second, enough for a bounce and a spin and not enough to be a
-           performance. They then funnel into the corner on their own. */
+           performance. The two that land out on the counter slide off the
+           step, so all five funnel into the corner on their own.
+
+           Not from the card's own ceiling. The box is the whole card now,
+           and a drop from the top of it is a 300px fall through the type,
+           which is an entrance that announces the wrong thing. */
         t.x = clamp(W - R - 10 - i * (D * 1.4), R + 6, W - R - 6);
-        t.y = R + 6 + (i % 2) * 5;
+        t.y = Math.max(R + 6, H - BH - R - 12) - (i % 2) * 6;
         t.vx = 240 + i * 50;
         t.spv = (i % 2 ? -1 : 1) * (380 + i * 110);
       } else {
         t.x = W - R - 6 - (i % 3) * (D * 0.94);
         t.y = H - R - 6 - ((i / 3) | 0) * (D * 0.88);
       }
+      /* Placed, not moved: it has no last position but the one it is in. */
+      t.px = t.x;
+      t.py = t.y;
     }
   }
 
@@ -558,10 +621,18 @@
       toys[i].x = clamp(toys[i].x, R + 6, Math.max(R + 6, W - R - 6));
       toys[i].y = Math.min(toys[i].y, H - R - 6);
     }
-    /* A resize is not an animation. Resolve the new box without frames. */
+    /* A resize is not an animation, so the new box gets resolved without
+       frames. The walk home, though, can now be the width of the card: a
+       counter that the resize left standing out on the counter top has a
+       second and a half of simulation to cross 1300px in, which it cannot
+       do, and painting it where it got to would park it in the middle of
+       the card until something else woke the loop. So it resolves what it
+       can without frames and then hands the rest to the loop. Reduced
+       motion gets no loop, so there it runs the whole walk out in one go. */
     wake();
-    settle(180);
+    settle(reduce.matches ? 1800 : 180);
     paint();
+    if (!reduce.matches) start();
   }
 
   /* --- Pointer ----------------------------------------------------------- */
@@ -665,40 +736,65 @@
       if (held) rect = BOX.getBoundingClientRect();
     }, { passive: true });
 
-    if ("ResizeObserver" in window) {
-      var seen = 0;
-      new ResizeObserver(function () {
-        var now = Math.round(BOX.clientWidth) * 10000 + Math.round(BOX.clientHeight);
-        if (now === seen) return;
-        seen = now;
-        reflow();
-      }).observe(BOX);
-    }
+  }
+
+  /* The box is the card, so anything that changes the card's height moves
+     the floor: a font arriving, a rotation, a window drag. Reduced motion
+     gets this too. It has no loop to put things right later, and a pile
+     left measuring a card that no longer exists is a pile painted in mid
+     air, which is the one thing this interaction cannot afford. */
+  function watchSize() {
+    if (!("ResizeObserver" in window)) return;
+    var seen = 0;
+    new ResizeObserver(function () {
+      var now = Math.round(BOX.clientWidth) * 10000 + Math.round(BOX.clientHeight);
+      if (now === seen) return;
+      seen = now;
+      reflow();
+    }).observe(BOX);
   }
 
   /* --- Boot -------------------------------------------------------------- */
 
   function boot() {
+    var card = document.querySelector(".a-intro");
     build();
-    if (measure()) { ready(); return; }
+
+    /* Before the measure, not after it. .has-toys is what holds the pile's
+       room open at the bottom of the card, so the card is 88px taller with
+       it than without, and a box measured before it lands is short by the
+       whole reserve: the floor then sits 88px up the card and the pile
+       rests in mid air on nothing. Only a resize would put it right, and
+       there is no reason for one to come. */
+    if (card) card.classList.add("has-toys");
+
+    if (measure()) { ready(card); return; }
     /* The card has no size yet. One more frame, and if it still has none,
        take the counters back out: .toybox:empty is display:none, so the
        card returns to exactly what it is without this, rather than keeping
-       five unplaced discs heaped in its top corner. */
+       five unplaced discs heaped in its top corner, and the reserve goes
+       with them rather than holding room for a pile that is not there. */
     requestAnimationFrame(function () {
-      if (measure()) ready();
-      else { BOX.textContent = ""; toys = []; }
+      if (measure()) ready(card);
+      else {
+        BOX.textContent = "";
+        toys = [];
+        if (card) card.classList.remove("has-toys");
+      }
     });
   }
 
-  function ready() {
+  function ready(card) {
     if (reduce.matches) {
       /* Still a real pile: the solver runs, it just runs once, with no
-         frames, no listeners and nothing left that can move. */
+         frames, no pointer listeners and nothing left that can move. It
+         still watches its own size, because the floor has to stay under
+         it. */
       seed(false);
       settle(420);
       paint();
       BOX.classList.add("is-still");
+      watchSize();
       return;
     }
 
@@ -706,8 +802,8 @@
     settle(300);
     paint();
     listen();
+    watchSize();
 
-    var card = document.querySelector(".a-intro");
     if (!("IntersectionObserver" in window) || !card) {
       inview = true;
       dropped = true;

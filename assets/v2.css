@@ -322,10 +322,159 @@ body::after { display: none !important; }
 .bar + main .curtain,
 .bar ~ .wrap .curtain { margin-top: 0; }
 
-/* --- The intro card, name and role ------------------------------------ */
+/* --- The intro card ---------------------------------------------------
+   Three voices in one column, and a tray in the corner beside them.
+
+     the name        30px / 800   ink
+     one claim       21px / 450   ink
+     two notes       16px / 400   soft, under a rule, each marked by a disc
+
+   The claim and the notes are the same weight of information at different
+   temperatures: the claim is what he does, the notes are where he is right
+   now. Weight and size carry that, not colour, because the palette here is
+   five greys and a sixth would mean something was wrong.
+
+   On the overlap: the client allowed the discs to sit on this copy, and
+   they do not. A disc is 46px across and a line of this type is 30px tall,
+   so a disc landing on a sentence is not a graphic accent, it covers three
+   words, and it covers them until a reader moves it. There is no scrim or
+   blend that saves both the type and the look of the discs, so the discs
+   get a corner of their own, 172 by 132, and the words get a guaranteed
+   clear field. What they do instead of overlapping is touch: the rule
+   under the claim runs to within 32px of the tray, so the heap reads as
+   the end of that line rather than as a thing parked in a spare column.
+   ---------------------------------------------------------------------- */
 
 .intro__lead b { font-weight: 800; }
 
+/* One column. The old split put the words in the left 44% and left 270px
+   of nothing between them and the tray, which at 1440 was the largest hole
+   on the card. The words now run to the rail and stop. */
+.bento--home .tile__lead.intro {
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  align-items: start;
+  row-gap: 0;
+}
+
+/* The one sentence on this page that says what he actually does, so it is
+   set as a statement rather than as body copy: ink, not grey, and held to
+   a reading measure the card's width is not allowed to stretch. */
+.intro__claim {
+  margin: clamp(13px, 1.3vw, 20px) 0 0;
+  max-width: 46ch;
+  /* The rem term is what makes this climb with the card rather than with
+     the viewport: 17.6 against a 24px name at 768, 21 against 30 at 1440,
+     so the step between the two voices holds at both ends. A pure vw ramp
+     put it at 15.6 on a 1100px card, which read as a caption. */
+  font-size: clamp(17px, 0.86rem + 0.5vw, 21px);
+  font-weight: 450;
+  line-height: 1.45;
+  letter-spacing: -0.012em;
+  color: var(--c-ink);
+  /* Two lines, so where the break lands is half the setting. Left to
+     itself it broke after "think," and left "behave, and feel." hanging,
+     which cuts the one phrase in the sentence that has to stay whole. */
+  text-wrap: balance;
+}
+
+/* The rule is the card's horizon. It is the card's own border colour, so it
+   reads as part of how the sheet is built rather than as a divider dropped
+   on it, and it runs the full width of the text column. */
+.intro__notes {
+  margin: clamp(17px, 1.7vw, 26px) 0 0;
+  padding: clamp(15px, 1.5vw, 22px) 0 0;
+  border-top: 1px solid var(--v2-card-edge);
+  list-style: none;
+  display: grid;
+  row-gap: 11px;
+}
+
+.intro__notes li {
+  position: relative;
+  padding-left: 17px;
+  max-width: 44ch;
+  font-size: clamp(14.5px, 0.78rem + 0.26vw, 16px);
+  line-height: 1.5;
+  color: var(--c-body-soft);
+  text-wrap: pretty;
+}
+
+/* The mark is a disc, because the five things in the corner are discs: the
+   same shape at an eightieth of the area, one punctuating and five playing.
+   It is also what makes these two read as two items rather than as one
+   sentence with a comma where a full stop belongs. */
+.intro__notes li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--c-muted);
+}
+
+/* The two notes move out of the running order and into a column of their
+   own, which is what they were always asking for: one ends on a comma and
+   the next opens on a capital, so as a stack under the claim they read as a
+   sentence that lost its way, and side by side with it they read as what
+   they are, two notes pinned next to a statement.
+
+   Row 2 of the card, right-hand cell. The claim keeps the left. Both cells
+   take the same rule along their top, so the card's horizon still runs the
+   full width with a break at the gutter, and both are top-aligned so the
+   two rules land on one line.
+
+   Below 1000 they go back under the claim, which is the only honest thing
+   a 30ch column can do. */
+@media (min-width: 1000px) {
+  .bento--home .tile__lead.intro {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: clamp(32px, 3.4vw, 64px);
+  }
+
+  .intro__lead { grid-column: 1 / -1; }
+
+  .intro__claim,
+  .intro__notes {
+    grid-row: 2;
+    margin-top: clamp(17px, 1.7vw, 26px);
+    padding-top: clamp(15px, 1.5vw, 22px);
+    border-top: 1px solid var(--v2-card-edge);
+  }
+
+  .intro__claim { grid-column: 1; }
+  .intro__notes { grid-column: 2; row-gap: 13px; }
+  .intro__notes li { max-width: 42ch; }
+}
+
+/* --- The pile's room -------------------------------------------------
+   The words used to stop 172px short of the right edge, because the box was
+   a 172px bin in the corner and nothing was allowed to touch a line of
+   type. The box is the whole card now and a counter can be thrown across
+   it, so that guarantee is gone and the rail with it.
+
+   What is still true is where the pile comes to rest: the well in the
+   bottom-right corner, with its top counter about 98px above the card's
+   edge. So the reserve turns through ninety degrees. The notes keep their
+   own room above it, and nothing at rest ever lands on a word. In flight is
+   another matter, which is the point of it.
+
+   88px, and one number at both settings, which is a coincidence worth
+   writing down. The pile is two counters high and never more, so it stands
+   2D above the floor, and the floor is the card's own bottom edge: the room
+   the words have to give up is 2D plus air, less the padding the card
+   already has under them. On a phone that is 84 and 24, on a desktop 92 and
+   32, and the two differences cancel. What it buys is about 18px between
+   the last line of the notes and the top counter, measured at every width
+   from 360 to 1440.
+
+   Gated on .has-toys, which v2.js puts on the card before it measures the
+   box, because this is the rule that decides how tall the card is. With no
+   JS the class never arrives, .toybox:empty is display:none, and there is
+   no reserve left holding room for a pile that is not there. */
+.a-intro.has-toys .intro__notes { padding-bottom: 88px; }
 
 .intro__sub a {
   color: var(--c-ink);
@@ -500,73 +649,33 @@ body::after { display: none !important; }
   .bento--home .a-lurch { grid-column: span 1; }
 }
 
-/* --- The arrow --------------------------------------------------------
-   Illustrator is a word about drawing, and an arrow is a thing you draw.
-   It is the pin for the one row that has no logos: it marks the pointer
-   while that phrase is active, and leaves when it does.
-
-   Fixed on the body, never inside the card, which is the whole reason it
-   can come from off screen at all. Do not move it into a tile. */
-
-
-@media (max-width: 1099px) {
-}
-
-/* The tray. The tile's overflow:hidden is what keeps the counters
-   inside it, so the card is the box and the clip is its walls. */
+/* The box. The tile's overflow:hidden is what keeps the counters inside
+   it, so the card is the box and the clip is its walls. */
 
 /* No JS, no toys. The card is then exactly what it is today, rather than a
-   dead 124px strip promising an interaction it cannot deliver. */
+   dead strip promising an interaction it cannot deliver. */
 .toybox:empty { display: none; }
 
+/* Out of flow against .tile__in, which is position:relative and clips, so
+   the card's own height is untouchable from here.
+
+   inset:0, at every width: the whole card is the play area, and a counter
+   can be thrown anywhere in it. Where the pile lives is a well cut into the
+   bottom-right corner, 173 by 133, which v2.js owns and nothing draws. The
+   old bin was that well and nothing else, which is why a thrown counter had
+   nowhere to go.
+
+   Transparent to the pointer, because this now lies over every word on the
+   card. The counters take it back for themselves, and every listener is on
+   this element, so a press on one still arrives here by bubbling. Without
+   it the card's own text could not be selected at all. */
 .toybox {
-  --toys-pad: 32px;
-  position: relative;
+  position: absolute;
+  inset: 0;
   z-index: 2;
-  /* Short on purpose. The edge of a counter is only visible where it is off
-     the camera's axis, and at a polite 600mm nothing in a 170px bin is ever
-     far enough off axis to show one. Pulling the camera in to 360 is what
-     turns a ring of colour into a wall of it. */
-  /* The camera sits over the corner the box tips into, so the heap reads
-     close to face-on and a stray counter out in the open shows its edge. */
+  pointer-events: none;
   -webkit-user-select: none;
   user-select: none;
-}
-
-/* The width is physics, not taste, and v2.js writes it. Circles never climb
-   a floor that still has room on it, so a bin wider than about 1.4 times its
-   own height lets all five sit in one row, and a row of logos along the
-   bottom of this card is the marks row that already got thrown out once.
-   At 1.3 the floor takes three and the last two have nowhere to go but up.
-   Nothing draws the bin, so its edges are invisible and its width costs the
-   composition nothing: what you see is a heap in the corner of the card. */
-
-@media (min-width: 1100px) {
-  /* Out of flow against .tile__in, which is position:relative and clips.
-     The card's own height is untouchable from here. */
-  .toybox {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: var(--toys-w, 180px);
-  }
-}
-
-@media (max-width: 1099px) {
-  /* One column, so there is no empty half to drop them into and the bin has
-     to buy its own room. A 124px strip, bled out to the card's bottom-right
-     corner. The card grows once, by a known amount, and never again. */
-  .toybox {
-    height: 124px;
-    width: var(--toys-w, 160px);
-    justify-self: end;
-    margin: 10px calc(-1 * var(--toys-pad)) calc(-1 * var(--toys-pad)) 0;
-  }
-}
-
-@media (max-width: 699px) {
-  .toybox { --toys-pad: 24px; }
 }
 
 /* --- One counter ------------------------------------------------------- */
@@ -578,6 +687,9 @@ body::after { display: none !important; }
   width: var(--d, 48px);
   height: var(--d, 48px);
   border-radius: 50%;
+  /* The box above gave the pointer away. The counters are the one thing on
+     it that wants a pointer, so they take it back. */
+  pointer-events: auto;
   /* The pointer drives this thing, so it must never be read as a scroll
      gesture or as a text selection or as a draggable image. */
   touch-action: none;

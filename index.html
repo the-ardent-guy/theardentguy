@@ -64,12 +64,32 @@
         <div class="tile__in">
           <div class="tile__lead intro">
             <h1 class="intro__lead"><b>Rish</b>, Product Designer. Builder. Illustrator.</h1>
+            <p class="intro__claim">I bring storytelling and social psychology into how products think, behave, and feel.</p>
+            <!-- A list of two, not a paragraph of two sentences. The second
+                 one ends on a comma and the third opens on a capital, which
+                 as running prose is a transcription slip and as two list
+                 items is just two list items. The markup says what the
+                 setting says: these are notes, taken separately. A screen
+                 reader gets the same reading, announced as a list of 2.
+
+                 It reads third and it is placed second: from 1000 up the
+                 CSS puts it in the right-hand cell beside the claim, and
+                 below that it comes back under it. The order here is the
+                 reading order and is the one to keep. -->
+            <ul class="intro__notes">
+              <li>Currently knee-deep in Agentic UX,</li>
+              <li>Deeply curious about myth, meaning, and what actually drives people.</li>
+            </ul>
           </div>
           <!-- The toy box. Empty on purpose: v2.js fills it, and .toybox:empty
                is display:none, so with no JS this card is exactly what it was.
-               At 1100 and up it is absolutely positioned inside .tile__in and
-               contributes nothing to layout, so the card cannot change height.
-               The tile's overflow:hidden is the box's walls. Leave it alone. -->
+               It covers the whole card and is out of flow, so nothing it does
+               can change the card's height, and a counter can be thrown
+               anywhere on it. Where the pile lives is a well in the card's
+               bottom-right corner which v2.js owns and nothing draws, and the
+               notes hold clear room above it, so the pile at rest never sits
+               on a word. In flight is another matter, which is the point of
+               it. The tile's overflow:hidden is the box's walls. -->
           <div class="toybox" id="toybox" aria-hidden="true"></div>
         </div>
       </section>
