@@ -652,9 +652,11 @@ body::after { display: none !important; }
 /* The box. The tile's overflow:hidden is what keeps the counters inside
    it, so the card is the box and the clip is its walls. */
 
-/* No JS, no toys. The card is then exactly what it is today, rather than a
-   dead strip promising an interaction it cannot deliver. */
-.toybox:empty { display: none; }
+/* No JS, no toys, and no cue either. The guard used to be :empty, which the
+   cue in the markup would have broken on its own: the box is never empty
+   now. .has-toys says the same thing and says it about the right thing,
+   which is whether v2.js got as far as a box with a real size. */
+.a-intro:not(.has-toys) .toybox { display: none; }
 
 /* Out of flow against .tile__in, which is position:relative and clips, so
    the card's own height is untouchable from here.
@@ -677,6 +679,34 @@ body::after { display: none !important; }
   -webkit-user-select: none;
   user-select: none;
 }
+
+/* --- The cue ----------------------------------------------------------
+   Lying across the top of the box, butt on the left, tip pointing at the
+   pile in the far corner. It is a photograph of a real cue, so it is set
+   at its own proportions and nothing here may squash it: 58 to 1, which is
+   what a cue is, puts it at 19px thick on a 1200px card and 5px on a
+   phone. Those are the real numbers for a 183cm cue, and they are why it
+   reads as a cue at both ends of the range rather than as a bar.
+
+   It is also the lid. v2.js reads the underside off this box and puts the
+   ceiling there, so a counter thrown hard comes off the shaft. Move it and
+   the ceiling moves with it; there is nothing to keep in step by hand. */
+.cue {
+  position: absolute;
+  top: clamp(8px, 1vw, 14px);
+  left: clamp(20px, 2.2vw, 28px);
+  width: calc(100% - 2 * clamp(20px, 2.2vw, 28px));
+  height: auto;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+/* The words come down to meet it. Same bargain as the pile at the other
+   end of the card: the thing that moves gets its own band, and the band is
+   held open by the words rather than by a height on the card. 19px of cue
+   under 14px of air wants about 20px back, and what it buys is a clear
+   line between the shaft and the top of the name. */
+.a-intro.has-toys .tile__lead.intro { padding-top: clamp(12px, 1.6vw, 20px); }
 
 /* --- One counter ------------------------------------------------------- */
 
@@ -754,3 +784,28 @@ body::after { display: none !important; }
 }
 
 .toybox.is-still .toy__f { transition: none; }
+
+/* --- The credit -------------------------------------------------------
+   One line, under everything, for the one asset on the site that is not
+   ours: the cue photograph is CC BY, and CC BY wants a name and a link.
+   Set at the size of a footnote and in the page's quietest ink, because
+   that is what it is. It sits in the bento, so it has to say it spans. */
+.credit {
+  grid-column: 1 / -1;
+  margin: 10px 0 0;
+  padding: 0 4px;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: var(--c-label);
+}
+
+.credit a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--v2-card-edge);
+  text-underline-offset: 2px;
+}
+
+.credit a:hover,
+.credit a:focus-visible { color: var(--c-ink); }
