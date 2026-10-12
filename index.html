@@ -64,8 +64,13 @@
         <div class="tile__in">
           <div class="tile__lead intro">
             <h1 class="intro__lead"><b>Rish</b>, Product Designer. Builder. Illustrator.</h1>
-            <p class="intro__sub">I design products people have to trust, mostly AI ones, and I build the parts I can. Before a screen exists I have usually drawn the person who will use it. Currently building <a href="https://produsa.dev" target="_blank" rel="noopener">Produsa</a>.</p>
           </div>
+          <!-- The toy box. Empty on purpose: v2.js fills it, and .toybox:empty
+               is display:none, so with no JS this card is exactly what it was.
+               At 1100 and up it is absolutely positioned inside .tile__in and
+               contributes nothing to layout, so the card cannot change height.
+               The tile's overflow:hidden is the box's walls. Leave it alone. -->
+          <div class="toybox" id="toybox" aria-hidden="true"></div>
         </div>
       </section>
 

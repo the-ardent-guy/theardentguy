@@ -520,3 +520,28 @@ html { scroll-behavior: smooth; }
 @media (max-width: 379px) {
   .rail ol { grid-template-columns: minmax(0, 1fr); gap: 9px; }
 }
+
+/* --- Back to the work -------------------------------------------------
+   The top bar carries a Work link already, but on a page this long a
+   reader wants an explicit way out at the point they decide to leave,
+   not a nav item that looks like a section jump. */
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 34px;
+  font-size: 14px;
+  color: var(--label);
+  text-decoration: none;
+  transition: color .18s ease, gap .18s ease;
+}
+
+.back:hover, .back:focus-visible { color: var(--ink); gap: 13px; }
+
+.back svg { width: 15px; height: 11px; flex: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .back { transition: color .18s ease; }
+  .back:hover, .back:focus-visible { gap: 9px; }
+}
