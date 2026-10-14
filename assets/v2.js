@@ -162,7 +162,6 @@
   "use strict";
 
   var BOX = document.getElementById("toybox");
-  var CUE = BOX && BOX.querySelector(".cue");
   if (!BOX) return;
 
   /* Full colour, because these are meant to look like the real things. The
@@ -207,7 +206,6 @@
   var toys = [];
   var W = 0, H = 0, D = 0, R = 0;
   var BW = 0, BH = 0;   /* the well in the corner */
-  var TOP = 6;          /* the ceiling, which is the underside of the cue */
   var rect = null;
   var raf = 0, running = false, still = 0, dead = 0, last = 0;
   var held = null, inview = false, dropped = false;
@@ -272,20 +270,6 @@
        across the card, which is the whole point. */
     BW = Math.min(W, Math.round(D * 3.77));
     BH = Math.min(Math.round(D * 2.9), Math.max(D + 8, Math.round(H * 0.55)));
-
-    /* The ceiling is the underside of the cue, so a counter thrown hard
-       comes off the shaft instead of passing behind it. Read, never
-       assumed: the cue is placed in CSS and this is the one line that has
-       to agree with it. The width and height on the tag are what make the
-       answer right before the file has arrived.
-
-       Taken flat, across the whole width, although the cue stops short of
-       both ends of the card. What that costs is 20px of headroom in the
-       two 24px strips beyond the butt and the tip, in a card 350px tall,
-       where nothing is ever thrown. What it saves is a second rule. */
-    TOP = CUE && CUE.offsetHeight
-      ? Math.round(CUE.offsetTop + CUE.offsetHeight) + 2
-      : 6;
     return true;
   }
 
@@ -416,12 +400,12 @@
     if (a.y > maxY) {
       a.y = maxY;
       if (impulse) land(a, dt);
-    } else if (a.y < R + TOP) {
-      /* The lid, which is the cue. The box is closed on all four sides,
-         which is the only way the geometry is guaranteed: nothing can ever
-         come to rest outside the card, however hard it is thrown, and a
-         hard throw comes off the shaft instead of vanishing behind it. */
-      a.y = R + TOP;
+    } else if (a.y < R + 6) {
+      /* A lid. The box is closed on all four sides, which is the only way
+         the geometry is guaranteed: nothing can ever come to rest outside
+         the card, however hard it is thrown, and a hard throw bounces off
+         the top instead of vanishing behind the clip. */
+      a.y = R + 6;
       if (impulse && a.vy < 0) {
         if (Math.abs(a.vy) < CALM) {
           a.vy = 0;
@@ -618,7 +602,7 @@
            and a drop from the top of it is a 300px fall through the type,
            which is an entrance that announces the wrong thing. */
         t.x = clamp(W - R - 10 - i * (D * 1.4), R + 6, W - R - 6);
-        t.y = Math.max(R + TOP, H - BH - R - 12) - (i % 2) * 6;
+        t.y = Math.max(R + 6, H - BH - R - 12) - (i % 2) * 6;
         t.vx = 240 + i * 50;
         t.spv = (i % 2 ? -1 : 1) * (380 + i * 110);
       } else {
@@ -635,7 +619,7 @@
     if (!measure()) return;
     for (var i = 0; i < toys.length; i++) {
       toys[i].x = clamp(toys[i].x, R + 6, Math.max(R + 6, W - R - 6));
-      toys[i].y = clamp(toys[i].y, R + TOP, Math.max(R + TOP, H - R - 6));
+      toys[i].y = clamp(toys[i].y, R + 6, Math.max(R + 6, H - R - 6));
     }
     /* A resize is not an animation, so the new box gets resolved without
        frames. The walk home, though, can now be the width of the card: a
@@ -692,9 +676,8 @@
     var t = held;
     var p = local(ev);
     var nx = clamp(p.x - t.gx, R, Math.max(R, W - R));
-    /* You cannot drag one out of the box, or up through the cue. The hand
-       is inside the walls like everything else. */
-    var ny = clamp(p.y - t.gy, R + TOP, Math.max(R + TOP, H - R - 6));
+    /* You cannot drag one out of the box. The hand is inside the walls. */
+    var ny = clamp(p.y - t.gy, R + 6, Math.max(R + 6, H - R - 6));
     var dt = Math.max(0.008, (ev.timeStamp - t.at) / 1000);
     /* Smoothed, because one frame of pointer delta is noise, and a throw
        built on noise flies off in a direction you did not choose. */
