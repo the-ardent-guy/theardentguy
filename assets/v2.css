@@ -447,37 +447,6 @@ body::after { display: none !important; }
   .intro__claim { grid-column: 1; }
   .intro__notes { grid-column: 2; row-gap: 13px; }
   .intro__notes li { max-width: 42ch; }
-
-  /* The name keeps column one. It is held to 20ch anyway, so this takes
-     nothing away from it; what it gives up is the empty half of row one,
-     which is where the cue goes. */
-  .intro__lead { grid-column: 1; }
-
-  /* The cue lies in that cell, the full width of the column: its butt on
-     the column's left edge, which is the edge the notes and their rule
-     already stand on, and its tip running out to the far edge. Level with
-     the top of the name, so the two read as one line across the card. */
-  .cue {
-    grid-column: 2;
-    grid-row: 1;
-    align-self: start;
-    width: 100%;
-    height: auto;
-    margin-top: 2px;
-  }
-}
-
-/* Below 1000 the card is one column, so the cue lies across it between the
-   name and the claim: still the full width of the words, still level, and
-   it keeps the job it has on the wide card, which is to put something in
-   the air above the rule. */
-@media (max-width: 999px) {
-  .cue {
-    display: block;
-    width: 100%;
-    height: auto;
-    margin: clamp(14px, 2.4vw, 22px) 0 0;
-  }
 }
 
 /* --- The pile's room -------------------------------------------------
