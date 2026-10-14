@@ -2475,7 +2475,11 @@ a.tile:focus-visible .tile__arrow {
   --tile-pad: 32px;
   --row: 204px;             /* (318 * 4/3 - 16) / 2, derived from hero.jpg */
   --margin: clamp(20px, 4vw, 72px);
-  --page-max: 1320px;       /* 4 * 318 + 3 * 16 */
+  /* 1320 put the page across 92% of a 1440 screen, which is a wall of
+     paper with no margin to rest against. 1160 leaves about 200px of ground
+     either side at that size and the page sits on the screen rather than
+     filling it. The column is still four 266px tracks and three gaps. */
+  --page-max: 1160px;
   --gap-block: 96px;
   --gap-section: 128px;
   --tile-radius: 16px;
@@ -2664,7 +2668,7 @@ a.tile:hover, a.tile:focus-visible { transform: none; border-color: var(--c-rule
 /* --- The intro band ---------------------------------------------------- */
 
 .intro__lead {
-  font-size: clamp(24px, 2.6vw, 30px);
+  font-size: clamp(23px, 2.4vw, 28px);
   font-weight: 800;
   line-height: 1.15;
   letter-spacing: -0.025em;

@@ -107,7 +107,7 @@ body::after { display: none !important; }
    weight it should have had all along. */
 
 .bento--home .tile__title {
-  font-size: clamp(24px, 2.7vw, 34px);
+  font-size: clamp(23px, 2.5vw, 31px);
   line-height: 1.12;
   letter-spacing: -.025em;
   max-width: 20ch;
@@ -115,7 +115,7 @@ body::after { display: none !important; }
 
 .bento--home .tile--sm .tile__title,
 .bento--home .tile--pair .tile__title {
-  font-size: clamp(20px, 2vw, 25px);
+  font-size: clamp(19px, 1.9vw, 23px);
   line-height: 1.18;
   max-width: 22ch;
 }
@@ -164,7 +164,7 @@ body::after { display: none !important; }
     align-items: center;
   }
   .bento--home .a-lurch .tile__media { margin-bottom: 0; min-height: 100%; }
-  .bento--home .a-lurch .tile__title { font-size: clamp(24px, 2.4vw, 32px); max-width: 18ch; }
+  .bento--home .a-lurch .tile__title { font-size: clamp(23px, 2.2vw, 29px); max-width: 18ch; }
 }
 
 @media (max-width: 1099px) {
@@ -367,7 +367,7 @@ body::after { display: none !important; }
      the viewport: 17.6 against a 24px name at 768, 21 against 30 at 1440,
      so the step between the two voices holds at both ends. A pure vw ramp
      put it at 15.6 on a 1100px card, which read as a caption. */
-  font-size: clamp(17px, 0.86rem + 0.5vw, 21px);
+  font-size: clamp(16.5px, 0.84rem + 0.45vw, 20px);
   font-weight: 450;
   line-height: 1.45;
   letter-spacing: -0.012em;
