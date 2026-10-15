@@ -102,13 +102,15 @@
 
       <section id="research">
         <h2>Research: the alpha test</h2>
-        <p>Before launch, we ran a moderated usability test with four owners: a steel trader, a bearings distributor, a cat cafe and a bakery. The discovery questions worked. Three problems kept coming up:</p>
-        <ol class="steps">
-          <li>The chat said "done" when nothing had changed. One bakery owner was told three times that her photos were up before they appeared.</li>
-          <li>The agent misread requests, especially when owners wrote in their own language.</li>
-          <li>Owners couldn't tell whether a slow build was still running or had stopped.</li>
-        </ol>
-        <p style="margin-top:24px;">In all three, the system either gave the owner false feedback or no feedback at all. That shaped most of what I designed after the test.</p>
+        <p>We onboarded 55 to 60 test users from different trades and let them build on the platform for real. I ran clarity sessions to watch how they worked, and we put a feedback board inside the product so anyone could log a bug or ask for something. Two problems came back more than the rest.</p>
+
+        <p>The build meter stopped at 92% and sat there. We had built it to hold the owner&rsquo;s attention while the agents worked, and it did the opposite. &ldquo;It&rsquo;s stuck at 92% every time,&rdquo; one user wrote on the board, and another reported it spinning from morning to evening. The meter now moves with the real build, and when a step runs long it says what it is doing: taking a bit longer, rechecking the layout.</p>
+
+        <p>The second one we did not see coming. Owners were handing the preview link to their customers and using it as their website, so they never published and never paid. Previews now lock after ten days and a global preview covers the rest. Payment starts ten days after the site goes live.</p>
+
+        <figure>
+          <div class="shot">[ IMAGE: the feedback board, with the 92% build reports ]</div>
+        </figure>
       </section>
 
       <section id="principles">
@@ -188,16 +190,6 @@
 
         <article class="decision" id="d5">
           <span class="decision__n">05</span>
-          <h3>Building in the owner's own language</h3>
-          <p>The chat works in Indian languages, so owners can describe their business and ask for changes in the language they run it in. The agents understand the request and build from it, and the owner never has to switch to English.</p>
-          <p class="why"><b>Why:</b> Many of these owners don't work in English, and in the alpha test the agent misread requests written in their own language. An English-only builder would have shut out the owners Produsa was built for.</p>
-          <figure>
-            <div class="shot">[ IMAGE: a regional-language request in the chat and the site change it produced ]</div>
-          </figure>
-        </article>
-
-        <article class="decision" id="d6">
-          <span class="decision__n">06</span>
           <h3>Tokens as the one unit of cost</h3>
           <p>Building, editing and hosting are all paid in tokens. The first site is free to build and publish with 15 tokens. After that, a build costs 10 tokens, and keeping a site live costs 10 tokens a month. The monthly plans are bundles of tokens with extras such as a custom domain. The owner sees their balance in the chat as they work, so they know what an action costs before they take it.</p>
           <p class="why"><b>Why:</b> Owners edit in bursts, not on a schedule, and a fixed monthly plan charged them the same whether they edited or not. With tokens, they pay for building, editing and hosting as they use them.</p>
@@ -243,8 +235,7 @@
         <li><a href="#d2"><span class="n">02</span><span>Business questions only</span></a></li>
         <li><a href="#d3"><span class="n">03</span><span>The studio</span></a></li>
         <li><a href="#d4"><span class="n">04</span><span>Only claims what's true</span></a></li>
-        <li><a href="#d5"><span class="n">05</span><span>The owner's own language</span></a></li>
-        <li><a href="#d6"><span class="n">06</span><span>Tokens</span></a></li>
+        <li><a href="#d5"><span class="n">05</span><span>Tokens</span></a></li>
       </ol>
     </aside>
   </div>
