@@ -3557,8 +3557,14 @@ em.stat-num {
 .bento--home .tile--band .tile__media {
   grid-column: 1;
   grid-row: 1 / span 2;
-  align-self: stretch;
-  min-height: 300px;
+  /* Was align-self: stretch with a 300px floor, so the panel's height was
+     whatever the copy beside it happened to be and its shape changed from
+     band to band. A dashed box did not care. A picture does: it meant
+     every supplied image got cropped to an accident. The panel now holds
+     4:3 and sits at the top of its cell. */
+  align-self: start;
+  aspect-ratio: 4 / 3;
+  min-height: 0;
 }
 
 .bento--home .tile--band .tile__lead { grid-column: 2; grid-row: 1; }
@@ -3613,7 +3619,15 @@ em.stat-num {
 /* Pair tiles stack their own detail, since half a row is not wide enough
    to run facts side by side. */
 .bento--home .tile--pair .tile__in { min-height: 340px; }
-.bento--home .tile--pair .tile__media { min-height: 170px; margin-bottom: var(--s-5); }
+.bento--home .tile--pair .tile__media { min-height: 0; margin-bottom: var(--s-5); }
+
+/* The four small tiles had four accidental shapes, from 2.8:1 to 0.86:1.
+   Two letterboxes, one square, one upright: four shapes still, but chosen
+   ones, and each now cuttable to a stated size. */
+.bento--home .a-koodai .tile__media,
+.bento--home .a-sintero .tile__media { aspect-ratio: 2 / 1; }
+.bento--home .a-cat .tile__media { aspect-ratio: 1 / 1; }
+.bento--home .a-lurch .tile__media { aspect-ratio: 4 / 5; }
 .bento--home .tile--pair .tile__more { grid-template-columns: minmax(0, 1fr); }
 
 .bento--home .tile__lead { display: flex; flex-direction: column; }
@@ -3634,7 +3648,7 @@ em.stat-num {
     grid-template-rows: auto auto auto;
     min-height: 0;
   }
-  .bento--home .tile--band .tile__media { grid-column: 1; grid-row: 1; min-height: 260px; margin-bottom: var(--s-5); }
+  .bento--home .tile--band .tile__media { grid-column: 1; grid-row: 1; min-height: 0; margin-bottom: var(--s-5); }
   .bento--home .tile--band .tile__lead { grid-column: 1; grid-row: 2; }
   .bento--home .tile--band .tile__more { grid-column: 1; grid-row: 3; }
 }
@@ -3647,8 +3661,10 @@ em.stat-num {
   .bento--home > * { grid-column: 1 / -1 !important; }
 
   .bento--home .tile__in { padding: var(--s-5); }
+  /* min-height silently beats aspect-ratio, so these two floors would
+     have re-cropped every picture on a phone. */
   .bento--home .tile--band .tile__media,
-  .bento--home .tile--pair .tile__media { min-height: 200px; margin-bottom: var(--s-4); }
+  .bento--home .tile--pair .tile__media { min-height: 0; margin-bottom: var(--s-4); }
 
   .bento--home .tile--band .tile__more,
   .bento--home .tile--pair .tile__more {
@@ -3674,4 +3690,47 @@ em.stat-num {
   @media (max-width: 699px) {
     .bento--home .tile__more .fact { display: block; }
   }
+}
+
+/* ======================================================================
+   THE GRID SITS BACK
+   His note, 2026-10-15: the curtain photograph stays as it is, and
+   everything under it is scaled down and centred. He settled on 80% after seeing the page at 80% browser zoom.
+
+   zoom rather than transform: scale, because a transform would leave the
+   element occupying its old box and open a dead strip at the bottom of
+   the page, and it would take the sticky and fixed children with it.
+   zoom reflows, so .homewrap keeps its own margin: 0 auto and stays
+   centred on its own. The curtain, the dock and the menu sheet all sit
+   outside .homewrap and are untouched.
+
+   Desktop only. A phone has no room to give away, and 80% of 16px body
+   text is not a size anyone should have to read.
+   ====================================================================== */
+
+@media (min-width: 1000px) {
+  .homewrap--curtained { zoom: 0.8; }
+}
+
+/* A filled media panel. The dashed .slot is a label and sits in the
+   middle of its box; a picture takes the whole box, cropped to the
+   panel's shape, and keeps the 12px the slot had. */
+.tile__media img,
+.tile__media video {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
+  object-position: 50% 0;
+  border-radius: 12px;
+  display: block;
+  background: #121316;
+}
+
+/* The nav pill moved to bottom centre, where at narrow widths it grows
+   wide enough to run under the dock. Below 820 the dock steps up and
+   sits above the bar rather than beside it. */
+@media (max-width: 819px) {
+  .dock { bottom: 80px; }
 }

@@ -207,6 +207,21 @@
   var W = 0, H = 0, D = 0, R = 0;
   var BW = 0, BH = 0;   /* the well in the corner */
   var rect = null;
+
+  /* The card sits inside a zoomed container, so the two coordinate spaces
+     it is measured in no longer agree: getBoundingClientRect comes back in
+     device pixels (CSS pixels times the zoom) while the discs are placed
+     with a transform in the card's own CSS pixels. Left alone, the solver
+     would run a world 20% smaller than the one on screen. readRect keeps
+     everything in the card's CSS pixels, and resolves to 1 where there is
+     no zoom, so nothing changes on a page that has none. */
+  var ZOOM = 1;
+
+  function readRect() {
+    rect = BOX.getBoundingClientRect();
+    var z = BOX.clientWidth ? rect.width / BOX.clientWidth : 1;
+    ZOOM = z > 0 ? z : 1;
+  }
   var raf = 0, running = false, still = 0, dead = 0, last = 0;
   var held = null, inview = false, dropped = false;
 
@@ -243,9 +258,9 @@
   /* --- Geometry --------------------------------------------------------- */
 
   function measure() {
-    rect = BOX.getBoundingClientRect();
-    W = rect.width;
-    H = rect.height;
+    readRect();
+    W = rect.width / ZOOM;
+    H = rect.height / ZOOM;
     if (!W || !H) return false;
 
     /* The box is the whole card now, so nothing may be read off its height
@@ -638,7 +653,7 @@
   /* --- Pointer ----------------------------------------------------------- */
 
   function local(ev) {
-    return { x: ev.clientX - rect.left, y: ev.clientY - rect.top };
+    return { x: (ev.clientX - rect.left) / ZOOM, y: (ev.clientY - rect.top) / ZOOM };
   }
 
   function find(ev) {
@@ -652,7 +667,7 @@
     var t = find(ev);
     if (!t) return;
 
-    rect = BOX.getBoundingClientRect();
+    readRect();
     var p = local(ev);
     held = t;
     t.gx = p.x - t.x;
@@ -733,7 +748,7 @@
     /* The box moves under the pointer when the page scrolls, and a mouse
        drag can outlive a wheel scroll. Keep the frame of reference honest. */
     window.addEventListener("scroll", function () {
-      if (held) rect = BOX.getBoundingClientRect();
+      if (held) readRect();
     }, { passive: true });
 
   }

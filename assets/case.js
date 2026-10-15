@@ -25,3 +25,23 @@
 
   targets.forEach(function (t) { io.observe(t); });
 })();
+
+/* Videos carry no autoplay attribute. It is added here only on a wide
+   screen where motion is welcome, so a phone neither burns data on a
+   2MB file nor plays something nobody asked to play. Everywhere else,
+   and whenever the browser refuses to play, the poster stands and the
+   viewer gets controls. */
+(function () {
+  var vids = document.querySelectorAll("video[data-autoplay]");
+  if (!vids.length) return;
+
+  var ok = window.matchMedia("(min-width: 900px)").matches &&
+           window.matchMedia("(prefers-reduced-motion: no-preference)").matches;
+
+  Array.prototype.forEach.call(vids, function (v) {
+    if (!ok) { v.controls = true; return; }
+    v.autoplay = true;
+    var p = v.play();
+    if (p && p.catch) p.catch(function () { v.controls = true; });
+  });
+})();

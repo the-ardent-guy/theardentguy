@@ -54,7 +54,12 @@
         <p class="lead-note">Owners can't judge a design themselves, so they rely on what the chat tells them. The hardest part of the work was making sure everything the chat said was true.</p>
 
         <figure class="bleed">
-          <div class="shot shot--tall">[ IMAGE: hero, the Produsa studio with a site mid-build ]</div>
+          <div class="media">
+            <video src="/assets/media/produsa-studio.mp4" poster="/assets/media/produsa-studio-poster.webp"
+                   width="1280" height="720" muted loop playsinline preload="metadata" data-autoplay
+                   aria-label="A walkaround of the Produsa studio. The chat runs down the left, the site builds in the centre, and the build console lists each agent as it finishes."></video>
+          </div>
+          <figcaption>Chat on the left, the site building in the centre.</figcaption>
         </figure>
       </section>
 
@@ -104,12 +109,17 @@
         <h2>Research: the alpha test</h2>
         <p>We onboarded 55 to 60 test users from different trades and let them build on the platform for real. I ran clarity sessions to watch how they worked, and we put a feedback board inside the product so anyone could log a bug or ask for something. Two problems came back more than the rest.</p>
 
-        <p>The build meter stopped at 92% and sat there. We had built it to hold the owner&rsquo;s attention while the agents worked, and it did the opposite. &ldquo;It&rsquo;s stuck at 92% every time,&rdquo; one user wrote on the board, and another reported it spinning from morning to evening. The meter now moves with the real build, and when a step runs long it says what it is doing: taking a bit longer, rechecking the layout.</p>
+        <ol class="steps">
+          <li>The build meter sat at 92%. We had built it to hold attention and it did the opposite, so it now moves with the real build and names what it is doing when a step runs long.</li>
+          <li>Owners were giving the preview link to their customers instead of publishing. Previews now lock after ten days, and payment starts ten days after a site goes live.</li>
+        </ol>
 
-        <p>The second one we did not see coming. Owners were handing the preview link to their customers and using it as their website, so they never published and never paid. Previews now lock after ten days and a global preview covers the rest. Payment starts ten days after the site goes live.</p>
-
-        <figure>
-          <div class="shot">[ IMAGE: the feedback board, with the 92% build reports ]</div>
+        <figure class="bleed">
+          <div class="media">
+            <img src="/assets/media/produsa-feedback-board.webp" width="1462" height="810" loading="lazy" decoding="async"
+                 alt="The feedback board inside Produsa. Five posts, two of them reporting the build stuck at 92 percent, one asking for a website preview in the studio.">
+          </div>
+          <figcaption>The feedback board. Two of these posts are the 92% bug.</figcaption>
         </figure>
       </section>
 
@@ -134,21 +144,25 @@
           <span>Website</span>
         </div>
         <p>An art director agent, a content agent and an SEO agent work on each build. Each agent checks its output against written standards and fixes it before handing it on. Owners can share their old website as a reference.</p>
-        <figure class="bleed">
-          <div class="shot shot--wide">[ IMAGE: the agent pipeline, from research to live website ]</div>
-        </figure>
       </section>
 
       <section id="decisions">
         <h2>Key decisions</h2>
 
-        <article class="decision" id="d1">
+        <article class="decision d-split" id="d1">
+          <div class="d-split__text">
           <span class="decision__n">01</span>
           <h3>WhatsApp onboarding with no sign-up</h3>
           <p>The owner messages a number, answers a few questions about their business, and gets a designed prototype back in the chat. Their phone number creates the account automatically, and they're asked for an email later. The first prototype comes out of the 15 free tokens.</p>
           <p class="why"><b>Why:</b> We considered a sign-up step before the first build and dropped it. Every extra step added friction between the owner and seeing their site appear, and that first prototype is what wins them over. Collecting details after the first build kept time to value as short as possible.</p>
-          <figure>
-            <div class="shot shot--tall">[ IMAGE: WhatsApp, from first message to prototype ]</div>
+          </div>
+          <figure class="d-split__media">
+            <div class="phone">
+              <video src="/assets/media/produsa-whatsapp.mp4" poster="/assets/media/produsa-whatsapp-poster.webp"
+                     width="720" height="1280" muted loop playsinline preload="metadata" data-autoplay
+                     aria-label="A WhatsApp chat with Produsa. The owner asks for a website for a silver jewellery brand, answers six questions, and a finished site comes back."></video>
+            </div>
+            <figcaption>A few questions in a chat, then a prototype.</figcaption>
           </figure>
         </article>
 
@@ -157,9 +171,6 @@
           <h3>Questions about the business only</h3>
           <p>On the web, the owner types what they want to build. The agent asks specific follow-up questions about the business, then asks for the logo and the feel they want. The build starts once it has enough to work with.</p>
           <p class="why"><b>Why:</b> The owner knows their business, and we know design. The questions cover what only the owner can tell us, which keeps cognitive load low, and the agents handle every design decision.</p>
-          <figure>
-            <div class="shot">[ IMAGE: prompt, follow-up questions, logo and style, build starting ]</div>
-          </figure>
         </article>
 
         <article class="decision" id="d3">
@@ -167,8 +178,12 @@
           <h3>A studio where the site builds in front of the owner</h3>
           <p>The chat sits on the left, and the site builds live in the centre and stays clickable throughout. An active agent panel shows which agent is working (research, art direction, content, SEO or build), and a version history below the preview lists every earlier version of the site.</p>
           <p class="why"><b>Why:</b> Watching the site take shape builds trust. Owners see a team of agents working for them, and that's a feeling we designed for on purpose.</p>
-          <figure class="bleed">
-            <div class="shot shot--tall">[ IMAGE: full studio layout, annotated: chat, preview, active agent, version history ]</div>
+          <figure>
+            <div class="media">
+              <img src="/assets/media/produsa-agents.webp" width="1005" height="597" loading="lazy" decoding="async"
+                   alt="The build console under the site preview. Research and brand, Features and copy, Architecture, and Design and visuals are each marked done.">
+            </div>
+            <figcaption>Four agents, each done, over the site they just built.</figcaption>
           </figure>
         </article>
 
@@ -183,8 +198,12 @@
             <li>After each build, the chat offers more than one next step as options.</li>
           </ul>
           <p class="why" style="margin-top:28px;"><b>Why:</b> The first version confirmed changes as soon as the agent made the request, before checking the page. That's what told the bakery owner her photos were up three times. Owners who can't judge the site themselves stopped trusting the chat after one false "done".</p>
-          <figure class="bleed">
-            <div class="shot shot--wide">[ IMAGE: before and after, "done" over an unchanged page, then the corrected reply ]</div>
+          <figure>
+            <div class="media">
+              <img src="/assets/media/produsa-chat.webp" width="967" height="826" loading="lazy" decoding="async"
+                   alt="The Produsa chat. One card reads build complete at 100 percent, a second is updating the site at 47 percent with each step listed as it finishes.">
+            </div>
+            <figcaption>Every step named, nothing confirmed before it is live.</figcaption>
           </figure>
         </article>
 
@@ -193,9 +212,6 @@
           <h3>Tokens as the one unit of cost</h3>
           <p>Building, editing and hosting are all paid in tokens. The first site is free to build and publish with 15 tokens. After that, a build costs 10 tokens, and keeping a site live costs 10 tokens a month. The monthly plans are bundles of tokens with extras such as a custom domain. The owner sees their balance in the chat as they work, so they know what an action costs before they take it.</p>
           <p class="why"><b>Why:</b> Owners edit in bursts, not on a schedule, and a fixed monthly plan charged them the same whether they edited or not. With tokens, they pay for building, editing and hosting as they use them.</p>
-          <figure>
-            <div class="shot">[ IMAGE: token balance in the chat, and the wallet ]</div>
-          </figure>
         </article>
       </section>
 
@@ -208,9 +224,6 @@
           <li>Many owners build their websites in their own language</li>
         </ul>
         <p>Produsa has reached business owners in tier 2 cities who don't speak English, people that AI tools and website builders rarely reach. They describe their business in their own language, and they come away with a live website.</p>
-        <figure class="bleed">
-          <div class="shot shot--wide">[ IMAGE: grid of sites built on Produsa ]</div>
-        </figure>
       </section>
 
       <section id="myrole">

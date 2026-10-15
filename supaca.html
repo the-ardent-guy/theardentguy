@@ -53,7 +53,11 @@
         <p class="lead-note">Supaca only works if every member knows everyone else is a real owner. The hardest part was designing a gate strict enough to make membership mean something, while keeping joining simple.</p>
 
         <figure class="bleed">
-          <div class="shot shot--tall">[ IMAGE: hero, the live beta landing page ]</div>
+          <div class="media">
+            <img src="/assets/media/supaca-hero.webp" width="1700" height="1294" decoding="async"
+                 alt="The Supaca beta landing page. Make the drive, in large type over a near-black ground, with the line India&#39;s supercar owners&#39; network, a join the waitlist button beside member login, and cards for Boit Club, Club Octane and Sunrise drives floating around the headline.">
+          </div>
+          <figcaption>The live beta. Clubs are named on the front page, members never are.</figcaption>
         </figure>
       </section>
 
@@ -122,10 +126,10 @@
 
         <article class="decision" id="d1">
           <span class="decision__n">01</span>
-          <h3>Two access tiers in place of five permission profiles</h3>
-          <p>Four archetypes plus pending applicants implied five permission profiles. I designed two tiers instead. Full members are approved with at least one verified car and see the members' area. Limited users see sellers as anonymous, have no DMs, and see no member data. Signup kept three plain entry points: Owner, Club Owner and Vendor.</p>
-          <p class="why"><b>Why:</b> Separate rules per profile would have scattered access logic across every screen. Following Tesler's law, the complexity moved into one rule no user has to reason about.</p>
-          <p class="why"><b>Trade-off:</b> Two tiers give some edge cases less nuance, in exchange for every screen behaving predictably.</p>
+          <h3>Five ways in cut to three</h3>
+          <p>We started with five: explorer, enthusiast, owner, club owner and partner. The social wall was the reason. Spotters and enthusiasts would have filled it quickly, and an audience is easy to grow. It would also have undone the point, because owners don't want an audience. We cut it to three entry points, owner, club owner and vendor, with one rule behind the gate: you're verified, or you're waiting. Everyone inside either owns the car or serves someone who does, and what sits behind the gate stays theirs. Luxury partners, offers and experiences.</p>
+          <p class="why"><b>Why:</b> Five ways in meant five sets of rules about who could see what, scattered across every screen. Following Tesler's law, the complexity moved into the gate, where nobody has to reason about it.</p>
+          <p class="why"><b>Trade-off:</b> We gave up the audience the social wall would have pulled in, which was the fastest way to look busy before the network was real.</p>
         </article>
 
         <article class="decision" id="d2">
@@ -138,9 +142,9 @@
 
         <article class="decision" id="d3">
           <span class="decision__n">03</span>
-          <h3>Privacy that fails closed</h3>
-          <p>Members join a club only by choosing to or by an owner's approval. A private club you can't access returns "not found" instead of "access denied", because "denied" confirms it exists. When tiers mix, people stay anonymous until someone chooses to reveal who they are, and member avatars use initials.</p>
-          <p class="why"><b>Why:</b> Auto-adding members to clubs that matched their car would have been convenient, but on a trust product it would have broken consent.</p>
+          <h3>Nobody lands in a club they didn't pick</h3>
+          <p>We had a way to make the app look full on day one: drop every Porsche owner into the Porsche club in their city, and everyone else into one generic supercar club. We didn't do it. It would have added strangers to each other's clubs with nobody agreeing to it, and the clubs that already exist here are drawn by area and by who knows whom, not by badge. Members join by choosing to, or by an owner's approval. Where verified and unverified people meet, nobody is named until they choose to be, and avatars are initials.</p>
+          <p class="why"><b>Why:</b> A club is a set of people who already know each other. Matching on the car would have produced a list of owners and called it a club.</p>
         </article>
 
         <article class="decision" id="d4">
@@ -183,7 +187,7 @@
         <ul class="results">
           <li>v1 designed end to end over a year, from research to every screen</li>
           <li>The beta is live, with real owners joining through the waitlist</li>
-          <li>One access rule in place of five permission profiles</li>
+          <li>Five ways in cut to three, with one verification rule behind the gate</li>
           <li>The v1 structure held, and the team rebuilt it into today's beta</li>
         </ul>
         <figure class="bleed">
@@ -204,9 +208,9 @@
     <aside class="rail" aria-label="Key decisions">
       <p class="rail__label">Key decisions</p>
       <ol>
-        <li><a href="#d1"><span class="n">01</span><span>Two access tiers</span></a></li>
+        <li><a href="#d1"><span class="n">01</span><span>Three ways in</span></a></li>
         <li><a href="#d2"><span class="n">02</span><span>Verification through the garage</span></a></li>
-        <li><a href="#d3"><span class="n">03</span><span>Privacy that fails closed</span></a></li>
+        <li><a href="#d3"><span class="n">03</span><span>No club you didn't pick</span></a></li>
         <li><a href="#d4"><span class="n">04</span><span>RSVP with your car</span></a></li>
         <li><a href="#d5"><span class="n">05</span><span>Clubs before their owners</span></a></li>
         <li><a href="#d6"><span class="n">06</span><span>Money out of the experience</span></a></li>

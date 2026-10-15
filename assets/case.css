@@ -364,7 +364,25 @@ ol.steps li:first-child::before { top: 0; }
 
 /* --- Image space ------------------------------------------------------- */
 
-figure { margin: 40px 0 0; }
+figure { margin: clamp(36px, 4vw, 56px) 0 0; }
+figure + p, figure + h3 { margin-top: clamp(36px, 4vw, 56px); }
+
+/* Two white cards 40px apart read as one stack, so a figure following a
+   .why card is pushed further off it. */
+.why + figure { margin-top: clamp(44px, 4.5vw, 64px); }
+
+figcaption {
+  margin-top: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--label);
+  max-width: 52ch;
+}
+
+@media (max-width: 700px) {
+  figure { margin-top: 32px; }
+  figcaption { margin-top: 12px; }
+}
 
 .shot {
   display: grid;
@@ -389,10 +407,12 @@ figure { margin: 40px 0 0; }
   .shot--tall, .shot--wide { min-height: 240px; }
 }
 
-/* Full-measure images are allowed to breathe past the text column. */
-@media (min-width: 1100px) {
-  figure.bleed { width: calc(100% + 180px); }
-}
+/* Full-measure images are allowed to breathe past the text column, but
+   only as far as the grid column actually runs. Column 1 measures 748,
+   916 and 1090px at these three widths. */
+@media (min-width: 1100px) { figure.bleed { width: calc(100% + 34px); } }
+@media (min-width: 1300px) { figure.bleed { width: calc(100% + 120px); } }
+@media (min-width: 1500px) { figure.bleed { width: calc(100% + 180px); } }
 
 /* The wider column gives the placeholders more to work with. */
 @media (min-width: 1200px) {
@@ -545,3 +565,125 @@ html { scroll-behavior: smooth; }
   .back { transition: color .18s ease; }
   .back:hover, .back:focus-visible { gap: 9px; }
 }
+
+
+/* ======================================================================
+   REAL MEDIA
+   Added 2026-10-15, when the first screenshots and screen recordings
+   landed. Every asset is a near-black product UI and the page is warm
+   paper, so an unmatted asset reads as a hole punched in the sheet
+   rather than as a picture. Each one gets a white mat, which is the
+   language .shot and .why already speak on this page.
+   ====================================================================== */
+
+.media {
+  margin: 0;
+  padding: clamp(7px, 0.7vw, 10px);
+  background: var(--surface);
+  border: 1px solid var(--v2-card-edge, #E3DFD7);
+  border-radius: 10px;
+}
+
+/* No shadow on the mat: five lifted cards down one page is heavy. The
+   shadow belongs where the dark plate meets the white sheet. */
+.media > img,
+.media > video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  background: #121316;
+  box-shadow: 0 2px 10px -4px rgba(60, 45, 20, .30);
+}
+
+/* --- The phone ---------------------------------------------------------
+   A white body, not a black one: a near-black bezel around a near-black
+   UI is one undifferentiated slab. White keeps the device in the paper
+   palette and does the mat's job in the same object, so a phone never
+   also sits on a .media card. No notch, no speaker, no side buttons:
+   40px of radius over a 10px bezel already reads as a phone, and a
+   drawn detail would be a fake drawing on a page that has none. The
+   bezel is 6px: enough to read as a device, not enough to become a
+   frame around the recording. */
+
+.phone {
+  --bezel: 6px;
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  margin: 0;
+  padding: var(--bezel);
+  background: var(--surface);
+  border: 1px solid var(--v2-card-edge, #E3DFD7);
+  border-radius: 30px;
+  box-shadow: 0 18px 40px -22px rgba(60, 45, 20, .30);
+}
+
+.phone video {
+  display: block;
+  height: clamp(400px, 34vw, 480px);
+  width: auto;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+  border-radius: 24px;
+  background: #121316;
+}
+
+@media (max-width: 899px) {
+  .phone { --bezel: 5px; border-radius: 26px; margin-inline: auto; }
+  .phone video { height: clamp(380px, 78vw, 460px); border-radius: 21px; }
+}
+
+@media (max-width: 559px) {
+  .phone { --bezel: 4px; border-radius: 22px; }
+  .phone video { height: clamp(340px, 86vw, 420px); border-radius: 18px; }
+}
+
+/* --- Text left, a tall phone right -------------------------------------
+   A vertical video beside a paragraph leaves a column of empty paper.
+   The fix is not alignment, it is putting more in the left column: the
+   .why card moves inside it, which takes the left stack to about the
+   height of the device. Centring then absorbs what is left as air at
+   top and bottom rather than as a hole at the bottom.
+   Splits at 1100px, the same breakpoint the rail changes state at. */
+
+.d-split__media { margin: 0; }
+
+@media (min-width: 1100px) {
+  .d-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) max-content;
+    column-gap: clamp(32px, 4vw, 56px);
+    align-items: center;
+    width: calc(100% + 34px);
+  }
+  /* The left column carries the measure on its own now, so it takes the
+     same rail-safe bleed a figure does. */
+  .d-split__text { max-width: none; }
+}
+
+@media (min-width: 1300px) { .d-split { width: calc(100% + 120px); } }
+@media (min-width: 1500px) { .d-split { width: calc(100% + 180px); } }
+
+@media (max-width: 1099px) {
+  .d-split__media { margin-top: clamp(36px, 4vw, 56px); }
+  .d-split__media figcaption { text-align: center; max-width: none; }
+}
+
+/* --- Dark mode ---------------------------------------------------------
+   Inert today: case.css is light only and nothing on these pages sets a
+   theme. Written in v2.css's guard pattern so it is right the day one
+   arrives. The logic inverts. In light the mat separates a dark asset
+   from a light page; in dark the mat has to sit lighter than the ground
+   and the separation moves to a hairline on the media itself. */
+
+:root[data-theme="dark"] .media,
+:root[data-theme="dark"] .phone { background: #17181B; border-color: #2B2E34; }
+
+:root[data-theme="dark"] .media > img,
+:root[data-theme="dark"] .media > video { box-shadow: 0 0 0 1px rgba(255, 255, 255, .07); }
+
+/* No prefers-color-scheme twin for the rules above, unlike v2.css. The
+   homepage follows the system; these pages do not. case.css is light only
+   and never restyles the ground, so a system-dark reader would have got
+   charcoal mats sitting on warm paper. These wait for a real theme. */

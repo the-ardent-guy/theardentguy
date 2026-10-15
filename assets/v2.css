@@ -75,7 +75,8 @@ body::after { display: none !important; }
    so the grain at 0 slots underneath it without touching the stacking. */
 
 .bento--home .tile__media,
-.bento--home .tile__media .slot { transition: transform 300ms var(--v2-ease); }
+.bento--home .tile__media .slot,
+.bento--home .tile__media img { transition: transform 300ms var(--v2-ease); }
 
 @media (hover: hover) and (pointer: fine) {
   a.tile:hover .tile__in,
@@ -84,7 +85,9 @@ body::after { display: none !important; }
     box-shadow: var(--v2-card-shadow);
   }
   a.tile:hover .tile__media .slot,
-  a.tile:focus-visible .tile__media .slot { transform: scale(1.02); }
+  a.tile:hover .tile__media img,
+  a.tile:focus-visible .tile__media .slot,
+  a.tile:focus-visible .tile__media img { transform: scale(1.02); }
 }
 
 /* --- 4. The tagline clusters ------------------------------------------ */
@@ -163,7 +166,7 @@ body::after { display: none !important; }
     column-gap: clamp(28px, 3vw, 48px);
     align-items: center;
   }
-  .bento--home .a-lurch .tile__media { margin-bottom: 0; min-height: 100%; }
+  .bento--home .a-lurch .tile__media { margin-bottom: 0; min-height: 0; }
   .bento--home .a-lurch .tile__title { font-size: clamp(23px, 2.2vw, 29px); max-width: 18ch; }
 }
 
@@ -233,10 +236,11 @@ body::after { display: none !important; }
 
 /* Fixed rather than sticky, so it takes no space in the flow and the
    photograph still opens the page at full height. Hidden until the
-   curtain has gone by: the bar belongs to the grid, not to the picture. */
+   curtain has gone by: the bar belongs to the grid, not to the picture.
+   Bottom centre since 2026-10-15, his call. */
 .bar {
   position: fixed;
-  top: 16px;
+  bottom: 16px;
   left: 0;
   right: 0;
   z-index: 400;
@@ -245,7 +249,7 @@ body::after { display: none !important; }
 
 /* Without JS it simply stays visible, rather than never appearing. */
 .js .bar {
-  transform: translateY(-140%);
+  transform: translateY(140%);
   opacity: 0;
   pointer-events: none;
   transition: transform 340ms var(--v2-ease), opacity 240ms var(--v2-ease);
@@ -311,7 +315,7 @@ body::after { display: none !important; }
      rescue and no name to shrink. All three go to 44px so they are
      thumb-sized, and the padding comes in so the pill still fits 360px. */
   @media (max-width: 760px) {
-    .bar { top: 10px; padding: 0 16px; }
+    .bar { bottom: 10px; padding: 0 16px; }
     .bar__in { gap: 4px; padding: 5px; max-width: 100%; }
     .bar__in > a { min-height: 44px; display: inline-flex; align-items: center; padding: 0 13px; font-size: 14px; }
     .bar__cta { padding: 0 15px; font-size: 14px; }
