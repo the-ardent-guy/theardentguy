@@ -1,0 +1,1286 @@
+/* ==========================================================================
+   v3. The homepage redesign.
+
+   Loaded only by index-v3.html, and loaded last: after style.css and after
+   v2.css. Nothing in those two files is edited, so rolling this version
+   back is removing three <link> tags and four files. index.html, every case
+   study page and case.css are untouched by everything below.
+
+   The order here is the order of the build spec, so a task number is a
+   place in this file:
+     1  tokens and fonts        5  component fixes
+     2  the layout shell        6  the hero
+     3  the grid and the tiles  7  the phone
+     4  hierarchy and type      8  dark
+
+   Crazy Mode lives in crazy.css, loaded after this.
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   1. TOKENS
+
+   ONE FAMILY, AND A HAND.
+   The page already has two strong voices in it, the photograph and the
+   drawn characters. Every face added beside them is a third voice
+   competing with two that cannot be beaten, so there is one:
+
+     Instrument Sans   every word on the page, 400 through 600
+     Kalam             only where something is handwritten in the fiction:
+                       the sticky notes and the WHOA. panel
+
+   No serif, in any cut. No mono. His call, 2026-10-20: the mono was doing
+   the label work and it read as a costume. Labels are now told apart from
+   prose the way they should be, by weight, size, case and tracking, which
+   is cheaper and quieter than a second family.
+
+   A serif is allowed back only to make a statement, meaning one deliberate
+   piece of display type that earns its own argument. It is not allowed as
+   a texture, a label face or an accent word.
+
+   --font-sans is re-pointed rather than added to, because this file is
+   loaded by index-v3.html alone: nothing else on the site sees it. The
+   legacy --font-serif and --font-hand aliases are left pointing at
+   --font-sans exactly as style.css set them, so no old rule changes face.
+   -------------------------------------------------------------------------- */
+
+:root {
+  --font-sans: "Instrument Sans", ui-sans-serif, "Segoe UI", system-ui, sans-serif;
+  --font-script: "Kalam", "Bradley Hand", "Segoe Print", cursive;
+
+  --v3-page: #EEEFE9;
+  --v3-surface: #FDFDF8;
+  --v3-surface-accent: #E5E7E0;
+  --v3-border: #BFC1B7;
+  --v3-border-soft: #D2D3CC;
+
+  /* Five values carry every word on the page, and the sixth, --v3-muted,
+     never carries one. It is 2.6:1 against the card and that is deliberate:
+     it is for bullets, dots and disabled chrome, and the day it holds text
+     is the day this page fails AA. */
+  --v3-ink: #111111;        /* 18.5 : 1 */
+  --v3-text: #3D3F38;       /* 10.5 : 1 */
+  --v3-label: #4D4F47;      /*  8.2 : 1 */
+  --v3-text-2: #65675E;     /*  5.6 : 1, and only at 15px and up */
+  --v3-muted: #9EA096;      /*  2.6 : 1, decorative only */
+
+  --v3-accent: #7A2E35;
+  --v3-accent-press: #5C1F25;
+  --v3-accent-ink: #FDFDF8;
+  --v3-highlight: #F3E3E3;
+  --v3-focus: #7A2E35;
+  --v3-grain-opacity: .05;
+
+  --v3-window-max: 1120px;
+  --v3-window-radius: 20px;
+  --v3-window-shadow: 0 10px 34px -16px rgba(17, 17, 17, .18);
+  --v3-window-pad: clamp(12px, 1.6vw, 20px);
+  --v3-titlebar-h: 40px;
+
+  --v3-tile-radius: 14px;
+  --v3-inner-radius: 10px;   /* tile radius less the 4px of padding around it */
+  --v3-btn-radius: 6px;
+  --v3-gap: 16px;
+  --v3-tile-pad: clamp(20px, 2vw, 28px);
+  --v3-page-margin: clamp(16px, 4vw, 48px);
+
+  --controls-h: 56px;        /* 44px of control plus 12px of air */
+  --safe-b: env(safe-area-inset-bottom, 0px);
+
+  --ease-standard: cubic-bezier(.4, 0, .2, 1);     /* 200ms, colour and small UI */
+  --ease-emphasis: cubic-bezier(.22, 1, .36, 1);   /* 320ms, lifts and frames */
+  --ease-tactile: cubic-bezier(.3, 0, .5, 1);      /*  90ms, the button press */
+
+  /* 72 inside a 1120 window crowded everything under it. 60 is still the
+     biggest thing on the page by a factor of three. */
+  --fs-hero: clamp(40px, 1.6rem + 2.6vw, 60px);
+  --fs-feature: clamp(26px, 1rem + 1.5vw, 36px);
+  --fs-title: clamp(20px, .9rem + .6vw, 24px);
+  --fs-lead: clamp(17px, .9rem + .35vw, 20px);
+  --fs-body: 16px;
+  --fs-meta: 13px;
+  --fs-label: 11.5px;
+  --fs-hand: clamp(20px, 1rem + .5vw, 26px);
+  --lh-tight: 1.08;
+  --lh-body: 1.6;
+  --measure-title: 28ch;
+  --measure-body: 62ch;
+}
+
+:root[data-theme="dark"] {
+  --v3-page: #1E1F23;
+  --v3-surface: #26272C;
+  --v3-surface-accent: #2D2E37;
+  --v3-border: #3E424F;
+  --v3-border-soft: #34373F;
+  --v3-ink: #FAFAFA;
+  --v3-text: #C9CAD1;
+  --v3-label: #B4B6BF;
+  --v3-text-2: #9A9CA6;
+  --v3-muted: #5E6270;
+  --v3-accent: #D98FA0;
+  --v3-accent-press: #B8707F;
+  --v3-accent-ink: #1E1F23;
+  --v3-highlight: rgba(217, 143, 160, .18);
+  --v3-focus: #D98FA0;
+  --v3-grain-opacity: .03;
+  --v3-window-shadow: 0 10px 34px -16px rgba(0, 0, 0, .45);
+}
+
+/* The head script always writes data-theme before paint, so the block above
+   is the whole story for anyone with JS. This mirror is for the no-JS
+   reader, and it follows the pattern the rest of the site already uses. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --v3-page: #1E1F23;
+    --v3-surface: #26272C;
+    --v3-surface-accent: #2D2E37;
+    --v3-border: #3E424F;
+    --v3-border-soft: #34373F;
+    --v3-ink: #FAFAFA;
+    --v3-text: #C9CAD1;
+    --v3-label: #B4B6BF;
+    --v3-text-2: #9A9CA6;
+    --v3-muted: #5E6270;
+    --v3-accent: #D98FA0;
+    --v3-accent-press: #B8707F;
+    --v3-accent-ink: #1E1F23;
+    --v3-highlight: rgba(217, 143, 160, .18);
+    --v3-focus: #D98FA0;
+    --v3-grain-opacity: .03;
+    --v3-window-shadow: 0 10px 34px -16px rgba(0, 0, 0, .45);
+  }
+}
+
+/* --- The bridge -------------------------------------------------------
+   Every rule in style.css and v2.css reads the old names. Pointing those
+   names at the new palette re-skins the whole page without a single
+   selector being rewritten, which is also what makes this file short
+   enough to read. The three that change meaning rather than value:
+   --c-body-soft and --c-label were #5C6066 and #666A71, both too light to
+   carry running copy on paper, and --c-accent-deep was a second maroon
+   (#8C2230) sitting next to the real one. */
+:root,
+:root[data-theme="dark"] {
+  --c-bg: var(--v3-page);
+  --c-surface: var(--v3-surface);
+  --c-surface-2: var(--v3-surface-accent);
+  --c-rule: var(--v3-border-soft);
+  --c-rule-strong: var(--v3-border);
+  --c-ghost: var(--v3-surface-accent);
+  --c-ink: var(--v3-ink);
+  --c-heading: var(--v3-ink);
+  --c-body: var(--v3-text);
+  --c-body-soft: var(--v3-text);
+  --c-label: var(--v3-label);
+  --c-muted: var(--v3-muted);
+  --c-accent-deep: var(--v3-accent);
+  --c-slot-bg: var(--v3-surface-accent);
+  --c-slot-border: var(--v3-border);
+  --c-slot-text: var(--v3-label);
+  --c-pill-border: var(--v3-border);
+  --c-pill-text: var(--v3-label);
+  --v2-card-edge: var(--v3-border-soft);
+  --c-tile: var(--v3-surface);
+  --c-tile-edge: var(--v3-border-soft);
+  --tile-radius: var(--v3-tile-radius);
+  --grid-gap: var(--v3-gap);
+}
+
+body {
+  background-color: var(--v3-page);
+  color: var(--v3-text);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.v2-grain { opacity: var(--v3-grain-opacity); }
+::selection { background: var(--v3-highlight); color: var(--v3-ink); }
+
+/* THE LABEL TEXTURE.
+   One rule, applied everywhere a word is furniture rather than prose. A
+   label is told apart by being small, capitalised, tracked open and a
+   little heavier than the prose around it. 0.12em rather than the 0.10
+   the mono wanted, because caps in a grotesque close up faster. */
+.bento--home .tile__eyebrow,
+.bento--home .fact__k,
+.window__bar,
+.pile__hint,
+.curtain__line {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.slot {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.hand-note {
+  font-family: var(--font-script);
+  font-weight: 700;
+  font-size: var(--fs-hand);
+  line-height: 1.15;
+  color: var(--v3-accent);
+}
+
+
+/* --------------------------------------------------------------------------
+   2. THE LAYOUT SHELL
+
+   2.1 The zoom goes.
+   style.css scales the whole grid to 80% above 1000px, which is why the
+   column reads as narrow: it is not a 1160px page, it is a 928px page with
+   12.8px body text. Widening is impossible while that is on, so it comes
+   off here rather than in style.css, which keeps the rollback to a file.
+   v2.js reads the computed zoom for the toybox, so it follows on its own.
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 1000px) {
+  .homewrap--curtained { zoom: 1; }
+}
+
+/* 2.2 and 2.3. The page is a window on the ground, and the window opens
+   directly under the photograph. The gap that used to sit there was 64px
+   of nothing and read as a section that failed to load; the title bar is
+   now the first thing under the picture, which is an edge rather than a
+   hole. The transient band during the 1.4x lift is untouched and stays,
+   because that band is the whole concept. */
+.homewrap {
+  max-width: calc(var(--v3-window-max) + 2 * var(--v3-page-margin));
+  margin: 0 auto;
+  padding: 0 var(--v3-page-margin) calc(var(--controls-h) + 48px + var(--safe-b));
+}
+
+.homewrap--curtained { padding-top: clamp(16px, 2vw, 28px); }
+
+.window {
+  position: relative;
+  z-index: 2;                       /* .v2-grain is fixed at 1, so grain stays on the ground */
+  background: var(--v3-surface);
+  border: 1px solid var(--v3-border);
+  border-radius: var(--v3-window-radius);
+  box-shadow: var(--v3-window-shadow);
+  overflow: clip;
+}
+
+.window__bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: var(--v3-titlebar-h);
+  padding: 0 14px;
+  background: color-mix(in srgb, var(--v3-surface-accent) 70%, transparent);
+  -webkit-backdrop-filter: blur(8px) saturate(1.1);
+  backdrop-filter: blur(8px) saturate(1.1);
+  border-bottom: 1px solid var(--v3-border-soft);
+  font: 600 12px/1 var(--font-sans);
+  letter-spacing: .02em;
+  color: var(--v3-label);
+}
+
+.window__dots { display: inline-flex; gap: 6px; }
+
+.window__dots i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: block;
+  background: var(--v3-muted);
+}
+
+.window__dots i:first-child { background: var(--v3-accent); }
+
+.window__title { flex: 1; text-align: center; }
+.window__spacer { width: 42px; }    /* the dots' own width, so the title centres on the bar */
+
+.window__body { padding: var(--v3-window-pad); }
+
+.window__foot {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  padding: 10px var(--v3-window-pad) 14px;
+  border-top: 1px solid var(--v3-border-soft);
+  font: 500 13px/1.4 var(--font-sans);
+  color: var(--v3-label);
+}
+
+/* 2.4 Twelve columns, rows sized by their content.
+   The named-area map and the nine 204px tracks go. Both were written for a
+   mosaic that no longer exists, and half the names in the map point at
+   tiles that were deleted. */
+.bento--home {
+  grid-template-areas: none;
+  grid-template-rows: none;
+  grid-auto-rows: auto;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--v3-gap);
+  align-items: stretch;
+}
+
+.bento--home > .tile { grid-area: auto; grid-column: 1 / -1; }
+
+/* Four floors written for the old row unit. A tile's height is its content
+   from here on, and a floor is what stops a row from levelling. */
+.bento--home .tile--pair .tile__in,
+.bento--home .tile--band .tile__in,
+.bento--home .a-lurch .tile__in,
+.bento--home .a-cat .tile__in { min-height: 0; }
+
+/* 2.5 The card surface.
+   .tile--sm kept its own 24px padding, which is a second padding value on
+   four tiles out of thirteen and, once the tiles are in a subgrid, four
+   tiles whose rows start 1.6px off their neighbours'. One value. */
+.bento--home .tile--sm .tile__in { padding: var(--v3-tile-pad); }
+
+.bento--home .tile__in {
+  background: var(--v3-surface);
+  border: 1px solid var(--v3-border-soft);
+  border-radius: var(--v3-tile-radius);
+  padding: var(--v3-tile-pad);
+  box-shadow: none;
+  transition:
+    transform 320ms var(--ease-emphasis),
+    border-color 200ms var(--ease-standard),
+    box-shadow 320ms var(--ease-emphasis),
+    background-color 200ms var(--ease-standard),
+    color 200ms var(--ease-standard);
+}
+
+/* The per-card grain goes with the window: the sheet metaphor now belongs
+   to the window itself, and two grains stacked inside one frame read as
+   noise rather than as paper. */
+.bento--home .tile__in::before { display: none; }
+
+@media (hover: hover) and (pointer: fine) {
+  .bento--home a.tile:hover .tile__in {
+    border-color: var(--v3-border);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -14px rgba(0, 0, 0, .28);
+  }
+}
+
+.bento--home a.tile:focus-visible .tile__in {
+  outline: 3px solid var(--v3-focus);
+  outline-offset: 3px;
+  border-color: var(--v3-border);
+}
+
+.bento--home .tile__media {
+  border-radius: var(--v3-inner-radius);
+  overflow: hidden;
+  background: var(--v3-surface-accent);
+}
+
+.bento--home .tile__media img,
+.bento--home .tile__media video { border-radius: 0; }   /* the container clips now */
+
+.slot {
+  border: 1px dashed var(--v3-border);
+  background: var(--v3-surface-accent);
+  color: var(--v3-label);
+  border-radius: var(--v3-inner-radius);
+  font-size: 12px;
+}
+
+/* The per-project accent wash goes.
+   Five per cent of a project colour was a tint you felt rather than saw on
+   #FFFFFF. On #FDFDF8, inside a window that is also #FDFDF8, it is a tint
+   you see: six cards in six different colours, which is the opposite of
+   what the window is for. The colour stays where it carries information,
+   in the eyebrow, the arrow on hover and the featured frame. */
+.bento--home .tile:not(.tile--plain) .tile__in::after { display: none; }
+
+
+/* --------------------------------------------------------------------------
+   3. THE GRID AND THE TILES
+
+   3.1 The placement map. Five ratios and no others: 12, 6/6, 4/4/4, 4/8,
+   8/4. DOM order is untouched, so tab order and the phone stack are too.
+   -------------------------------------------------------------------------- */
+
+.bento--home .a-supaca,
+.bento--home .a-bizotico { grid-column: span 6; }
+
+/* Koodai came out of the grid on 2026-10-20, so what was a 4/4/4 row is
+   a pair. Vist Labs and Sintero take six each, which puts two 6/6 rows
+   back to back under the featured card and gives the grid a steadier
+   beat than it had with a triple wedged between them. */
+.bento--home .a-vistlabs,
+.bento--home .a-sintero { grid-column: span 6; }
+
+.bento--home .a-cat,
+.bento--home .a-desserts { grid-column: span 4; }
+
+.bento--home .a-lurch,
+.bento--home .a-moments { grid-column: span 8; }
+
+.bento--home .a-intro,
+.bento--home .a-produsa,
+.bento--home .a-blog,
+.bento--home .a-contact { grid-column: 1 / -1; }
+
+/* Tablet keeps twelve columns and halves the spans, so no row can grow a
+   hole. Vist Labs takes the full width there and runs as a band instead. */
+@media (max-width: 1099px) {
+  .bento--home .a-vistlabs,
+  .bento--home .a-sintero,
+  .bento--home .a-cat,
+  .bento--home .a-lurch,
+  .bento--home .a-moments,
+  .bento--home .a-desserts { grid-column: span 6; }
+}
+
+@media (max-width: 699px) {
+  .bento--home > .tile { grid-column: 1 / -1 !important; }
+}
+
+/* 3.2 One anatomy for every project tile: media at a stated ratio, then
+   eyebrow, title, foot, and the outcome row if the tile has one. The old
+   mix of thumb-left bands and 50/50 pairs is what made two tiles in one row
+   look like two different components.
+
+   On :where(). The rules these replace are three classes deep
+   (.bento--home .tile--band .tile__media and friends), so an override has
+   to reach three. Writing the exclusions inside :where() holds this rule at
+   exactly three and lets it win on source order instead of on weight, which
+   is what keeps the per-tile rules under it able to win in turn. Without
+   it, a generic rule at five classes would outrank every specific one
+   below, which is the wrong way round. */
+.bento--home .tile:where(:not(.a-produsa):not(.tile--plain)) .tile__in {
+  display: flex;
+  flex-direction: column;
+  grid-template-columns: none;
+}
+
+.bento--home .tile:where(:not(.a-produsa):not(.tile--plain)) .tile__media {
+  grid-column: auto;
+  grid-row: auto;
+  aspect-ratio: 16 / 10;
+  min-height: 0;
+  margin: 0 0 20px;
+  flex: none;
+}
+
+/* The four-column tiles get the squarer panel: at about 330px wide, 16/10
+   is a letterbox and 4/3 is a picture. */
+.bento--home .a-cat .tile__media { aspect-ratio: 4 / 3; }
+
+/* The intro and contact leads are two-column grids of their own and are
+   named out of this rule, which is a flex column for the project tiles. */
+.bento--home .tile .tile__lead:where(:not(.intro):not(.contact)) {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  grid-column: auto;
+  grid-row: auto;
+}
+
+.bento--home .tile__foot {
+  margin-top: auto;
+  padding-top: 16px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.bento--home .tile .tile__more {
+  grid-column: auto;
+  grid-row: auto;
+  align-self: stretch;
+}
+
+/* 3.3 One line per row.
+   Three tiles side by side have three different amounts of copy, and two of
+   the three have an outcome row while the third does not, so their
+   eyebrows, titles and role lines all landed on different lines. A subgrid
+   of three tracks, shared by every tile in the row, is what puts them back
+   on one. Progressive: without subgrid the flex layout above still holds,
+   and the title floor below keeps most of it.
+
+   .a-lurch above 1100 and .a-vistlabs on tablet are excluded from the inner
+   subgrid because they run as two-column bands (3.6); they still take the
+   three rows, so the row stays level. */
+@supports (grid-template-rows: subgrid) {
+  @media (min-width: 700px) {
+    /* Every exclusion sits inside :where(), so these rules stay at two and
+       three classes and the band rules in 3.6 can still overrule them on
+       source order. Written the obvious way they reach seven classes and
+       nothing below this point can touch them. */
+    .bento--home > .tile:where(:not(.a-intro):not(.a-produsa):not(.a-blog):not(.a-contact)) {
+      display: grid;
+      grid-row: span 3;
+      grid-template-rows: subgrid;
+      row-gap: 0;
+    }
+
+    .bento--home > .tile:where(:not(.tile--plain):not(.a-intro):not(.a-produsa):not(.a-blog):not(.a-contact)) .tile__in {
+      grid-row: 1 / -1;
+      display: grid;
+      grid-template-rows: subgrid;
+      row-gap: 0;
+    }
+
+    /* row 1 media, row 2 the lead, row 3 the outcome. */
+    .bento--home .tile .tile__in > .tile__media { grid-row: 1; }
+    .bento--home .tile .tile__in > .tile__lead { grid-row: 2; }
+    .bento--home .tile .tile__in > .tile__more { grid-row: 3; }
+
+    /* The plain tiles have no three-part anatomy to align, so they take the
+       whole span as one box and level their row that way. */
+    .bento--home > .tile:where(.tile--plain:not(.a-intro):not(.a-blog):not(.a-contact)) .tile__in {
+      grid-row: 1 / -1;
+    }
+  }
+}
+
+/* The fallback when subgrid is missing: two lines of title on every tile,
+   so the foot of a one-line title does not ride up past its neighbour's. */
+@supports not (grid-template-rows: subgrid) {
+  @media (min-width: 700px) {
+    .bento--home .tile__title { min-height: calc(var(--fs-title) * 1.2 * 2); }
+  }
+}
+
+/* 3.4 One measure for every title.
+   This replaces 20ch, 22ch, 18ch and a hand-set clamp on Lurch, which is
+   four answers to one question and the reason Sintero's title wrapped in
+   about 160px while Produsa's ran to 500. */
+.bento--home .tile__title,
+.bento--home .tile--sm .tile__title,
+.bento--home .tile--pair .tile__title,
+.bento--home .a-lurch .tile__title,
+.contact .tile__title {
+  max-width: var(--measure-title);
+  font-size: var(--fs-title);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.008em;
+  color: var(--v3-ink);
+  text-wrap: balance;
+  margin-top: 10px;
+}
+
+/* 3.5 Labels, roles and outcomes.
+   Eyebrows were 11px at 500; they are 12px at 650 now, which is the one
+   change that makes them read as labels rather than as small text. */
+.bento--home .tile__eyebrow {
+  font: 600 var(--fs-label)/1.3 var(--font-sans);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--tile-acc, var(--v3-label));
+  margin: 0 0 12px;
+}
+
+.bento--home .tile__role {
+  font: 400 var(--fs-meta)/1.5 var(--font-sans);
+  letter-spacing: 0;
+  color: var(--v3-label);
+}
+
+.bento--home .tile__arrow {
+  color: var(--v3-ink);
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--v3-btn-radius);
+  border: 1px solid var(--v3-border-soft);
+  background: none;
+  transition: background-color 200ms var(--ease-standard), color 200ms var(--ease-standard),
+              border-color 200ms var(--ease-standard);
+}
+
+.bento--home .tile__arrow svg { width: 14px; height: 14px; }
+
+.bento--home a.tile:hover .tile__arrow,
+.bento--home a.tile:focus-visible .tile__arrow {
+  background: var(--v3-accent);
+  color: var(--v3-accent-ink);
+  border-color: var(--v3-accent-press);
+}
+
+/* The outcome is a label and a sentence, and that is all it is. It was a
+   bordered, tinted mini-table, which is a box drawn around four words
+   inside a card that is already a box. Same call as the featured card:
+   the label is small and tracked, the sentence is body size, and the
+   difference between them is the whole design. */
+.bento--home .tile .tile__more {
+  margin-top: 16px;
+  padding-top: 0;
+  border-top: 0;
+  max-width: none;
+}
+
+.bento--home .fact {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: none;
+}
+
+.bento--home .fact__k {
+  font: 600 var(--fs-label)/1.3 var(--font-sans);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--v3-label);
+  margin: 0;
+}
+
+.bento--home .fact__v {
+  font: 400 15px/1.5 var(--font-sans);
+  color: var(--v3-text);
+  margin: 0;
+  max-width: 44ch;
+}
+
+/* 3.6 The two wide tiles run side by side, one to one. An eight-column
+   tile with its picture on top is a very wide letterbox over three lines
+   of copy; split evenly it is a band. */
+@media (min-width: 1100px) {
+  /* One row, two columns, and both said again because 3.3 has just put
+     this card's picture in row 1 and its words in row 2. */
+  .bento--home .a-lurch .tile__in {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: minmax(0, 1fr);
+    column-gap: 24px;
+    align-items: stretch;
+  }
+  /* No floor on the media. The tile__in spans the row group's three tracks,
+     so a floor here is a floor on the whole row, and the four-column tile
+     beside it ends up with a hole under its picture. The picture takes the
+     height the row turns out to have instead. */
+  .bento--home .a-lurch .tile__in > .tile__media {
+    aspect-ratio: auto;
+    height: 100%;
+    min-height: 0;
+    margin: 0;
+    align-self: stretch;
+    grid-column: 1;
+    grid-row: 1 / -1;
+  }
+  /* The row assignments from 3.3 put the picture and the words in rows 1
+     and 2 of the subgrid, which is exactly what stacks them. Inside a band
+     they go side by side instead, so both are said again here. */
+  .bento--home .a-lurch .tile__in > .tile__lead {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+
+/* Vist Labs used to take the whole width on tablet and run as a band,
+   because Koodai and Sintero could not both fit beside it. With Koodai
+   gone it pairs with Sintero at six columns each, at every width down to
+   the phone, and the band rule it needed is deleted rather than left
+   lying around for the next person to wonder about. */
+
+
+/* --------------------------------------------------------------------------
+   4. HIERARCHY AND TYPE
+
+   4.1 The intro is the page title and is now set like one: the biggest
+   thing on the page, at one weight, with the accent spent on punctuation.
+   -------------------------------------------------------------------------- */
+
+/* ONE WEIGHT, ONE BREAK, FOUR RED DOTS.
+   The first pass emphasised this sentence four times in nine words: bold
+   on the name, a blush pill behind the job, and two words in maroon italic
+   serif. All four are gone. What is left is a line break after the
+   comma-clause, which is what makes the last two words read as the
+   afterthought they are, and the full stops set in maroon. Punctuation as
+   the accent is the right joke for copy written as flat declaratives with
+   the full stops doing the timing, and it rhymes with the ink in the
+   drawings rather than competing with it. */
+.intro__lead {
+  font: 600 var(--fs-hero)/var(--lh-tight) var(--font-sans);
+  letter-spacing: -0.018em;
+  color: var(--v3-ink);
+  max-width: 18ch;
+  margin: 0;
+}
+
+/* Below 600 the sentence is three lines anyway and a forced break just
+   makes a worse one, so the halves only become their own lines when there
+   is room for the break to mean something. */
+@media (min-width: 600px) {
+  .intro__lead .ln { display: block; }
+}
+
+.intro__lead .pt { color: var(--v3-accent); }
+
+.intro__claim {
+  font-size: var(--fs-lead);
+  color: var(--v3-ink);
+  max-width: 46ch;
+}
+
+.intro__notes li {
+  font-size: var(--fs-body);
+  color: var(--v3-text);
+}
+
+.intro__notes li::before { background: var(--v3-accent); }
+
+.intro__claim,
+.intro__notes { border-top-color: var(--v3-border-soft) !important; }
+
+/* 4.2 The intro card has the width now, so the claim and the notes take a
+   7/5 split and the right-hand column is also the toybox's floor. v2.js
+   measures the card, so a wider card is a wider floor with no change there. */
+@media (min-width: 1000px) {
+  .bento--home .a-intro .tile__in { padding: clamp(28px, 3.2vw, 48px); }
+  .bento--home .tile__lead.intro {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: clamp(32px, 4vw, 64px);
+  }
+}
+
+.a-intro .hand-note {
+  display: inline-block;
+  transform: rotate(-3deg);
+  margin-top: 12px;
+}
+
+/* 4.3 The featured card.
+   The tab strip is the frame's own label: the active tab is fused to a six
+   pixel frame in the project's colour, and the mock sits in the seven
+   columns with the argument in the five. One link, one focus ring. */
+.a-produsa { --feat: var(--acc-produsa); }
+
+.bento--home .a-produsa .tile__in {
+  padding: clamp(28px, 3.2vw, 44px);
+  display: block;
+}
+
+/* The tab strip and its frame are gone. What is left is the split, and
+   the card leads on size and space instead: it is the only twelve-column
+   project on the page and it has the most air inside it. No border, no
+   wash, nothing drawn around it. */
+.fframe {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(24px, 3.4vw, 56px);
+  align-items: center;
+  border: 0;
+  padding: 0;
+  background: none;
+}
+
+.fmock {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--v3-border);
+  background: var(--v3-surface);
+  box-shadow: 0 18px 36px -18px rgba(0, 0, 0, .35);
+  transform: rotate(-0.6deg);
+  transition: transform 320ms var(--ease-emphasis);
+}
+
+.fmock__chrome {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  background: var(--v3-surface-accent);
+  border-bottom: 1px solid var(--v3-border-soft);
+}
+
+.fmock__chrome i { width: 8px; height: 8px; border-radius: 50%; background: var(--v3-muted); flex: none; }
+
+.fmock__url {
+  flex: 1;
+  height: 14px;
+  margin-left: 8px;
+  border-radius: 4px;
+  background: var(--v3-surface);
+}
+
+.bento--home .a-produsa .fmock .tile__media {
+  aspect-ratio: 4 / 3;
+  border-radius: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.bento--home .a-produsa .tile__title {
+  font-size: var(--fs-feature);
+  line-height: 1.1;
+  letter-spacing: -0.028em;
+  max-width: 20ch;
+  margin: 4px 0 20px;
+}
+
+/* The detail used to be a bordered table with tinted key cells, which put
+   a box inside a frame inside a card. It is three lines of text now, told
+   apart by size and colour alone, in the order they are worth reading:
+   what happened, then who and where, then the way in. */
+.fout {
+  margin: 0 0 16px;
+  font: 400 var(--fs-lead)/1.5 var(--font-sans);
+  letter-spacing: -0.008em;
+  color: var(--v3-text);
+  max-width: 34ch;
+}
+
+.bento--home .a-produsa .tile__role { margin: 0 0 22px; }
+
+.fcta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: 600 15px/1 var(--font-sans);
+  color: var(--v3-ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .a-produsa:hover .fmock { transform: rotate(0deg) translateY(-3px); }
+  /* The mock moves, not the card. A twelve-column card that lifts two
+     pixels is the page twitching. */
+  .bento--home .a-produsa:hover .tile__in { transform: none; box-shadow: none; }
+}
+
+/* 4.4 A section eyebrow is the same component as a project eyebrow. */
+.bento--home .tile--plain .tile__eyebrow { color: var(--v3-label); }
+
+
+/* --------------------------------------------------------------------------
+   5. COMPONENTS
+
+   5.1 Sintero needs no rule of its own: four columns, the stacked anatomy
+   and one title measure between them are what fix it.
+
+   5.2 Desserts. Four columns of which two thirds were empty paper, sitting
+   next to an eight-column tile with a photograph in it. The panel is drawn
+   in CSS and is decorative, so nothing is invented and nothing is redrawn.
+   -------------------------------------------------------------------------- */
+
+.bento--home .a-desserts .tile__in {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Three classes deep because .bento--home .tile--pair .tile__media carries
+   min-height: 0, and this panel is the one media box on the page that has
+   to have a floor: there is no picture in it to give it a height. */
+.bento--home .a-desserts .dessert-art {
+  flex: 1 1 auto;
+  min-height: 180px;
+  margin: 0 0 20px;
+  border-radius: var(--v3-inner-radius);
+  background:
+    radial-gradient(circle at 30% 35%, var(--v3-highlight) 0 22%, transparent 23%),
+    radial-gradient(circle at 70% 65%, color-mix(in srgb, var(--v3-accent) 14%, transparent) 0 18%, transparent 19%),
+    var(--v3-surface-accent);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.bento--home .a-desserts .dessert-art::after {
+  content: "WHOA.";
+  font: 700 clamp(44px, 4vw, 64px)/1 var(--font-script);
+  color: var(--v3-accent);
+  transform: rotate(-6deg);
+}
+
+/* 5.3 Also true, in eight columns: the pile on the left and everything that
+   talks about it on the right, so the card uses the width it was given. */
+@media (min-width: 1100px) {
+  .bento--home .a-moments .tile__in {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 3fr);
+    grid-template-rows: auto 1fr auto;
+    column-gap: 28px;
+  }
+  /* v2.js builds .pile__nav (the dots and the hint) and puts it after the
+     caption, so every child of this card is named here. Auto-placement
+     would put each one back under the pile, one row at a time. */
+  .a-moments .tile__eyebrow { grid-column: 1 / -1; grid-row: 1; }
+  .a-moments .pile { grid-column: 1; grid-row: 2 / span 2; margin-top: 0; align-self: center; }
+  .a-moments .pile__cap { grid-column: 2; grid-row: 2; margin-top: 0; align-self: center; }
+  .a-moments .pile__nav { grid-column: 2; grid-row: 3; align-self: start; }
+}
+
+.pile__cap { font-size: 16px; color: var(--v3-text); }
+.pile__card { border-color: var(--v3-border); border-radius: var(--v3-inner-radius); }
+
+/* 5.4 Writing: a reading column, then three equal stubs. */
+.a-blog .tile__title { max-width: var(--measure-title); margin-bottom: 20px; }
+
+.blog {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--v3-gap);
+  margin-top: 0;
+}
+
+.blog .slot { min-height: 160px; margin: 0; }
+
+@media (max-width: 899px) {
+  .blog { grid-template-columns: 1fr; }
+  .blog .slot { min-height: 112px; }
+}
+
+/* 5.5 Contact. Three links on three baselines become three rows on one
+   left edge, and the email becomes the button it always was. */
+.bento--home .tile__lead.contact {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  column-gap: clamp(24px, 4vw, 64px);
+  align-items: center;
+  align-content: center;
+}
+
+.contact__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.contact__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--v3-border);
+  border-radius: var(--v3-btn-radius);
+  font: 600 15px/1 var(--font-sans);
+  color: var(--v3-ink);
+  text-decoration: none;
+  transition: background-color 200ms var(--ease-standard), border-color 200ms var(--ease-standard);
+}
+
+.contact__row:hover,
+.contact__row:focus-visible { background: var(--v3-surface-accent); border-color: var(--v3-ink); }
+
+.contact__list .btn { width: 100%; justify-content: center; min-height: 48px; }
+
+/* 5.6 Curved boxes that answer when you press them.
+   His call, 2026-10-20: keep the feedback, lose the mechanical drop. The
+   first pass gave every button a hard 3px bottom edge that fell away on
+   :active, which is a toy-button idiom and the loudest small thing on the
+   page. The press is now a tint and a hair of scale: it still answers
+   under a thumb, it just does not clunk. Still transform-only, so there is
+   no layout shift either way. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  font: 600 15px/1 var(--font-sans);
+  text-decoration: none;
+  white-space: nowrap;
+  border-radius: 10px;
+  border: 1px solid var(--btn-edge);
+  background: var(--btn-bg);
+  color: var(--btn-ink);
+  transform: scale(1);
+  cursor: pointer;
+  transition: transform 120ms var(--ease-standard), filter 200ms var(--ease-standard),
+              background-color 200ms var(--ease-standard), border-color 200ms var(--ease-standard);
+}
+
+.btn:hover { filter: brightness(1.05); }
+.btn:active { transform: scale(.975); filter: brightness(.94); }
+.btn:focus-visible { outline: 3px solid var(--v3-focus); outline-offset: 3px; }
+
+.btn--primary {
+  --btn-bg: var(--v3-accent);
+  --btn-ink: var(--v3-accent-ink);
+  --btn-edge: var(--v3-accent);
+}
+
+.btn--secondary {
+  --btn-bg: var(--v3-surface);
+  --btn-ink: var(--v3-ink);
+  --btn-edge: var(--v3-border);
+}
+
+/* 5.7 The two fixed controls join the same family. */
+.bar__in {
+  background: color-mix(in srgb, var(--v3-surface) 88%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--v3-border);
+  border-radius: 10px;
+  padding: 5px;
+  box-shadow: 0 12px 28px -16px rgba(0, 0, 0, .35);
+}
+
+.bar__in > a {
+  border-radius: var(--v3-btn-radius);
+  color: var(--v3-label);
+  font-weight: 600;
+  font-size: 14px;
+  transition: color 200ms var(--ease-standard), background-color 200ms var(--ease-standard);
+}
+
+.bar__in > a:hover,
+.bar__in > a:focus-visible { color: var(--v3-ink); background: var(--v3-surface-accent); }
+
+/* Said through .bar__in > a, because that selector (one class and one
+   element) outranks a bare .bar__cta and would otherwise paint the CTA's
+   text in the label grey, on maroon, at 2.2:1. */
+.bar__in > a.bar__cta,
+.bar__in > a.bar__cta:hover,
+.bar__in > a.bar__cta:focus-visible {
+  background: var(--v3-accent);
+  color: var(--v3-accent-ink);
+  border: 1px solid var(--v3-accent);
+  box-shadow: none;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: transform 120ms var(--ease-standard), filter 200ms var(--ease-standard);
+}
+
+.bar__in > a.bar__cta:hover,
+.bar__in > a.bar__cta:focus-visible { filter: brightness(1.05); }
+.bar__in > a.bar__cta:active { transform: scale(.975); filter: brightness(.94); }
+
+.dock__btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--v3-surface);
+  border: 1px solid var(--v3-border);
+  box-shadow: 0 2px 10px -6px rgba(17, 17, 17, .3);
+  color: var(--v3-ink);
+  transition: transform 120ms var(--ease-standard), background-color 200ms var(--ease-standard),
+              border-color 200ms var(--ease-standard);
+}
+
+.dock__btn:hover { border-color: var(--v3-ink); }
+.dock__btn:active { transform: scale(.94); }
+.dock__btn:focus-visible { outline: 3px solid var(--v3-focus); outline-offset: 3px; }
+
+
+/* --------------------------------------------------------------------------
+   6. THE HERO
+
+   The photograph is untouched: no filter, the same 1.4x lift, the same crop
+   budget. The overlay is a layer over it and the scrim is a second layer,
+   which is why the no-filter rule still holds.
+   -------------------------------------------------------------------------- */
+
+.curtain__title {
+  position: absolute;
+  left: var(--margin);
+  bottom: clamp(84px, 11vh, 128px);
+  z-index: 2;
+  display: grid;
+  gap: 6px;
+  color: #FDFDF8;
+  max-width: 22ch;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 8px 24px rgba(0, 0, 0, .35);
+  opacity: var(--cue, 1);     /* main.js writes --cue on .curtain__frame as you scroll */
+  pointer-events: none;
+}
+
+.curtain__name {
+  font: 600 clamp(28px, 1rem + 2.2vw, 44px)/1 var(--font-sans);
+  letter-spacing: -0.02em;
+}
+
+.curtain__line {
+  font: 600 13px/1.4 var(--font-sans);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  opacity: .9;
+}
+
+/* A scrim under the overlay, not a filter on the photograph. It covers the
+   bottom 40%, which is grass and bench: the part of the frame the crop
+   budget already counts as spent. */
+.curtain__frame::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 40%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(0, 0, 0, .28), transparent);
+}
+
+/* 6.2 Mobile art direction.
+   Option A of the spec, measured on the source: the band that has to
+   survive runs x 0.235 to 0.75 and its centre is 0.493, which the existing
+   object-position: 48% 50% at max-aspect-ratio 74/100 already centres to
+   within half a per cent. At 390x844 the window is x 0.184 to 0.800, so
+   both characters, WHOA. and him are inside it with about 5% of air each
+   side. Nothing to do here, and no second hero file to ship.
+
+   What does need a rule: the overlay sits lower in portrait, where the
+   runway is short and the cue is bottom-left under it. */
+@media (max-aspect-ratio: 74/100) {
+  .curtain__title { bottom: 76px; left: 20px; max-width: 18ch; }
+}
+
+/* 6.3 The cue joins the button family. It keeps its place: style.css moved
+   it to the page gutter on purpose, because a white pill in the middle of
+   the frame sits on white planks. */
+.curtain__cue {
+  border-radius: var(--v3-btn-radius);
+  background: rgba(253, 253, 248, .92);
+  border: 1px solid rgba(17, 17, 17, .12);
+  box-shadow: 0 3px 0 0 rgba(17, 17, 17, .18);
+  font-size: 12px;
+  color: #111111;
+}
+
+
+/* --------------------------------------------------------------------------
+   7. THE PHONE
+   -------------------------------------------------------------------------- */
+
+/* 7.1 The window dissolves. Thirty pixels of chrome is eight per cent of a
+   390px screen, and the window's whole job, holding the page together on
+   the ground, is one a phone does not have. */
+@media (max-width: 699px) {
+  :root {
+    --v3-window-radius: 16px;
+    --v3-tile-radius: 12px;
+    --v3-gap: 12px;
+    --v3-page-margin: 16px;
+    --fs-body: 15px;
+  }
+
+  .window {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  .window__bar { display: none; }
+  .window__body { padding: 0; }
+  .window__foot { border-top: 0; padding: 16px 0 0; justify-content: center; }
+}
+
+/* 7.2 The toybox keeps its room.
+   The CSS reserve only. v2.js's well is bottom-right and the spec's
+   alternative is a one-line change in v2.js, which index.html also loads,
+   so it stays out of this version: a parallel page is not allowed to move
+   the live one. 112px is two counters plus air at 390. */
+@media (max-width: 999px) {
+  .a-intro.has-toys .intro__notes { padding-bottom: 112px; }
+}
+
+/* 7.3 The bar and the dock share one row.
+   The dock used to step up to bottom:80px and sit on top of the bar. They
+   sit beside each other instead, and the bar reserves the dock's width so
+   the pill can never run under it. The page's own floor moved to .homewrap
+   in 2.2, so the old reserve on main comes off and is not paid twice. */
+@media (max-width: 819px) {
+  .dock { bottom: calc(12px + var(--safe-b)); right: 12px; gap: 8px; }
+  .bar { bottom: calc(12px + var(--safe-b)); padding: 0 calc(12px + 44px * 2 + 8px + 8px) 0 12px; }
+  .bar__in { margin: 0; width: 100%; max-width: 100%; justify-content: space-between; }
+  .bar__in > a { padding: 0 10px; font-size: 14px; min-height: 44px; display: inline-flex; align-items: center; }
+}
+
+/* Under 360 the pill cannot hold three items and the dock. Desserts is in
+   the menu sheet, two taps away, and is the one of the three that is. */
+@media (max-width: 359px) {
+  .bar__in > a:nth-child(2):not(.bar__cta) { display: none; }
+}
+
+html { scroll-padding-bottom: calc(var(--controls-h) + 24px + var(--safe-b)); }
+.dock ~ main { padding-bottom: 0; }
+
+/* 7.4 The arrow moves to the top right.
+   At rest, the bottom-right arrow of the last card on screen sits under the
+   dock column. On the eyebrow row it never can. */
+@media (max-width: 699px) {
+  /* :where() again, so this stays at three classes and the intro and
+     contact leads below can still say something different. */
+  .bento--home .tile:where(:not(.a-produsa)) .tile__lead:where(:not(.intro):not(.contact)) {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "eye   arrow"
+      "title title"
+      "role  role";
+    column-gap: 12px;
+  }
+  .bento--home .tile__lead > .tile__eyebrow { grid-area: eye; align-self: center; margin: 0; }
+  .bento--home .tile__lead > .tile__title { grid-area: title; margin-top: 10px; }
+  .bento--home .tile__foot { display: contents; }
+  .bento--home .tile__foot > .tile__role { grid-area: role; margin-top: 12px; }
+  .bento--home .tile__foot > .tile__arrow { grid-area: arrow; align-self: center; }
+
+  /* The two plain tiles have no .tile__lead grid to join. */
+  .bento--home .a-intro .tile__lead,
+  .bento--home .a-contact .tile__lead { display: grid; grid-template-areas: none; grid-template-columns: minmax(0, 1fr); }
+}
+
+/* 7.5 Padding and type. */
+@media (max-width: 699px) {
+  .bento--home .tile__in,
+  .bento--home .tile--sm .tile__in { padding: 20px; }
+  .bento--home .a-produsa .tile__in { padding: 20px; }
+  .bento--home .tile__title { font-size: 21px; }
+  .intro__lead { max-width: none; line-height: 1.1; }
+
+
+  /* The featured card on one column: the tabs collapse to the active one,
+     the frame thins, and the mock leads. */
+  .fframe { grid-template-columns: 1fr; }
+  .fmock { transform: none; }
+
+  .bento--home .tile__lead.contact { grid-template-columns: 1fr; row-gap: 20px; }
+  .contact__list .btn { white-space: nowrap; }
+  .bento--home .a-desserts .dessert-art { flex: none; aspect-ratio: 16 / 10; min-height: 0; }
+}
+
+/* 7.6 Reduced motion, outside Crazy Mode. Colour still changes; nothing
+   moves. */
+@media (prefers-reduced-motion: reduce) {
+  .bento--home .tile__in, .fmock, .btn, .bar__cta, .dock__btn, .contact__row { transition: none !important; }
+  .bento--home a.tile:hover .tile__in,
+  .a-produsa:hover .fmock { transform: none !important; }
+  .fmock { transform: none; }
+  .btn:active, .bar__cta:active, .dock__btn:active { transform: none; }
+}
+
+
+/* --------------------------------------------------------------------------
+   8. DARK
+   The tokens carry almost all of it. Three things sit outside them.
+   -------------------------------------------------------------------------- */
+
+:root[data-theme="dark"] .curtain__cue {
+  background: rgba(38, 39, 44, .92);
+  color: #FAFAFA;
+  border-color: #3E424F;
+  box-shadow: 0 3px 0 0 rgba(0, 0, 0, .35);
+}
+
+:root[data-theme="dark"] .bento--home .a-desserts .dessert-art::after { color: var(--v3-accent); }
+
+/* The theme fades rather than cuts. .tile__in's transform transition is in
+   the same list up in 2.5, because a second transition declaration on the
+   same selector replaces the first rather than adding to it. */
+body, .window, .bar__in, .dock__btn, .contact__row, .fact {
+  transition: background-color 200ms var(--ease-standard),
+              border-color 200ms var(--ease-standard),
+              color 200ms var(--ease-standard);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body, .window, .bar__in, .dock__btn, .contact__row, .fact { transition: none !important; }
+}
