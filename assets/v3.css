@@ -1,10 +1,12 @@
 /* ==========================================================================
    v3. The homepage redesign.
 
-   Loaded only by index-v3.html, and loaded last: after style.css and after
-   v2.css. Nothing in those two files is edited, so rolling this version
-   back is removing three <link> tags and four files. index.html, every case
-   study page and case.css are untouched by everything below.
+   Loaded only by index.html, and loaded last: after style.css and after
+   v2.css. Nothing in those two files is edited, so this layer is additive
+   and the case study pages, which never load it, are untouched by
+   everything below. As of 2026-10-21 this IS the live homepage; it was
+   promoted out of index-v3.html, and the bento version it replaced is the
+   index.html of commit 123a4aa.
 
    The order here is the order of the build spec, so a task number is a
    place in this file:
@@ -39,7 +41,7 @@
    a texture, a label face or an accent word.
 
    --font-sans is re-pointed rather than added to, because this file is
-   loaded by index-v3.html alone: nothing else on the site sees it. The
+   loaded by index.html alone: nothing else on the site sees it. The
    legacy --font-serif and --font-hand aliases are left pointing at
    --font-sans exactly as style.css set them, so no old rule changes face.
    -------------------------------------------------------------------------- */

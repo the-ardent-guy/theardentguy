@@ -2,15 +2,35 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Rishabh Jain, Product Designer</title>
+<!-- THE HOMEPAGE. Promoted from index-v3.html on 2026-10-21; the previous
+     bento homepage is the version of this file at commit 123a4aa and is the
+     thing to check out if this needs rolling back.
+
+     Load order is style.css, then v2.css, then v3.css, and v3.css overrides
+     the first two rather than replacing them. It is the only file that
+     defines the --v3-* tokens, and it is loaded by this page alone, so the
+     case study pages still carry the older type and the maroon accent. That
+     seam is known and deliberate for now. -->
 <meta name="description" content="Rishabh Jain. Product designer, builder and illustrator. Story and meaning first, screens second. Case studies on Produsa, Supaca, Hasta, Bizotico and VIST Labs.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&display=swap" rel="stylesheet">
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Kalam:wght@400;700&display=swap">
 <link rel="preload" as="image" href="/assets/hero.jpg" fetchpriority="high">
 <link rel="stylesheet" href="/assets/style.css">
 <link rel="stylesheet" href="/assets/v2.css">
+<link rel="stylesheet" href="/assets/v3.css">
+<!-- CRAZY MODE IS PARKED, 2026-10-20. His call: take it out for now, keep
+     the work. assets/crazy.css and assets/crazy.js are untouched and still
+     in the repo; nothing on this page loads them. To bring it back, undo
+     the four edits marked PARKED in this file. Nothing else changes.
+       1. <link rel="stylesheet" href="/assets/crazy.css">       (here)
+       2. the data-crazy clause in the head script               (below)
+       3. the window footer and its switch                       (in main)
+       4. <script src="/assets/crazy.js" defer></script>         (at the end)
+     PARKED 1 of 4. -->
 <script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
 </head>
 <body>
@@ -19,35 +39,27 @@
      and nowhere else, and a maroon hairline across the photograph breaks
      the rule that this site has exactly two fixed controls. -->
 
-<!-- The two fixed controls, back where they were before the bar arrived:
-     the menu and the dark mode switch, bottom right, over everything. The
-     bar at the top is the shortcut; this is the full list and the only way
-     to reach Studio and the resume from the homepage. main.js wires both,
-     and the head script has already set data-theme before first paint. -->
-<div class="dock">
-  <button class="dock__btn" id="navOpen" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navsheet">
-    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 4h14M1 8h14M1 12h14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-  </button>
-  <button class="dock__btn theme-toggle" type="button" aria-label="Toggle dark mode"></button>
-</div>
+<!-- ONE control, at the top. His call, 2026-10-21: the floating menu button
+     is gone and the dark mode switch moves into the bar, so the page has a
+     single piece of chrome instead of a pill plus two discs in the corner.
+     It reads as a toolbar: a group of destinations, a divider, the tool
+     that changes the view, then the one action.
 
-<div class="navsheet" id="navsheet" role="dialog" aria-modal="true" aria-label="Menu">
-  <button class="navsheet__close" id="navClose" type="button" aria-label="Close menu">
-    <svg viewBox="0 0 16 16" aria-hidden="true" style="width:14px;height:14px"><path d="M3 3l10 10M13 3L3 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-  </button>
-  <ul class="navsheet__list">
-    <li><a href="/#work">Work</a></li>
-    <li><a href="/desserts.html">Desserts</a></li>
-    <li><a href="/studio.html">Studio</a></li>
-    <li><a href="/#contact">Contact</a></li>
-    <li><a href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume</a></li>
-  </ul>
-</div>
+     The nav sheet went with the menu button. Studio was only reachable
+     through it, so it is a link here now; the resume is not, because its
+     href is still a placeholder. main.js's navSheet() exits on its own
+     when #navOpen is absent, and themeToggle() finds .theme-toggle
+     wherever it sits, so no script changes are needed.
 
-<header class="bar">
+     v2.js reveals .bar once the photograph is scrolled past. It now
+     arrives from above rather than from below. -->
+<header class="bar bar--top">
   <nav class="bar__in" aria-label="Site">
     <a href="#work">Work</a>
     <a href="/desserts.html">Desserts</a>
+    <a href="/studio.html">Studio</a>
+    <span class="bar__sep" aria-hidden="true"></span>
+    <button class="bar__tool theme-toggle" type="button" aria-label="Toggle dark mode"></button>
     <a class="bar__cta" href="#contact">Get in touch <span aria-hidden="true">&#8594;</span></a>
   </nav>
 </header>
@@ -64,6 +76,15 @@
   <div class="curtain__frame">
     <img class="curtain__img" src="/assets/hero.jpg" width="1200" height="1600" fetchpriority="high"
          alt="Rishabh sits with his back to the camera at a weathered white picnic table in the Himalayas, bare winter trees and a snow ridge behind him. Two of his own drawn characters are sitting at the table with him, one in a green jumper holding a book and striped socks, one in a mustard jacket, and the word WHOA. is written in the air above them.">
+    <!-- The hero gets a name without a filter touching the photograph.
+         aria-hidden because the intro h1 already carries these exact words,
+         and .curtain__frame::after is a separate scrim layer, not a filter.
+         It sits bottom-left over the grass, which the crop budget already
+         counts as spent, and it fades on --cue like the scroll cue does. -->
+    <div class="curtain__title" aria-hidden="true">
+      <span class="curtain__name">Rishabh Jain</span>
+      <span class="curtain__line">Product Designer. Builder. Illustrator.</span>
+    </div>
     <p class="curtain__cue" aria-hidden="true">
       <span>Scroll</span>
       <svg viewBox="0 0 12 14"><path d="M6 1v11M1.5 7.5 6 12.5l4.5-5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -73,6 +94,13 @@
 
 <main>
   <div class="homewrap homewrap--curtained" id="work">
+   <!-- The window frame and its title bar are gone, 2026-10-21: no window
+        style on this page at all. The div stays as structure only, because
+        it still carries z-index 2 (which keeps .v2-grain under the page)
+        and overflow: clip (which is the wall the toybox pile bounces off).
+        It draws nothing. -->
+   <div class="window">
+    <div class="window__body">
 
     <!-- THE BANDS.
          The 204px row unit survives, but the mosaic is now band-partitioned:
@@ -88,7 +116,8 @@
       <section class="tile tile--plain a-intro" aria-label="Introduction">
         <div class="tile__in">
           <div class="tile__lead intro">
-            <h1 class="intro__lead"><b>Rish</b>, Product Designer. Builder. Illustrator.</h1>
+            <h1 class="intro__lead"><span class="ln">Rish, Product Designer<span class="pt">.</span></span>
+               <span class="ln">Builder<span class="pt">.</span> Illustrator<span class="pt">.</span></span></h1>
             <p class="intro__claim">I bring storytelling and social psychology into how products think, behave, and feel.</p>
             <!-- A list of two, not a paragraph of two sentences. The second
                  one ends on a comma and the third opens on a capital, which
@@ -119,52 +148,62 @@
         </div>
       </section>
 
-      <a class="tile tile--band a-produsa" href="/produsa.html" style="--tile-acc: var(--acc-produsa);">
+      <!-- THE LEAD PROJECT.
+           One card across the whole twelve columns: the mock on the left,
+           the argument on the right. It leads by being bigger and better
+           spaced than its neighbours, which is a statement, rather than by
+           wearing a tab strip and a heavy frame, which was a shout. His
+           call, 2026-10-20. The details underneath are a plain hierarchy
+           now, not a table: result first, because that is the interesting
+           part, then who and where, at meta size.
+           The class is tile--feature, not tile--band, so none of the band
+           grid rules reach it. -->
+      <a class="tile tile--feature a-produsa" href="/produsa.html">
         <div class="tile__in">
-          <div class="tile__media"><img src="/assets/media/produsa-band.webp" width="1200" height="900" loading="lazy" decoding="async" alt="The Produsa studio. An owner asks the chat on the left for a header, a footer and a logo, and the finished Hornexa Technology site stands in the preview on the right."></div>
-          <div class="tile__lead">
-            <p class="tile__eyebrow">Produsa</p>
-            <h2 class="tile__title">An AI platform that turns a website build into a conversation</h2>
-            <div class="tile__foot">
+          <div class="fframe">
+            <div class="fmock">
+              <div class="tile__media"><img src="/assets/media/produsa-band.webp" width="1200" height="900" loading="lazy" decoding="async" alt="The Produsa studio. An owner asks the chat on the left for a header, a footer and a logo, and the finished Hornexa Technology site stands in the preview on the right."></div>
+            </div>
+            <div class="fcopy">
+              <p class="tile__eyebrow">Produsa</p>
+              <h2 class="tile__title">An AI platform that turns a website build into a conversation</h2>
+              <p class="fout">500+ builds and 290 live websites in the first two months after launch.</p>
               <p class="tile__role">Product Designer and Builder<br>Produsa Labs, 2026</p>
-              <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </div>
-          </div>
-          <div class="tile__more">
-            <div class="fact fact--lead">
-              <p class="fact__k">Outcome</p>
-              <p class="fact__v">500+ builds and 290 live websites in the first two months after launch.</p>
+              <span class="fcta">Read the case study <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
             </div>
           </div>
         </div>
       </a>
 
-      <a class="tile tile--band a-supaca" href="/supaca.html" style="--tile-acc: var(--acc-supaca);">
+      <!-- SUPACA, promoted to the featured size on his call, 2026-10-21.
+           Same anatomy as Produsa: picture left, argument right, result
+           first. The feature treatment used to be scoped to .a-produsa in
+           seventeen places; it is scoped to .tile--feature now, so the two
+           cards share one definition rather than one being a copy of the
+           other that can drift. -->
+      <a class="tile tile--feature a-supaca" href="/supaca.html">
         <div class="tile__in">
-          <div class="tile__media"><div class="slot">[ IMAGE: the v1 event page, RSVP with your car and the Who's coming list ]</div></div>
-          <div class="tile__lead">
-            <p class="tile__eyebrow">Supaca</p>
-            <h2 class="tile__title">Designing trust for a private network of supercar owners</h2>
-            <div class="tile__foot">
+          <div class="fframe">
+            <div class="fmock">
+              <div class="tile__media"><div class="slot">[ IMAGE: the v1 event page, RSVP with your car and the Who's coming list ]</div></div>
+            </div>
+            <div class="fcopy">
+              <p class="tile__eyebrow">Supaca</p>
+              <h2 class="tile__title">Designing trust for a private network of supercar owners</h2>
+              <p class="fout">The beta is live, with real owners joining through the waitlist.</p>
               <p class="tile__role">Lead UI/UX Designer<br>Mobile app, 2024 to 2025</p>
-              <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </div>
-          </div>
-          <div class="tile__more">
-            <div class="fact fact--lead">
-              <p class="fact__k">Outcome</p>
-              <p class="fact__v">The beta is live, with real owners joining through the waitlist.</p>
+              <span class="fcta">Read the case study <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
             </div>
           </div>
         </div>
       </a>
 
-      <a class="tile tile--band a-bizotico" href="/bizotico.html" style="--tile-acc: var(--acc-bizotico);">
+      <a class="tile tile--band a-bizotico" href="/bizotico.html">
         <div class="tile__in">
-          <div class="tile__media"><img src="/assets/media/bizo-band.webp" width="1200" height="900" loading="lazy" decoding="async" alt="The Bizotico storefront on a laptop and a phone. The laptop shows the hero, Upto 80% Off, Between Sea and Space, over a diver surfacing with a watch on his wrist, with four watch photographs below it."></div>
+          <div class="tile__media"><img src="/assets/media/bizo-band-16x10.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="The Bizotico storefront on a laptop and a phone. The laptop shows the hero, Upto 80% Off, Between Sea and Space, over a diver surfacing with a watch on his wrist, with four watch photographs below it."></div>
           <div class="tile__lead">
             <p class="tile__eyebrow">Bizotico</p>
-            <h2 class="tile__title">Gave watch buyers a reason to skip Amazon</h2>
+            <h2 class="tile__title">Designed a distributor's own D2C watch store</h2>
             <div class="tile__foot">
               <p class="tile__role">E-commerce Designer<br>2023 to 2024</p>
               <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -179,9 +218,9 @@
         </div>
       </a>
 
-      <a class="tile tile--band a-vistlabs" href="/vistlabs.html" style="--tile-acc: var(--acc-vistlabs);">
+      <a class="tile tile--band a-vistlabs" href="/vistlabs.html">
         <div class="tile__in">
-          <div class="tile__media"><img src="/assets/media/vist-band.webp" width="1200" height="900" loading="lazy" decoding="async" alt="The redesigned VIST Labs homepage hero. Diagnose, Decontaminate, Protect. in large white type over a dark teal photograph of pasteurisation equipment, under a plain white nav bar."></div>
+          <div class="tile__media"><img src="/assets/media/vist-band-16x10.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="The redesigned VIST Labs homepage hero. Diagnose, Decontaminate, Protect. in large white type over a dark teal photograph of pasteurisation equipment, under a plain white nav bar."></div>
           <div class="tile__lead">
             <p class="tile__eyebrow">VIST Labs, Illinois USA</p>
             <h2 class="tile__title">Repositioning a post-harvest technology company for banks and growers</h2>
@@ -209,21 +248,12 @@
            the front. Replaces the lines that were only ever captions for
            pictures that were not there. -->
 
-      <a class="tile tile--pair tile--sm a-koodai" href="/koodaikind.html" style="--tile-acc: var(--acc-koodaikind);">
-        <div class="tile__in">
-          <div class="tile__media"><img src="/assets/media/koodai-band.webp" width="1200" height="600" loading="lazy" decoding="async" alt="A woman in a second-hand bookshop holding the blue polka-dot koodai, from the Koodai Kind campaign."></div>
-          <div class="tile__lead">
-            <p class="tile__eyebrow">Koodai Kind</p>
-            <h2 class="tile__title">A mobile-first storefront for the South Indian koodai</h2>
-            <div class="tile__foot">
-              <p class="tile__role">Product and e-commerce</p>
-              <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </div>
-          </div>
-        </div>
-      </a>
+      <!-- Koodai Kind was here. Taken out of the grid on his call,
+           2026-10-20. /koodaikind.html is untouched and still reachable;
+           this only stops the homepage listing it as a project. Vist Labs
+           and Sintero take six columns each in its place. -->
 
-      <a class="tile tile--pair tile--sm a-sintero" href="/sintero.html" style="--tile-acc: var(--acc-sintero);">
+      <a class="tile tile--pair tile--sm a-sintero" href="/sintero.html">
         <div class="tile__in">
           <div class="tile__media"><div class="slot">[ IMAGE: the web and print system side by side ]</div></div>
           <div class="tile__lead">
@@ -243,9 +273,9 @@
         </div>
       </a>
 
-      <a class="tile tile--pair tile--sm a-cat" href="CAT_APP_URL" target="_blank" rel="noopener">
+      <a class="tile tile--pair tile--sm a-cat" href="https://the-ardent-guy.github.io/ezraapp/" target="_blank" rel="noopener">
         <div class="tile__in">
-          <div class="tile__media"><div class="slot">[ IMAGE: Ezra ]</div></div>
+          <div class="tile__media"><img src="/assets/media/ezra-site.webp" width="840" height="630" loading="lazy" decoding="async" alt="The Ezra site. YOUR DESKTOP HAS AN OWNER NOW. set in heavy mono capitals, the last word in amber, on a near-black ground."></div>
           <div class="tile__lead">
             <p class="tile__eyebrow">Ezra</p>
             <h2 class="tile__title">Built a desktop app for my (ex) cat.</h2>
@@ -258,14 +288,14 @@
       </a>
 
 
-      <a class="tile tile--pair tile--sm a-lurch" href="DATING_APP_URL" target="_blank" rel="noopener">
+      <a class="tile tile--pair tile--sm a-lurch" href="https://lurchout.vercel.app/" target="_blank" rel="noopener">
         <div class="tile__in">
-          <div class="tile__media"><div class="slot">[ IMAGE: Lurch ]</div></div>
+          <div class="tile__media"><img src="/assets/media/lurch-phones.webp" width="880" height="831" loading="lazy" decoding="async" alt="Two phones showing Lurch: the launch screen reading We match you on your trauma, and behind it a diagnostic screen headed Analysing your damage."></div>
           <div class="tile__lead">
             <p class="tile__eyebrow">Lurch</p>
             <h2 class="tile__title">Made a dating app that matches you based on your trauma. (yes.)</h2>
             <div class="tile__foot">
-              <p class="tile__role">[ one line on why I built it ]</p>
+              <p class="tile__role">Dating app</p>
               <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             </div>
           </div>
@@ -291,6 +321,12 @@
 
       <a class="tile tile--pair tile--sm tile--plain a-desserts" href="/desserts.html">
         <div class="tile__in">
+          <!-- The tile used to be four columns of mostly nothing. The panel
+               is decorative and aria-hidden: it carries WHOA. out of the
+               hero illustration, set in the accent face, and it is drawn in
+               CSS so no new artwork is invented here. Swap it for a real
+               dessert photograph the day there is one. -->
+          <div class="tile__media dessert-art" aria-hidden="true"></div>
           <div class="tile__lead">
             <p class="tile__eyebrow">Desserts</p>
             <h2 class="tile__title">Where the characters come from</h2>
@@ -328,20 +364,40 @@
               <p class="tile__eyebrow">Contact</p>
               <h2 class="tile__title">Available for product design and consulting work.</h2>
             </div>
-            <p class="tile__role contact__links">
-              <a href="mailto:theardentguy@gmail.com">theardentguy@gmail.com</a>
-              <a href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener">LinkedIn</a>
-              <a href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume</a>
-            </p>
+            <!-- Same three anchors, same hrefs, same words. They were
+                 inline and wrapped, so three different baselines; they are
+                 rows now, one left edge, 48px of thumb each. The two
+                 placeholder hrefs stay placeholders: filling them is not
+                 this pass. -->
+            <ul class="contact__list">
+              <li><a class="btn btn--primary" href="mailto:theardentguy@gmail.com">theardentguy@gmail.com</a></li>
+              <li><a class="contact__row" href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&#8599;</span></a></li>
+              <li><a class="contact__row" href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume <span aria-hidden="true">&#8599;</span></a></li>
+            </ul>
           </div>
         </div>
       </section>
 
     </div>
+    </div>
+    <!-- PARKED 3 of 4. The footer held only the crazy switch, so with the
+         switch gone it is an empty strip. Both come back together.
+         NOTE, 2026-10-21: the window frame around this page was deleted,
+         but .window__foot survives in v3.css restyled as a rule plus the
+         switch, so unparking is still only these four edits:
+    <div class="window__foot">
+      <button class="crazy-switch" id="crazySwitch" type="button" role="switch" aria-checked="false">
+        <span class="crazy-switch__track" aria-hidden="true"><span class="crazy-switch__thumb"></span></span>
+        <span class="crazy-switch__label">crazy mode</span>
+      </button>
+    </div>
+    -->
+   </div>
   </div>
 </main>
 
 <script src="/assets/main.js"></script>
 <script src="/assets/v2.js"></script>
+<!-- PARKED 4 of 4: <script src="/assets/crazy.js" defer></script> -->
 </body>
 </html>
