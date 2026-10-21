@@ -2304,3 +2304,535 @@ body, .window, .bar__in, .dock__btn, .contact__row, .fact {
      at most about 725px wide and 4:3 is 544px tall. The crop costs more
      than the height saves. */
 }
+
+/* ==========================================================================
+   15. THE HINGE, FUN MODE, AND THE PHARMACY
+   His call, 2026-10-21, art-directed: Lurch stops taking a full row, the
+   illustration card takes one instead and becomes a divider carrying a
+   "fun mode" switch, and turning it on reveals Ezra, Lurch and a pharmacy
+   that dispenses skill files for agents.
+
+   Order below the client work is now:
+     Sintero 6 + Moments 6 / Writing 12 / DIVIDER 12 /
+     (revealed) Ezra 6 + Lurch 6 / (revealed) Pharmacy 12 / Contact 12
+
+   Writing moved ABOVE the hinge deliberately. With it below, every flip of
+   the switch shoved three essay slots a thousand pixels down the page;
+   above it, flipping the switch moves Contact and nothing else. Moments
+   also stays above the line: it carries the police-brutality article, and
+   filing that under a toggle labelled "fun mode" is the one genuinely
+   tasteless outcome available here.
+   ========================================================================== */
+
+/* 15.1 Spans. The note at 12.4 that "exactly one tile must take the full
+   width or a row grows a hole" stops being true here: Desserts leaves the
+   pair row for the hinge, so Sintero pairs with Moments and Ezra pairs
+   with Lurch, and every row fills without anyone taking twelve. */
+.bento--home .a-lurch { grid-column: span 6; }
+.bento--home .a-cat { grid-column: span 6; }
+.bento--home .a-moments { grid-column: span 6; }
+.bento--home .a-desserts,
+.bento--home .tile--divider,
+.bento--home .a-pharmacy { grid-column: 1 / -1; }
+
+@media (max-width: 1099px) {
+  .bento--home .a-lurch { grid-column: span 6; }
+  .bento--home .a-cat { grid-column: span 6; }
+  .bento--home .a-moments { grid-column: span 6; }
+}
+
+/* 15.2 Lurch goes back to being an ordinary pair tile.
+   11.1 gave it a cutout bleeding left and down out of the padding, tuned
+   for a twelve-column row. At six columns that bleed is just a picture
+   falling off the side, so the clip override, the negative margins and the
+   band split all come off. What it keeps is the one thing still true: the
+   picture is a cutout with real alpha, not a screenshot, so it must never
+   be object-fit: cover. It stands on the floor of the plate instead. */
+.bento--home .a-lurch .tile__in { overflow: hidden; }
+
+.bento--home .a-lurch .tile__media,
+.bento--home .a-lurch .tile__in > .tile__media {
+  aspect-ratio: 4 / 3;
+  height: auto;
+  min-height: 0;
+  margin: 0 0 20px;
+  width: 100%;
+  align-self: auto;
+  display: block;
+}
+
+.bento--home .a-lurch .tile__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 100%;
+}
+
+/* The band anatomy above 1100 has to go with it, and this is where the
+   picture was actually breaking. Section 3 gives .a-lurch .tile__in
+   `grid-template-columns: 1fr 1fr` and puts the media in column 1 spanning
+   every row. In a 528px tile that grid is 456px wide, but a 4:3 media with
+   a row-spanned height of 496px has a min-content width of 661px, and a
+   1fr track is minmax(AUTO, 1fr): the auto floor let the picture blow the
+   track to 661px and collapse the second column to 0. Back to a flex
+   column, like every other pair tile. */
+@media (min-width: 1100px) {
+  .bento--home .a-lurch .tile__in {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: none;
+    column-gap: 0;
+    align-items: stretch;
+  }
+
+  .bento--home .a-lurch .tile__in > .tile__media {
+    aspect-ratio: 4 / 3;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    margin: 0 0 20px;
+    grid-column: auto;
+    grid-row: auto;
+    align-self: auto;
+    flex: none;
+  }
+
+  .bento--home .a-lurch .tile__in > .tile__lead {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+/* 15.3 Moments at six columns.
+   5.3 splits this card into a 5fr/3fr inner grid above 1100px, which was
+   written for eight columns. At six that split crushes the pile and the
+   caption against each other, so the card goes back to stacked: pile
+   above, caption under it. If the three photographs ever land, promote it
+   back to twelve and 5.3 returns on its own. */
+@media (min-width: 1100px) {
+  .bento--home .a-moments .tile__in {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: none;
+    column-gap: 0;
+  }
+  .a-moments .tile__eyebrow,
+  .a-moments .pile,
+  .a-moments .pile__cap,
+  .a-moments .pile__nav {
+    grid-column: auto;
+    grid-row: auto;
+    align-self: auto;
+  }
+  .a-moments .pile { margin-top: 0; }
+  .a-moments .pile__cap { margin-top: 16px; }
+}
+
+/* ---- 15.4 The hinge ---------------------------------------------------
+   A filled band, not a bordered card. Fill-without-border is the one
+   material move this system had not spent, so it reads as a different kind
+   of object without inventing geometry. In light it sits darker than both
+   the page and the cards; in dark it sits lighter than the cards. Either
+   way it reads as a different substance.
+
+   It keeps the normal left and right padding. The strongest asset this
+   page has is one unbroken left edge from the h1 down to the contact card,
+   and a full-bleed band would spend it. The division is made with space
+   and material, not width. */
+:root {
+  --div-space: 72px;   /* plus the 24px gutter = 96px of air on each side */
+  --div-pad-y: 64px;
+}
+
+.bento--home .tile--divider {
+  margin-top: var(--div-space);
+  margin-bottom: var(--div-space);
+  transition: margin-bottom 320ms var(--ease-emphasis);
+}
+
+/* The divider and the pharmacy each have their own anatomy, so neither
+   joins the three-row subgrid that levels the project tiles. */
+.bento--home > .tile--divider,
+.bento--home > .a-pharmacy {
+  grid-row: auto;
+  grid-template-rows: none;
+  display: block;
+}
+
+.bento--home .tile--divider .tile__in,
+.bento--home .a-pharmacy .tile__in {
+  grid-row: auto;
+  display: block;
+}
+
+.bento--home .tile--divider .tile__in {
+  background: var(--v3-surface-accent);
+  border: 0;
+  box-shadow: none;
+  border-radius: var(--v3-tile-radius);
+  padding: var(--div-pad-y) var(--v3-tile-pad);
+  transition: background-color 200ms var(--ease-standard);
+}
+
+/* Seven columns of words, five for the mark. */
+@media (min-width: 900px) {
+  .bento--home .tile--divider .tile__in {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(24px, 3.4vw, 56px);
+    align-items: center;
+  }
+}
+
+/* The hinge earns the biggest heading on the page below the intro h1, and
+   must not pass it. Emphasis here comes from size and space, which is this
+   system's own rule. */
+.bento--home .tile--divider .tile__title {
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.028em;
+  max-width: 14ch;
+  margin: 4px 0 18px;
+  color: var(--v3-ink);
+}
+
+/* 12.2 hides every eyebrow except on the three tiles where it is the
+   section's only label. The hinge and the pharmacy are two more of those,
+   so they are named back in: "Desserts" and "Pharmacy" are what tell you
+   what each one is. */
+.bento--home .tile--divider .tile__eyebrow,
+.bento--home .a-pharmacy .tile__eyebrow { display: block; color: var(--v3-label); }
+
+.divider__line {
+  margin: 0 0 32px;
+  font: 400 var(--fs-lead)/1.55 var(--font-sans);
+  color: var(--v3-text);
+  max-width: 54ch;
+}
+
+.divider__link {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+  font: 600 15px/1 var(--font-sans);
+  color: var(--v3-ink);
+  text-decoration: none;
+}
+.divider__link:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+/* WHOA. set bare on the band, lifted out of the gradient panel it used to
+   sit inside. Kalam appears exactly once on this page, and this is it. */
+.divider__whoa {
+  margin: 0;
+  font: 700 clamp(72px, 9vw, 132px)/0.9 var(--font-script);
+  color: var(--v3-accent);
+  text-align: right;
+  transform: rotate(-6deg);
+  transform-origin: 70% 50%;
+  transition: transform 320ms var(--ease-emphasis);
+  user-select: none;
+}
+
+@media (max-width: 899px) {
+  .bento--home .tile--divider .tile__in { display: flex; flex-direction: column-reverse; }
+  .bento--home .tile--divider .divider__copy { width: 100%; }
+  .divider__whoa {
+    text-align: left;
+    font-size: clamp(56px, 16vw, 88px);
+    margin: 0 0 12px;
+  }
+}
+
+@media (max-width: 699px) {
+  :root { --div-space: 40px; --div-pad-y: 40px; }   /* 40 + 16 gutter = 56 */
+}
+
+/* ---- 15.5 The switch --------------------------------------------------
+   Track and thumb, label on the left, sitting inline in the reading flow
+   rather than in a corner: a corner makes it furniture, inline makes it a
+   statement. Deliberately not a pull cord or a light switch. This system
+   is deadpan and the wit lives in the words, and a novelty mechanism would
+   need a plate to mount on, which is the one thing nothing inside a card
+   is allowed to have. */
+.funswitch {
+  /* A block-level flex box trimmed to its contents, NOT inline-flex: the
+     link below it is inline-flex too, and two inline boxes share a line,
+     which put "See the drawings" on the same baseline as the switch. The
+     fit-content width keeps the hit area on the control instead of
+     stretching it across all seven columns. */
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 14px;
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: var(--v3-ink);
+  font: 600 20px/1.2 var(--font-sans);
+  letter-spacing: -0.012em;
+  text-align: left;
+}
+
+.funswitch__track {
+  position: relative;
+  width: 52px;
+  height: 30px;
+  flex: none;
+  border-radius: 999px;
+  background: var(--v3-surface);
+  border: 1.5px solid var(--v3-border);
+  transition: background-color 200ms var(--ease-standard),
+              border-color 200ms var(--ease-standard);
+}
+
+.funswitch__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--v3-ink);
+  transition: transform 200ms var(--ease-standard),
+              background-color 200ms var(--ease-standard);
+}
+
+.funswitch[aria-checked="true"] .funswitch__track {
+  background: var(--v3-accent);
+  border-color: var(--v3-accent);
+}
+.funswitch[aria-checked="true"] .funswitch__thumb {
+  transform: translateX(22px);
+  background: var(--v3-accent-ink);
+}
+
+/* The band is already surface-accent, so the usual focus treatment has
+   nothing left to fill against. Here the ring is ink only. */
+.funswitch:focus-visible {
+  outline: 2px solid var(--v3-ink);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (max-width: 699px) {
+  .funswitch { font-size: 17px; gap: 12px; }
+}
+
+.u-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---- 15.6 The on state ------------------------------------------------
+   Two small things change on the card itself: the band warms from
+   surface-accent to highlight, and WHOA sits up straighter. Both tokens
+   already exist, so no hue is invented and the one-accent discipline
+   holds. That is the entire animation budget on the hinge. */
+:root[data-fun="on"] .bento--home .tile--divider .tile__in {
+  background: var(--v3-highlight);
+}
+
+:root[data-fun="on"] .divider__whoa {
+  transform: rotate(3deg) scale(1.06);
+}
+
+/* Attached to the hinge rather than floating below it. */
+:root[data-fun="on"] .bento--home .tile--divider {
+  margin-bottom: var(--v3-gap);
+}
+
+/* ---- 15.7 The revealed box -------------------------------------------
+   The hidden attribute carries display:none, which keeps the whole block
+   out of the tab order and out of the accessibility tree while the switch
+   is off. Height is driven in pixels by the script so it can animate from
+   0 up to the real content height and then be released back to auto; the
+   CSS only says how fast. */
+.funbox {
+  grid-column: 1 / -1;
+  margin-bottom: var(--div-space);
+  overflow: hidden;
+}
+
+.funbox[hidden] { display: none; }
+
+.funbox.is-animating { transition: height 320ms var(--ease-emphasis); }
+
+/* The inner grid is a .bento--home of its own, so the three tiles inside
+   inherit every span rule, the subgrid levelling and all the breakpoints
+   with no second grid to keep in sync. */
+.funbox__grid { width: 100%; }
+
+/* The cards rise and fade. Nothing above the hinge moves by a pixel. The
+   stagger is 60ms, past the point where it reads as simultaneous and short
+   of where it reads as a queue: it reads as the row arriving. */
+.funbox .tile {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+:root[data-fun="on"] .funbox .tile {
+  opacity: 1;
+  transform: none;
+  transition: opacity 280ms var(--ease-emphasis),
+              transform 280ms var(--ease-emphasis);
+}
+
+:root[data-fun="on"] .funbox .a-cat { transition-delay: 120ms; }
+:root[data-fun="on"] .funbox .a-lurch { transition-delay: 180ms; }
+:root[data-fun="on"] .funbox .a-pharmacy { transition-delay: 240ms; }
+
+/* Closing is faster and plainer: the whole block fades as one object. A
+   reverse cascade on the way out is fussy, and by then the decision has
+   already been made. */
+.funbox.is-closing .tile {
+  opacity: 0;
+  transform: none;
+  transition: opacity 160ms var(--ease-standard);
+  transition-delay: 0ms;
+}
+
+/* ---- 15.8 The pharmacy ------------------------------------------------
+   An ordinary bordered card, because it is another card: the hinge is the
+   only de-bordered thing on this page and has to stay the only one.
+
+   Zero pharmacy iconography. No pill shapes, no green cross, no mortar and
+   pestle. The form is the typographic convention of a medicine label, so
+   name, directions and warnings in smaller type, which is pure type and
+   space and therefore what this system is already made of. A medicine
+   label is also structurally the opposite of a pricing table: it has no
+   price and no tiers, it has directions. */
+.pharm__line {
+  margin: 0 0 14px;
+  font: 400 var(--fs-lead)/1.55 var(--font-sans);
+  color: var(--v3-text);
+  max-width: 68ch;
+}
+
+.pharm__meta {
+  margin: 0 0 40px;
+  font: 400 var(--fs-meta)/1.5 var(--font-sans);
+  color: var(--v3-text-2);
+}
+
+.pharm__shelf {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;      /* tops align, bottoms stay ragged, on purpose */
+}
+
+@media (min-width: 1100px) {
+  .pharm__shelf {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 40px;
+  }
+}
+
+/* A label, not a card: no border, no fill, no shadow, nothing drawn around
+   it. Told apart from its neighbours by space alone. */
+.pharm__item { margin: 0; max-width: 46ch; }
+
+.pharm__name {
+  margin: 0 0 8px;
+  font: 600 20px/1.25 var(--font-sans);
+  letter-spacing: -0.014em;
+  color: var(--v3-ink);
+}
+
+.pharm__dir {
+  margin: 0 0 8px;
+  font: 400 16px/1.5 var(--font-sans);
+  color: var(--v3-text);
+}
+
+.pharm__side {
+  margin: 0 0 14px;
+  font: italic 400 13px/1.5 var(--font-sans);
+  color: var(--v3-text-2);
+}
+
+.pharm__take {
+  margin: 0;
+  font: 600 15px/1 var(--font-sans);
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.pharm__take a {
+  color: var(--v3-ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--v3-border);
+  padding-bottom: 2px;
+}
+.pharm__take a:hover { border-bottom-color: var(--v3-ink); }
+
+.pharm__size {
+  font-weight: 400;
+  font-size: var(--fs-meta);
+  color: var(--v3-text-2);
+}
+
+.pharm__foot {
+  margin: 40px 0 0;
+  font: 400 var(--fs-meta)/1.5 var(--font-sans);
+  color: var(--v3-text-2);
+}
+
+/* ---- 15.9 Dark mode on the band --------------------------------------
+   The token block records that --v3-text-2 on --v3-surface-accent is
+   4.48:1 in dark, under AA. The hinge is surface-accent, so every word on
+   it is ink or text and never text-2 or muted. The highlight fill it takes
+   when the switch is on is the same story. */
+:root[data-theme="dark"] .bento--home .tile--divider .tile__eyebrow,
+:root[data-theme="dark"] .bento--home .tile--divider .divider__line {
+  color: var(--v3-text);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .bento--home .tile--divider .tile__eyebrow,
+  :root:not([data-theme="light"]) .bento--home .tile--divider .divider__line {
+    color: var(--v3-text);
+  }
+}
+
+/* ---- 15.10 Reduced motion --------------------------------------------
+   This file's own policy at 7.6: colour still changes, nothing moves. The
+   content appears instantly, with no height animation, no rotation and no
+   scroll nudge. */
+@media (prefers-reduced-motion: reduce) {
+  .funbox.is-animating { transition: none !important; }
+  .funbox .tile,
+  :root[data-fun="on"] .funbox .tile {
+    transition: none !important;
+    transform: none !important;
+    transition-delay: 0ms !important;
+  }
+  .funbox .tile { opacity: 1; }
+  .divider__whoa,
+  :root[data-fun="on"] .divider__whoa {
+    transition: none !important;
+    transform: rotate(-6deg) !important;
+  }
+  .bento--home .tile--divider { transition: none !important; }
+  .funswitch__track, .funswitch__thumb { transition: none !important; }
+}
+
+/* The old .dessert-art panel is gone from the markup. Its rules higher up
+   this file no longer match anything, and are left only so the history of
+   that card stays readable. */

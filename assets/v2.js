@@ -867,3 +867,149 @@
     boot();
   }
 })();
+
+
+/* ===========================================================================
+   FUN MODE
+   The hinge card below Writing carries a switch. Turning it on reveals
+   Ezra, Lurch and the pharmacy underneath it.
+
+   The box is `hidden` (so display:none) whenever the switch is off, which
+   keeps it out of the tab order and out of the accessibility tree instead
+   of merely invisible. You cannot transition a height out of display:none,
+   so the height is driven here in pixels: 0 to the measured content height
+   on the way open, then released back to auto so the block keeps reflowing
+   with the page afterwards.
+
+   State lives in sessionStorage, not localStorage. A fresh visit should
+   open on the client work, because that is the page's job and a returning
+   recruiter landing in fun mode is a first frame he did not choose. Within
+   a session, clicking out to Lurch and coming back should not reset it.
+   #fun in the URL opens it on load, so it can be linked to directly.
+   =========================================================================== */
+(function () {
+  var OPEN_MS = 320;
+  var CLOSE_FADE_MS = 160;
+  var CLOSE_MS = 240;
+
+  function reduced() {
+    try {
+      return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    } catch (e) { return false; }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var btn = document.getElementById("funSwitch");
+    var box = document.getElementById("funbox");
+    if (!btn || !box) return;
+
+    var label = btn.querySelector(".funswitch__label");
+    var root = document.documentElement;
+    var busy = null;
+
+    function setLabel(on) {
+      if (!label) return;
+      var next = on ? label.getAttribute("data-on") : label.getAttribute("data-off");
+      if (next) label.textContent = next;
+    }
+
+    function settle() {
+      box.classList.remove("is-animating", "is-closing");
+      box.style.height = "";
+      box.style.transitionDuration = "";
+    }
+
+    /* Open or close with no motion at all: used for the initial state and
+       whenever the reader has asked for reduced motion. */
+    function jump(on) {
+      if (busy) { clearTimeout(busy); busy = null; }
+      settle();
+      box.hidden = !on;
+      root.setAttribute("data-fun", on ? "on" : "off");
+      btn.setAttribute("aria-checked", on ? "true" : "false");
+      setLabel(on);
+    }
+
+    function open() {
+      box.hidden = false;
+      box.style.height = "0px";
+      void box.offsetHeight;                     /* flush, so 0 is a real start */
+      box.classList.add("is-animating");
+      root.setAttribute("data-fun", "on");
+      btn.setAttribute("aria-checked", "true");
+      setLabel(true);
+      box.style.height = box.scrollHeight + "px";
+
+      busy = setTimeout(function () {
+        busy = null;
+        settle();
+        nudge();
+      }, OPEN_MS + 40);
+    }
+
+    function close() {
+      /* The block fades as one object first, then the space collapses. */
+      box.classList.add("is-closing");
+
+      busy = setTimeout(function () {
+        box.style.height = box.scrollHeight + "px";
+        void box.offsetHeight;
+        box.classList.add("is-animating");
+        box.style.transitionDuration = CLOSE_MS + "ms";
+        root.setAttribute("data-fun", "off");
+        box.style.height = "0px";
+
+        busy = setTimeout(function () {
+          busy = null;
+          box.hidden = true;
+          settle();
+        }, CLOSE_MS + 40);
+      }, CLOSE_FADE_MS);
+
+      btn.setAttribute("aria-checked", "false");
+      setLabel(false);
+    }
+
+    /* On a phone the hinge fills the screen, so the revealed row can open
+       entirely below the fold. A nudge only, and only far enough to bring
+       its top edge into view: never a jump to a target, which is the most
+       resented micro-interaction there is. Desktop gets nothing, because
+       the hinge is second from last and the row is already in frame. */
+    function nudge() {
+      if (reduced()) return;
+      if (window.innerWidth > 699) return;
+      var first = box.querySelector(".tile");
+      if (!first) return;
+      var top = first.getBoundingClientRect().top;
+      if (top < window.innerHeight - 40) return;
+      try {
+        first.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      } catch (e) {
+        first.scrollIntoView(false);
+      }
+    }
+
+    function isOn() {
+      return btn.getAttribute("aria-checked") === "true";
+    }
+
+    btn.addEventListener("click", function () {
+      if (busy) { clearTimeout(busy); busy = null; settle(); }
+      var next = !isOn();
+
+      try { sessionStorage.setItem("fun", next ? "on" : "off"); } catch (e) {}
+
+      if (reduced()) { jump(next); return; }
+      if (next) open(); else close();
+    });
+
+    /* Initial state, always without motion. */
+    var start = "off";
+    try {
+      if (sessionStorage.getItem("fun") === "on") start = "on";
+    } catch (e) {}
+    if (window.location.hash === "#fun") start = "on";
+
+    jump(start === "on");
+  });
+})();

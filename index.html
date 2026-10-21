@@ -273,34 +273,8 @@
         </div>
       </a>
 
-      <a class="tile tile--pair tile--sm a-cat" href="https://the-ardent-guy.github.io/ezraapp/" target="_blank" rel="noopener">
-        <div class="tile__in">
-          <div class="tile__media"><img src="/assets/media/ezra-site.webp" width="840" height="630" loading="lazy" decoding="async" alt="The Ezra site. YOUR DESKTOP HAS AN OWNER NOW. set in heavy mono capitals, the last word in amber, on a near-black ground."></div>
-          <div class="tile__lead">
-            <p class="tile__eyebrow">Ezra</p>
-            <h2 class="tile__title">Built a desktop app for my (ex) cat.</h2>
-            <div class="tile__foot">
-              <p class="tile__role">Desktop app</p>
-              <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </div>
-          </div>
-        </div>
-      </a>
 
 
-      <a class="tile tile--pair tile--sm a-lurch" href="https://lurchout.vercel.app/" target="_blank" rel="noopener">
-        <div class="tile__in">
-          <div class="tile__media"><img src="/assets/media/lurch-phones.webp" width="880" height="831" loading="lazy" decoding="async" alt="Two phones showing Lurch: the launch screen reading We match you on your trauma, and behind it a diagnostic screen headed Analysing your damage."></div>
-          <div class="tile__lead">
-            <p class="tile__eyebrow">Lurch</p>
-            <h2 class="tile__title">Made a dating app that matches you based on your trauma. (yes.)</h2>
-            <div class="tile__foot">
-              <p class="tile__role">Dating app</p>
-              <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </div>
-          </div>
-        </div>
-      </a>
       <section class="tile tile--pair tile--plain a-moments" aria-label="Also true">
         <div class="tile__in">
           <p class="tile__eyebrow">Also true</p>
@@ -319,31 +293,6 @@
         </div>
       </section>
 
-      <a class="tile tile--pair tile--sm tile--plain a-desserts" href="/desserts.html">
-        <div class="tile__in">
-          <!-- The tile used to be four columns of mostly nothing. The panel
-               is decorative and aria-hidden: it carries WHOA. out of the
-               hero illustration, set in the accent face, and it is drawn in
-               CSS so no new artwork is invented here. Swap it for a real
-               dessert photograph the day there is one. -->
-          <div class="tile__media dessert-art" aria-hidden="true"></div>
-          <div class="tile__lead">
-            <p class="tile__eyebrow">Desserts</p>
-            <h2 class="tile__title">Where the characters come from</h2>
-            <div class="tile__foot">
-              <p class="tile__role">Illustration, posters, and whatever else</p>
-              <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </div>
-          </div>
-        </div>
-      </a>
-
-      <!-- TESTIMONIAL: removed, not forgotten. Three quotes have sat
-           unpermitted for a month. A full-width band announcing that is
-           worse than silence: nobody notices an absent testimonial, and
-           everybody notices a placeholder. Restore this band the day a name
-           and a permission exist, as a 1-row band above contact. -->
-
       <section class="tile tile--plain a-blog" id="writing" aria-label="Writing">
         <div class="tile__in">
           <p class="tile__eyebrow">Writing</p>
@@ -355,6 +304,117 @@
           </div>
         </div>
       </section>
+
+      <!-- THE HINGE. Everything above this had a client; nothing below did.
+
+           It is the only de-bordered thing on the page: a filled band in
+           --v3-surface-accent, no border, no shadow. Fill-without-border is
+           the one material move the system had not spent, so it registers
+           as a different KIND of thing without inventing any geometry.
+
+           The division is made with space and material, not width. It keeps
+           the same left and right padding as every other card, because the
+           page's strongest asset is one unbroken left edge from the h1 to
+           the contact card and a full-bleed band would spend it.
+
+           #fun is here so the switch can be opened from a link. -->
+      <section class="tile tile--plain tile--divider a-desserts" id="fun" aria-labelledby="dividerTitle">
+        <div class="tile__in">
+          <div class="divider__copy">
+            <p class="tile__eyebrow">Desserts</p>
+            <h2 class="tile__title" id="dividerTitle">Nobody asked for any of this.</h2>
+            <p class="divider__line">I draw characters, make posters, and build apps that should not exist. The drawings live on their own page. The switch opens the apps and a shelf of skill files for agents.</p>
+
+            <!-- A real button with role="switch". The visible words change
+                 between states, which would make the accessible name move
+                 under a screen reader, so the name is the hidden "Fun mode"
+                 and the state lives in aria-checked where it belongs. The
+                 swapping words and the track are both aria-hidden. -->
+            <button class="funswitch" id="funSwitch" type="button" role="switch" aria-checked="false" aria-controls="funbox">
+              <span class="u-sr">Fun mode</span>
+              <span class="funswitch__label" aria-hidden="true" data-off="Enter fun mode" data-on="Fun mode. You did this.">Enter fun mode</span>
+              <span class="funswitch__track" aria-hidden="true"><span class="funswitch__thumb"></span></span>
+            </button>
+
+            <a class="divider__link" href="/desserts.html">See the drawings <span aria-hidden="true">&#8594;</span></a>
+          </div>
+
+          <!-- WHOA. lifted out of the old .dessert-art panel and set bare on
+               the band. That panel was a gradient box with a word inside it,
+               which is the "panel behind text" this system bans; it only got
+               away with it while the card was small. This keeps Kalam to
+               exactly one appearance on the page, now at the hinge. -->
+          <p class="divider__whoa" aria-hidden="true">WHOA.</p>
+        </div>
+      </section>
+
+      <!-- The revealed block. `hidden` when off, so it is out of the tab
+           order and out of the accessibility tree entirely rather than
+           merely invisible. The inner div carries .bento--home, so every
+           tile rule, the subgrid row levelling and all the breakpoints
+           apply to these three exactly as they do above, with no second
+           grid to keep in sync. -->
+      <div class="funbox" id="funbox" hidden>
+        <div class="funbox__grid bento bento--home">
+          <a class="tile tile--pair tile--sm a-cat" href="https://the-ardent-guy.github.io/ezraapp/" target="_blank" rel="noopener">
+            <div class="tile__in">
+              <div class="tile__media"><img src="/assets/media/ezra-site.webp" width="840" height="630" loading="lazy" decoding="async" alt="The Ezra site. YOUR DESKTOP HAS AN OWNER NOW. set in heavy mono capitals, the last word in amber, on a near-black ground."></div>
+              <div class="tile__lead">
+                <p class="tile__eyebrow">Ezra</p>
+                <h2 class="tile__title">Built a desktop app for my (ex) cat.</h2>
+                <div class="tile__foot">
+                  <p class="tile__role">Desktop app</p>
+                  <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </div>
+              </div>
+            </div>
+          </a>
+          <a class="tile tile--pair tile--sm a-lurch" href="https://lurchout.vercel.app/" target="_blank" rel="noopener">
+            <div class="tile__in">
+              <div class="tile__media"><img src="/assets/media/lurch-phones.webp" width="880" height="831" loading="lazy" decoding="async" alt="Two phones showing Lurch: the launch screen reading We match you on your trauma, and behind it a diagnostic screen headed Analysing your damage."></div>
+              <div class="tile__lead">
+                <p class="tile__eyebrow">Lurch</p>
+                <h2 class="tile__title">Made a dating app that matches you based on your trauma. (yes.)</h2>
+                <div class="tile__foot">
+                  <p class="tile__role">Dating app</p>
+                  <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </div>
+              </div>
+            </div>
+          </a>
+          <section class="tile tile--plain a-pharmacy" aria-labelledby="pharmTitle">
+            <div class="tile__in">
+              <p class="tile__eyebrow">Pharmacy</p>
+              <h2 class="tile__title" id="pharmTitle">Skill files for agents. Take as directed.</h2>
+              <p class="pharm__line">A skill file is a set of instructions you drop into Claude, Cursor or whatever you use, and it changes how the thing behaves. I keep writing them for myself, so they may as well be here.</p>
+              <p class="pharm__meta">One on the shelf so far. Over the counter: no prescription, no account, no email.</p>
+
+              <!-- A label, not a card. No border, no fill, no rule round an
+                   item: they are told apart by space alone. Tops align and
+                   bottoms are left ragged on purpose, which is the clearest
+                   signal that this is a list of things and not a grid of
+                   prices. -->
+              <ul class="pharm__shelf">
+                <li class="pharm__item">
+                  <h3 class="pharm__name">No-slop copy</h3>
+                  <p class="pharm__dir">Writes product and portfolio copy in first person, and refuses a list of words.</p>
+                  <p class="pharm__side">Side effects: it will not let you say &ldquo;seamless&rdquo;.</p>
+                  <p class="pharm__take"><a href="/skills/no-slop-copy.md" download>Take one</a> <span class="pharm__size">8 KB</span></p>
+                </li>
+              </ul>
+
+              <p class="pharm__foot">Dispensed as plain Markdown. Read it before you take it.</p>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- TESTIMONIAL: removed, not forgotten. Three quotes have sat
+           unpermitted for a month. A full-width band announcing that is
+           worse than silence: nobody notices an absent testimonial, and
+           everybody notices a placeholder. Restore this band the day a name
+           and a permission exist, as a 1-row band above contact. -->
+
 
 
       <section class="tile tile--plain a-contact" id="contact" aria-label="Contact">

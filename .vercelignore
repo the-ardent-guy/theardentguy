@@ -7,3 +7,9 @@ content/
 ai-design-workflow-system.md
 scratchpad/
 explorations/
+
+# The pharmacy dispenses skill files and they are Markdown, which *.md
+# above would exclude from the deploy. Negated here, after it, so the
+# order resolves: without this every Take one link 404s in production
+# while the local build looks perfectly fine.
+!skills/*.md
