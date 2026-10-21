@@ -414,6 +414,10 @@ figcaption {
 @media (min-width: 1300px) { figure.bleed { width: calc(100% + 120px); } }
 @media (min-width: 1500px) { figure.bleed { width: calc(100% + 180px); } }
 
+/* A supplied asset that is only 740px wide. Letting it fill a 1090px column
+   would stretch it soft, so it keeps its own measure and sits left. */
+figure.narrow .media { max-width: 740px; }
+
 /* The wider column gives the placeholders more to work with. */
 @media (min-width: 1200px) {
   .shot { min-height: 360px; }
@@ -594,6 +598,43 @@ html { scroll-behavior: smooth; }
   border-radius: 4px;
   background: #121316;
   box-shadow: 0 2px 10px -4px rgba(60, 45, 20, .30);
+}
+
+/* A picture, not a screen. The mat exists to lift a near-black plate off
+   warm paper; an asset that already carries its own ground only needs an
+   edge. The hairline is inset on the image rather than a border on the
+   wrapper, so there is one radius and the shadow stays where it was. */
+.media--bare {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.media--bare > img {
+  border-radius: 10px;
+  background: none;
+  box-shadow: 0 2px 10px -4px rgba(60, 45, 20, .30),
+              inset 0 0 0 1px rgba(20, 21, 24, .08);
+}
+
+:root[data-theme="dark"] .media--bare > img {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .07);
+}
+
+/* A white plate on warm paper. A white mat around a white screenshot
+   merges into one shape, and tinting the mat would give two hairlines
+   8px apart with nothing between them. One edge instead, on the image. */
+.media--light {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.media--light > img {
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--rule),
+              0 2px 10px -4px rgba(60, 45, 20, .30);
 }
 
 /* --- The phone ---------------------------------------------------------

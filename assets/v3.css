@@ -48,27 +48,42 @@
   --font-sans: "Instrument Sans", ui-sans-serif, "Segoe UI", system-ui, sans-serif;
   --font-script: "Kalam", "Bradley Hand", "Segoe Print", cursive;
 
-  --v3-page: #EEEFE9;
-  --v3-surface: #FDFDF8;
-  --v3-surface-accent: #E5E7E0;
-  --v3-border: #BFC1B7;
-  --v3-border-soft: #D2D3CC;
+  /* BEIGE GROUND, FOREST MARK. 2026-10-21, replacing the maroon/pink.
+     Beige cannot be the accent: the accent has to carry light text on a
+     filled button and survive as a focus ring, and beige does neither.
+     Forest is the only one of the pair that can be the mark, so the pair
+     splits by job rather than by taste. In dark mode they swap, which is
+     the answer to "don't just lighten the forest" — a pale mint would
+     have been the same mistake the pink was.
+
+     Every ratio below is measured against --v3-surface, the card, because
+     that is where every word on this page actually sits. */
+  --v3-page: #EDE8DD;
+  --v3-surface: #FBF8F1;
+  --v3-surface-accent: #E3DDD0;
+  --v3-border: #BCB4A2;
+  --v3-border-soft: #D3CBBA;
 
   /* Five values carry every word on the page, and the sixth, --v3-muted,
-     never carries one. It is 2.6:1 against the card and that is deliberate:
+     never carries one. It is 2.8:1 against the card and that is deliberate:
      it is for bullets, dots and disabled chrome, and the day it holds text
      is the day this page fails AA. */
-  --v3-ink: #111111;        /* 18.5 : 1 */
-  --v3-text: #3D3F38;       /* 10.5 : 1 */
-  --v3-label: #4D4F47;      /*  8.2 : 1 */
-  --v3-text-2: #65675E;     /*  5.6 : 1, and only at 15px and up */
-  --v3-muted: #9EA096;      /*  2.6 : 1, decorative only */
+  --v3-ink: #15120C;        /* 17.62 : 1 */
+  --v3-text: #3C372B;       /* 11.16 : 1 */
+  --v3-label: #4B4538;      /*  8.97 : 1 */
+  --v3-text-2: #636051;     /*  5.96 : 1, and only at 15px and up */
+  --v3-muted: #9C9684;      /*  2.78 : 1, decorative only */
 
-  --v3-accent: #7A2E35;
-  --v3-accent-press: #5C1F25;
-  --v3-accent-ink: #FDFDF8;
-  --v3-highlight: #F3E3E3;
-  --v3-focus: #7A2E35;
+  /* #2F6344 over a darker, "safer" forest on purpose. A 60px full stop is
+     an 8px disc, and against #15120C ink a very dark green reads as black
+     rather than as green, which kills the one joke on the page. 6.62:1
+     clears AA for body text, let alone for display type. */
+  --v3-accent: #2F6344;     /*  6.62 : 1 */
+  --v3-accent-press: #1F4A32;
+  --v3-accent-ink: #FBF8F1; /* bound to the card, so a filled button reads
+                               as a card-coloured shape punched out of it */
+  --v3-highlight: #DCE7DA;  /* ::selection; ink on it is 14.67 : 1 */
+  --v3-focus: #2F6344;      /*  6.62 card, 5.75 page */
   --v3-grain-opacity: .05;
 
   --v3-window-max: 1120px;
@@ -108,21 +123,25 @@
 }
 
 :root[data-theme="dark"] {
-  --v3-page: #1E1F23;
-  --v3-surface: #26272C;
-  --v3-surface-accent: #2D2E37;
-  --v3-border: #3E424F;
-  --v3-border-soft: #34373F;
-  --v3-ink: #FAFAFA;
-  --v3-text: #C9CAD1;
-  --v3-label: #B4B6BF;
-  --v3-text-2: #9A9CA6;
-  --v3-muted: #5E6270;
-  --v3-accent: #D98FA0;
-  --v3-accent-press: #B8707F;
-  --v3-accent-ink: #1E1F23;
-  --v3-highlight: rgba(217, 143, 160, .18);
-  --v3-focus: #D98FA0;
+  /* Dark inverts the pair: deep forest ground, wheat-beige mark. The old
+     dark accent measured 5.95:1; this one is 10.30:1.
+     DO NOT put --v3-text-2 on --v3-surface-accent in dark: 4.48:1, under AA.
+     Keep this block and the prefers-color-scheme mirror below identical. */
+  --v3-page: #171C18;
+  --v3-surface: #1E241F;
+  --v3-surface-accent: #273028;
+  --v3-border: #3C473D;
+  --v3-border-soft: #2F392F;
+  --v3-ink: #F3F0E7;        /* 13.88 : 1 */
+  --v3-text: #CBC6B6;       /*  9.26 : 1 */
+  --v3-label: #B4AF9F;      /*  7.21 : 1 */
+  --v3-text-2: #989484;     /*  5.20 : 1 */
+  --v3-muted: #5F665F;      /*  2.68 : 1, decorative only */
+  --v3-accent: #DCD0AE;     /* 10.30 : 1 */
+  --v3-accent-press: #C2B693;
+  --v3-accent-ink: #171C18; /* 11.25 on the accent */
+  --v3-highlight: rgba(220, 208, 174, .20);
+  --v3-focus: #DCD0AE;
   --v3-grain-opacity: .03;
   --v3-window-shadow: 0 10px 34px -16px rgba(0, 0, 0, .45);
 }
@@ -132,21 +151,24 @@
    reader, and it follows the pattern the rest of the site already uses. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --v3-page: #1E1F23;
-    --v3-surface: #26272C;
-    --v3-surface-accent: #2D2E37;
-    --v3-border: #3E424F;
-    --v3-border-soft: #34373F;
-    --v3-ink: #FAFAFA;
-    --v3-text: #C9CAD1;
-    --v3-label: #B4B6BF;
-    --v3-text-2: #9A9CA6;
-    --v3-muted: #5E6270;
-    --v3-accent: #D98FA0;
-    --v3-accent-press: #B8707F;
-    --v3-accent-ink: #1E1F23;
-    --v3-highlight: rgba(217, 143, 160, .18);
-    --v3-focus: #D98FA0;
+    /* Mirror of the [data-theme="dark"] block above, for the no-JS reader.
+       These two must stay identical: change one and JS and no-JS readers
+       get different dark modes, invisibly. */
+    --v3-page: #171C18;
+    --v3-surface: #1E241F;
+    --v3-surface-accent: #273028;
+    --v3-border: #3C473D;
+    --v3-border-soft: #2F392F;
+    --v3-ink: #F3F0E7;
+    --v3-text: #CBC6B6;
+    --v3-label: #B4AF9F;
+    --v3-text-2: #989484;
+    --v3-muted: #5F665F;
+    --v3-accent: #DCD0AE;
+    --v3-accent-press: #C2B693;
+    --v3-accent-ink: #171C18;
+    --v3-highlight: rgba(220, 208, 174, .20);
+    --v3-focus: #DCD0AE;
     --v3-grain-opacity: .03;
     --v3-window-shadow: 0 10px 34px -16px rgba(0, 0, 0, .45);
   }
@@ -411,7 +433,11 @@ body {
    a pair. Vist Labs and Sintero take six each, which puts two 6/6 rows
    back to back under the featured card and gives the grid a steadier
    beat than it had with a triple wedged between them. */
-.bento--home .a-vistlabs,
+.bento--home .a-vistlabs { grid-column: span 6; }
+
+/* Sintero does not get a full row (his call, 2026-10-21). With Supaca
+   promoted out of the six-column pool the remaining seven tiles are odd,
+   so the row that absorbs it is Lurch instead: see §12.4. */
 .bento--home .a-sintero { grid-column: span 6; }
 
 .bento--home .a-cat,
@@ -421,7 +447,7 @@ body {
 .bento--home .a-moments { grid-column: span 8; }
 
 .bento--home .a-intro,
-.bento--home .a-produsa,
+.bento--home .tile--feature,
 .bento--home .a-blog,
 .bento--home .a-contact { grid-column: 1 / -1; }
 
@@ -429,11 +455,12 @@ body {
    hole. Vist Labs takes the full width there and runs as a band instead. */
 @media (max-width: 1099px) {
   .bento--home .a-vistlabs,
-  .bento--home .a-sintero,
   .bento--home .a-cat,
   .bento--home .a-lurch,
   .bento--home .a-moments,
   .bento--home .a-desserts { grid-column: span 6; }
+
+  .bento--home .a-sintero { grid-column: span 6; }
 }
 
 @media (max-width: 699px) {
@@ -452,13 +479,13 @@ body {
    is what keeps the per-tile rules under it able to win in turn. Without
    it, a generic rule at five classes would outrank every specific one
    below, which is the wrong way round. */
-.bento--home .tile:where(:not(.a-produsa):not(.tile--plain)) .tile__in {
+.bento--home .tile:where(:not(.tile--feature):not(.tile--plain)) .tile__in {
   display: flex;
   flex-direction: column;
   grid-template-columns: none;
 }
 
-.bento--home .tile:where(:not(.a-produsa):not(.tile--plain)) .tile__media {
+.bento--home .tile:where(:not(.tile--feature):not(.tile--plain)) .tile__media {
   grid-column: auto;
   grid-row: auto;
   aspect-ratio: 16 / 10;
@@ -513,14 +540,14 @@ body {
        three classes and the band rules in 3.6 can still overrule them on
        source order. Written the obvious way they reach seven classes and
        nothing below this point can touch them. */
-    .bento--home > .tile:where(:not(.a-intro):not(.a-produsa):not(.a-blog):not(.a-contact)) {
+    .bento--home > .tile:where(:not(.a-intro):not(.tile--feature):not(.a-blog):not(.a-contact)) {
       display: grid;
       grid-row: span 3;
       grid-template-rows: subgrid;
       row-gap: 0;
     }
 
-    .bento--home > .tile:where(:not(.tile--plain):not(.a-intro):not(.a-produsa):not(.a-blog):not(.a-contact)) .tile__in {
+    .bento--home > .tile:where(:not(.tile--plain):not(.a-intro):not(.tile--feature):not(.a-blog):not(.a-contact)) .tile__in {
       grid-row: 1 / -1;
       display: grid;
       grid-template-rows: subgrid;
@@ -756,9 +783,9 @@ body {
    The tab strip is the frame's own label: the active tab is fused to a six
    pixel frame in the project's colour, and the mock sits in the seven
    columns with the argument in the five. One link, one focus ring. */
-.a-produsa { --feat: var(--acc-produsa); }
+/* --feat was dead: nothing reads it. Removed with the eyebrow tints. */
 
-.bento--home .a-produsa .tile__in {
+.bento--home .tile--feature .tile__in {
   padding: clamp(28px, 3.2vw, 44px);
   display: block;
 }
@@ -807,14 +834,14 @@ body {
   background: var(--v3-surface);
 }
 
-.bento--home .a-produsa .fmock .tile__media {
+.bento--home .tile--feature .fmock .tile__media {
   aspect-ratio: 4 / 3;
   border-radius: 0;
   margin: 0;
   overflow: hidden;
 }
 
-.bento--home .a-produsa .tile__title {
+.bento--home .tile--feature .tile__title {
   font-size: var(--fs-feature);
   line-height: 1.1;
   letter-spacing: -0.028em;
@@ -834,7 +861,7 @@ body {
   max-width: 34ch;
 }
 
-.bento--home .a-produsa .tile__role { margin: 0 0 22px; }
+.bento--home .tile--feature .tile__role { margin: 0 0 22px; }
 
 .fcta {
   display: inline-flex;
@@ -845,10 +872,10 @@ body {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .a-produsa:hover .fmock { transform: rotate(0deg) translateY(-3px); }
+  .tile--feature:hover .fmock { transform: rotate(0deg) translateY(-3px); }
   /* The mock moves, not the card. A twelve-column card that lifts two
      pixels is the page twitching. */
-  .bento--home .a-produsa:hover .tile__in { transform: none; box-shadow: none; }
+  .bento--home .tile--feature:hover .tile__in { transform: none; box-shadow: none; }
 }
 
 /* 4.4 A section eyebrow is the same component as a project eyebrow. */
@@ -1085,7 +1112,7 @@ body {
   z-index: 2;
   display: grid;
   gap: 6px;
-  color: #FDFDF8;
+  color: var(--v3-surface);   /* was a hardcoded cool grey; follows the warm ground now */
   max-width: 22ch;
   text-shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 8px 24px rgba(0, 0, 0, .35);
   opacity: var(--cue, 1);     /* main.js writes --cue on .curtain__frame as you scroll */
@@ -1136,11 +1163,11 @@ body {
    the frame sits on white planks. */
 .curtain__cue {
   border-radius: var(--v3-btn-radius);
-  background: rgba(253, 253, 248, .92);
-  border: 1px solid rgba(17, 17, 17, .12);
-  box-shadow: 0 3px 0 0 rgba(17, 17, 17, .18);
+  background: color-mix(in srgb, var(--v3-surface) 92%, transparent);
+  border: 1px solid rgba(21, 18, 12, .12);
+  box-shadow: 0 3px 0 0 rgba(21, 18, 12, .18);
   font-size: 12px;
-  color: #111111;
+  color: var(--v3-ink);
 }
 
 
@@ -1208,7 +1235,7 @@ html { scroll-padding-bottom: calc(var(--controls-h) + 24px + var(--safe-b)); }
 @media (max-width: 699px) {
   /* :where() again, so this stays at three classes and the intro and
      contact leads below can still say something different. */
-  .bento--home .tile:where(:not(.a-produsa)) .tile__lead:where(:not(.intro):not(.contact)) {
+  .bento--home .tile:where(:not(.tile--feature)) .tile__lead:where(:not(.intro):not(.contact)) {
     display: grid;
     grid-template-columns: 1fr auto;
     grid-template-areas:
@@ -1232,7 +1259,7 @@ html { scroll-padding-bottom: calc(var(--controls-h) + 24px + var(--safe-b)); }
 @media (max-width: 699px) {
   .bento--home .tile__in,
   .bento--home .tile--sm .tile__in { padding: 20px; }
-  .bento--home .a-produsa .tile__in { padding: 20px; }
+  .bento--home .tile--feature .tile__in { padding: 20px; }
   .bento--home .tile__title { font-size: 21px; }
   .intro__lead { max-width: none; line-height: 1.1; }
 
@@ -1252,7 +1279,7 @@ html { scroll-padding-bottom: calc(var(--controls-h) + 24px + var(--safe-b)); }
 @media (prefers-reduced-motion: reduce) {
   .bento--home .tile__in, .fmock, .btn, .bar__cta, .dock__btn, .contact__row { transition: none !important; }
   .bento--home a.tile:hover .tile__in,
-  .a-produsa:hover .fmock { transform: none !important; }
+  .tile--feature:hover .fmock { transform: none !important; }
   .fmock { transform: none; }
   .btn:active, .bar__cta:active, .dock__btn:active { transform: none; }
 }
@@ -1264,9 +1291,9 @@ html { scroll-padding-bottom: calc(var(--controls-h) + 24px + var(--safe-b)); }
    -------------------------------------------------------------------------- */
 
 :root[data-theme="dark"] .curtain__cue {
-  background: rgba(38, 39, 44, .92);
-  color: #FAFAFA;
-  border-color: #3E424F;
+  background: color-mix(in srgb, var(--v3-surface) 92%, transparent);
+  color: var(--v3-ink);
+  border-color: var(--v3-border);
   box-shadow: 0 3px 0 0 rgba(0, 0, 0, .35);
 }
 
@@ -1284,3 +1311,710 @@ body, .window, .bar__in, .dock__btn, .contact__row, .fact {
 @media (prefers-reduced-motion: reduce) {
   body, .window, .bar__in, .dock__btn, .contact__row, .fact { transition: none !important; }
 }
+
+
+/* ==========================================================================
+   9. NO WINDOW, AND ONE TOOLBAR AT THE TOP
+   His call, 2026-10-21, in two parts.
+
+   Part one: the cards stay. The rounded surfaces, their edges and the
+   grid they sit in are all exactly as they were. What goes is the fake
+   browser window drawn around the whole grid, and the second fake browser
+   drawn around the Produsa screenshot. Those were the "window style"; a
+   card is not a window.
+
+   Part two: the chrome collapses from three floating objects into one.
+   The pill moves to the top of the screen, the dark mode switch moves
+   into it, and the menu disc is deleted. It is shaped like a toolbar in
+   a design app, because that is the idiom he asked for: a group of
+   destinations, a divider, the tool that changes the view, then the one
+   action that is not navigation.
+   ========================================================================== */
+
+/* 9.1 The window dissolves, but the element stays.
+   Two jobs it was doing quietly, and both would break if it were deleted:
+     z-index 2  — .v2-grain is fixed at z-index 1. Without this the grain
+                  paints over every word on the page.
+     overflow   — the toybox pile in the intro is thrown against the card's
+                  walls, and this clip is the wall.
+   Its padding stays too, so the grid keeps the exact measure it had. */
+.window {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* 9.2 The featured screenshot keeps its frame and loses its disguise.
+   The chrome strip, its three traffic lights and the fake URL field are
+   gone from the markup; the tilt goes with them. What is left is a plain
+   framed picture, which is what it always was. */
+.fmock { transform: none; }
+.fmock__chrome, .fmock__url { display: none; }
+.tile--feature:hover .fmock { transform: none; }
+
+/* 9.3 The bar moves to the top.
+   v2.js still owns when it appears: it stays away while the photograph
+   owns the screen and arrives once the grid does. Only the direction
+   changes, so it now drops in from above rather than rising from below. */
+.bar--top {
+  top: calc(16px + var(--safe-t, 0px));
+  bottom: auto;
+}
+
+.js .bar--top { transform: translateY(-140%); }
+.js .bar--top.is-up { transform: none; }
+
+/* Nothing floats at the bottom any more, so the page stops reserving a
+   strip for it. */
+.homewrap { padding-bottom: clamp(48px, 6vw, 96px); }
+
+/* 9.4 The toolbar itself.
+   A rectangle with a modest radius, not a lozenge: 999px reads as a
+   floating pill, and a toolbar reads as a piece of a tool. One surface,
+   one hairline, one soft shadow, 6px of padding, and every control inside
+   it sharing a single corner radius. */
+.bar--top .bar__in {
+  gap: 2px;
+  padding: 6px;
+  border-radius: 14px;
+  border: 1px solid var(--v3-border);
+  background: color-mix(in srgb, var(--v3-surface) 92%, transparent);
+  -webkit-backdrop-filter: blur(12px) saturate(1.05);
+  backdrop-filter: blur(12px) saturate(1.05);
+  box-shadow: 0 1px 2px rgba(17, 17, 17, .04),
+              0 12px 28px -18px rgba(17, 17, 17, .40);
+}
+
+.bar--top .bar__in > a {
+  border-radius: 8px;
+  padding: 0 14px;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 15px;
+}
+
+/* The divider. A toolbar groups its controls and then separates the
+   groups with a hairline, which is the one place on this page where a
+   line is allowed to mean "different kind of thing". */
+.bar__sep {
+  width: 1px;
+  height: 20px;
+  margin: 0 6px;
+  background: var(--v3-border);
+  flex: none;
+}
+
+/* 9.5 The dark mode switch, now a tool rather than a floating disc.
+   Square-ish and icon-only, so it reads as an instrument beside the
+   destinations rather than as a fourth link. main.js injects the sun and
+   moon SVGs into .theme-toggle wherever it finds it. */
+.bar__tool {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--v3-label);
+  cursor: pointer;
+  transition: background-color 200ms var(--ease-standard), color 200ms var(--ease-standard);
+}
+
+.bar__tool svg { width: 18px; height: 18px; display: block; }
+
+.bar__tool:hover { background: var(--v3-surface-accent); color: var(--v3-ink); }
+.bar__tool:focus-visible { outline: 2px solid var(--v3-focus); outline-offset: 2px; }
+.bar__tool:active { transform: scale(.94); }
+
+.bar--top .bar__in > a.bar__cta {
+  border-radius: 8px;
+  padding: 0 16px;
+  min-height: 36px;
+  margin-left: 4px;
+}
+
+/* 9.6 Narrow widths.
+   The bar used to leave a gap on its right for two 44px discs. There are
+   no discs now, so it centres like everything else. Under 420px the two
+   secondary destinations drop and Work, the switch and the action stay:
+   that is the smallest set that still does every job. */
+@media (max-width: 700px) {
+  .bar--top { padding: 0 12px; }
+  .bar--top .bar__in { margin: 0 auto; width: max-content; max-width: 100%; }
+  .bar--top .bar__in > a { padding: 0 12px; min-height: 36px; font-size: 14px; }
+}
+
+@media (max-width: 420px) {
+  .bar--top .bar__in > a[href="/desserts.html"],
+  .bar--top .bar__in > a[href="/studio.html"] { display: none; }
+}
+
+
+/* ==========================================================================
+   10. HIERARCHY, AIR, AND A ROUNDED TOOLBAR
+   His call, 2026-10-21: "higher intensity of font hierarchy, try smaller
+   text lines... the attention should only go to the headlines of the
+   projects, and secondarily below them... very clean, more space around...
+   visually light and crisp."
+
+   The old scale ran 60 / 36 / 24 / 20 / 16 / 13 / 11.5 — seven steps, each
+   about 1.2x the last, which is a smooth ramp and therefore a flat one.
+   Nothing in it was allowed to be loud because everything was nearly as
+   loud as its neighbour. The fix is not to shout; it is to make everything
+   that is not a project headline quieter, and then let the headline grow
+   into the room that opens up.
+
+   Up:   project title 24 -> 30, featured title 36 -> 44.
+   Down: lead 20 -> 18, outcome 15 -> 14, role 13 -> 12, labels 11.5 -> 10.5.
+   The gap between a title and the line under it goes from 1.6x to 2.5x.
+   ========================================================================== */
+
+:root {
+  --fs-feature: clamp(28px, 1rem + 1.9vw, 44px);
+  --fs-title:   clamp(22px, .95rem + .85vw, 30px);
+  --fs-lead:    clamp(16px, .85rem + .3vw, 18px);
+  --fs-meta:    12px;
+  --fs-label:   10.5px;
+  --measure-title: 22ch;
+
+  /* More room inside every card, and more between them. The grid is
+     untouched: twelve columns, same spans, same order. */
+  --v3-tile-pad: clamp(24px, 2.6vw, 36px);
+  --v3-gap: 20px;
+}
+
+/* 10.1 The one thing allowed to be loud.
+   Bigger, tighter and closed up. Tracking goes negative as the size goes
+   up, which is what keeps a 30px line crisp rather than airy, and the
+   leading drops to 1.15 so a three-line title reads as one object. */
+.bento--home .tile__title,
+.bento--home .tile--sm .tile__title,
+.bento--home .tile--pair .tile__title,
+.bento--home .a-lurch .tile__title,
+.contact .tile__title {
+  font-size: var(--fs-title);
+  line-height: 1.15;
+  letter-spacing: -0.022em;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.bento--home .tile--feature .tile__title {
+  font-size: var(--fs-feature);
+  line-height: 1.06;
+  letter-spacing: -0.032em;
+  margin: 0 0 24px;
+}
+
+/* 10.2 Everything else steps back.
+   The label above the headline is the headline's competitor, so it loses
+   a point of size and gains tracking: smaller and wider reads as a tag,
+   not as small text. The role and the outcome drop to --v3-text-2, which
+   is 5.6:1 and still passes, but visibly recedes from the title's 18.5:1. */
+.bento--home .tile__eyebrow {
+  font-size: var(--fs-label);
+  letter-spacing: .14em;
+  margin: 0 0 16px;
+}
+
+.bento--home .tile__role {
+  font-size: var(--fs-meta);
+  line-height: 1.45;
+  color: var(--v3-text-2);
+}
+
+.bento--home .fact__k {
+  font-size: var(--fs-label);
+  letter-spacing: .14em;
+}
+
+/* v2.css:145 says this with three classes, so two is not enough to beat
+   it. Matched here rather than reached for with !important. */
+.bento--home .tile__more .fact__v {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--v3-text-2);
+  max-width: 42ch;
+}
+
+.bento--home .tile--feature .fout {
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--v3-text);
+  margin: 0 0 20px;
+}
+
+/* 10.3 Air. A headline needs silence around it more than it needs size. */
+.bento--home .tile__foot { padding-top: 24px; }
+.bento--home .tile .tile__more { margin-top: 24px; }
+.bento--home .tile__media + .tile__lead { margin-top: 24px; }
+
+/* 10.4 The banner.
+   Two fixes, both about even margins. The claim and the notes sat on a
+   rule with 24px above and nothing measured below, so the block read as
+   bottom-heavy inside a card with a deliberate void under it for the toy
+   pile. They now carry the same 28px either side of their rule, and the
+   notes share the claim's leading instead of running looser, so the two
+   columns sit on the same baselines. */
+.intro__lead {
+  line-height: 1.06;
+  letter-spacing: -0.026em;
+  margin: 0 0 4px;
+}
+
+.intro__claim,
+.intro__notes {
+  padding-top: 28px;
+  margin-top: 28px;
+}
+
+.intro__claim {
+  font-size: var(--fs-lead);
+  line-height: 1.5;
+  color: var(--v3-text);
+  max-width: 38ch;
+}
+
+.intro__notes li {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--v3-text-2);
+}
+
+/* The name over the photograph gets the same treatment, so the first two
+   pieces of type a visitor meets are set the same way. */
+.curtain__name { letter-spacing: -0.026em; }
+.curtain__line { font-size: 12px; letter-spacing: .16em; }
+
+/* 10.5 The toolbar goes round again, and everything in it lines up.
+   His call: rounded, all aligned. One height for every control, 38px,
+   so the links, the switch and the action share a centre line and the
+   container's radius is simply half its own height. */
+.bar--top .bar__in {
+  align-items: center;
+  border-radius: 999px;
+  padding: 5px;
+  gap: 2px;
+}
+
+.bar--top .bar__in > a {
+  height: 38px;
+  min-height: 0;
+  border-radius: 999px;
+  padding: 0 16px;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.bar--top .bar__in > a.bar__cta {
+  height: 38px;
+  min-height: 0;
+  border-radius: 999px;
+  padding: 0 18px;
+  margin-left: 4px;
+}
+
+.bar__tool {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+}
+
+.bar__sep { height: 22px; margin: 0 8px; }
+
+@media (max-width: 700px) {
+  .bar--top .bar__in > a,
+  .bar--top .bar__in > a.bar__cta { height: 36px; padding: 0 13px; font-size: 13.5px; }
+  .bar__tool { width: 36px; height: 36px; }
+}
+
+
+/* 10.6 The banner, placed on the grid instead of near it.
+   Measured at 1440: the name over the photograph began at x=58, the cards
+   below it at x=173, and the headline inside the first card at x=220.
+   Three left edges down one page, because .curtain__title was positioned
+   with --margin (style.css, max 72px) while the grid uses
+   --v3-page-margin (max 48px) and then adds the window's own padding.
+
+   It now centres on exactly the same maths as .homewrap — same max-width,
+   same auto margins — and pads itself out to the grid's inner edge, so
+   the name sits on the same line as every card below it. No 100vw: that
+   counts the scrollbar and would push it a few pixels right of the grid
+   it is supposed to match. */
+.curtain__title {
+  left: 0;
+  right: 0;
+  max-width: calc(var(--v3-window-max) + 2 * var(--v3-page-margin));
+  margin: 0 auto;
+  padding: 0 calc(var(--v3-page-margin) + var(--v3-window-pad));
+  box-sizing: border-box;
+  justify-items: start;
+  gap: 12px;
+}
+
+/* The measure moves off the container, which is now full width, and onto
+   the lines themselves. The 22ch was always for the name; the role line
+   is 12px uppercase and needs about 330px, so a 22ch cap broke it into
+   three stacked rows of tracked caps. It gets its own measure. */
+.curtain__name { max-width: 22ch; }
+.curtain__line { max-width: 46ch; }
+
+/* One leading for both headlines. The name over the photograph and the
+   headline in the card are the same sentence set twice, so they are set
+   the same way: 1.06, tracking -0.026em. */
+.curtain__name { line-height: 1.06; }
+
+@media (max-width: 700px) {
+  /* style.css put this at left:20px; the window has no padding at this
+     width, so the grid edge is the page margin and nothing more. */
+  .curtain__title {
+    left: 0;
+    right: 0;
+    padding: 0 var(--v3-page-margin);
+    max-width: none;
+  }
+  .curtain__name { max-width: 18ch; }
+  .curtain__line { max-width: 28ch; }
+}
+
+
+/* ==========================================================================
+   11. THE TWO SIDE PROJECTS
+   Ezra and Lurch stop being placeholders. They are the only two tiles that
+   link out to a live thing rather than to a case study, so they are the two
+   that can show the product itself instead of a picture of a project.
+   ========================================================================== */
+
+/* 11.1 Lurch — a cutout, so it does not get a box.
+   The phones are a transparent PNG with no baked shadow; alpha falls
+   255 to 0 inside 3px. Dropping that into a grey rounded rectangle puts
+   an object that was cut out back into a frame. The panel keeps its space
+   and stops drawing.
+
+   The 1fr 1fr band split above 1100 is deliberately NOT narrowed: taking
+   width from the copy column pushes the headline from three lines to four,
+   and the headline is the one thing allowed to be loud. The phones buy
+   their size by bleeding left into the card's own padding instead, which
+   costs the layout nothing.
+
+   style.css:3117 puts overflow:hidden on every .tile__in and v3.css §2.5
+   restates the selector without re-declaring overflow, so hidden survives.
+   Overridden here for this one tile only: v2.css:666 depends on that same
+   clip to keep the toy-box counters inside .a-intro. */
+.bento--home .a-lurch .tile__in { overflow: visible; }
+
+.bento--home .a-lurch .tile__media {
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+  align-self: end;
+  margin-left: calc(-1 * var(--v3-tile-pad));
+  margin-bottom: calc(-1 * var(--v3-tile-pad));
+  width: calc(100% + var(--v3-tile-pad));
+}
+
+.bento--home .a-lurch .tile__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+/* Above 1100 the band gives the picture a stretched grid cell, which would
+   stretch a cutout. It takes its own height here and sits on the floor. */
+/* v3.css:686 says `margin: 0` on `.a-lurch .tile__in > .tile__media`,
+   which is four classes to the three above and wins on specificity no
+   matter what the source order is. Matched here rather than reached for
+   with !important, and the bleed is restated because that shorthand
+   resets it. */
+@media (min-width: 1100px) {
+  .bento--home .a-lurch .tile__in > .tile__media {
+    height: auto;
+    align-self: end;
+    margin: 0 0 calc(-1 * var(--v3-tile-pad)) calc(-1 * var(--v3-tile-pad));
+    width: calc(100% + var(--v3-tile-pad));
+  }
+}
+
+/* Below 1100 the band collapses and the picture sits above the words, so
+   the left bleed would pull it out from under its own headline. */
+@media (max-width: 1099px) {
+  .bento--home .a-lurch .tile__media {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* 11.2 Ezra — the type, not the cat.
+   The live site's illustration is a standing profile, and a crop of it
+   would mean two cats on one 347px card the day the perch cutout lands.
+   The headline column carries the idea on its own: "YOUR DESKTOP HAS AN
+   OWNER NOW." The crop stops 2px short of the illustration panel, so no
+   orange enters the frame. .a-cat .tile__media is already 4/3 at §3.2.
+
+   THE PERCH IS NOT BUILT YET: it needs the cutout he is sending. The ask
+   is in the spec beside this file. When it lands, she is a sibling of
+   .tile__in and a direct child of the <a>, because .bento--home .tile is
+   already overflow:visible and position:relative — no overflow override
+   anywhere, and the clip on .a-cat .tile__in stays exactly as it is. */
+
+
+/* 11.3 Sintero, now that it runs the full width.
+   Stacked, a twelve-column tile puts a 1080px-wide picture above its own
+   copy and the row grows to about 1000px tall — taller than either feature
+   card, for the smallest project of the three. It takes the same band
+   anatomy Lurch uses above 1100 instead: picture left, words right, one
+   row. It deliberately does NOT get the featured treatment or the Lurch
+   cutout bleed; it is a wide band, not a third hero. */
+@media (min-width: 1100px) {
+  .bento--home .a-sintero .tile__in {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: minmax(0, 1fr);
+    column-gap: clamp(24px, 3vw, 48px);
+    align-items: center;
+  }
+
+  .bento--home .a-sintero .tile__in > .tile__media {
+    aspect-ratio: 16 / 10;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    grid-column: 1;
+    grid-row: 1 / -1;
+    align-self: center;
+  }
+
+  .bento--home .a-sintero .tile__in > .tile__lead {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .bento--home .a-sintero .tile__in > .tile__more {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+
+/* ==========================================================================
+   12. THE PICTURE LEADS
+   His call, 2026-10-21: "the image needs to be dominant, and just the text
+   below. remove the rectangles under the case study text and image. remove
+   the eyebrow texts, keep only what's necessary. sintero can't get a full
+   row. let's play with colours in the grids, forest gradients, keep it
+   mellow."
+
+   So the card stops being a container and the picture becomes the tile.
+   Everything a card used to do — hold an edge, carry a surface, separate
+   one project from the next — the image now does by being large, and the
+   words sit under it the way a caption sits under a plate.
+   ========================================================================== */
+
+/* 12.1 No rectangles. The surface, the edge, the radius and the padding
+   all go; what is left is the content on the page's own ground. Zeroing
+   the padding also puts every headline on the grid's left edge, which is
+   where the name over the photograph was aligned to earlier, so the two
+   finally share one line. */
+.bento--home .tile__in {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bento--home a.tile:hover .tile__in { transform: none; box-shadow: none; }
+}
+
+.bento--home a.tile:focus-visible .tile__in {
+  outline: 2px solid var(--v3-focus);
+  outline-offset: 6px;
+}
+
+/* 12.2 The eyebrows go.
+   NOTE: these carried the client name — PRODUSA, SUPACA, VIST LABS — and
+   no headline names its client. The name now survives only in the role
+   line where it happens to appear (Produsa Labs) and in the link target.
+   Worth deciding whether to fold it into the role line everywhere. */
+.bento--home .tile__eyebrow { display: none; }
+
+/* .a-moments uses its eyebrow as the section's only label, so that one
+   stays: without it the photo pile has nothing saying what it is. */
+.bento--home .a-moments .tile__eyebrow,
+.bento--home .a-blog .tile__eyebrow,
+.bento--home .a-contact .tile__eyebrow { display: block; }
+
+/* 12.3 The feature cards stack. Side by side, a 7/5 split caps the picture
+   at 58% of the row; stacked, it takes the whole twelve columns and the
+   argument reads underneath it. That is the dominance he is asking for,
+   and it costs the headline nothing because the headline gets the full
+   measure too. */
+.fframe {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.bento--home .tile--feature .fcopy {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(24px, 3vw, 48px);
+  align-items: start;
+}
+
+/* The headline takes the left column under the picture; the result, the
+   role and the way in stack in the right one. Two columns of words under
+   one wide picture, rather than a column of words beside a narrow one. */
+.bento--home .tile--feature .tile__title { grid-column: 1; margin: 0; }
+.bento--home .tile--feature .fout,
+.bento--home .tile--feature .tile__role,
+.bento--home .tile--feature .fcta { grid-column: 2; }
+.bento--home .tile--feature .fout { margin: 0 0 16px; }
+.bento--home .tile--feature .tile__role { margin: 0 0 18px; }
+
+@media (max-width: 899px) {
+  .bento--home .tile--feature .fcopy { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .bento--home .tile--feature .tile__title,
+  .bento--home .tile--feature .fout,
+  .bento--home .tile--feature .tile__role,
+  .bento--home .tile--feature .fcta { grid-column: 1; }
+}
+
+/* 12.4 Sintero is a half row again, so the odd tile has to be somewhere.
+   The seven tiles after the two features are an odd number for a twelve
+   column grid, and exactly one of them must take the full width or a row
+   grows a hole. Lurch is the one that can afford it: it is already a band
+   above 1100, its picture is a cutout that gets better with width, and it
+   is the only one of the seven that is not client work. */
+.bento--home .a-lurch { grid-column: 1 / -1; }
+.bento--home .a-cat { grid-column: span 6; }
+
+@media (max-width: 1099px) {
+  .bento--home .a-lurch { grid-column: 1 / -1; }
+  .bento--home .a-cat { grid-column: span 6; }
+}
+
+/* 12.5 Mellow forest in the grid.
+   Colour arrives as light rather than as a panel: a soft forest wash under
+   each picture, and a forest-tinted shadow instead of a neutral grey one.
+   On an opaque screenshot you see only the tint in the shadow; on the
+   Lurch cutout and on every placeholder the gradient itself shows through.
+   Three mixes, cycled, so a row never repeats itself — and all of them
+   within a few per cent of the ground, which is what keeps it mellow
+   rather than decorative. */
+.bento--home .tile__media,
+.bento--home .fmock {
+  border-radius: 14px;
+  background-image: linear-gradient(158deg,
+      color-mix(in srgb, var(--v3-accent) 9%, var(--v3-surface)) 0%,
+      color-mix(in srgb, var(--v3-accent) 3%, var(--v3-surface)) 100%);
+  box-shadow: 0 2px 6px -3px color-mix(in srgb, var(--v3-accent) 35%, transparent),
+              0 18px 36px -20px color-mix(in srgb, var(--v3-accent) 45%, transparent);
+}
+
+.bento--home .a-supaca .tile__media,
+.bento--home .a-vistlabs .tile__media,
+.bento--home .a-lurch .tile__media {
+  background-image: linear-gradient(158deg,
+      color-mix(in srgb, var(--v3-accent) 13%, var(--v3-surface)) 0%,
+      color-mix(in srgb, var(--v3-accent) 4%, var(--v3-surface)) 100%);
+}
+
+.bento--home .a-sintero .tile__media,
+.bento--home .a-desserts .dessert-art {
+  background-image: linear-gradient(158deg,
+      color-mix(in srgb, var(--v3-accent) 6%, var(--v3-surface)) 0%,
+      color-mix(in srgb, var(--v3-accent) 14%, var(--v3-surface)) 100%);
+}
+
+/* The Lurch cutout keeps no plate of its own: the gradient would sit in a
+   rectangle behind a transparent PNG, which is the frame we took off it. */
+.bento--home .a-lurch .tile__media {
+  background-image: none;
+  box-shadow: none;
+}
+
+/* 12.6 The placeholders now sit on the gradient, so they stop being grey
+   holes and start reading as reserved space. */
+.slot { background: none; }
+
+/* 12.7 Three padding rules out-specify §12.1 and would keep the card's
+   inset without its surface, which reads as a rectangle you cannot see.
+   Matched here rather than reached for with !important:
+     v3.css:361   .bento--home .tile--sm .tile__in
+     v3.css:769   .bento--home .a-intro .tile__in   (inside a media query)
+     v3.css:1261  .bento--home .tile--sm .tile__in  (max-width: 699px)
+     v3.css:1262  .bento--home .tile--feature .tile__in */
+.bento--home .tile--sm .tile__in,
+.bento--home .tile--feature .tile__in,
+.bento--home .a-intro .tile__in,
+.bento--home .tile--plain .tile__in,
+.bento--home .tile--band .tile__in,
+.bento--home .tile--pair .tile__in { padding: 0; }
+
+@media (max-width: 1099px) {
+  .bento--home .a-intro .tile__in { padding: 0; }
+}
+
+@media (max-width: 699px) {
+  .bento--home .tile--sm .tile__in,
+  .bento--home .tile--feature .tile__in { padding: 0; }
+}
+
+/* 12.8 Stacked, a 4:3 picture across twelve columns is 745px tall and the
+   card runs to 1170. Wide pictures want a wide ratio: 16:10 is the one the
+   other band panels already use, so the page keeps one ratio for a
+   full-width screenshot instead of two. */
+.bento--home .tile--feature .fmock .tile__media { aspect-ratio: 16 / 10; }
+
+/* 12.9 The dashed edge goes with the rectangles. The gradient plate is
+   now what says "a picture belongs here", so the placeholder does not
+   also need a dotted outline round it. */
+.slot {
+  border: 0;
+  background: none;
+  border-radius: 14px;
+}
+
+/* 12.10 The copy grid needs explicit rows.
+   .fout, .tile__role and .fcta were auto-placing into rows 1, 2 and 3 of
+   a grid whose first row is as tall as the headline, so the role and the
+   link drifted 200px down the card. The headline spans all three rows and
+   the right column packs to the top. */
+.bento--home .tile--feature .fcopy {
+  grid-auto-rows: min-content;
+  align-content: start;
+}
+
+.bento--home .tile--feature .tile__title { grid-column: 1; grid-row: 1 / span 3; }
+.bento--home .tile--feature .fout       { grid-column: 2; grid-row: 1; }
+.bento--home .tile--feature .tile__role { grid-column: 2; grid-row: 2; }
+.bento--home .tile--feature .fcta       { grid-column: 2; grid-row: 3; }
+
+@media (max-width: 899px) {
+  .bento--home .tile--feature .tile__title,
+  .bento--home .tile--feature .fout,
+  .bento--home .tile--feature .tile__role,
+  .bento--home .tile--feature .fcta { grid-column: 1; grid-row: auto; }
+}
+
+/* 12.11 One gap value was setting both axes, so a 43px row gap stacked on
+   top of the 16 and 18px margins and left the link floating 60px below the
+   role. The columns keep the wide gutter; the rows close up. */
+.bento--home .tile--feature .fcopy {
+  column-gap: clamp(24px, 3vw, 48px);
+  row-gap: 14px;
+}
+
+.bento--home .tile--feature .fout { margin: 0; }
+.bento--home .tile--feature .tile__role { margin: 0; }

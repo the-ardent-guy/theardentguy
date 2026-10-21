@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bizotico, a distributor's own D2C watch store</title>
-<meta name="description" content="Redesigning a Bengaluru watch distributor's direct store so buyers had a reason to buy from the distributor. Case study by Rishabh Jain.">
+<meta name="description" content="Designing a Bengaluru watch distributor's own store so buyers had a reason to skip the marketplaces selling the same watches. Case study by Rishabh Jain.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&display=swap" rel="stylesheet">
@@ -31,8 +31,8 @@
 
   <header class="head">
     <p class="eyebrow">Bizotico</p>
-    <h1>Designed a distributor's own D2C watch store</h1>
-    <p class="standfirst">Bizotico, a Bengaluru distributor, holds Indian rights for 25+ international watch brands, including Scuderia Ferrari, Roamer, Obaku and Earnshaw. I redesigned its direct store so buyers had a reason to buy from the distributor. It still runs today as The Timekeepers.</p>
+    <h1>Gave watch buyers a reason to skip Amazon</h1>
+    <p class="standfirst">Bizotico is a Bengaluru distributor that holds the Indian rights to 25+ watch brands, Scuderia Ferrari, Roamer, Obaku and Earnshaw among them. I designed its direct store, which still runs today as The Timekeepers.</p>
   </header>
 
   <div class="layout">
@@ -45,7 +45,7 @@
             <tr><th scope="row">Role</th><td>E-commerce Designer, leading a graphic designer alongside the marketing team</td></tr>
             <tr><th scope="row">Timeline</th><td>6 months, 2023 to 2024, Bengaluru</td></tr>
             <tr><th scope="row">Platform</th><td>Shopify, desktop and mobile</td></tr>
-            <tr><th scope="row">My work</th><td>Research, information architecture, flows, UI/UX, conversion design, Shopify build and the campaign creative system</td></tr>
+            <tr><th scope="row">My work</th><td>Information architecture, flows, UI/UX, the Shopify build and the campaign creative system</td></tr>
             <tr><th scope="row">Outcome</th><td>7.85x ROAS on a May 2024 campaign, still live two years on</td></tr>
           </tbody>
         </table>
@@ -53,23 +53,17 @@
         <p class="lead-note">The same watches were a tap away on Amazon and Myntra. The hard part was giving buyers a reason to skip them.</p>
 
         <figure class="bleed">
-          <div class="shot shot--tall">[ IMAGE: hero, the storefront on desktop and mobile ]</div>
+          <div class="media media--bare">
+            <img src="/assets/media/bizo-hero.webp" width="1536" height="1024" decoding="async"
+                 alt="The Bizotico storefront on a laptop and a phone. The desktop hero reads Upto 80% Off, Between Sea and Space, beside a photograph of a diver surfacing with a watch on his wrist.">
+          </div>
+          <figcaption>The store as it shipped, on desktop and on a phone.</figcaption>
         </figure>
       </section>
 
       <section id="problem">
         <h2>The problem</h2>
-        <p>Marketplaces cost Bizotico margin on every watch, and an earlier direct store never became a real sales channel. The new store had to fit 25+ brands, from under &#8377;5,000 to above &#8377;60,000, into one catalogue without the premium lines losing weight. It also had to suit mobile buyers who expect cash on delivery, which carries higher return risk.</p>
-
-        <p class="hmw">How might we give buyers a reason to buy direct, when the same watches are on every marketplace?</p>
-      </section>
-
-      <section id="research">
-        <h2>Research</h2>
-        <p>I mapped every product by movement, strap, style and price, and grouped the range into four price bands. A competitive review showed marketplaces win on price and delivery, but can't match what only a distributor has: its own warranty, servicing and direct pricing. I then mapped the key flows, from browsing by brand, price or gift through to checkout.</p>
-        <figure class="bleed">
-          <div class="shot shot--wide">[ IMAGE: brand and price-band map, sitemap and flows ]</div>
-        </figure>
+        <p>Every watch sold through a marketplace cost Bizotico margin, and an earlier direct store had never become a real sales channel. The new one had to hold 25+ brands, priced from under &#8377;5,000 to above &#8377;60,000, in a single catalogue without the premium lines looking like the cheap ones. Most buyers would arrive on a phone and want to pay cash on delivery.</p>
       </section>
 
       <section id="decisions">
@@ -77,64 +71,92 @@
 
         <article class="decision" id="d1">
           <span class="decision__n">01</span>
-          <h3>Four ways into one catalogue</h3>
-          <p>Buyers start from the brand, the watch type, the budget or the person they're buying for. Top brands get their own homepage rows, and smaller labels sit under "Offbeat brands you wish you knew".</p>
-          <p class="why"><b>Trade-off:</b> Every product has to be tagged across all four facets, which is more catalogue work in exchange for easier discovery.</p>
+          <h3>Categories came from what people search for</h3>
+          <p>I ran a basic keyword pass on what watch buyers in India actually type. Swiss made, automatic, mechanical and quartz came back highest, so those four became the categories on the homepage. Movement, strap and price sit under a Shop by menu for anyone who wants to narrow further.</p>
+          <figure class="bleed">
+            <div class="media media--light">
+              <img src="/assets/media/bizo-categories.webp" width="1700" height="733" loading="lazy" decoding="async"
+                   alt="Four category tiles across the homepage, each a watch photograph with the category set over it in white capitals: Swiss Made, Automatic, Mechanical and Quartz.">
+            </div>
+            <figcaption>Four categories, named after what buyers were already searching for.</figcaption>
+          </figure>
         </article>
 
         <article class="decision" id="d2">
           <span class="decision__n">02</span>
-          <h3>A reason to buy direct</h3>
-          <p>The store leads with a 2-year Bizotico warranty, a personalised service station and direct discounts. A trust bar on every page states returns, COD and warranty, and an authorised-partner block names the marketplaces Bizotico supplies, as proof of authenticity. Verified Google reviews from the offline store solved the cold start on reviews, and on-wrist videos and to-scale images show real size before purchase.</p>
-          <p class="why"><b>Trade-off:</b> Naming the marketplaces reminds buyers they exist, but authenticity mattered more.</p>
+          <h3>Put the partner brands on the top shelf</h3>
+          <p>The partnerships are the reason to trust a distributor, so they go first. Earnshaw, Scuderia Ferrari, Nubeo and Roamer take the row directly under the hero, each sitting on its own logo rather than a product name, because the brand is what a buyer recognises from across the page.</p>
           <figure class="bleed">
-            <div class="shot shot--tall">[ IMAGE: product page with on-wrist video, and Google review testimonials ]</div>
+            <div class="media media--light">
+              <img src="/assets/media/bizo-bestsellers.webp" width="1700" height="736" loading="lazy" decoding="async"
+                   alt="A Best Sellers row of four watches on pale green tiles, each with the brand logo under it: Earnshaw, Scuderia Ferrari, Nubeo and Roamer. A black bar above reads Hassle-free returns, COD, 2 Years Warranty.">
+            </div>
+            <figcaption>The first row under the hero, and the trust bar that runs above every page.</figcaption>
           </figure>
         </article>
 
         <article class="decision" id="d3">
           <span class="decision__n">03</span>
-          <h3>Conversion built for mobile buyers</h3>
-          <p>COD stays, with 10% off prepaid orders to cut returns. A sticky offer bar, quick view and an add-to-cart within thumb reach keep buying fast, and WhatsApp support answers questions before purchase.</p>
+          <h3>Two years of warranty, five on Obaku</h3>
+          <p>A marketplace listing cannot offer a warranty from the distributor who imported the watch. We took the call to put 2 years on everything bought on the site, and Bizotico backed a bonus five-year warranty on Obaku Ceramic. I built the flow for that one, from the homepage block through the registration a buyer completes once the watch arrives.</p>
           <figure class="bleed">
-            <div class="shot">[ IMAGE: product page, mobile ]</div>
+            <div class="media media--light">
+              <img src="/assets/media/bizo-obaku.webp" width="1700" height="736" loading="lazy" decoding="async"
+                   alt="The Obaku warranty block. Three Obaku Ceramic watches on a green set beside the heading Extend Warranty, Obaku, an offer of a bonus five-year warranty backed by Bizotico's service, and a Register button.">
+            </div>
+            <figcaption>The five years are claimed by registering, which is where the flow starts.</figcaption>
           </figure>
         </article>
 
         <article class="decision" id="d4">
           <span class="decision__n">04</span>
-          <h3>One creative system for 25+ brands</h3>
-          <p>Every ad used one fixed template, so one designer could produce creatives for every brand, and each ad linked straight to the product it showed. Deep discounts stayed on fashion brands, while premium lines held at 5% to 20% off so they never looked like clearance stock.</p>
-          <p class="why"><b>Trade-off:</b> The ads look alike, which we accepted for speed and recognition.</p>
+          <h3>Borrowed the trust the shop already had</h3>
+          <p>A new store has no reviews. The Bengaluru shop had years of them on Google, so those went on the homepage with the reviewer's name and photo left intact. Under them, a Partners block names Amazon, Flipkart, Myntra, Tata Cliq, Helios and Just In Time as places Bizotico already supplies, which is the shortest proof that the stock is authentic.</p>
+          <p class="why"><b>Trade-off:</b> Naming the marketplaces reminds buyers they exist. Proving the watches are genuine was worth more.</p>
           <figure class="bleed">
-            <div class="shot shot--wide">[ IMAGE: ad creatives and the Diwali sale banners ]</div>
+            <div class="media media--bare">
+              <img src="/assets/media/bizo-reviews.webp" width="1700" height="728" loading="lazy" decoding="async"
+                   alt="Three five-star Google reviews on a deep red homepage band, each with the reviewer's name, photo and review count, under the heading Customers Love Us.">
+            </div>
+            <figcaption>Google reviews from the offline shop, running on the new store's homepage.</figcaption>
           </figure>
         </article>
 
         <article class="decision" id="d5">
           <span class="decision__n">05</span>
-          <h3>A store the client runs alone</h3>
-          <p>Every component maps to a Shopify theme section, so adding a brand takes a collection and a banner, with no developer needed.</p>
+          <h3>Curated the sale</h3>
+          <p>I picked the watches, then set the discount brand by brand. Fashion labels went deep, premium lines held between 5% and 20% so they never read as clearance. One fixed template meant a single designer could produce a creative for every brand, and each ad links straight to the watch in it.</p>
+          <figure class="bleed">
+            <div class="media media--light">
+              <img src="/assets/media/bizo-sale.webp" width="1102" height="733" loading="lazy" decoding="async"
+                   alt="Rows of sale creatives laid out in a grid. Each one uses the same template: a watch photograph, the Bizotico mark, a discount badge and a promo code.">
+            </div>
+            <figcaption>Part of the sale set. One template, one designer, 25+ brands.</figcaption>
+          </figure>
         </article>
       </section>
 
       <section id="outcome">
         <h2>Outcome</h2>
         <ul class="results">
-          <li>7.85x ROAS on a May 2024 campaign: about &#8377;53,000 in ad spend against &#8377;4,16,131 in net sales (shared with the marketing team, who ran the ads)</li>
-          <li>About 30 orders a month in the early months</li>
-          <li>25+ brands run by the client without developer support</li>
-          <li>Still live more than two years later, as The Timekeepers</li>
+          <li>7.85x ROAS on the May 2024 campaign: about &#8377;53,000 in ad spend against &#8377;4,16,131 in net sales. The marketing team ran the ads.</li>
+          <li>Orders held flat that month, 32 against April's 33, while net sales rose 92%.</li>
+          <li>25+ brands the client adds to and runs without a developer.</li>
+          <li>Still live more than two years later, as The Timekeepers.</li>
         </ul>
-        <figure class="bleed">
-          <div class="shot shot--wide">[ IMAGE: home, brand page, collection, product page and cart ]</div>
+        <figure class="narrow">
+          <div class="media media--light">
+            <img src="/assets/media/bizo-recap.webp" width="740" height="391" loading="lazy" decoding="async"
+                 alt="The May 2024 recap: 32 orders and net sales of 4,16,131.20 rupees against April's 33 orders and 2,17,184.40, with ad spend of 53,000 rupees and a ROAS of 7.85.">
+          </div>
+          <figcaption>The May 2024 recap, as the client's dashboard reported it.</figcaption>
         </figure>
       </section>
 
       <section id="reflection">
         <h2>Reflection</h2>
         <ul class="plain principles">
-          <li><b>Set template tiers from day one.</b> Brand-led navigation worked but was maintenance-heavy. Fixed tiers for premium and fashion brands would have cut setup time.</li>
+          <li><b>Set the template tiers on day one.</b> Leading with brands worked, but every new brand meant another row and another banner. Fixed tiers for premium and fashion lines would have cut that setup every time.</li>
         </ul>
       </section>
 
@@ -143,11 +165,11 @@
     <aside class="rail" aria-label="Key decisions">
       <p class="rail__label">Key decisions</p>
       <ol>
-        <li><a href="#d1"><span class="n">01</span><span>Four ways into one catalogue</span></a></li>
-        <li><a href="#d2"><span class="n">02</span><span>A reason to buy direct</span></a></li>
-        <li><a href="#d3"><span class="n">03</span><span>Built for mobile buyers</span></a></li>
-        <li><a href="#d4"><span class="n">04</span><span>One creative system</span></a></li>
-        <li><a href="#d5"><span class="n">05</span><span>A store the client runs</span></a></li>
+        <li><a href="#d1"><span class="n">01</span><span>Categories from search</span></a></li>
+        <li><a href="#d2"><span class="n">02</span><span>Partner brands first</span></a></li>
+        <li><a href="#d3"><span class="n">03</span><span>Warranty, and Obaku's flow</span></a></li>
+        <li><a href="#d4"><span class="n">04</span><span>Trust from the shop</span></a></li>
+        <li><a href="#d5"><span class="n">05</span><span>The sale</span></a></li>
       </ol>
     </aside>
   </div>

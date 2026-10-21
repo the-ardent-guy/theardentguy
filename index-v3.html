@@ -4,10 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Rishabh Jain, Product Designer</title>
-<!-- v3 REDESIGN PREVIEW. A parallel copy of index.html. The live homepage is
-     index.html and is untouched by this build. Everything here loads the
-     same style.css and v2.css, then /assets/v3.css on top, so rolling this
-     version back is deleting four files. See Section 12 of the spec. -->
+<!-- THE HOMEPAGE. Promoted from index-v3.html on 2026-10-21; the previous
+     bento homepage is the version of this file at commit 123a4aa and is the
+     thing to check out if this needs rolling back.
+
+     Load order is style.css, then v2.css, then v3.css, and v3.css overrides
+     the first two rather than replacing them. It is the only file that
+     defines the --v3-* tokens, and it is loaded by this page alone, so the
+     case study pages still carry the older type and the maroon accent. That
+     seam is known and deliberate for now. -->
 <meta name="description" content="Rishabh Jain. Product designer, builder and illustrator. Story and meaning first, screens second. Case studies on Produsa, Supaca, Hasta, Bizotico and VIST Labs.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,35 +39,27 @@
      and nowhere else, and a maroon hairline across the photograph breaks
      the rule that this site has exactly two fixed controls. -->
 
-<!-- The two fixed controls, back where they were before the bar arrived:
-     the menu and the dark mode switch, bottom right, over everything. The
-     bar at the top is the shortcut; this is the full list and the only way
-     to reach Studio and the resume from the homepage. main.js wires both,
-     and the head script has already set data-theme before first paint. -->
-<div class="dock">
-  <button class="dock__btn" id="navOpen" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navsheet">
-    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 4h14M1 8h14M1 12h14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-  </button>
-  <button class="dock__btn theme-toggle" type="button" aria-label="Toggle dark mode"></button>
-</div>
+<!-- ONE control, at the top. His call, 2026-10-21: the floating menu button
+     is gone and the dark mode switch moves into the bar, so the page has a
+     single piece of chrome instead of a pill plus two discs in the corner.
+     It reads as a toolbar: a group of destinations, a divider, the tool
+     that changes the view, then the one action.
 
-<div class="navsheet" id="navsheet" role="dialog" aria-modal="true" aria-label="Menu">
-  <button class="navsheet__close" id="navClose" type="button" aria-label="Close menu">
-    <svg viewBox="0 0 16 16" aria-hidden="true" style="width:14px;height:14px"><path d="M3 3l10 10M13 3L3 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-  </button>
-  <ul class="navsheet__list">
-    <li><a href="/#work">Work</a></li>
-    <li><a href="/desserts.html">Desserts</a></li>
-    <li><a href="/studio.html">Studio</a></li>
-    <li><a href="/#contact">Contact</a></li>
-    <li><a href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume</a></li>
-  </ul>
-</div>
+     The nav sheet went with the menu button. Studio was only reachable
+     through it, so it is a link here now; the resume is not, because its
+     href is still a placeholder. main.js's navSheet() exits on its own
+     when #navOpen is absent, and themeToggle() finds .theme-toggle
+     wherever it sits, so no script changes are needed.
 
-<header class="bar">
+     v2.js reveals .bar once the photograph is scrolled past. It now
+     arrives from above rather than from below. -->
+<header class="bar bar--top">
   <nav class="bar__in" aria-label="Site">
     <a href="#work">Work</a>
     <a href="/desserts.html">Desserts</a>
+    <a href="/studio.html">Studio</a>
+    <span class="bar__sep" aria-hidden="true"></span>
+    <button class="bar__tool theme-toggle" type="button" aria-label="Toggle dark mode"></button>
     <a class="bar__cta" href="#contact">Get in touch <span aria-hidden="true">&#8594;</span></a>
   </nav>
 </header>
@@ -97,12 +94,12 @@
 
 <main>
   <div class="homewrap homewrap--curtained" id="work">
+   <!-- The window frame and its title bar are gone, 2026-10-21: no window
+        style on this page at all. The div stays as structure only, because
+        it still carries z-index 2 (which keeps .v2-grain under the page)
+        and overflow: clip (which is the wall the toybox pile bounces off).
+        It draws nothing. -->
    <div class="window">
-    <div class="window__bar" aria-hidden="true">
-      <span class="window__dots"><i></i><i></i><i></i></span>
-      <span class="window__title">rishabh-jain&nbsp;/&nbsp;work</span>
-      <span class="window__spacer"></span>
-    </div>
     <div class="window__body">
 
     <!-- THE BANDS.
@@ -161,11 +158,10 @@
            part, then who and where, at meta size.
            The class is tile--feature, not tile--band, so none of the band
            grid rules reach it. -->
-      <a class="tile tile--feature a-produsa" href="/produsa.html" style="--tile-acc: var(--acc-produsa);">
+      <a class="tile tile--feature a-produsa" href="/produsa.html">
         <div class="tile__in">
           <div class="fframe">
             <div class="fmock">
-              <div class="fmock__chrome" aria-hidden="true"><i></i><i></i><i></i><span class="fmock__url"></span></div>
               <div class="tile__media"><img src="/assets/media/produsa-band.webp" width="1200" height="900" loading="lazy" decoding="async" alt="The Produsa studio. An owner asks the chat on the left for a header, a footer and a logo, and the finished Hornexa Technology site stands in the preview on the right."></div>
             </div>
             <div class="fcopy">
@@ -179,29 +175,32 @@
         </div>
       </a>
 
-      <a class="tile tile--band a-supaca" href="/supaca.html" style="--tile-acc: var(--acc-supaca);">
+      <!-- SUPACA, promoted to the featured size on his call, 2026-10-21.
+           Same anatomy as Produsa: picture left, argument right, result
+           first. The feature treatment used to be scoped to .a-produsa in
+           seventeen places; it is scoped to .tile--feature now, so the two
+           cards share one definition rather than one being a copy of the
+           other that can drift. -->
+      <a class="tile tile--feature a-supaca" href="/supaca.html">
         <div class="tile__in">
-          <div class="tile__media"><div class="slot">[ IMAGE: the v1 event page, RSVP with your car and the Who's coming list ]</div></div>
-          <div class="tile__lead">
-            <p class="tile__eyebrow">Supaca</p>
-            <h2 class="tile__title">Designing trust for a private network of supercar owners</h2>
-            <div class="tile__foot">
-              <p class="tile__role">Lead UI/UX Designer<br>Mobile app, 2024 to 2025</p>
-              <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <div class="fframe">
+            <div class="fmock">
+              <div class="tile__media"><div class="slot">[ IMAGE: the v1 event page, RSVP with your car and the Who's coming list ]</div></div>
             </div>
-          </div>
-          <div class="tile__more">
-            <div class="fact fact--lead">
-              <p class="fact__k">Outcome</p>
-              <p class="fact__v">The beta is live, with real owners joining through the waitlist.</p>
+            <div class="fcopy">
+              <p class="tile__eyebrow">Supaca</p>
+              <h2 class="tile__title">Designing trust for a private network of supercar owners</h2>
+              <p class="fout">The beta is live, with real owners joining through the waitlist.</p>
+              <p class="tile__role">Lead UI/UX Designer<br>Mobile app, 2024 to 2025</p>
+              <span class="fcta">Read the case study <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
             </div>
           </div>
         </div>
       </a>
 
-      <a class="tile tile--band a-bizotico" href="/bizotico.html" style="--tile-acc: var(--acc-bizotico);">
+      <a class="tile tile--band a-bizotico" href="/bizotico.html">
         <div class="tile__in">
-          <div class="tile__media"><div class="slot">[ IMAGE: the storefront and a product page, desktop and mobile ]</div></div>
+          <div class="tile__media"><img src="/assets/media/bizo-band-16x10.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="The Bizotico storefront on a laptop and a phone. The laptop shows the hero, Upto 80% Off, Between Sea and Space, over a diver surfacing with a watch on his wrist, with four watch photographs below it."></div>
           <div class="tile__lead">
             <p class="tile__eyebrow">Bizotico</p>
             <h2 class="tile__title">Designed a distributor's own D2C watch store</h2>
@@ -219,9 +218,9 @@
         </div>
       </a>
 
-      <a class="tile tile--band a-vistlabs" href="/vistlabs.html" style="--tile-acc: var(--acc-vistlabs);">
+      <a class="tile tile--band a-vistlabs" href="/vistlabs.html">
         <div class="tile__in">
-          <div class="tile__media"><div class="slot">[ IMAGE: the old homepage beside the new one, same scale ]</div></div>
+          <div class="tile__media"><img src="/assets/media/vist-band-16x10.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="The redesigned VIST Labs homepage hero. Diagnose, Decontaminate, Protect. in large white type over a dark teal photograph of pasteurisation equipment, under a plain white nav bar."></div>
           <div class="tile__lead">
             <p class="tile__eyebrow">VIST Labs, Illinois USA</p>
             <h2 class="tile__title">Repositioning a post-harvest technology company for banks and growers</h2>
@@ -254,7 +253,7 @@
            this only stops the homepage listing it as a project. Vist Labs
            and Sintero take six columns each in its place. -->
 
-      <a class="tile tile--pair tile--sm a-sintero" href="/sintero.html" style="--tile-acc: var(--acc-sintero);">
+      <a class="tile tile--pair tile--sm a-sintero" href="/sintero.html">
         <div class="tile__in">
           <div class="tile__media"><div class="slot">[ IMAGE: the web and print system side by side ]</div></div>
           <div class="tile__lead">
@@ -274,9 +273,9 @@
         </div>
       </a>
 
-      <a class="tile tile--pair tile--sm a-cat" href="CAT_APP_URL" target="_blank" rel="noopener">
+      <a class="tile tile--pair tile--sm a-cat" href="https://the-ardent-guy.github.io/ezraapp/" target="_blank" rel="noopener">
         <div class="tile__in">
-          <div class="tile__media"><div class="slot">[ IMAGE: Ezra ]</div></div>
+          <div class="tile__media"><img src="/assets/media/ezra-site.webp" width="840" height="630" loading="lazy" decoding="async" alt="The Ezra site. YOUR DESKTOP HAS AN OWNER NOW. set in heavy mono capitals, the last word in amber, on a near-black ground."></div>
           <div class="tile__lead">
             <p class="tile__eyebrow">Ezra</p>
             <h2 class="tile__title">Built a desktop app for my (ex) cat.</h2>
@@ -289,14 +288,14 @@
       </a>
 
 
-      <a class="tile tile--pair tile--sm a-lurch" href="DATING_APP_URL" target="_blank" rel="noopener">
+      <a class="tile tile--pair tile--sm a-lurch" href="https://lurchout.vercel.app/" target="_blank" rel="noopener">
         <div class="tile__in">
-          <div class="tile__media"><div class="slot">[ IMAGE: Lurch ]</div></div>
+          <div class="tile__media"><img src="/assets/media/lurch-phones.webp" width="880" height="831" loading="lazy" decoding="async" alt="Two phones showing Lurch: the launch screen reading We match you on your trauma, and behind it a diagnostic screen headed Analysing your damage."></div>
           <div class="tile__lead">
             <p class="tile__eyebrow">Lurch</p>
             <h2 class="tile__title">Made a dating app that matches you based on your trauma. (yes.)</h2>
             <div class="tile__foot">
-              <p class="tile__role">[ one line on why I built it ]</p>
+              <p class="tile__role">Dating app</p>
               <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             </div>
           </div>
@@ -382,8 +381,10 @@
     </div>
     </div>
     <!-- PARKED 3 of 4. The footer held only the crazy switch, so with the
-         switch gone it is an empty 60px strip with a rule across the top.
-         Both come back together:
+         switch gone it is an empty strip. Both come back together.
+         NOTE, 2026-10-21: the window frame around this page was deleted,
+         but .window__foot survives in v3.css restyled as a rule plus the
+         switch, so unparking is still only these four edits:
     <div class="window__foot">
       <button class="crazy-switch" id="crazySwitch" type="button" role="switch" aria-checked="false">
         <span class="crazy-switch__track" aria-hidden="true"><span class="crazy-switch__thumb"></span></span>
