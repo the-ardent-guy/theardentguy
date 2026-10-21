@@ -2020,3 +2020,204 @@ body, .window, .bar__in, .dock__btn, .contact__row, .fact {
 
 .bento--home .tile--feature .fout { margin: 0; }
 .bento--home .tile--feature .tile__role { margin: 0; }
+
+/* ==========================================================================
+   13. THE BENTO BOXES COME BACK
+   His call, 2026-10-21: "we need the bento boxes for the case studies, and
+   spaces between all."
+
+   §12 read "remove the rectangles under the case study text and image" as
+   the card itself. It meant the small panels INSIDE the card, under the
+   words and under the picture. So the card comes back and those panels
+   stay gone, which is the combination he has been asking for since the
+   grid went to v3: a bento tile, with the picture dominant inside it.
+
+   Everything §12 won is kept. The picture still leads, the feature image
+   still stacks above its copy at the full width and 16:10, the eyebrows
+   stay off, and the forest gradients stay. The only thing returning is
+   the box those now sit in.
+   ========================================================================== */
+
+/* 13.1 More air between the boxes, which is the "spaces between all" half
+   of the ask. 16px was the original, §10 took it to 20, and at 24 the
+   gutter reads as deliberate space rather than as a seam between two
+   things that nearly touch. */
+:root {
+  --v3-gap: 24px;
+}
+
+/* The phone override at §7.1 sets --v3-gap: 12px, but it sits ABOVE §10 in
+   this file and a plain :root later in the source beats a :root inside a
+   media query. So that value has been dead since §10 landed and the phone
+   has been running the desktop gutter. Restated here, after both, where it
+   actually applies. 16px, not 12: the boxes are back, so the gap now has
+   two edges to separate instead of none. */
+@media (max-width: 699px) {
+  :root { --v3-gap: 16px; }
+}
+
+/* 13.2 The card surface, restored. This is §2.5's rule returning intact:
+   the page's card colour, the soft border, the 14px radius and the one
+   padding value. It goes on every tile, not only the case studies —
+   boxing the projects and leaving the intro, the photo pile and the
+   contact block bare reads as an unfinished pass, not as a decision. */
+.bento--home .tile__in {
+  background: var(--v3-surface);
+  border: 1px solid var(--v3-border-soft);
+  border-radius: var(--v3-tile-radius);
+  padding: var(--v3-tile-pad);
+  /* A shadow at rest, which he asked for when the lines round went in:
+     "simple lines rounded, with shadow, clean, very minimal". Two layers.
+     The 1px one is the card's contact with the page; the wide one is the
+     light falling past it. Both are mixed from the ink rather than pure
+     black, so they stay warm on the beige instead of going grey. */
+  box-shadow:
+    0 1px 2px -1px rgba(21, 18, 12, .05),
+    0 10px 28px -18px rgba(21, 18, 12, .16);
+}
+
+/* 13.3 The padding, restored on every selector that out-specifies 13.2.
+   Same list §12.7 had to match, in reverse: these are three-class rules
+   and a two-class rule cannot reach them. */
+.bento--home .tile--sm .tile__in,
+.bento--home .tile--plain .tile__in,
+.bento--home .tile--band .tile__in,
+.bento--home .tile--pair .tile__in { padding: var(--v3-tile-pad); }
+
+/* The feature and the intro carry more, as they did before: they are the
+   twelve-column tiles and the padding is part of how they lead. */
+.bento--home .tile--feature .tile__in { padding: clamp(28px, 3.2vw, 44px); }
+
+@media (max-width: 1099px) {
+  .bento--home .a-intro .tile__in { padding: clamp(28px, 3.2vw, 48px); }
+}
+
+/* On a phone the padding drops to 20px, and every variant has to be named
+   or it keeps its own value: .tile--band and .tile--pair are three-class
+   rules and a bare .bento--home .tile__in cannot reach them. That hole is
+   in the original 7.1 block too, which is why Bizotico held 24px on a
+   390px screen while its neighbours dropped. */
+@media (max-width: 699px) {
+  .bento--home .tile__in,
+  .bento--home .tile--sm .tile__in,
+  .bento--home .tile--plain .tile__in,
+  .bento--home .tile--band .tile__in,
+  .bento--home .tile--pair .tile__in,
+  .bento--home .a-intro .tile__in,
+  .bento--home .tile--feature .tile__in { padding: 20px; }
+}
+
+/* 13.4 The card lifts again. §12.1 cancelled the hover because there was
+   no longer anything to lift; now there is. Transform plus a deeper
+   shadow, and the border firms up, so the whole tile reads as one object
+   rising rather than as an image growing. */
+@media (hover: hover) and (pointer: fine) {
+  .bento--home a.tile:hover .tile__in {
+    border-color: var(--v3-border);
+    transform: translateY(-2px);
+    box-shadow:
+      0 2px 4px -2px rgba(21, 18, 12, .07),
+      0 18px 36px -20px rgba(21, 18, 12, .24);
+  }
+  .bento--home .tile--feature:hover .tile__in {
+    border-color: var(--v3-border);
+    transform: translateY(-2px);
+    box-shadow:
+      0 2px 4px -2px rgba(21, 18, 12, .07),
+      0 18px 36px -20px rgba(21, 18, 12, .24);
+  }
+}
+
+/* 13.5 The focus ring goes back to hugging the card. §12.1 pushed it 6px
+   out because there was no edge for it to sit against; now it traces the
+   border it belongs to. */
+.bento--home a.tile:focus-visible .tile__in {
+  outline: 3px solid var(--v3-focus);
+  outline-offset: 3px;
+  border-color: var(--v3-border);
+}
+
+/* 13.6 Dark mode gets an edge, not a shadow.
+   A shadow is light falling on paper and a dark page has none: at these
+   opacities it is invisible, and raising it only smears the tile. The
+   card separates on the border instead, stepped up from border-soft to
+   border, which is the same trade case.css already makes on dark case
+   study pages. Both dark blocks, kept identical. */
+:root[data-theme="dark"] .bento--home .tile__in {
+  border-color: var(--v3-border);
+  box-shadow: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :root[data-theme="dark"] .bento--home a.tile:hover .tile__in,
+  :root[data-theme="dark"] .bento--home .tile--feature:hover .tile__in {
+    border-color: var(--v3-accent);
+    box-shadow: none;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .bento--home .tile__in {
+    border-color: var(--v3-border);
+    box-shadow: none;
+  }
+}
+
+@media (prefers-color-scheme: dark) and (hover: hover) and (pointer: fine) {
+  :root:not([data-theme="light"]) .bento--home a.tile:hover .tile__in,
+  :root:not([data-theme="light"]) .bento--home .tile--feature:hover .tile__in {
+    border-color: var(--v3-accent);
+    box-shadow: none;
+  }
+}
+
+/* 13.7 Reduced motion keeps the shadow and drops the lift, so the hover
+   still answers without anything moving. §8's blanket rule kills the
+   transition; this makes sure it does not also kill the feedback. */
+@media (prefers-reduced-motion: reduce) {
+  .bento--home a.tile:hover .tile__in,
+  .bento--home .tile--feature:hover .tile__in { transform: none; }
+}
+
+/* 13.8 Lurch clips to the card again.
+   §11.1 took overflow:hidden off this one tile so the cutout could bleed
+   left and down out of the padding. With the card back, the bleed should
+   stop AT the card's edge, not carry on past it: left and bottom are
+   -1 * --v3-tile-pad exactly, so the clip lands the picture flush inside
+   the border and follows the 14px corner instead of poking a square
+   corner through a round one. */
+.bento--home .a-lurch .tile__in { overflow: hidden; }
+
+/* 13.9 Sintero stops being a band.
+   §11.3 gave it picture-left, words-right at 1fr 1fr, which was right when
+   it ran the full twelve columns. §12.4 put it back to six on his call, so
+   that rule has since been splitting a 530px card into two 240px columns:
+   a postage stamp beside a cramped headline. It goes back to the anatomy
+   its neighbours use — picture above, words under — which is also what
+   Bizotico, VIST and Ezra do at the same width. */
+@media (min-width: 1100px) {
+  .bento--home .a-sintero .tile__in {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: none;
+    column-gap: 0;
+    align-items: stretch;
+  }
+
+  .bento--home .a-sintero .tile__in > .tile__media {
+    aspect-ratio: 16 / 10;
+    height: auto;
+    min-height: 0;
+    margin: 0 0 20px;
+    grid-column: auto;
+    grid-row: auto;
+    align-self: auto;
+    flex: none;
+  }
+
+  .bento--home .a-sintero .tile__in > .tile__lead,
+  .bento--home .a-sintero .tile__in > .tile__more {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
