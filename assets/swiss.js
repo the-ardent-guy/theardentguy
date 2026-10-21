@@ -138,7 +138,9 @@
      rows inside one list stagger 40ms up to five so a long list arrives
      as a list rather than as one block. */
   function reveal() {
-    var els = document.querySelectorAll(".reveal");
+    /* .reveal-img is the picture wipe (swiss.css 16.5). It rides the same
+       observer, the same once-only unobserve and the same stagger. */
+    var els = document.querySelectorAll(".reveal, .reveal-img");
     if (!els.length) return;
 
     if (reduced || !("IntersectionObserver" in window)) {
@@ -150,7 +152,7 @@
        index and the first row of the desserts index both start at 0. */
     var groups = document.querySelectorAll("[data-stagger]");
     Array.prototype.forEach.call(groups, function (g) {
-      var kids = g.querySelectorAll(".reveal");
+      var kids = g.querySelectorAll(".reveal, .reveal-img");
       Array.prototype.forEach.call(kids, function (el, i) {
         el.style.setProperty("--d", Math.min(i, 4) * 40 + "ms");
       });

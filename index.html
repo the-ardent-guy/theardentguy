@@ -4,22 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Rishabh Jain, Product Designer</title>
-<!-- THE HOMEPAGE, SWISS INDEX.
-     Restyled on 2026-10-22 against theardentguy-swiss-index-spec.md. The
-     bento homepage this replaces is the index.html of commit 88f08c4 and is
-     the thing to check out if this needs rolling back; the one before that
-     is 123a4aa.
+<!-- THE HOMEPAGE, SWISS STYLE ON THE PUBLISHED LAYOUT.
+     2026-10-22. The restyle is kept; the shape of the live site comes back.
+     The full-screen photograph is the banner again, the projects are a grid
+     with their pictures in it rather than a bare list of names, and there is
+     no fun mode on this page.
+
+     The grid has no cards. Between any two projects there is exactly one
+     hairline: horizontal between rows, vertical between a pair. That line is
+     the only thing doing the separating.
 
      Load order is style.css, v2.css, v3.css, swiss.css, and swiss.css is
-     last. The three underneath are kept, not replaced: style.css still
-     carries the reset and the page's own paper colour, v3.css still carries
-     the --v3-* palette including the whole dark theme. swiss.css overrides
-     tokens and components and never touches a background.
+     last. The three underneath are kept, not replaced. The one thing that
+     has changed about the page's ground is the notebook dot grid, which he
+     asked for on 2026-10-22; it is a separate fixed layer in swiss.css
+     section 16, not an edit to body's own background, so the paper colour
+     and the mottle machinery underneath are still untouched.
 
      Only assets/swiss.js is loaded. main.js, v2.js and crazy.js are intact
-     in the repo and linked from nothing, because each was written for
-     markup this page no longer has: the curtain parallax, the toy box
-     physics, the window chrome, the nav sheet. -->
+     in the repo and linked from nothing. -->
 <meta name="description" content="Rishabh Jain. Product designer, builder and illustrator. Story and meaning first, screens second. Case studies on Produsa, Supaca, Bizotico, VIST Labs and Sintero.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,31 +37,24 @@
 </head>
 <body>
 
-<!-- THE NAV. One 72px row on the wrap. Nothing sits behind it, so there is
-     no pill, no blur and no border; the hairline fades in once the page has
-     moved more than 8px and is the only thing that marks it off.
-
-     The theme and fun switches are text in brackets, set after the links.
-     Resume is not here: its href is still a placeholder, and a dead link in
-     a nav of four is more conspicuous than an absent one. -->
+<!-- The nav sits on the paper ABOVE the photograph, not over it. Over the
+     photograph it would need a scrim and a colour that flips on scroll, and
+     that is two pieces of machinery to solve a problem that only exists if
+     you put it there. The banner takes the rest of the screen. -->
 <div class="wrap">
   <header class="snav">
-  <a class="snav__mark" href="/">Rishabh Jain</a>
-  <nav class="snav__links" aria-label="Site">
-    <a href="#work">Work</a>
-    <a href="/studio.html">Studio</a>
-    <a href="/desserts.html">Desserts</a>
-    <a href="#contact">Contact</a>
-    <button class="snav__tool" type="button" data-theme-switch aria-pressed="false" aria-label="Colour theme">light</button>
-    <button class="snav__tool" type="button" data-fun-switch role="switch" aria-checked="false"
-            data-off="fun" data-on="fun on" aria-label="Fun mode">fun</button>
-  </nav>
-  <button class="snav__tool snav__menu" type="button" data-menu aria-expanded="false" aria-controls="sheet">Menu</button>
+    <a class="snav__mark" href="/">Rishabh Jain</a>
+    <nav class="snav__links" aria-label="Site">
+      <a href="#work">Work</a>
+      <a href="/studio.html">Studio</a>
+      <a href="/desserts.html">Desserts</a>
+      <a href="#contact">Contact</a>
+      <button class="snav__tool" type="button" data-theme-switch aria-pressed="false" aria-label="Colour theme">light</button>
+    </nav>
+    <button class="snav__tool snav__menu" type="button" data-menu aria-expanded="false" aria-controls="sheet">Menu</button>
   </header>
 </div>
 
-<!-- The phone sheet. Full screen, links set left on the page's own ground.
-     Only reachable under 640px, where the nav's link row is display:none. -->
 <div class="sheet" id="sheet">
   <button class="snav__tool sheet__close" type="button" data-menu-close>Close</button>
   <a href="#work">Work</a>
@@ -67,163 +63,170 @@
   <a href="#contact">Contact</a>
 </div>
 
+<!-- THE BANNER.
+     One screen, one photograph. The words sit on it bottom-left, over the
+     grass, which is the part of the frame the crop budget already counts as
+     spent. The scrim is a gradient on a layer of its own, never a filter on
+     the photograph: the drawn characters and the snow keep their contrast. -->
+<section class="banner" aria-labelledby="bannerTitle">
+  <img class="banner__img" src="/assets/hero.jpg" width="1200" height="1600" fetchpriority="high"
+       alt="Rishabh sits with his back to the camera at a weathered white picnic table in the Himalayas, bare winter trees and a snow ridge behind him. Two of his own drawn characters are sitting at the table with him, one in a green jumper holding a book and striped socks, one in a mustard jacket, and the word WHOA. is written in the air above them.">
+  <div class="banner__in">
+    <div class="wrap">
+      <p class="label banner__eyebrow">Rishabh Jain</p>
+      <h1 class="banner__h1" id="bannerTitle">Product Designer. Builder. Illustrator.</h1>
+      <p class="label banner__cue" aria-hidden="true">Scroll &darr;</p>
+    </div>
+  </div>
+</section>
+
 <main>
 
-  <!-- A. THE TITLE PAGE.
-       Four corners of a grid with a hole in the middle: the index line top
-       left, the photograph top right, the name bottom left, the argument
-       bottom right. The hole is the point. The photograph has come out of
-       the full-bleed curtain and become a plate in the right columns, which
-       is what lets the opening be read rather than scrolled past.
-
-       The lede does not sit under the h1. That was the clog. -->
-  <section class="tpage wrap" aria-label="Introduction">
-    <p class="label tpage__index">Rishabh Jain &mdash; Product Designer. Builder. Illustrator.</p>
-
-    <figure class="tpage__plate">
-      <img src="/assets/hero.jpg" width="1200" height="1600" fetchpriority="high"
-           alt="Rishabh sits with his back to the camera at a weathered white picnic table in the Himalayas, bare winter trees and a snow ridge behind him. Two of his own drawn characters are sitting at the table with him, one in a green jumper holding a book and striped socks, one in a mustard jacket, and the word WHOA. is written in the air above them.">
-      <figcaption class="sub" data-fig="00"></figcaption>
-    </figure>
-
-    <h1 class="tpage__h1"><span class="ln">Rish, Product Designer.</span><span class="ln">Builder. Illustrator.</span></h1>
-
-    <div class="tpage__say">
-      <p class="tpage__claim">I bring storytelling and social psychology into how products think, behave, and feel.</p>
-      <!-- A list of two, not a paragraph of two sentences. The second line
-           ends on a comma and the third opens on a capital, which as running
-           prose is a transcription slip and as two list items is just two
-           list items. A screen reader gets it announced as a list of 2. -->
-      <ul class="tpage__notes sub">
-        <li>Currently knee-deep in Agentic UX,</li>
-        <li>Deeply curious about myth, meaning, and what actually drives people.</li>
-      </ul>
-    </div>
-
-    <p class="label tpage__cue" aria-hidden="true">Scroll &darr;</p>
+  <!-- The claim and the two notes: a headline with one short line beside it,
+       which is the opening he drew in the reference. The accent appears here
+       once as a 6px mark, and twice more on the whole page. -->
+  <section class="intro wrap grid" aria-label="Introduction">
+    <h2 class="intro__claim reveal">I bring storytelling and social psychology into how products think, behave, and feel.</h2>
+    <!-- A list of two, not a paragraph of two sentences. The first line ends
+         on a comma and the second opens on a capital, which as running prose
+         is a transcription slip and as two list items is just two list
+         items. A screen reader gets it announced as a list of 2. -->
+    <ul class="intro__notes sub reveal">
+      <li>Currently knee-deep in Agentic UX,</li>
+      <li>Deeply curious about myth, meaning, and what actually drives people.</li>
+    </ul>
   </section>
 
-  <!-- B. THE INDEX.
-       No h2. The list is the headline, and the five case-study links live
-       on the rows, so the big cards are gone with them.
+  <!-- THE WORK.
+       The published layout: two lead projects across the full width with the
+       picture on the left, then two pairs. No surfaces, no border round a
+       card, no radius, no shadow. Every row opens on a hairline, and the two
+       halves of a pair are told apart by a second hairline standing in the
+       gutter between them.
 
-       Each row carries data-thumb only if a real picture of that project
-       exists. Sintero does not have one, so Sintero's row shows no
-       thumbnail at all rather than a grey box with a dashed border. -->
+       Sintero has no picture yet, so its cell has none. An empty picture
+       column beside three full ones reads as a thing that has not been shot;
+       a dashed grey box reads as a site that is not finished. -->
   <section class="work wrap" id="work" aria-labelledby="workLabel">
     <div class="idx__head">
       <p class="label" id="workLabel">Selected work</p>
       <p class="label idx__count u-tab">05</p>
     </div>
 
-    <div class="idx" data-stagger>
+    <div class="pgrid">
 
-      <a class="idx-row reveal" href="/produsa.html" style="--dot: var(--dot-produsa)"
-         data-thumb="/assets/media/produsa-band.webp"
-         aria-label="Produsa: An AI platform that turns a website build into a conversation. Product Designer and Builder, 2026.">
-        <span class="idx-row__in">
-          <span class="idx-no label u-tab" aria-hidden="true">01</span>
-          <span class="idx-name">Produsa</span>
-          <span class="idx-line sub">An AI platform that turns a website build into a conversation</span>
-          <span class="idx-role label">Product Designer and Builder</span>
-          <span class="idx-year label">2026</span>
-        </span>
-        <span class="idx-row__out"><span class="sub">500+ builds and 290 live websites in the first two months after launch.</span></span>
-      </a>
+      <div class="prow">
+        <a class="pcell pcell--lead" href="/produsa.html" style="--dot: var(--dot-produsa)">
+          <figure class="pshot reveal-img">
+            <img src="/assets/media/produsa-band.webp" width="1200" height="900" loading="lazy" decoding="async"
+                 alt="The Produsa studio. An owner asks the chat on the left for a header, a footer and a logo, and the finished Hornexa Technology site stands in the preview on the right.">
+          </figure>
+          <div class="pmeta reveal">
+            <span class="pno label u-tab" aria-hidden="true">01</span>
+            <h3 class="pname">Produsa</h3>
+            <span class="pyear label u-tab">2026</span>
+            <p class="pline">An AI platform that turns a website build into a conversation</p>
+            <p class="prole label">Product Designer and Builder</p>
+            <p class="pout sub">500+ builds and 290 live websites in the first two months after launch.</p>
+            <span class="action pcta">Read the case study <span class="action__arrow" aria-hidden="true">&rarr;</span></span>
+          </div>
+        </a>
+      </div>
 
-      <a class="idx-row reveal" href="/supaca.html" style="--dot: var(--dot-supaca)"
-         data-thumb="/assets/media/supaca-hero.webp"
-         aria-label="Supaca: Designing trust for a private network of supercar owners. Lead UI/UX Designer, 2024 to 2025.">
-        <span class="idx-row__in">
-          <span class="idx-no label u-tab" aria-hidden="true">02</span>
-          <span class="idx-name">Supaca</span>
-          <span class="idx-line sub">Designing trust for a private network of supercar owners</span>
-          <span class="idx-role label">Lead UI/UX Designer</span>
-          <span class="idx-year label">2024&ndash;2025</span>
-        </span>
-        <span class="idx-row__out"><span class="sub">The beta is live, with real owners joining through the waitlist.</span></span>
-      </a>
+      <div class="prow">
+        <a class="pcell pcell--lead" href="/supaca.html" style="--dot: var(--dot-supaca)">
+          <figure class="pshot reveal-img">
+            <img src="/assets/media/supaca-hero.webp" width="1700" height="1294" loading="lazy" decoding="async"
+                 alt="The Supaca beta landing page. Make the drive, in large type over a near-black ground, with the line India&#39;s supercar owners&#39; network, a join the waitlist button beside member login, and cards for Boit Club, Club Octane and Sunrise drives floating around the headline.">
+          </figure>
+          <div class="pmeta reveal">
+            <span class="pno label u-tab" aria-hidden="true">02</span>
+            <h3 class="pname">Supaca</h3>
+            <span class="pyear label u-tab">2024&ndash;2025</span>
+            <p class="pline">Designing trust for a private network of supercar owners</p>
+            <p class="prole label">Lead UI/UX Designer</p>
+            <p class="pout sub">The beta is live, with real owners joining through the waitlist.</p>
+            <span class="action pcta">Read the case study <span class="action__arrow" aria-hidden="true">&rarr;</span></span>
+          </div>
+        </a>
+      </div>
 
-      <a class="idx-row reveal" href="/bizotico.html" style="--dot: var(--dot-bizotico)"
-         data-thumb="/assets/media/bizo-band-16x10.webp"
-         aria-label="Bizotico: Designed a distributor's own D2C watch store. E-commerce Designer, 2023 to 2024.">
-        <span class="idx-row__in">
-          <span class="idx-no label u-tab" aria-hidden="true">03</span>
-          <span class="idx-name">Bizotico</span>
-          <span class="idx-line sub">Designed a distributor's own D2C watch store</span>
-          <span class="idx-role label">E-commerce Designer</span>
-          <span class="idx-year label">2023&ndash;2024</span>
-        </span>
-        <span class="idx-row__out"><span class="sub">7.85x ROAS on a May 2024 campaign. Still live two years later.</span></span>
-      </a>
+      <div class="prow prow--pair">
+        <a class="pcell" href="/bizotico.html" style="--dot: var(--dot-bizotico)">
+          <figure class="pshot reveal-img">
+            <img src="/assets/media/bizo-band-16x10.webp" width="1600" height="1000" loading="lazy" decoding="async"
+                 alt="The Bizotico storefront on a laptop and a phone. The laptop shows the hero, Upto 80% Off, Between Sea and Space, over a diver surfacing with a watch on his wrist, with four watch photographs below it.">
+          </figure>
+          <div class="pmeta reveal">
+            <span class="pno label u-tab" aria-hidden="true">03</span>
+            <h3 class="pname">Bizotico</h3>
+            <span class="pyear label u-tab">2023&ndash;2024</span>
+            <p class="pline">Designed a distributor&#39;s own D2C watch store</p>
+            <p class="prole label">E-commerce Designer</p>
+            <p class="pout sub">7.85x ROAS on a May 2024 campaign. Still live two years later.</p>
+            <span class="action pcta">Read the case study <span class="action__arrow" aria-hidden="true">&rarr;</span></span>
+          </div>
+        </a>
+        <a class="pcell pcell--r" href="/vistlabs.html" style="--dot: var(--dot-vistlabs)">
+          <figure class="pshot reveal-img">
+            <img src="/assets/media/vist-band-16x10.webp" width="1600" height="1000" loading="lazy" decoding="async"
+                 alt="The redesigned VIST Labs homepage hero. Diagnose, Decontaminate, Protect. in large white type over a dark teal photograph of pasteurisation equipment, under a plain white nav bar.">
+          </figure>
+          <div class="pmeta reveal">
+            <span class="pno label u-tab" aria-hidden="true">04</span>
+            <h3 class="pname">VIST Labs</h3>
+            <span class="pyear label u-tab">2025</span>
+            <p class="pline">Repositioning a post-harvest technology company for banks and growers</p>
+            <p class="prole label">Product Designer, solo</p>
+            <p class="pout sub">Launched as the client&#39;s primary site, and the founders used it with their customers.</p>
+            <span class="action pcta">Read the case study <span class="action__arrow" aria-hidden="true">&rarr;</span></span>
+          </div>
+        </a>
+      </div>
 
-      <a class="idx-row reveal" href="/vistlabs.html" style="--dot: var(--dot-vistlabs)"
-         data-thumb="/assets/media/vist-band-16x10.webp"
-         aria-label="VIST Labs: Repositioning a post-harvest technology company for banks and growers. Product Designer, solo, 2025.">
-        <span class="idx-row__in">
-          <span class="idx-no label u-tab" aria-hidden="true">04</span>
-          <span class="idx-name">VIST Labs</span>
-          <span class="idx-line sub">Repositioning a post-harvest technology company for banks and growers</span>
-          <span class="idx-role label">Product Designer, solo</span>
-          <span class="idx-year label">2025</span>
-        </span>
-        <span class="idx-row__out"><span class="sub">Launched as the client's primary site, and the founders used it with their customers.</span></span>
-      </a>
+      <div class="prow prow--pair">
+        <a class="pcell pcell--noshot" href="/sintero.html" style="--dot: var(--dot-sintero)">
+          <div class="pmeta reveal">
+            <span class="pno label u-tab" aria-hidden="true">05</span>
+            <h3 class="pname">Sintero</h3>
+            <span class="pyear label u-tab"></span>
+            <p class="pline">Brand identity and a specification-led website for a luxury stone brand</p>
+            <p class="prole label">Brand and Digital Design Lead</p>
+            <p class="pout sub">Specified in projects for JW Marriott and Prestige Group.</p>
+            <span class="action pcta">Read the case study <span class="action__arrow" aria-hidden="true">&rarr;</span></span>
+          </div>
+        </a>
 
-      <!-- No data-thumb and no year: neither the picture nor the dates
-           exist on the site, and neither is going to be invented here. -->
-      <a class="idx-row reveal" href="/sintero.html" style="--dot: var(--dot-sintero)"
-         aria-label="Sintero: Brand identity and a specification-led website for a luxury stone brand. Brand and Digital Design Lead.">
-        <span class="idx-row__in">
-          <span class="idx-no label u-tab" aria-hidden="true">05</span>
-          <span class="idx-name">Sintero</span>
-          <span class="idx-line sub">Brand identity and a specification-led website for a luxury stone brand</span>
-          <span class="idx-role label">Brand and Digital Design Lead</span>
-          <span class="idx-year label"></span>
-        </span>
-        <span class="idx-row__out"><span class="sub">Specified in projects for JW Marriott and Prestige Group.</span></span>
-      </a>
+        <!-- Not a project and not a link, so it carries no number, no dot
+             and no arrow. The three photographs that belong under it do not
+             exist yet, so the one line that does stands on its own. -->
+        <section class="pcell pcell--r pcell--plain pcell--noshot" aria-labelledby="alsoLabel">
+          <div class="pmeta reveal">
+            <p class="label" id="alsoLabel">Also true</p>
+            <p class="pline">Curated the design and digital experience for a drive event with Ferrari India.</p>
+          </div>
+        </section>
+      </div>
 
     </div>
   </section>
 
-  <!-- C. ALSO TRUE.
-       One editorial line in the right columns. The three photographs (the
-       Ferrari drive, the newspaper article, the open mic night) do not
-       exist yet, so nothing is drawn for them: no stack of tilted
-       placeholder cards, no captions for pictures that are not there. The
-       two sentences that went with those photographs are waiting with
-       them. When the files arrive this becomes a 3-up strip at cols 5/13. -->
-  <section class="also wrap grid" aria-labelledby="alsoLabel">
-    <p class="label" id="alsoLabel">Also true</p>
-    <p class="also__line reveal">Curated the design and digital experience for a drive event with Ferrari India.</p>
-  </section>
-
-  <!-- D. WRITING.
-       Hidden, not styled. All three slots are embeds that do not exist, and
-       a section header over three empty rectangles is worse than silence.
-       Remove the hidden attribute the day there is one real post. -->
+  <!-- WRITING. Hidden, not styled. All three slots are embeds that do not
+       exist, and a section header over three empty rectangles is worse than
+       silence. Remove the hidden attribute the day there is one real post. -->
   <section class="wrap grid" id="writing" aria-labelledby="writingLabel" hidden>
     <p class="label" id="writingLabel">Writing</p>
-    <h2 class="dess__h2">Essays on design, AI and the work</h2>
+    <h2>Essays on design, AI and the work</h2>
   </section>
 
-  <!-- E. DESSERTS. The doorway to the fun side, and the one section that
-       loosens up. It does it with a toggle and a mini index, not with a
-       different geometry: same twelve columns, same hairlines, same mono.
-
-       #fun is on the section so the switch can be linked to directly. -->
-  <section class="dess wrap grid" id="fun" aria-labelledby="dessLabel">
+  <!-- DESSERTS. No switch and nothing hidden behind one: the three rows are
+       simply here. -->
+  <section class="dess wrap grid" aria-labelledby="dessLabel">
     <p class="label" id="dessLabel">Desserts</p>
     <h2 class="dess__h2">Nobody asked for any of this.</h2>
-    <p class="dess__say sub">I draw characters, make posters, and build apps that should not exist. The drawings live on their own page. The switch opens the apps and a shelf of skill files for agents.</p>
+    <p class="dess__say sub">I draw characters, make posters, and build apps that should not exist. The drawings live on their own page.</p>
 
     <div class="dess__acts">
-      <!-- The same switch as the one in the nav. Both carry
-           data-fun-switch and swiss.js keeps them in step, so there is one
-           state and two places to reach it. -->
-      <button class="action" type="button" data-fun-switch role="switch" aria-checked="false"
-              data-off="Enter fun mode" data-on="Fun mode. You did this." aria-label="Fun mode">Enter fun mode</button>
       <a class="action" href="/desserts.html">See the drawings <span class="action__arrow" aria-hidden="true">&rarr;</span></a>
     </div>
 
@@ -252,9 +255,8 @@
         </span>
       </a>
 
-      <!-- The pharmacy is the row, so the row is the download. The old
-           "Take one" link lived inside the card; a link inside a link is
-           not a thing, and a download hidden behind a hover is worse. -->
+      <!-- The row is the download. The old "Take one" link lived inside a
+           card, and a link inside a link is not a thing. -->
       <a class="idx-row reveal" href="/skills/no-slop-copy.md" download
          aria-label="Pharmacy: Skill files for agents. Take as directed. No-slop copy, 8 KB.">
         <span class="idx-row__in">
@@ -269,13 +271,10 @@
     </div>
   </section>
 
-  <!-- F. CONTACT.
-       60vh, content centred, and the one other hero-size line on the page.
-       The title page opens the sentence and this closes it.
-
-       The two outbound hrefs are still placeholders. They were placeholders
-       on the live site before this restyle, so they are not a regression,
-       and filling them is not this pass either. -->
+  <!-- CONTACT. The one other hero-size line on the page.
+       The two outbound hrefs were placeholders on the live site before this
+       restyle, so they are not a regression, and filling them is not this
+       pass either. -->
   <section class="say wrap" id="contact" aria-labelledby="sayLabel">
     <p class="label" id="sayLabel">Contact</p>
     <h2 class="say__h2">Available for product design and consulting work.</h2>
@@ -296,11 +295,7 @@
       <a href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&#8599;</span></a>
       <a href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume <span aria-hidden="true">&#8599;</span></a>
     </span>
-    <span class="sfoot__end">
-      <span class="u-tab">2026</span>
-      <button class="snav__tool" type="button" data-fun-switch role="switch" aria-checked="false"
-              data-off="fun" data-on="fun on" aria-label="Fun mode">fun</button>
-    </span>
+    <span class="sfoot__end"><span class="u-tab">2026</span></span>
   </div>
 </footer>
 

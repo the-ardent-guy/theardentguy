@@ -57,6 +57,8 @@
      Never a word anyone has to read. */
   --ink-40: color-mix(in srgb, var(--ink) 40%, transparent);
   --rule:   color-mix(in srgb, var(--ink) 14%, transparent);
+  /* The separator between two projects, and nothing else. */
+  --rule-strong: color-mix(in srgb, var(--ink) 30%, transparent);
   --accent: var(--v3-accent, #2F6344);
 
   /* Per-project dots. --acc-* live in style.css, which the case-study
@@ -99,6 +101,7 @@
   --accent: var(--v3-accent, #DCD0AE);
   /* The hairline needs more of the ink on a dark sheet to survive at 1px. */
   --rule:   color-mix(in srgb, var(--ink) 20%, transparent);
+  --rule-strong: color-mix(in srgb, var(--ink) 38%, transparent);
 
   --dot-produsa:    var(--acc-produsa,   #8FB4C6);
   --dot-supaca:     var(--acc-supaca,    #D98FA0);
@@ -115,8 +118,8 @@
    fallback needed; the token stays derived so one ink change moves all of
    it. A browser without color-mix gets this block instead. */
 @supports not (color: color-mix(in srgb, #000 60%, transparent)) {
-  :root { --ink-60: var(--v3-text-2, #636051); --ink-40: var(--v3-text-2, #636051); --rule: #DCD7C9; }
-  :root[data-dark][data-theme="dark"] { --ink-60: #989484; --ink-40: #989484; --rule: #3A403A; }
+  :root { --ink-60: var(--v3-text-2, #636051); --ink-40: var(--v3-text-2, #636051); --rule: #DCD7C9; --rule-strong: #B4AE9D; }
+  :root[data-dark][data-theme="dark"] { --ink-60: #989484; --ink-40: #989484; --rule: #3A403A; --rule-strong: #5C645B; }
 }
 
 
@@ -455,14 +458,14 @@ figure:has(> .shot:only-child) { display: none; }
 .idx-row {
   display: grid;
   grid-template-rows: auto 0fr;
-  border-top: 1px solid var(--rule);
+  border-top: 1px solid var(--rule-strong);
   padding: 20px 0;
   color: var(--ink);
   text-decoration: none;
   transition: grid-template-rows var(--dur) var(--ease);
 }
 
-.idx-row:last-of-type { border-bottom: 1px solid var(--rule); }
+.idx-row:last-of-type { border-bottom: 1px solid var(--rule-strong); }
 
 .idx-row__in {
   display: grid;
@@ -703,12 +706,16 @@ p a:focus-visible { text-decoration-color: var(--accent); }
    --------------------------------------------------------------------------- */
 
 .sfoot {
-  border-top: 1px solid var(--rule);
-  padding-block: var(--s6);
+  padding-block: 0 var(--s6);
   margin-top: var(--s20);
 }
 
+/* The rule goes on the inner grid, not on .sfoot: .sfoot is also the .wrap,
+   so a border there runs 64px wider on each side than every other rule on
+   the page and the one left edge stops being one left edge. */
 .sfoot__grid {
+  border-top: 1px solid var(--rule);
+  padding-top: var(--s6);
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: var(--gutter);
@@ -1727,3 +1734,425 @@ html { scroll-behavior: smooth; }
 /* The sheet only exists under 640. Above it, it must never be reachable
    by tab even if a stray class is left on. */
 @media (min-width: 641px) { .sheet { display: none !important; } }
+
+
+/* ---------------------------------------------------------------------------
+   16. THE PUBLISHED LAYOUT, IN THIS STYLE
+
+   His call, 2026-10-22: keep the restyle, bring back the shape of the live
+   site. The full-screen photograph is the banner again, the projects carry
+   their pictures instead of being a list of names, and the homepage has no
+   fun mode.
+
+   The rule for this grid: between any two projects there is exactly ONE
+   hairline. Horizontal between rows, vertical between the two halves of a
+   pair, and nothing else. No surface, no border round a cell, no radius, no
+   shadow. The line does all the separating, which is why it is allowed to
+   be the only thing drawn.
+   --------------------------------------------------------------------------- */
+
+
+/* --- 16.1 The notebook dots ------------------------------------------------
+   The one thing in this file that touches the page's ground, and it is
+   still not an edit to `body`. The grid is a fixed layer at z-index -1, so
+   the paper colour, the 600px mottle and the grain underneath are exactly
+   as they were, and deleting this one block deletes the whole thing.
+
+   1px dots on a 26px pitch. 13% of the ink in light, 18% in dark, which is
+   a dot you notice down an empty column and stop seeing under a paragraph.
+   Both are far under any contrast floor on purpose: this is paper, not
+   content, and it must never compete with 11px mono sitting on it. */
+
+:root {
+  --dotgrid: color-mix(in srgb, var(--ink) 13%, transparent);
+  --dotpitch: 26px;
+}
+
+:root[data-dark][data-theme="dark"] {
+  --dotgrid: color-mix(in srgb, var(--ink) 18%, transparent);
+}
+
+@supports not (color: color-mix(in srgb, #000 13%, transparent)) {
+  :root { --dotgrid: #DAD4C6; }
+  :root[data-dark][data-theme="dark"] { --dotgrid: #333A33; }
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(circle at 1px 1px, var(--dotgrid) 1px, transparent 0);
+  background-size: var(--dotpitch) var(--dotpitch);
+}
+
+/* The dots are paper, and paper is not printed. */
+@media print { body::before { display: none; } }
+
+
+/* --- 16.2 The banner -------------------------------------------------------
+   One screen, one photograph, under a nav that sits on the paper rather
+   than on the picture. A nav over the photograph would need a scrim and an
+   ink colour that flips on scroll: two pieces of machinery for a problem
+   that only exists if you put it there.
+
+   .banner is a direct child of <body>, so it is already the full viewport
+   width and needs no bleed arithmetic. */
+
+.banner {
+  position: relative;
+  width: 100%;
+  height: calc(100svh - 72px);
+  min-height: 460px;
+  max-height: 900px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.banner__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* MEASURED, not guessed: the table, both drawn characters and WHOA. sit
+     around 68% down a 1200x1600 frame, and a 1440-wide banner shows only
+     43% of that height. Holding at 42% put the window on the trees and the
+     cliff with the whole subject cut off below it. */
+  object-position: 50% 68%;
+  border-radius: 0;
+}
+
+.banner__in {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: var(--s8);
+}
+
+/* A gradient on a layer of its own, never a filter on the photograph: the
+   drawn characters and the snow ridge keep their own contrast, and only
+   the grass the words sit on gets darker. */
+.banner__in::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to top,
+    rgba(14, 16, 13, 0.82) 0%,
+    rgba(14, 16, 13, 0.62) 16%,
+    rgba(14, 16, 13, 0.24) 38%,
+    rgba(14, 16, 13, 0) 62%);
+}
+
+.banner .wrap { position: relative; z-index: 1; width: 100%; }
+
+/* These two never follow the theme: they are set on a photograph, and the
+   photograph is the same in light and dark. */
+.banner__eyebrow { color: rgba(251, 248, 241, 0.80); }
+
+.banner__h1 {
+  margin: var(--s3) 0 0;
+  max-width: 20ch;
+  color: #FBF8F1;
+}
+
+.banner__cue { margin: var(--s6) 0 0; color: rgba(251, 248, 241, 0.80); }
+
+
+/* --- 16.3 The claim --------------------------------------------------------
+   A headline with one short line beside it, which is the opening he drew in
+   the reference. The accent mark after it is one of the three times the
+   green appears on this page. */
+
+.intro {
+  padding-block: var(--s12) 0;
+  align-items: baseline;
+}
+
+.intro__claim {
+  grid-column: 1 / 7;
+  margin: 0;
+  max-width: none;
+  font-size: var(--t-title);
+  line-height: var(--lh-title);
+  letter-spacing: var(--tr-title);
+  font-weight: var(--w-title);
+}
+
+.intro__claim::after {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  vertical-align: 0.1em;
+}
+
+/* v3.css styled .intro__notes for the old intro card: a hairline above it,
+   28px of padding and an accent marker on every li, one of them with
+   !important. None of that belongs beside a headline. */
+.intro__notes {
+  grid-column: 8 / 12;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 0 !important;
+}
+
+.intro__notes li { font-size: var(--t-sub); line-height: var(--lh-sub); color: var(--ink-60); padding: 0; border: 0; }
+.intro__notes li::before { content: none; }
+
+.intro__notes li + li { margin-top: 4px; }
+
+
+/* --- 16.4 The project grid -------------------------------------------------
+   Two lead projects across the full width with the picture on the left,
+   then two pairs. That is the shape of the published site; what has gone is
+   every card it was drawn on. */
+
+.pgrid { margin-top: var(--s6); }
+
+.prow {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  border-top: 1px solid var(--rule-strong);
+  padding-block: var(--s8);
+}
+
+.prow:last-child { border-bottom: 1px solid var(--rule-strong); }
+
+.pcell {
+  position: relative;
+  grid-column: 1 / 7;
+  display: block;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.pcell--lead {
+  grid-column: 1 / 13;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: center;
+}
+
+.pcell--r { grid-column: 7 / 13; }
+
+/* THE PERPENDICULAR LINE. It stands in the gutter between a pair, not on
+   the edge of either cell, so it belongs to the space between them rather
+   than to one of them. It runs the content height and stops short of the
+   horizontal rules, which keeps the junctions from drawing a plus sign. */
+.pcell--r::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--gutter) / 2);
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--rule-strong);
+}
+
+/* --- The picture --- */
+.pshot {
+  margin: 0 0 var(--s4);
+  overflow: hidden;
+}
+
+.pcell--lead .pshot { grid-column: 1 / 8; margin: 0; }
+
+.pshot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 0;
+  transition: transform var(--dur) var(--ease);
+}
+
+/* produsa-band is natively 1200x900 and supaca-hero 1700x1294, both 4:3.
+   Forcing a 16:10 box on either takes about 17% off the bottom with
+   object-fit: cover, which is how the Produsa mock lost its console once
+   already. The lead picture keeps the ratio it was exported at. */
+.pcell--lead .pshot img { aspect-ratio: 4 / 3; }
+
+.pcell[href]:hover .pshot img,
+.pcell[href]:focus-visible .pshot img { transform: scale(1.015); }
+
+/* --- The words --- */
+.pmeta {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  column-gap: var(--s2);
+  align-items: baseline;
+}
+
+.pcell--lead .pmeta { grid-column: 8 / 13; align-self: center; }
+
+.pno {
+  grid-column: 1;
+  position: relative;
+  color: var(--ink-40);
+  transition: color var(--dur) var(--ease);
+}
+
+/* Same cross-fade as the index row: the number and the project's dot share
+   one box, so nothing moves by a pixel when the dot arrives. */
+.pno::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--dot, var(--accent));
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.pname {
+  grid-column: 2;
+  margin: 0;
+  max-width: none;
+  font-size: 22px;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  text-decoration: underline 1px;
+  text-underline-offset: 4px;
+  text-decoration-color: transparent;
+  transition: text-decoration-color var(--dur) var(--ease);
+}
+
+.pyear { grid-column: 3; text-align: right; color: var(--ink-60); font-variant-numeric: tabular-nums; }
+
+.pline {
+  grid-column: 1 / 4;
+  margin: var(--s3) 0 0;
+  max-width: 36ch;
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  color: var(--ink);
+}
+
+.prole { grid-column: 1 / 4; margin: var(--s2) 0 0; }
+.pout  { grid-column: 1 / 4; margin: var(--s3) 0 0; max-width: 42ch; }
+.pcta  { grid-column: 1 / 4; margin-top: var(--s4); }
+
+.pcell[href]:hover .pname,
+.pcell[href]:focus-visible .pname { text-decoration-color: var(--ink); }
+
+.pcell[href]:hover .pno,
+.pcell[href]:focus-visible .pno { color: transparent; }
+
+.pcell[href]:hover .pno::after,
+.pcell[href]:focus-visible .pno::after { opacity: 1; }
+
+.pcell[href]:hover .action__arrow,
+.pcell[href]:focus-visible .action__arrow { transform: translateX(4px); }
+
+/* Also true is not a project: no number, no dot, no year, no arrow. */
+.pcell--plain .pline { margin-top: var(--s2); max-width: 32ch; }
+
+
+/* --- 16.5 The scroll reveal ------------------------------------------------
+   Two primitives, not one, and the second is only for pictures. Words rise
+   8px and fade in 200ms, as everywhere else. A picture is uncovered: the
+   box wipes open from the top edge downward while the image inside releases
+   a 4% overscale, so it settles rather than slides. It is slower than the
+   text on purpose, 620ms, because it is the thing the eye lands on.
+
+   Both run once. Without JS neither is ever applied, so nothing can be left
+   hidden by a script that failed to load. */
+
+/* The clip is on the IMAGE, never on the figure. The figure is the element
+   the IntersectionObserver watches, and an observer target whose own paint
+   area has been clipped to nothing is a target that may never report itself
+   as intersecting: the pictures sat at inset(0 0 100%) forever and the rows
+   rendered with an empty column. The figure stays plain and keeps
+   overflow:hidden for the overscale; the image does the wiping. */
+:root.js .reveal-img img {
+  clip-path: inset(0 0 100% 0);
+  transform: scale(1.04);
+  transition: clip-path 620ms var(--ease), transform 900ms var(--ease);
+  transition-delay: var(--d, 0ms);
+}
+
+:root.js .reveal-img.is-in img { clip-path: inset(0 0 0 0); }
+
+/* The arrival and the hover are the same property on the same element, so
+   once a picture has landed it hands the transform back at hover speed. */
+:root.js .reveal-img.is-in img {
+  transform: none;
+  transition-duration: var(--dur);
+  transition-delay: 0ms;
+}
+
+:root.js .pcell[href]:hover .reveal-img.is-in img,
+:root.js .pcell[href]:focus-visible .reveal-img.is-in img { transform: scale(1.015); }
+
+.reveal-img img { clip-path: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root.js .reveal-img img,
+  :root.js .reveal-img.is-in img { clip-path: none; transform: none; }
+  .pcell[href]:hover .pshot img { transform: none; }
+}
+
+
+/* --- 16.6 Responsive -------------------------------------------------------
+   The pair survives to 640 because two project cells at about 460px still
+   hold a picture and four lines. Below that they stack, and the line
+   between them turns from vertical to horizontal: still one line, still
+   perpendicular to the way you are reading. */
+
+@media (max-width: 1024px) {
+  .banner { height: calc(100svh - 72px); max-height: none; }
+
+  .intro { padding-block-start: var(--s10); }
+  .intro__claim { grid-column: 1 / 9; }
+  .intro__notes { grid-column: 1 / 9; margin-top: var(--s4); }
+
+  .prow { padding-block: var(--s6); }
+
+  /* The lead project stacks: a 4:3 picture in seven of eight columns leaves
+     the words a column and a half, which is not a column. */
+  .pcell--lead { display: block; }
+  .pcell--lead .pshot { margin: 0 0 var(--s4); }
+  .pcell--lead .pshot img { aspect-ratio: 16 / 10; }
+  .pcell--lead .pmeta { margin: 0; }
+}
+
+@media (max-width: 640px) {
+  .banner { height: calc(100svh - 64px); min-height: 420px; }
+  .banner__in { padding-bottom: var(--s6); }
+  .banner__h1 { margin-top: var(--s2); }
+  .banner__cue { margin-top: var(--s4); }
+
+  .intro { padding-block-start: var(--s8); }
+  .intro__claim, .intro__notes { grid-column: 1 / -1; }
+
+  .prow, .prow--pair { grid-template-columns: minmax(0, 1fr); }
+  .pcell, .pcell--lead, .pcell--r { grid-column: 1 / -1; }
+
+  /* The vertical line becomes the horizontal one. */
+  .pcell--r::before { display: none; }
+  .prow--pair .pcell--r {
+    margin-top: var(--s6);
+    padding-top: var(--s6);
+    border-top: 1px solid var(--rule-strong);
+  }
+
+  .pname { font-size: 20px; }
+  .pshot img, .pcell--lead .pshot img { aspect-ratio: 16 / 10; }
+}
