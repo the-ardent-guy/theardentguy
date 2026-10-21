@@ -7,22 +7,35 @@
 <meta name="description" content="A founder-led brand selling the wire-woven koodai bag, handwoven in Coimbatore. Storefront, colour system and campaign art direction. Case study by Rishabh Jain.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&display=swap" rel="stylesheet">
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="/assets/case.css">
 <link rel="stylesheet" href="/assets/v2.css">
+<link rel="stylesheet" href="/assets/swiss.css">
+<script>document.documentElement.classList.add("js");</script>
 </head>
-<body>
+<body style="--dot: var(--dot-koodaikind)">
 
 <div class="wrap">
 
-  <nav class="top" aria-label="Site">
-    <a href="/">Rishabh Jain</a>
-    <span class="top__links">
+  <header class="snav">
+    <a class="snav__mark" href="/">Rishabh Jain</a>
+    <nav class="snav__links" aria-label="Site">
       <a href="/#work">Work</a>
+      <a href="/studio.html">Studio</a>
       <a href="/desserts.html">Desserts</a>
       <a href="/#contact">Contact</a>
-    </span>
-  </nav>
+    </nav>
+    <button class="snav__tool snav__menu" type="button" data-menu aria-expanded="false" aria-controls="sheet">Menu</button>
+  </header>
+
+  <div class="sheet" id="sheet">
+    <button class="snav__tool sheet__close" type="button" data-menu-close>Close</button>
+    <a href="/#work">Work</a>
+    <a href="/studio.html">Studio</a>
+    <a href="/desserts.html">Desserts</a>
+    <a href="/#contact">Contact</a>
+  </div>
 
   <a class="back" href="/#work">
     <svg viewBox="0 0 16 12" aria-hidden="true"><path d="M6.5 1 L1 6 L6.5 11 M1 6 H15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -35,31 +48,38 @@
     <p class="standfirst">Koodai Kind is a founder-led brand selling the wire-woven koodai bag, handwoven in Coimbatore. Through Bleed &amp; Margins, I art-directed the brand's campaign and designed and built its Shopify storefront, so the koodai could be bought like any contemporary bag.</p>
   </header>
 
+    <dl class="mstrip">
+      <div class="mstrip__i">
+        <dt>Role</dt>
+        <dd>Product Designer and Art Director, at Bleed &amp; Margins</dd>
+      </div>
+      <div class="mstrip__i">
+        <dt>Platform</dt>
+        <dd>Shopify, mobile-first, with pay-to-book orders</dd>
+      </div>
+      <div class="mstrip__i mstrip__i--wide">
+        <dt>My work</dt>
+        <dd>Storefront UX and UI, product page, colour system, the bindu page loader, Shopify theme edits, and campaign art direction</dd>
+      </div>
+    </dl>
+
+    <div class="grid">
+      <p class="lead-note">The koodai is a heritage object that's also a contemporary bag. The hard part was presenting both at once, so buyers chose it for how it looks and works instead of out of nostalgia.</p>
+    </div>
+
+    <figure class="fullbleed">
+      <div class="media">
+        <img src="/assets/media/koodai-storefront.webp" width="1360" height="765" decoding="async"
+         alt="The Koodai Kind storefront on a laptop, with the line carried by generations, reimagined for yours over a photograph of someone holding the bag, and a phone beside it showing a product page in Tamil and English.">
+      </div>
+      <figcaption data-fig="01">The home screen, and the store on a phone in Tamil.</figcaption>
+        </figure>
+
   <div class="layout">
+    <nav class="chapters" aria-label="Chapters"></nav>
+
     <main class="col">
 
-      <section id="overview" style="padding-top: clamp(40px, 5vw, 56px);">
-        <h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">Overview</h2>
-        <table class="meta">
-          <tbody>
-            <tr><th scope="row">Role</th><td>Product Designer and Art Director, at Bleed &amp; Margins</td></tr>
-            <tr><th scope="row">Timeline</th><td>[dates]</td></tr>
-            <tr><th scope="row">Platform</th><td>Shopify, mobile-first, with pay-to-book orders</td></tr>
-            <tr><th scope="row">My work</th><td>Storefront UX and UI, product page, colour system, the bindu page loader, Shopify theme edits, and campaign art direction</td></tr>
-            <tr><th scope="row">Outcome</th><td>Live at koodaikind.com, selling, and featured in newspapers</td></tr>
-          </tbody>
-        </table>
-
-        <p class="lead-note">The koodai is a heritage object that's also a contemporary bag. The hard part was presenting both at once, so buyers chose it for how it looks and works instead of out of nostalgia.</p>
-
-        <figure class="bleed">
-          <div class="media">
-            <img src="/assets/media/koodai-storefront.webp" width="1360" height="765" decoding="async"
-                 alt="The Koodai Kind storefront on a laptop, with the line carried by generations, reimagined for yours over a photograph of someone holding the bag, and a phone beside it showing a product page in Tamil and English.">
-          </div>
-          <figcaption>The home screen, and the store on a phone in Tamil.</figcaption>
-        </figure>
-      </section>
 
       <section id="problem">
         <h2>The problem</h2>
@@ -86,7 +106,7 @@
               <img src="/assets/media/koodai-campaign.webp" width="1502" height="1001" loading="lazy" decoding="async"
                    alt="A campaign photograph. A woman in a head scarf stands in a crowded second-hand bookshop, holding the blue polka-dot koodai by its tan leather handles.">
             </div>
-            <figcaption>I art-directed this in a second-hand bookshop, not a studio.</figcaption>
+            <figcaption data-fig="02">I art-directed this in a second-hand bookshop, not a studio.</figcaption>
           </figure>
         </article>
 
@@ -107,7 +127,7 @@
               <img src="/assets/media/koodai-colour.webp" width="1536" height="1024" loading="lazy" decoding="async"
                    alt="Three pages from the store: the navy made in Coimbatore band, the cream page explaining the name, and the Kadal product page with its four colour swatches beside a yellow bag.">
             </div>
-            <figcaption>Four swatches, a Tamil name, and a pre-order delivery note.</figcaption>
+            <figcaption data-fig="03">Four swatches, a Tamil name, and a pre-order delivery note.</figcaption>
           </figure>
         </article>
 
@@ -146,27 +166,24 @@
 
     </main>
 
-    <aside class="rail" aria-label="Key decisions">
-      <p class="rail__label">Key decisions</p>
-      <ol>
-        <li><a href="#d1"><span class="n">01</span><span>Heritage as part of the product</span></a></li>
-        <li><a href="#d2"><span class="n">02</span><span>Mobile-first product page</span></a></li>
-        <li><a href="#d3"><span class="n">03</span><span>Colour from the weaves</span></a></li>
-        <li><a href="#d4"><span class="n">04</span><span>Pay to book</span></a></li>
-        <li><a href="#d5"><span class="n">05</span><span>The bindu page loader</span></a></li>
-      </ol>
-    </aside>
   </div>
 
-  <footer class="foot">
-    <span>Rishabh Jain, Koodai Kind</span>
-    <a href="/#work">All work</a>
+
+  <footer class="sfoot">
+    <div class="sfoot__grid label">
+      <span class="sfoot__who">Rishabh Jain</span>
+      <a class="sfoot__mail" href="mailto:theardentguy@gmail.com">theardentguy@gmail.com</a>
+      <span class="sfoot__out">
+        <a href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+        <a href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume <span aria-hidden="true">&#8599;</span></a>
+      </span>
+      <span class="sfoot__end"><span class="u-tab">2026</span></span>
+    </div>
   </footer>
 
 </div>
 
-<script src="/assets/case.js"></script>
-<script src="/assets/v2.js"></script>
+<script src="/assets/swiss.js"></script>
 
 </body>
 </html>

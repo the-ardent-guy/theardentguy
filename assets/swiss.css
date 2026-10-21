@@ -1,0 +1,1729 @@
+/* ===========================================================================
+   SWISS INDEX
+   Loaded LAST on every page, after style.css / v2.css / v3.css / case.css.
+   It restyles; it does not replace. The older files stay in the repo and
+   stay linked, because half their rules (resets, the paper mottle, the
+   grain, the dark palette) are still doing work underneath this one.
+
+   THE ONE HARD RULE: this file never touches the page background. No
+   `body { background-* }`, no --v3-page, no --c-bg, no --bg. The 600px
+   fractalNoise mottle in style.css and the flat warm sheet it resolves to
+   are the site's one piece of material and they are not this pass's to
+   spend. Search this file for "background" and every hit is on a plate,
+   an image mat or an inverted button, never on the page.
+
+   Structure
+     1  Tokens
+     2  Base type, grid, utilities
+     3  Neutralisers: the cards, pills, radii and shadows underneath
+     4  Nav
+     5  The project index row
+     6  The art object
+     7  Pull quote, captions, links, buttons
+     8  Footer
+     9  Home
+    10  Case study template
+    11  Studio
+    12  Desserts
+    13  Motion
+    14  Fun mode
+    15  Responsive
+   =========================================================================== */
+
+
+/* ---------------------------------------------------------------------------
+   1. TOKENS
+
+   Colour tokens read through to --v3-* where they exist (the homepage) and
+   fall back to the literal value everywhere else, so one declaration serves
+   three different base stacks. The fallbacks are the v3 light values, not
+   new colours.
+
+   Dark is keyed on [data-theme="dark"] ONLY, with no prefers-color-scheme
+   twin. That is deliberate: the inline head script on index / studio /
+   desserts always writes an explicit data-theme, so the media query would
+   be dead code there, and the five case-study pages are light-only by
+   design (case.css, line 1). A prefers-dark twin would hand them light ink
+   on a #F7F6F3 sheet.
+   --------------------------------------------------------------------------- */
+
+:root {
+  --ink:    var(--v3-ink, #15120C);
+  /* 68%, not the 60% the spec names: 60% measures 4.55:1 on the real
+     page colour, which clears AA by a rounding error. */
+  --ink-60: color-mix(in srgb, var(--ink) 68%, transparent);
+  /* 2.78:1 on the real sheet, measured. Marks only: the row's index
+     number, FIG. numbering, the brackets round a switch, the scroll cue.
+     Never a word anyone has to read. */
+  --ink-40: color-mix(in srgb, var(--ink) 40%, transparent);
+  --rule:   color-mix(in srgb, var(--ink) 14%, transparent);
+  --accent: var(--v3-accent, #2F6344);
+
+  /* Per-project dots. --acc-* live in style.css, which the case-study
+     pages do not load, so the light values are repeated here as fallbacks
+     rather than left undefined on five of eight pages. */
+  --dot-produsa:    var(--acc-produsa,   #2F4858);
+  --dot-supaca:     var(--acc-supaca,    #7A2E35);
+  --dot-bizotico:   var(--acc-bizotico,  #6E2630);
+  --dot-vistlabs:   var(--acc-vistlabs,  #1F4A4E);
+  --dot-sintero:    var(--acc-sintero,   #7A5C1E);
+  --dot-koodaikind: var(--acc-koodaikind,#2B3A52);
+  --dot-hasta:      var(--acc-hasta,     #8E3A2B);
+
+  --sans: "Inter Tight", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --t-hero:  clamp(32px, 2.2vw + 18px, 46px); --lh-hero: 0.98;  --tr-hero: -0.025em; --w-hero: 500;
+  --t-title: clamp(22px, 1vw + 14px, 28px);   --lh-title: 1.1;  --tr-title: -0.015em; --w-title: 500;
+  --t-quote: clamp(20px, 0.8vw + 14px, 24px); --lh-quote: 1.3;  --tr-quote: -0.01em;  --w-quote: 400;
+  --t-body:  16px; --lh-body: 1.6;  --tr-body: 0;       --w-body: 400;
+  --t-sub:   13px; --lh-sub: 1.5;   --tr-sub: 0;        --w-sub: 400;
+  --t-label: 11px; --lh-label: 1.4; --tr-label: 0.08em; --w-label: 400;
+  --t-stat:  clamp(28px, 1.4vw + 18px, 36px); --lh-stat: 1; --tr-stat: -0.02em; --w-stat: 400;
+
+  --s1: 8px;  --s2: 16px; --s3: 24px; --s4: 32px;  --s5: 40px;
+  --s6: 48px; --s8: 64px; --s10: 80px; --s12: 96px; --s20: 160px;
+  --measure: 60ch;
+
+  --max: 1200px;
+  --cols: 12;
+  --gutter: 24px;
+  --margin: clamp(20px, 5vw, 64px);
+
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur: 200ms;
+}
+
+:root[data-dark][data-theme="dark"] {
+  --ink:    var(--v3-ink, #F3F0E7);
+  --accent: var(--v3-accent, #DCD0AE);
+  /* The hairline needs more of the ink on a dark sheet to survive at 1px. */
+  --rule:   color-mix(in srgb, var(--ink) 20%, transparent);
+
+  --dot-produsa:    var(--acc-produsa,   #8FB4C6);
+  --dot-supaca:     var(--acc-supaca,    #D98FA0);
+  --dot-bizotico:   var(--acc-bizotico,  #D293A0);
+  --dot-vistlabs:   var(--acc-vistlabs,  #86BDB4);
+  --dot-sintero:    var(--acc-sintero,   #D4B873);
+  --dot-koodaikind: var(--acc-koodaikind,#9FB2D1);
+  --dot-hasta:      var(--acc-hasta,     #D99A86);
+}
+
+/* --ink-60 is computed from --ink through color-mix, and on the real light
+   sheet it lands at 6.0:1 against #EDE8DD and 6.2:1 against #F7F6F3, which
+   clears AA for the 13px it is used at. In dark it is 5.3:1. No solid
+   fallback needed; the token stays derived so one ink change moves all of
+   it. A browser without color-mix gets this block instead. */
+@supports not (color: color-mix(in srgb, #000 60%, transparent)) {
+  :root { --ink-60: var(--v3-text-2, #636051); --ink-40: var(--v3-text-2, #636051); --rule: #DCD7C9; }
+  :root[data-dark][data-theme="dark"] { --ink-60: #989484; --ink-40: #989484; --rule: #3A403A; }
+}
+
+
+/* ---------------------------------------------------------------------------
+   2. BASE TYPE, GRID, UTILITIES
+   --------------------------------------------------------------------------- */
+
+body {
+  font-family: var(--sans);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  color: var(--ink);
+  letter-spacing: 0;
+}
+
+h1 {
+  font-family: var(--sans);
+  font-size: var(--t-hero);
+  line-height: var(--lh-hero);
+  font-weight: var(--w-hero);
+  letter-spacing: var(--tr-hero);
+  color: var(--ink);
+  max-width: 22ch;
+  text-wrap: balance;
+}
+
+h2 {
+  font-family: var(--sans);
+  font-size: var(--t-title);
+  line-height: var(--lh-title);
+  font-weight: var(--w-title);
+  letter-spacing: var(--tr-title);
+  color: var(--ink);
+  max-width: 22ch;
+  text-wrap: balance;
+}
+
+h3 {
+  font-family: var(--sans);
+  font-size: 18px;
+  line-height: 1.3;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+  max-width: 34ch;
+}
+
+p { max-width: var(--measure); text-wrap: pretty; }
+
+/* An img with width and height attributes has a definite height, which
+   silently switches aspect-ratio and object-fit off. */
+img, video { height: auto; }   /* .idx-thumb img takes it back in section 5 */
+
+.sub {
+  font-size: var(--t-sub);
+  line-height: var(--lh-sub);
+  letter-spacing: var(--tr-sub);
+  font-weight: var(--w-sub);
+  color: var(--ink-60);
+}
+
+.label {
+  display: block;
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  line-height: var(--lh-label);
+  font-weight: var(--w-label);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink-60);
+  margin: 0;
+}
+
+/* style.css gives every .label an 18px hanging rule. It was that system's
+   eyebrow mark; in this one it reads as a bullet. */
+.label::before { content: none; }
+
+.wrap {
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: var(--margin);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+}
+
+/* Spacing, stated once as rules rather than repeated per component.
+   A headline is never allowed to sit on its subtext: that was the clog. */
+.u-sr {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+
+.u-tab { font-variant-numeric: tabular-nums; }
+
+/* Every section on every page gets the same air between it and the next,
+   and section 15 steps it down twice. */
+.sect { padding-block-start: var(--s20); }
+.sect:first-of-type { padding-block-start: 0; }
+
+
+/* ---------------------------------------------------------------------------
+   3. NEUTRALISERS
+
+   Everything underneath this file that is a card, a pill, a chip, a radius
+   over 2px or a shadow on UI. The old rules are left in their own files;
+   they are switched off here so one diff reverts the whole restyle.
+   --------------------------------------------------------------------------- */
+
+/* case.css: the image mat, the Why card, the placeholder box. The mat
+   becomes nothing at all, so the screenshot sits on the sheet. */
+.media,
+.media--bare,
+.media--light {
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.media > img,
+.media > video {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.why {
+  margin: var(--s3) 0 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  color: var(--ink-60);
+  max-width: var(--measure);
+}
+
+/* "Why:" and "Trade-off:" are the only inline labels in the body copy.
+   They become mono caps so they read as the structural markers they are,
+   without a box round the paragraph. */
+.why b {
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  font-weight: var(--w-label);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink-60);
+}
+
+/* Placeholders render nothing. Not a dashed box, not a grey plate, not a
+   caption saying an image is missing: an empty column, which reads as
+   deliberate white space and is the one honest option. */
+.slot,
+.shot,
+.shot--tall,
+.shot--wide,
+.portal,
+.blog { display: none !important; }
+
+/* A figure whose only child was a placeholder would still hold its own
+   top margin and its caption. :has keeps the margin from stacking. */
+figure:has(> .slot:only-child),
+figure:has(> .shot:only-child) { display: none; }
+
+/* style.css / v2.css chrome that this nav replaces outright. */
+.dock,
+.navsheet,
+.scroll-progress,
+.bar,
+.window__foot { display: none !important; }
+
+/* No shadow and no radius anywhere on UI. Images and the one inverted
+   button are allowed their own corners (2px ceiling, set locally). */
+.project,
+.project__media,
+.project__tags span,
+.btn,
+.tile,
+.tile__in {
+  box-shadow: none;
+  border-radius: 0;
+}
+
+
+/* ---------------------------------------------------------------------------
+   4. NAV
+
+   A single 72px row. Nothing sits behind it: no pill, no blur, no border.
+   The hairline is the only thing that appears, and only once the page has
+   moved past 8px, which swiss.js sets as .is-scrolled on <html>.
+   --------------------------------------------------------------------------- */
+
+.snav {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s4);
+  height: 72px;
+}
+
+.snav::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--rule);
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+}
+
+:root.is-scrolled .snav::after { opacity: 1; }
+
+.snav__mark {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.snav__links {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+}
+
+.snav__links a,
+.snav__tool {
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  line-height: var(--lh-label);
+  font-weight: var(--w-label);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink-60);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--dur) var(--ease);
+}
+
+.snav__links a:hover,
+.snav__links a:focus-visible,
+.snav__tool:hover,
+.snav__tool:focus-visible { color: var(--ink); }
+
+/* Current page: full ink plus a 4px accent dot in front of the word. */
+.snav__links a[aria-current] {
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.snav__links a[aria-current]::before {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex: none;
+}
+
+/* The theme and fun switches are text, set in brackets. No pill, no track,
+   no disc. The brackets are the affordance. */
+.snav__tool {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  /* NOT `font: inherit`: the shorthand resets font-size back to the body's
+     16px and silently undoes the 11px set three rules above. */
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  line-height: var(--lh-label);
+  font-weight: var(--w-label);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+}
+
+.snav__tool::before { content: "[ "; color: var(--ink-40); }
+.snav__tool::after  { content: " ]"; color: var(--ink-40); }
+
+.snav__tool[aria-pressed="true"],
+.snav__tool[aria-checked="true"] { color: var(--ink); }
+
+/* main.js is not loaded on any restyled page, so nothing overwrites the
+   button's text with an icon. The label is swapped by swiss.js. */
+
+.snav__menu { display: none; }
+
+
+/* ---------------------------------------------------------------------------
+   5. THE PROJECT INDEX ROW
+
+   The signature component, and the only place on the homepage where
+   anything moves on hover.
+
+   The row is a grid of two rows: the line itself, and a collapsed track
+   holding the outcome. grid-template-rows: auto 0fr -> auto 1fr is the
+   whole reveal; the inner element carries overflow:hidden so the text is
+   clipped rather than squashed.
+
+   Indent is applied to .idx-row__in, one transform on one element, instead
+   of five transforms on five spans that could ever disagree.
+   --------------------------------------------------------------------------- */
+
+.idx {
+  display: block;
+  margin-top: var(--s5);
+}
+
+.idx__head {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: baseline;
+  margin-bottom: var(--s2);
+}
+
+.idx__head .label:first-child { grid-column: 1 / 3; }
+.idx__count { grid-column: 12 / 13; text-align: right; }
+
+.idx-row {
+  display: grid;
+  grid-template-rows: auto 0fr;
+  border-top: 1px solid var(--rule);
+  padding: 20px 0;
+  color: var(--ink);
+  text-decoration: none;
+  transition: grid-template-rows var(--dur) var(--ease);
+}
+
+.idx-row:last-of-type { border-bottom: 1px solid var(--rule); }
+
+.idx-row__in {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: baseline;
+  transition: transform var(--dur) var(--ease);
+}
+
+.idx-no   { grid-column: 1 / 2; position: relative; color: var(--ink-40); transition: color var(--dur) var(--ease); }
+.idx-name { grid-column: 2 / 5; font-size: 20px; font-weight: 500; letter-spacing: -0.01em; color: var(--ink);
+            text-decoration: underline 1px; text-underline-offset: 4px;
+            text-decoration-color: transparent; transition: text-decoration-color var(--dur) var(--ease); }
+.idx-line { grid-column: 5 / 9; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.idx-role { grid-column: 9 / 12; }
+.idx-year { grid-column: 12 / 13; text-align: right; color: var(--ink-60); font-variant-numeric: tabular-nums; }
+
+/* The number and the dot occupy the same box and cross-fade, so the row
+   does not shift by a pixel when the dot arrives. */
+.idx-no::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--dot, var(--accent));
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease), width var(--dur) var(--ease), height var(--dur) var(--ease);
+}
+
+.idx-row__out { overflow: hidden; }
+
+.idx-row__out > span {
+  display: block;
+  padding-top: var(--s2);
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.idx-row:hover,
+.idx-row:focus-visible,
+.idx-row:focus-within { grid-template-rows: auto 1fr; }
+
+.idx-row:hover  .idx-row__in,
+.idx-row:focus-visible .idx-row__in,
+.idx-row:focus-within .idx-row__in { transform: translateX(8px); }
+
+.idx-row:hover  .idx-name,
+.idx-row:focus-visible .idx-name,
+.idx-row:focus-within .idx-name { text-decoration-color: var(--ink); }
+
+.idx-row:hover  .idx-no,
+.idx-row:focus-visible .idx-no,
+.idx-row:focus-within .idx-no { color: transparent; }
+
+.idx-row:hover  .idx-no::after,
+.idx-row:focus-visible .idx-no::after,
+.idx-row:focus-within .idx-no::after { opacity: 1; }
+
+.idx-row:hover  .idx-row__out > span,
+.idx-row:focus-visible .idx-row__out > span,
+.idx-row:focus-within .idx-row__out > span { opacity: 1; }
+
+/* The cursor thumbnail. One per page, fixed, moved only by transform.
+   240x160, no radius, no shadow, and never shown for a project with no
+   real picture: swiss.js only arms rows that carry data-thumb. */
+.idx-thumb {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 60;
+  width: 240px;
+  height: 160px;
+  margin: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(0, 0, 0);
+  transition: opacity var(--dur) var(--ease), scale var(--dur) var(--ease);
+  scale: 0.96;
+}
+
+.idx-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.idx-thumb.is-on { opacity: 1; scale: 1; }
+
+@media (hover: none), (pointer: coarse) {
+  .idx-thumb { display: none; }
+  /* Without a hover state the outcome has no way to open, so it is simply
+     always open on touch. */
+  .idx-row { grid-template-rows: auto 1fr; }
+  .idx-row__out > span { opacity: 1; }
+}
+
+
+/* ---------------------------------------------------------------------------
+   6. THE ART OBJECT
+
+   Built, and currently unused on every page: a paper cut-out needs a
+   transparent PNG of one of his drawings with the white cut border baked
+   in, and no such asset exists in assets/. Nothing here generates art and
+   nothing fakes one, so the columns that were reserved for it stay empty.
+   Dropping a file in and adding one <img class="art"> is the whole job.
+   --------------------------------------------------------------------------- */
+
+.art {
+  position: absolute;
+  width: clamp(120px, 14vw, 220px);
+  pointer-events: none;
+  transform: rotate(var(--r, -3deg));
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, .06)) drop-shadow(0 8px 14px rgba(40, 30, 15, .14));
+}
+
+.art--interactive { pointer-events: auto; }
+
+
+/* ---------------------------------------------------------------------------
+   7. PULL QUOTE, CAPTIONS, LINKS, BUTTONS
+   --------------------------------------------------------------------------- */
+
+/* One per case study, lifted from the "hard part" sentence that already
+   follows the overview on every page. A rule above it and air around it;
+   no quote marks, no italics, no attribution label, because a label would
+   be the one piece of copy on these pages that nobody wrote. */
+.pullq {
+  margin: var(--s12) 0;
+  padding-top: var(--s3);
+  border-top: 1px solid var(--rule);
+  font-size: var(--t-quote);
+  line-height: var(--lh-quote);
+  letter-spacing: var(--tr-quote);
+  font-weight: var(--w-quote);
+  color: var(--ink);
+  max-width: 44ch;
+  text-wrap: balance;
+}
+
+figcaption {
+  margin-top: 12px;
+  font-size: var(--t-sub);
+  line-height: var(--lh-sub);
+  color: var(--ink-60);
+  max-width: 48ch;
+}
+
+/* FIG. nn, set as a mono prefix on the caption itself rather than a second
+   element, so the caption keeps one left edge with the picture above it. */
+figcaption::before {
+  content: "FIG. " attr(data-fig) " ";
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink-40);
+  margin-right: 8px;
+}
+
+figcaption:not([data-fig])::before { content: none; }
+
+/* Inline link: the decoration carries the state, never a colour change on
+   the word itself. */
+.prose a,
+.sub a,
+p a {
+  color: var(--ink);
+  text-decoration: underline 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--rule);
+  transition: text-decoration-color var(--dur) var(--ease);
+}
+
+.prose a:hover,
+.sub a:hover,
+p a:hover,
+.prose a:focus-visible,
+p a:focus-visible { text-decoration-color: var(--accent); }
+
+/* The primary action is text with an arrow. No fill, no pill, no border. */
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  line-height: var(--lh-label);
+  font-weight: var(--w-label);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.action__arrow {
+  display: inline-block;
+  transition: transform var(--dur) var(--ease);
+}
+
+.action:hover .action__arrow,
+.action:focus-visible .action__arrow { transform: translateX(4px); }
+
+/* The only thing on the site allowed to be a button shape, and only in
+   Contact. Square corners, 1px of ink, and it inverts on hover. The fill
+   is on the button, never on the page. */
+.mailbtn {
+  display: inline-block;
+  padding: 14px 20px;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  line-height: var(--lh-label);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  background: none;
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+.mailbtn:hover,
+.mailbtn:focus-visible {
+  background: var(--ink);
+  color: var(--v3-page, #EDE8DD);
+}
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 0; }
+
+
+/* ---------------------------------------------------------------------------
+   8. FOOTER
+   A hairline, then one mono strip on the grid. Nothing else.
+   --------------------------------------------------------------------------- */
+
+.sfoot {
+  border-top: 1px solid var(--rule);
+  padding-block: var(--s6);
+  margin-top: var(--s20);
+}
+
+.sfoot__grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: var(--s3);
+  align-items: baseline;
+}
+
+.sfoot a {
+  color: var(--ink-60);
+  text-decoration: none;
+  transition: color var(--dur) var(--ease);
+}
+
+.sfoot a:hover, .sfoot a:focus-visible { color: var(--ink); }
+
+.sfoot__who  { grid-column: 1 / 4; }
+.sfoot__mail { grid-column: 4 / 7; }
+.sfoot__out  { grid-column: 7 / 10; display: flex; gap: var(--s2); }
+.sfoot__end  { grid-column: 10 / 13; display: flex; justify-content: flex-end; gap: var(--s3); }
+
+
+/* ---------------------------------------------------------------------------
+   9. HOME
+   --------------------------------------------------------------------------- */
+
+/* A. The title page. Four corners of a grid and a hole in the middle: the
+   index label top left, the photograph top right, the h1 bottom left, the
+   lede bottom right, and the scroll cue under the h1. The empty middle is
+   the point, so the rows are explicit rather than auto. */
+.tpage {
+  position: relative;
+  min-height: 88vh;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: auto 1fr auto auto;
+  column-gap: var(--gutter);
+  /* The middle row is 1fr and collapses to nothing on a short screen, so
+     without this the photograph's caption lands on the lede. */
+  row-gap: var(--s5);
+  padding-block: var(--s6) var(--s4);
+}
+
+.tpage__index { grid-column: 1 / 4; grid-row: 1; }
+
+.tpage__plate {
+  grid-column: 8 / 13;
+  grid-row: 1;
+  margin: 0;
+  align-self: start;
+}
+
+/* hero.jpg is 1200x1600. The spec asks for "about 4:5"; 3:4 is about 4:5
+   and it is the file's own ratio, so the plate crops nothing. WHOA. is
+   written near the top of that frame and a 4:5 cover crop would take it. */
+.tpage__plate img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+.tpage__h1 { grid-column: 1 / 7; grid-row: 3; align-self: end; margin: 0; }
+
+/* The second line steps back to 40% ink, so the h1 reads as a name and
+   then a list, which is how it is punctuated. */
+.tpage__h1 .ln { display: block; }
+.tpage__h1 .ln + .ln { color: color-mix(in srgb, var(--ink) 50%, transparent); }
+@supports not (color: color-mix(in srgb, #000 50%, transparent)) {
+  .tpage__h1 .ln + .ln { color: var(--ink-60); }
+}
+
+/* The lede never sits under the headline. It sits in the right columns on
+   the h1's last baseline, which is the move that unclogged the banner. */
+.tpage__say {
+  grid-column: 8 / 12;
+  grid-row: 3;
+  align-self: end;
+  padding-bottom: 0.1em;
+}
+
+.tpage__claim { margin: 0; font-size: var(--t-body); line-height: var(--lh-body); color: var(--ink); }
+
+.tpage__notes {
+  margin: var(--s3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tpage__notes li + li { margin-top: 4px; }
+
+.tpage__cue {
+  grid-column: 1 / 3;
+  grid-row: 4;
+  margin: 0;
+  color: var(--ink-60);
+}
+
+/* B. The index. No h2: the list is the headline. */
+.work { padding-block-start: var(--s20); }
+
+/* C. Also true. A label and one editorial line, with the three photograph
+   slots rendering nothing until the photographs exist. */
+.also { padding-block-start: var(--s20); align-items: baseline; }
+.also__line {
+  grid-column: 5 / 11;
+  margin: 0;
+  font-size: var(--t-title);
+  line-height: var(--lh-title);
+  letter-spacing: var(--tr-title);
+  font-weight: 400;
+  color: var(--ink);
+  max-width: none;
+}
+.also > .label { grid-column: 1 / 3; }
+
+/* E. Desserts, the doorway. The one section that loosens up, and it does
+   it with a toggle and a mini index, not with a different geometry. */
+.dess { padding-block-start: var(--s20); align-items: baseline; }
+.dess > .label { grid-column: 1 / 3; }
+.dess__h2 { grid-column: 3 / 8; margin: 0; }
+.dess__say { grid-column: 8 / 12; align-self: end; margin: 0; }
+
+.dess__acts {
+  grid-column: 3 / 10;
+  display: flex;
+  gap: var(--s6);
+  margin-top: var(--s5);
+}
+
+.dess > .idx { grid-column: 1 / 13; margin-top: var(--s8); }
+
+/* F. Contact. The only other hero-size line on the page, which is what
+   makes it the close of the same sentence the title page opened. */
+.say {
+  min-height: 60vh;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-content: center;
+  align-items: baseline;
+  padding-block: var(--s20) var(--s12);
+}
+
+.say > .label { grid-column: 1 / 3; }
+
+.say__h2 {
+  grid-column: 3 / 9;
+  margin: 0;
+  font-size: var(--t-hero);
+  line-height: var(--lh-hero);
+  letter-spacing: var(--tr-hero);
+  font-weight: var(--w-hero);
+  max-width: 24ch;
+}
+
+.say__acts {
+  grid-column: 3 / 9;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s4);
+  margin-top: var(--s4);
+}
+
+
+/* ---------------------------------------------------------------------------
+   10. CASE STUDY TEMPLATE
+   One layout for Produsa, Supaca, Bizotico, VIST Labs, Sintero and
+   Koodai Kind. The per-project colour arrives as --dot on <body> and is
+   only ever spent on a 6px circle.
+   --------------------------------------------------------------------------- */
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: var(--s4);
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink-60);
+  text-decoration: none;
+  transition: color var(--dur) var(--ease);
+}
+
+.back:hover, .back:focus-visible { color: var(--ink); }
+.back svg { display: none; }
+.back::before { content: "\2190"; }
+
+/* Title block. The project name carries the dot; the intro sits alongside
+   the h1 rather than under it. */
+.head {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: baseline;
+  padding: var(--s10) 0 0;
+}
+
+.head .eyebrow {
+  grid-column: 1 / 4;
+  grid-row: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  line-height: var(--lh-label);
+  font-weight: var(--w-label);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink-60);
+  margin: 0 0 var(--s4);
+}
+
+.head .eyebrow::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--dot, var(--accent));
+  flex: none;
+}
+
+.head h1 { grid-column: 1 / 8; grid-row: 2; margin: 0; max-width: none; }
+
+.head .standfirst {
+  grid-column: 8 / 12;
+  grid-row: 2;
+  align-self: end;
+  margin: 0;
+  padding-bottom: 0.1em;
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  color: var(--ink);
+  max-width: none;
+}
+
+/* Metadata strip. A dl drawn as a mono table: hairlines across the full
+   width, each pair its own column, "My work" dropped onto its own row
+   because it is a sentence and the other four are phrases. */
+.mstrip {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: var(--s4);
+  margin: var(--s10) 0 0;
+  padding: var(--s3) 0;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--rule);
+}
+
+.mstrip__i { grid-column: span 3; }
+.mstrip__i--wide { grid-column: 1 / 11; }
+
+.mstrip dt {
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  line-height: var(--lh-label);
+  font-weight: var(--w-label);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink-60);
+}
+
+.mstrip dd {
+  margin: var(--s2) 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: none;
+}
+
+/* The body: a sticky chapter rail in the left columns, the reading column
+   at 5/12. Figures run to 13 so they clear the text measure. */
+.layout {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  padding-bottom: var(--s12);
+  align-items: start;
+}
+
+.chapters {
+  grid-column: 1 / 4;
+  position: sticky;
+  top: var(--s12);
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.chapters a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  line-height: var(--lh-label);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink-60);
+  text-decoration: none;
+  transition: color var(--dur) var(--ease);
+}
+
+.chapters a:hover, .chapters a:focus-visible { color: var(--ink); }
+
+.chapters a[aria-current] { color: var(--ink); }
+
+.chapters a .n { flex: none; font-variant-numeric: tabular-nums; position: relative; }
+
+.chapters a[aria-current] .n::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 0.45em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--dot, var(--accent));
+}
+
+.col {
+  grid-column: 5 / 12;
+  max-width: none;
+}
+
+.col section { padding-top: var(--s20); }
+.col section:first-child { padding-top: 0; }
+
+.col h2 { margin: 0 0 var(--s3); }
+.col h3 { margin: 0 0 var(--s2); }
+.col p { margin: 0 0 var(--s2); }
+.col p:last-child { margin-bottom: 0; }
+
+/* The paragraphs that are not body copy. `.col p` and `.col p:last-child`
+   are both (0,2,0) and they were quietly flattening every one of these to
+   zero, which is why the How-might-we line sat on the table above it. */
+.col .hmw        { margin: var(--s5) 0; }
+.col .why        { margin: var(--s3) 0 0; }
+.col .quote__text { margin: 0; }
+.col .quote__who  { margin: var(--s2) 0 0; }
+
+/* "How might we" is a size step and nothing else: no rule, no label, so it
+   never competes with the page's one pull quote. */
+.hmw {
+  margin: var(--s5) 0;
+  padding: 0;
+  border: 0;
+  max-width: 40ch;
+  font-size: var(--t-quote);
+  line-height: var(--lh-quote);
+  letter-spacing: var(--tr-quote);
+  font-weight: var(--w-quote);
+  color: var(--ink);
+}
+
+/* The "hard part" sentence is promoted to the page's pull quote by adding
+   .pullq to it in the markup; .lead-note keeps only the spacing. */
+.lead-note {
+  grid-column: 3 / 11;
+  margin: 0;
+  padding-top: var(--s3);
+  border-top: 1px solid var(--rule);
+  border-bottom: 0;
+  max-width: 44ch;
+  font-size: var(--t-quote);
+  line-height: var(--lh-quote);
+  letter-spacing: var(--tr-quote);
+  font-weight: var(--w-quote);
+  color: var(--ink);
+}
+
+/* The grid it sits in carries the air, so the rule above the quote is the
+   only thing between the strip and the picture. */
+.grid:has(> .lead-note) { margin-block: var(--s12); }
+
+/* Full-bleed hero, out past the wrap entirely. The caption comes back
+   inside it. */
+.fullbleed {
+  --vw: calc(100vw - var(--sbw, 0px));
+  width: var(--vw);
+  max-width: var(--vw);
+  margin-inline: calc(50% - (var(--vw) / 2));
+  margin-block: 0;
+}
+
+.fullbleed img,
+.fullbleed video {
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+.fullbleed figcaption {
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: var(--margin);
+  box-sizing: border-box;
+}
+
+/* Body figures run from the reading column to the right edge of the wrap. */
+.col figure { margin: var(--s8) 0 0; width: 100%; }
+.col figure.bleed { width: calc(100% + ((100% + var(--gutter)) / 7)); }
+.col figure + p, .col figure + h3 { margin-top: var(--s8); }
+.why + figure { margin-top: var(--s8); }
+
+/* Comparison lists. Two columns, each under a mono label and a hairline. */
+.compare { width: 100%; border-collapse: collapse; margin: var(--s4) 0 0; }
+
+.compare th {
+  text-align: left;
+  padding: 0 var(--s3) 10px 0;
+  border-bottom: 1px solid var(--ink);
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  line-height: var(--lh-label);
+  font-weight: var(--w-label);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink-60);
+}
+
+.compare td {
+  vertical-align: top;
+  padding: 12px var(--s3) 12px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.compare td:first-child { font-weight: 500; }
+.compare th:last-child, .compare td:last-child { padding-right: 0; }
+
+/* Decisions. The number hangs in the left gutter of the reading column, so
+   the headings keep one left edge all the way down. */
+.decision {
+  position: relative;
+  padding-top: var(--s8);
+}
+
+.decision:first-of-type { padding-top: 0; }
+
+.decision__n {
+  display: block;
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  line-height: var(--lh-label);
+  font-weight: var(--w-label);
+  letter-spacing: var(--tr-label);
+  color: var(--ink-40);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: var(--s2);
+}
+
+@media (min-width: 1100px) {
+  .decision__n {
+    position: absolute;
+    left: calc(-1 * ((100% + var(--gutter)) / 7));
+    top: var(--s8);
+    margin: 0;
+  }
+  .decision:first-of-type .decision__n { top: 0; }
+}
+
+/* A split decision had its own two-column layout and a phone frame. Both
+   go: the picture sits in the figure flow like every other one. */
+.d-split { display: block; }
+.d-split__text { max-width: none; }
+.d-split__media { margin-top: var(--s8); }
+.phone { background: none; border: 0; border-radius: 0; box-shadow: none; padding: 0; max-width: 320px; }
+
+/* Lists. Hairlines between rows, nothing else. */
+ul.plain, ol.steps, .results { margin: 0; padding: 0; list-style: none; }
+
+ul.plain li, ol.steps li {
+  position: relative;
+  padding: 14px 0 14px 34px;
+  border-top: 1px solid var(--rule);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  color: var(--ink);
+}
+
+ul.plain li:first-child, ol.steps li:first-child { border-top: 0; padding-top: 0; }
+
+ul.plain li::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 25px;
+  width: 6px;
+  height: 1px;
+  background: var(--ink-40);
+}
+ul.plain li:first-child::before { top: 11px; }
+
+ol.steps li::before {
+  content: counter(s);
+  position: absolute;
+  left: 0;
+  top: 14px;
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  letter-spacing: var(--tr-label);
+  color: var(--ink-40);
+  font-variant-numeric: tabular-nums;
+}
+ol.steps li:first-child::before { top: 0; }
+
+.principles li b { color: var(--ink); font-weight: 500; }
+
+.results li {
+  padding: 14px 0;
+  border-top: 1px solid var(--rule);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.results li:last-child { border-bottom: 1px solid var(--rule); }
+
+/* The flow row: five words and four joins, on hairlines. */
+.flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px var(--s2);
+  margin: 0 0 var(--s4);
+  padding: var(--s3) 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.flow span {
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  font-weight: var(--w-label);
+  color: var(--ink);
+}
+
+.flow i { font-style: normal; color: var(--ink-60); font-size: var(--t-label); font-family: var(--mono); }
+
+/* Outcome numbers. Tabular, 36px ceiling, and the sentence that explains
+   each one sits under it at sub size. No counters, no animation. */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--s6);
+  margin: var(--s4) 0 var(--s8);
+  padding: 0;
+  list-style: none;
+}
+
+.stat { margin: 0; }
+
+.stat__n {
+  display: block;
+  font-size: var(--t-stat);
+  line-height: var(--lh-stat);
+  letter-spacing: var(--tr-stat);
+  font-weight: var(--w-stat);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.stat__s { display: block; margin-top: var(--s2); }
+
+/* The one context stat that is not an outcome: VIST's 89%, set inline in
+   the problem section with its source under it. */
+.instat { margin: var(--s5) 0; }
+
+/* The client quote on Sintero. A rule, the words, the name. */
+.quote {
+  margin: var(--s6) 0 0;
+  padding-top: var(--s3);
+  border-top: 1px solid var(--rule);
+}
+
+.quote__text {
+  margin: 0;
+  font-size: var(--t-quote);
+  line-height: var(--lh-quote);
+  letter-spacing: var(--tr-quote);
+  font-weight: var(--w-quote);
+  color: var(--ink);
+  max-width: 44ch;
+}
+
+.quote__who {
+  margin: var(--s2) 0 0;
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink-60);
+}
+
+/* Next project: one index row, labelled. */
+.nextp {
+  padding-top: 0;
+  margin-top: var(--s20);
+}
+
+/* Two major sections in a row do not need 320px between them. */
+.nextp + .sfoot { margin-top: var(--s12); }
+
+.nextp > .label { margin-bottom: var(--s2); }
+
+/* The old case-study footer keeps its words and loses its own styling;
+   the site footer below it carries the rest. */
+.foot {
+  margin: 0;
+  padding: var(--s6) 0 0;
+  border-top: 0;
+  display: none;
+}
+
+
+/* ---------------------------------------------------------------------------
+   11. STUDIO
+   A catalogue, not cards. Hairline, three columns, 96px between entries,
+   and the picture column left empty until there is a picture.
+   --------------------------------------------------------------------------- */
+
+.cat { margin-top: var(--s10); }
+
+.cat__i {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: var(--s3);
+  border-top: 1px solid var(--rule);
+  padding-top: var(--s4);
+  margin-bottom: var(--s12);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.cat__i:last-child { margin-bottom: 0; }
+
+.cat__l { grid-column: 1 / 5; }
+.cat__m { grid-column: 5 / 9; }
+.cat__r { grid-column: 9 / 13; }
+
+.cat__name {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0;
+  max-width: none;
+  text-decoration: underline 1px;
+  text-underline-offset: 4px;
+  text-decoration-color: transparent;
+  transition: text-decoration-color var(--dur) var(--ease);
+}
+
+.cat__i:hover .cat__name,
+.cat__i:focus-visible .cat__name { text-decoration-color: var(--ink); }
+
+.cat__name[style*="--dot"]::before,
+.cat__name.has-dot::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--dot);
+  flex: none;
+}
+
+.cat__one { margin: var(--s2) 0 0; font-size: 14px; }
+.cat__tags { margin: var(--s3) 0 0; }
+
+.cat__m dl { margin: 0; display: grid; gap: var(--s3); }
+.cat__m dt {
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  line-height: var(--lh-label);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink-60);
+}
+.cat__m dd { margin: 6px 0 0; font-size: 14px; line-height: 1.5; color: var(--ink); max-width: none; }
+.cat__m dd b { font-weight: 500; }
+
+.cat__pending {
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink-60);
+  margin: 0;
+}
+
+
+/* ---------------------------------------------------------------------------
+   12. DESSERTS
+   The art does the talking here, so the type recedes. Every picture is a
+   placeholder today, so what ships is the fallback the spec asks for: the
+   captions alone, as a numbered table of contents for the collection.
+   The salon spans are written and waiting for the first real file.
+   --------------------------------------------------------------------------- */
+
+.phead {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: baseline;
+  padding: var(--s10) 0 0;
+}
+
+.phead > .label { grid-column: 1 / 3; }
+.phead h1 { grid-column: 3 / 8; margin: 0; }
+
+/* The lede sits on the h1's last baseline in the right columns. */
+.phead__say { grid-column: 8 / 12; align-self: end; margin: 0; padding-bottom: 0.1em; }
+
+/* Desserts puts it under the h1 instead, because the h1 is short there and
+   the right columns are being kept for the drawings. */
+.phead__say--under { grid-column: 3 / 7; grid-row: 2; align-self: start; margin: var(--s3) 0 0; }
+
+.toc {
+  grid-column: 3 / 9;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: fig;
+}
+
+.toc li {
+  counter-increment: fig;
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: var(--s2);
+  align-items: baseline;
+  padding: var(--s2) 0;
+  border-top: 1px solid var(--rule);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  color: var(--ink);
+}
+
+.toc li:last-child { border-bottom: 1px solid var(--rule); }
+
+.toc li::before {
+  content: "FIG. 0" counter(fig);
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink-40);
+}
+
+/* The salon grid, for when the pictures exist. Nine spans that never line
+   up, each with its own top offset so the white space flows down the page
+   instead of pooling in rows. */
+.salon {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  margin-top: var(--s12);
+}
+
+.salon figure { margin: 0 0 var(--s12); }
+.salon figure:nth-child(1) { grid-column: 2 / 8;  margin-top: 0; }
+.salon figure:nth-child(2) { grid-column: 8 / 13; margin-top: var(--s12); }
+.salon figure:nth-child(3) { grid-column: 1 / 6;  margin-top: var(--s6); }
+.salon figure:nth-child(4) { grid-column: 6 / 11; margin-top: var(--s12); }
+.salon figure:nth-child(5) { grid-column: 4 / 10; margin-top: var(--s5); }
+.salon figure:nth-child(6) { grid-column: 9 / 13; margin-top: var(--s10); }
+.salon figure:nth-child(7) { grid-column: 1 / 7;  margin-top: 0; }
+.salon figure:nth-child(8) { grid-column: 7 / 12; margin-top: var(--s8); }
+.salon figure:nth-child(9) { grid-column: 3 / 9;  margin-top: var(--s6); }
+
+.grid:has(> .toc) { margin-top: var(--s12); }
+
+/* The hand-drawn pen squiggles under each old caption were decoration on a
+   box that no longer exists. */
+.bento__pen { display: none !important; }
+
+
+/* ---------------------------------------------------------------------------
+   13. MOTION
+   One primitive: reveal. opacity 0->1 with an 8px rise, 200ms, once per
+   element, fired by IntersectionObserver at 15%. Index rows stagger 40ms
+   to a maximum of five. Everything else is a hover.
+   --------------------------------------------------------------------------- */
+
+:root.js .reveal {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+  transition-delay: var(--d, 0ms);
+}
+
+:root.js .reveal.is-in { opacity: 1; transform: none; }
+
+/* Without JS nothing is ever revealed, so nothing is ever hidden. */
+.reveal { opacity: 1; transform: none; }
+
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    transition-duration: 100ms !important;
+    transition-property: opacity !important;
+    animation: none !important;
+  }
+  :root.js .reveal { transform: none; }
+  .idx-thumb { display: none !important; }
+  .idx-row { grid-template-rows: auto 1fr; }
+  .idx-row__out > span { opacity: 1; }
+  .idx-row:hover .idx-row__in { transform: none; }
+  .action:hover .action__arrow { transform: none; }
+}
+
+
+/* ---------------------------------------------------------------------------
+   14. FUN MODE
+   Sober by default. Fun mode is where the art misbehaves, never the type:
+   layout, sizes, colours and the background do not move.
+
+   Three of the four things it is meant to do need drawings that are not
+   exported yet (draggable cut-outs, drawing thumbnails in place of
+   screenshots, a character peeking in at the Desserts section). What
+   ships is the fourth: the per-project dots grow to 10px and lend their
+   colour to the row's underline. The hooks for the other three are here
+   and inert, which is better than a switch that pretends.
+   --------------------------------------------------------------------------- */
+
+:root[data-fun] .idx-no::after { width: 10px; height: 10px; top: 0.3em; }
+
+:root[data-fun] .idx-row:hover .idx-name,
+:root[data-fun] .idx-row:focus-within .idx-name { text-decoration-color: var(--dot, var(--accent)); }
+
+:root[data-fun] .art--interactive { cursor: grab; pointer-events: auto; }
+:root[data-fun] .art--interactive.is-held { cursor: grabbing; }
+
+
+/* ---------------------------------------------------------------------------
+   15. RESPONSIVE
+   --------------------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+  :root { --gutter: 20px; --s20: 120px; }
+
+  .tpage { min-height: auto; grid-template-rows: auto auto auto auto; padding-block: var(--s5) var(--s5); }
+  .tpage__index { grid-column: 1 / 7; grid-row: 1; }
+  .tpage__h1    { grid-column: 1 / 10; grid-row: 2; margin-top: var(--s10); }
+  .tpage__say   { grid-column: 1 / 8;  grid-row: 3; margin-top: var(--s4); align-self: start; }
+  .tpage__plate { grid-column: 4 / 10; grid-row: 4; margin-top: var(--s8); }
+  .tpage__cue   { display: none; }
+
+  /* The role and the year drop to a second line under the name. */
+  .idx-row__in { grid-template-rows: auto auto; row-gap: 6px; }
+  .idx-name { grid-column: 2 / 6; }
+  .idx-line { grid-column: 6 / 13; white-space: normal; }
+  .idx-role { grid-column: 2 / 7;  grid-row: 2; }
+  .idx-year { grid-column: 7 / 13; grid-row: 2; text-align: left; }
+  .idx-row__out > span { padding-left: 0; }
+
+  .also__line { grid-column: 4 / 13; }
+  .dess__h2 { grid-column: 3 / 10; }
+  .dess__say { grid-column: 1 / 8; grid-row: 2; margin-top: var(--s4); align-self: start; }
+  .say__h2, .say__acts { grid-column: 1 / 11; }
+  .say > .label { grid-column: 1 / 5; }
+
+  /* Case study: the rail is unpinned and laid out as a scrollable mono row
+     under the metadata strip, and the reading column takes the width. */
+  .layout { display: block; }
+  .chapters {
+    position: static;
+    display: flex;
+    gap: var(--s3);
+    overflow-x: auto;
+    padding: var(--s3) 0;
+    margin-bottom: var(--s8);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    scrollbar-width: none;
+  }
+  .chapters::-webkit-scrollbar { display: none; }
+  .chapters a { white-space: nowrap; }
+  .chapters a[aria-current] .n::before { left: -10px; }
+
+  .col { grid-column: auto; }
+  .col figure.bleed { width: 100%; }
+  .decision__n { position: static; }
+
+  .mstrip__i { grid-column: span 6; }
+  .mstrip__i--wide { grid-column: 1 / 13; }
+
+  .head h1 { grid-column: 1 / 10; }
+  .head .standfirst { grid-column: 1 / 9; grid-row: 3; margin-top: var(--s4); align-self: start; }
+
+  .cat__l { grid-column: 1 / 7; }
+  .cat__m { grid-column: 7 / 13; }
+  .cat__r { display: none; }
+
+  .phead h1 { grid-column: 1 / 10; grid-row: 2; margin-top: var(--s4); }
+  .phead > .label { grid-column: 1 / 5; grid-row: 1; }
+  .phead__say { grid-column: 1 / 9; grid-row: 3; align-self: start; margin-top: var(--s4); }
+  .toc { grid-column: 1 / 11; }
+
+  .salon figure:nth-child(odd)  { grid-column: 1 / 8; }
+  .salon figure:nth-child(even) { grid-column: 6 / 13; }
+
+  .sfoot__who  { grid-column: 1 / 7; }
+  .sfoot__mail { grid-column: 7 / 13; }
+  .sfoot__out  { grid-column: 1 / 7; }
+  .sfoot__end  { grid-column: 7 / 13; }
+}
+
+@media (max-width: 640px) {
+  :root { --margin: 20px; --s20: 96px; }
+
+  /* One column. Every grid on the page collapses through the same rule
+     rather than through 30 separate overrides. */
+  .tpage, .grid, .say, .head, .phead, .mstrip, .salon, .sfoot__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .tpage > *, .say > *, .head > *, .phead > *, .grid > *,
+  .salon > figure, .sfoot__grid > *, .mstrip > * { grid-column: 1 / -1 !important; }
+
+  /* The section label and its count stay on one line: a right-aligned 05
+     stranded under SELECTED WORK reads as a mistake. */
+  .idx__head { grid-template-columns: 1fr auto; }
+  .idx__head .label:first-child { grid-column: 1; }
+  .idx__count { grid-column: 2; }
+
+  .tpage { padding-block: var(--s3) var(--s8); }
+  .tpage__h1 { margin-top: var(--s8); }
+  .tpage__plate { margin-top: var(--s6); }
+  .tpage__say { margin-top: var(--s3); }
+
+  .head { padding-top: var(--s6); }
+  .head .standfirst { margin-top: var(--s3); }
+  .mstrip { row-gap: var(--s3); }
+
+  /* dt and dd side by side, 40 / 60, so the strip stays a strip. */
+  .mstrip__i {
+    display: grid;
+    grid-template-columns: 40% 1fr;
+    column-gap: var(--s2);
+    align-items: baseline;
+  }
+  .mstrip dd { margin-top: 0; }
+
+  /* Number and name on one line, the one-liner below, the year right of
+     the number. The whole row is the tap target and it is 44px plus. */
+  .idx-row { padding: 16px 0; }
+  .idx-row__in { grid-template-columns: auto 1fr auto; grid-template-rows: auto auto auto; column-gap: 12px; row-gap: 6px; }
+  .idx-no   { grid-column: 1; grid-row: 1; }
+  .idx-name { grid-column: 2; grid-row: 1; font-size: 18px; }
+  .idx-year { grid-column: 3; grid-row: 1; text-align: right; }
+  .idx-line { grid-column: 1 / 4; grid-row: 2; white-space: normal; }
+  .idx-role { grid-column: 1 / 4; grid-row: 3; }
+
+  .dess__acts { flex-direction: column; gap: var(--s3); margin-top: var(--s4); }
+  .say { min-height: auto; padding-block: var(--s20) var(--s10); }
+  .say__acts { gap: var(--s3); }
+
+  .fullbleed img, .fullbleed video { max-height: 60vh; }
+  .col figure { margin-top: var(--s6); }
+
+  .toc li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+
+  .salon figure { margin-top: var(--s6) !important; margin-bottom: var(--s6); }
+  .salon figure:nth-child(even) { margin-left: 24px; }
+
+  .sfoot__grid { row-gap: var(--s2); }
+  .sfoot__end { justify-content: flex-start; }
+
+  /* The nav's right side becomes one word, and swiss.js opens a full
+     screen sheet with the links set left on the page's own ground. */
+  .snav__links { display: none; }
+  .snav__menu { display: inline-block; }
+
+  .sheet {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: none;
+    padding: var(--s6) var(--margin);
+    background: var(--v3-page, var(--c-bg, #EDE8DD));
+  }
+
+  .sheet.is-open { display: flex; flex-direction: column; gap: var(--s3); }
+
+  .sheet a {
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .sheet__close { align-self: flex-start; margin-bottom: var(--s5); }
+}
+
+/* The sheet only exists under 640. Above it, it must never be reachable
+   by tab even if a stray class is left on. */
+@media (min-width: 641px) { .sheet { display: none !important; } }

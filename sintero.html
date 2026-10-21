@@ -7,22 +7,35 @@
 <meta name="description" content="Brand identity and digital design for Sintero, a Bengaluru maker of luxury sintered stone and large-format porcelain surfaces. Case study by Rishabh Jain.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&display=swap" rel="stylesheet">
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="/assets/case.css">
 <link rel="stylesheet" href="/assets/v2.css">
+<link rel="stylesheet" href="/assets/swiss.css">
+<script>document.documentElement.classList.add("js");</script>
 </head>
-<body>
+<body style="--dot: var(--dot-sintero)">
 
 <div class="wrap">
 
-  <nav class="top" aria-label="Site">
-    <a href="/">Rishabh Jain</a>
-    <span class="top__links">
+  <header class="snav">
+    <a class="snav__mark" href="/">Rishabh Jain</a>
+    <nav class="snav__links" aria-label="Site">
       <a href="/#work">Work</a>
+      <a href="/studio.html">Studio</a>
       <a href="/desserts.html">Desserts</a>
       <a href="/#contact">Contact</a>
-    </span>
-  </nav>
+    </nav>
+    <button class="snav__tool snav__menu" type="button" data-menu aria-expanded="false" aria-controls="sheet">Menu</button>
+  </header>
+
+  <div class="sheet" id="sheet">
+    <button class="snav__tool sheet__close" type="button" data-menu-close>Close</button>
+    <a href="/#work">Work</a>
+    <a href="/studio.html">Studio</a>
+    <a href="/desserts.html">Desserts</a>
+    <a href="/#contact">Contact</a>
+  </div>
 
   <a class="back" href="/#work">
     <svg viewBox="0 0 16 12" aria-hidden="true"><path d="M6.5 1 L1 6 L6.5 11 M1 6 H15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -35,27 +48,34 @@
     <p class="standfirst">Sintero, based in Bengaluru, makes luxury sintered stone and large-format porcelain surfaces. Through Bleed &amp; Margins, I designed its brand identity and led the digital design of its website and Shopify store.</p>
   </header>
 
+    <dl class="mstrip">
+      <div class="mstrip__i">
+        <dt>Role</dt>
+        <dd>Brand and Digital Design Lead, at Bleed &amp; Margins</dd>
+      </div>
+      <div class="mstrip__i">
+        <dt>Platform</dt>
+        <dd>Shopify website and store</dd>
+      </div>
+      <div class="mstrip__i mstrip__i--wide">
+        <dt>My work</dt>
+        <dd>Brand identity, information architecture, UI, the design system, the specification enquiry flow, and build direction</dd>
+      </div>
+    </dl>
+
+    <div class="grid">
+      <p class="lead-note">Sintero's buyers are architects, interior designers and developers who specify large volumes of surface on trust. The hard part was making one brand carry both technical credibility and a luxury feel.</p>
+    </div>
+
+    <figure class="fullbleed">
+      <div class="shot shot--tall">[ IMAGE: hero, the site on laptop and phones ]</div>
+        </figure>
+
   <div class="layout">
+    <nav class="chapters" aria-label="Chapters"></nav>
+
     <main class="col">
 
-      <section id="overview" style="padding-top: clamp(40px, 5vw, 56px);">
-        <h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">Overview</h2>
-        <table class="meta">
-          <tbody>
-            <tr><th scope="row">Role</th><td>Brand and Digital Design Lead, at Bleed &amp; Margins</td></tr>
-            <tr><th scope="row">Timeline</th><td>[dates]</td></tr>
-            <tr><th scope="row">Platform</th><td>Shopify website and store</td></tr>
-            <tr><th scope="row">My work</th><td>Brand identity, information architecture, UI, the design system, the specification enquiry flow, and build direction</td></tr>
-            <tr><th scope="row">Outcome</th><td>Live at sintero.in, with surfaces specified in projects for JW Marriott and Prestige Group</td></tr>
-          </tbody>
-        </table>
-
-        <p class="lead-note">Sintero's buyers are architects, interior designers and developers who specify large volumes of surface on trust. The hard part was making one brand carry both technical credibility and a luxury feel.</p>
-
-        <figure class="bleed">
-          <div class="shot shot--tall">[ IMAGE: hero, the site on laptop and phones ]</div>
-        </figure>
-      </section>
 
       <section id="problem">
         <h2>The problem</h2>
@@ -148,27 +168,38 @@
 
     </main>
 
-    <aside class="rail" aria-label="Key decisions">
-      <p class="rail__label">Key decisions</p>
-      <ol>
-        <li><a href="#d1"><span class="n">01</span><span>An identity with restraint</span></a></li>
-        <li><a href="#d2"><span class="n">02</span><span>Built for the specifier</span></a></li>
-        <li><a href="#d3"><span class="n">03</span><span>Material specs as products</span></a></li>
-        <li><a href="#d4"><span class="n">04</span><span>Opening with the process</span></a></li>
-        <li><a href="#d5"><span class="n">05</span><span>A store the client manages</span></a></li>
-      </ol>
-    </aside>
   </div>
 
-  <footer class="foot">
-    <span>Rishabh Jain, Sintero</span>
-    <a href="/#work">All work</a>
+  <section class="nextp" aria-labelledby="nextLabel">
+    <p class="label" id="nextLabel">Next &mdash;</p>
+    <div class="idx">
+      <a class="idx-row" href="/produsa.html" style="--dot: var(--dot-produsa)" data-thumb="/assets/media/produsa-band.webp" aria-label="Produsa: An AI platform that turns a website build into a conversation. Product Designer and Builder, 2026.">
+        <span class="idx-row__in">
+          <span class="idx-no label u-tab" aria-hidden="true">&rarr;</span>
+          <span class="idx-name">Produsa</span>
+          <span class="idx-line sub">An AI platform that turns a website build into a conversation</span>
+          <span class="idx-role label">Product Designer and Builder</span>
+          <span class="idx-year label">2026</span>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="sfoot">
+    <div class="sfoot__grid label">
+      <span class="sfoot__who">Rishabh Jain</span>
+      <a class="sfoot__mail" href="mailto:theardentguy@gmail.com">theardentguy@gmail.com</a>
+      <span class="sfoot__out">
+        <a href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+        <a href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume <span aria-hidden="true">&#8599;</span></a>
+      </span>
+      <span class="sfoot__end"><span class="u-tab">2026</span></span>
+    </div>
   </footer>
 
 </div>
 
-<script src="/assets/case.js"></script>
-<script src="/assets/v2.js"></script>
+<script src="/assets/swiss.js"></script>
 
 </body>
 </html>

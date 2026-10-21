@@ -7,22 +7,35 @@
 <meta name="description" content="Repositioning VIST Labs, Illinois, so banks would see a regulated technology company and growers would still see the fix for failed microbial tests. Case study by Rishabh Jain.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&display=swap" rel="stylesheet">
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="/assets/case.css">
 <link rel="stylesheet" href="/assets/v2.css">
+<link rel="stylesheet" href="/assets/swiss.css">
+<script>document.documentElement.classList.add("js");</script>
 </head>
-<body>
+<body style="--dot: var(--dot-vistlabs)">
 
 <div class="wrap">
 
-  <nav class="top" aria-label="Site">
-    <a href="/">Rishabh Jain</a>
-    <span class="top__links">
+  <header class="snav">
+    <a class="snav__mark" href="/">Rishabh Jain</a>
+    <nav class="snav__links" aria-label="Site">
       <a href="/#work">Work</a>
+      <a href="/studio.html">Studio</a>
       <a href="/desserts.html">Desserts</a>
       <a href="/#contact">Contact</a>
-    </span>
-  </nav>
+    </nav>
+    <button class="snav__tool snav__menu" type="button" data-menu aria-expanded="false" aria-controls="sheet">Menu</button>
+  </header>
+
+  <div class="sheet" id="sheet">
+    <button class="snav__tool sheet__close" type="button" data-menu-close>Close</button>
+    <a href="/#work">Work</a>
+    <a href="/studio.html">Studio</a>
+    <a href="/desserts.html">Desserts</a>
+    <a href="/#contact">Contact</a>
+  </div>
 
   <a class="back" href="/#work">
     <svg viewBox="0 0 16 12" aria-hidden="true"><path d="M6.5 1 L1 6 L6.5 11 M1 6 H15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -35,30 +48,42 @@
     <p class="standfirst">VIST Labs, based in Illinois, makes patented post-harvest technology for cannabis growers. I redesigned its website so banks would see a regulated technology company, and growers would still see the fix for failed microbial tests.</p>
   </header>
 
+    <dl class="mstrip">
+      <div class="mstrip__i">
+        <dt>Role</dt>
+        <dd>Product Designer (solo), at Bleed &amp; Margins</dd>
+      </div>
+      <div class="mstrip__i">
+        <dt>Timeline</dt>
+        <dd>3 months, remote, with stakeholders in Illinois, USA</dd>
+      </div>
+      <div class="mstrip__i">
+        <dt>Platform</dt>
+        <dd>Website, built on Shopify</dd>
+      </div>
+      <div class="mstrip__i mstrip__i--wide">
+        <dt>My work</dt>
+        <dd>Stakeholder research, positioning, information architecture, wireframes, visual design, Shopify build and handover</dd>
+      </div>
+    </dl>
+
+    <div class="grid">
+      <p class="lead-note">The brief was one line: look more pharmaceutical. The hard part was speaking to a conservative lender and a grower on one site without losing either.</p>
+    </div>
+
+    <figure class="fullbleed">
+      <div class="media">
+        <img src="/assets/media/vist-hero.webp" width="1700" height="727" decoding="async"
+         alt="The redesigned VIST Labs homepage. Diagnose, Decontaminate, Protect. in large type over a dark teal photograph of pasteurisation equipment, under a plain white nav bar.">
+      </div>
+      <figcaption data-fig="01">The homepage hero I shipped. Cannabis is not named here.</figcaption>
+        </figure>
+
   <div class="layout">
+    <nav class="chapters" aria-label="Chapters"></nav>
+
     <main class="col">
 
-      <section id="overview" style="padding-top: clamp(40px, 5vw, 56px);">
-        <h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">Overview</h2>
-        <table class="meta">
-          <tbody>
-            <tr><th scope="row">Role</th><td>Product Designer (solo), at Bleed &amp; Margins</td></tr>
-            <tr><th scope="row">Timeline</th><td>3 months, remote, with stakeholders in Illinois, USA</td></tr>
-            <tr><th scope="row">Platform</th><td>Website, built on Shopify</td></tr>
-            <tr><th scope="row">My work</th><td>Stakeholder research, positioning, information architecture, wireframes, visual design, Shopify build and handover</td></tr>
-          </tbody>
-        </table>
-
-        <p class="lead-note">The brief was one line: look more pharmaceutical. The hard part was speaking to a conservative lender and a grower on one site without losing either.</p>
-
-        <figure class="bleed">
-          <div class="media">
-            <img src="/assets/media/vist-hero.webp" width="1700" height="727" decoding="async"
-                 alt="The redesigned VIST Labs homepage. Diagnose, Decontaminate, Protect. in large type over a dark teal photograph of pasteurisation equipment, under a plain white nav bar.">
-          </div>
-          <figcaption>The homepage hero I shipped. Cannabis is not named here.</figcaption>
-        </figure>
-      </section>
 
       <section id="problem">
         <h2>The problem</h2>
@@ -122,7 +147,7 @@
               <img src="/assets/media/vist-certifications.webp" width="1700" height="456" loading="lazy" decoding="async"
                    alt="The certifications block on the redesigned homepage: CE-Certified, HACCP and GMP-Aligned, and Third-Party Validated, each with one line of evidence under it.">
             </div>
-            <figcaption>The certifications block. Third-party validation is stated as a 6-log reduction.</figcaption>
+            <figcaption data-fig="02">The certifications block. Third-party validation is stated as a 6-log reduction.</figcaption>
           </figure>
         </article>
 
@@ -142,7 +167,7 @@
             <img src="/assets/media/vist-pages.webp" width="1552" height="970" loading="lazy" decoding="async"
                  alt="Three pages of the delivered site shown at an angle: the homepage, the certifications block, and the mobile van services page with its three-step How It Works row.">
           </div>
-          <figcaption>Homepage, certifications and How It Works, as handed over.</figcaption>
+          <figcaption data-fig="03">Homepage, certifications and How It Works, as handed over.</figcaption>
         </figure>
       </section>
 
@@ -156,26 +181,38 @@
 
     </main>
 
-    <aside class="rail" aria-label="Key decisions">
-      <p class="rail__label">Key decisions</p>
-      <ol>
-        <li><a href="#d1"><span class="n">01</span><span>Two-tier messaging</span></a></li>
-        <li><a href="#d2"><span class="n">02</span><span>Problem, solution, buying</span></a></li>
-        <li><a href="#d3"><span class="n">03</span><span>Evidence in place of fear</span></a></li>
-        <li><a href="#d4"><span class="n">04</span><span>Shopify over WordPress</span></a></li>
-      </ol>
-    </aside>
   </div>
 
-  <footer class="foot">
-    <span>Rishabh Jain, VIST Labs</span>
-    <a href="/#work">All work</a>
+  <section class="nextp" aria-labelledby="nextLabel">
+    <p class="label" id="nextLabel">Next &mdash;</p>
+    <div class="idx">
+      <a class="idx-row" href="/sintero.html" style="--dot: var(--dot-sintero)" aria-label="Sintero: Brand identity and a specification-led website for a luxury stone brand. Brand and Digital Design Lead.">
+        <span class="idx-row__in">
+          <span class="idx-no label u-tab" aria-hidden="true">&rarr;</span>
+          <span class="idx-name">Sintero</span>
+          <span class="idx-line sub">Brand identity and a specification-led website for a luxury stone brand</span>
+          <span class="idx-role label">Brand and Digital Design Lead</span>
+          <span class="idx-year label"></span>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="sfoot">
+    <div class="sfoot__grid label">
+      <span class="sfoot__who">Rishabh Jain</span>
+      <a class="sfoot__mail" href="mailto:theardentguy@gmail.com">theardentguy@gmail.com</a>
+      <span class="sfoot__out">
+        <a href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+        <a href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume <span aria-hidden="true">&#8599;</span></a>
+      </span>
+      <span class="sfoot__end"><span class="u-tab">2026</span></span>
+    </div>
   </footer>
 
 </div>
 
-<script src="/assets/case.js"></script>
-<script src="/assets/v2.js"></script>
+<script src="/assets/swiss.js"></script>
 
 </body>
 </html>

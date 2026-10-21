@@ -7,22 +7,35 @@
 <meta name="description" content="Designing a Bengaluru watch distributor's own store so buyers had a reason to skip the marketplaces selling the same watches. Case study by Rishabh Jain.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&display=swap" rel="stylesheet">
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="/assets/case.css">
 <link rel="stylesheet" href="/assets/v2.css">
+<link rel="stylesheet" href="/assets/swiss.css">
+<script>document.documentElement.classList.add("js");</script>
 </head>
-<body>
+<body style="--dot: var(--dot-bizotico)">
 
 <div class="wrap">
 
-  <nav class="top" aria-label="Site">
-    <a href="/">Rishabh Jain</a>
-    <span class="top__links">
+  <header class="snav">
+    <a class="snav__mark" href="/">Rishabh Jain</a>
+    <nav class="snav__links" aria-label="Site">
       <a href="/#work">Work</a>
+      <a href="/studio.html">Studio</a>
       <a href="/desserts.html">Desserts</a>
       <a href="/#contact">Contact</a>
-    </span>
-  </nav>
+    </nav>
+    <button class="snav__tool snav__menu" type="button" data-menu aria-expanded="false" aria-controls="sheet">Menu</button>
+  </header>
+
+  <div class="sheet" id="sheet">
+    <button class="snav__tool sheet__close" type="button" data-menu-close>Close</button>
+    <a href="/#work">Work</a>
+    <a href="/studio.html">Studio</a>
+    <a href="/desserts.html">Desserts</a>
+    <a href="/#contact">Contact</a>
+  </div>
 
   <a class="back" href="/#work">
     <svg viewBox="0 0 16 12" aria-hidden="true"><path d="M6.5 1 L1 6 L6.5 11 M1 6 H15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -35,31 +48,42 @@
     <p class="standfirst">Bizotico is a Bengaluru distributor that holds the Indian rights to 25+ watch brands, Scuderia Ferrari, Roamer, Obaku and Earnshaw among them. I designed its direct store, which still runs today as The Timekeepers.</p>
   </header>
 
+    <dl class="mstrip">
+      <div class="mstrip__i">
+        <dt>Role</dt>
+        <dd>E-commerce Designer, leading a graphic designer alongside the marketing team</dd>
+      </div>
+      <div class="mstrip__i">
+        <dt>Timeline</dt>
+        <dd>6 months, 2023 to 2024, Bengaluru</dd>
+      </div>
+      <div class="mstrip__i">
+        <dt>Platform</dt>
+        <dd>Shopify, desktop and mobile</dd>
+      </div>
+      <div class="mstrip__i mstrip__i--wide">
+        <dt>My work</dt>
+        <dd>Information architecture, flows, UI/UX, the Shopify build and the campaign creative system</dd>
+      </div>
+    </dl>
+
+    <div class="grid">
+      <p class="lead-note">The same watches were a tap away on Amazon and Myntra. The hard part was giving buyers a reason to skip them.</p>
+    </div>
+
+    <figure class="fullbleed">
+      <div class="media media--bare">
+        <img src="/assets/media/bizo-hero.webp" width="1536" height="1024" decoding="async"
+         alt="The Bizotico storefront on a laptop and a phone. The desktop hero reads Upto 80% Off, Between Sea and Space, beside a photograph of a diver surfacing with a watch on his wrist.">
+      </div>
+      <figcaption data-fig="01">The store as it shipped, on desktop and on a phone.</figcaption>
+        </figure>
+
   <div class="layout">
+    <nav class="chapters" aria-label="Chapters"></nav>
+
     <main class="col">
 
-      <section id="overview" style="padding-top: clamp(40px, 5vw, 56px);">
-        <h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">Overview</h2>
-        <table class="meta">
-          <tbody>
-            <tr><th scope="row">Role</th><td>E-commerce Designer, leading a graphic designer alongside the marketing team</td></tr>
-            <tr><th scope="row">Timeline</th><td>6 months, 2023 to 2024, Bengaluru</td></tr>
-            <tr><th scope="row">Platform</th><td>Shopify, desktop and mobile</td></tr>
-            <tr><th scope="row">My work</th><td>Information architecture, flows, UI/UX, the Shopify build and the campaign creative system</td></tr>
-            <tr><th scope="row">Outcome</th><td>7.85x ROAS on a May 2024 campaign, still live two years on</td></tr>
-          </tbody>
-        </table>
-
-        <p class="lead-note">The same watches were a tap away on Amazon and Myntra. The hard part was giving buyers a reason to skip them.</p>
-
-        <figure class="bleed">
-          <div class="media media--bare">
-            <img src="/assets/media/bizo-hero.webp" width="1536" height="1024" decoding="async"
-                 alt="The Bizotico storefront on a laptop and a phone. The desktop hero reads Upto 80% Off, Between Sea and Space, beside a photograph of a diver surfacing with a watch on his wrist.">
-          </div>
-          <figcaption>The store as it shipped, on desktop and on a phone.</figcaption>
-        </figure>
-      </section>
 
       <section id="problem">
         <h2>The problem</h2>
@@ -78,7 +102,7 @@
               <img src="/assets/media/bizo-categories.webp" width="1700" height="733" loading="lazy" decoding="async"
                    alt="Four category tiles across the homepage, each a watch photograph with the category set over it in white capitals: Swiss Made, Automatic, Mechanical and Quartz.">
             </div>
-            <figcaption>Four categories, named after what buyers were already searching for.</figcaption>
+            <figcaption data-fig="02">Four categories, named after what buyers were already searching for.</figcaption>
           </figure>
         </article>
 
@@ -91,7 +115,7 @@
               <img src="/assets/media/bizo-bestsellers.webp" width="1700" height="736" loading="lazy" decoding="async"
                    alt="A Best Sellers row of four watches on pale green tiles, each with the brand logo under it: Earnshaw, Scuderia Ferrari, Nubeo and Roamer. A black bar above reads Hassle-free returns, COD, 2 Years Warranty.">
             </div>
-            <figcaption>The first row under the hero, and the trust bar that runs above every page.</figcaption>
+            <figcaption data-fig="03">The first row under the hero, and the trust bar that runs above every page.</figcaption>
           </figure>
         </article>
 
@@ -104,7 +128,7 @@
               <img src="/assets/media/bizo-obaku.webp" width="1700" height="736" loading="lazy" decoding="async"
                    alt="The Obaku warranty block. Three Obaku Ceramic watches on a green set beside the heading Extend Warranty, Obaku, an offer of a bonus five-year warranty backed by Bizotico's service, and a Register button.">
             </div>
-            <figcaption>The five years are claimed by registering, which is where the flow starts.</figcaption>
+            <figcaption data-fig="04">The five years are claimed by registering, which is where the flow starts.</figcaption>
           </figure>
         </article>
 
@@ -118,7 +142,7 @@
               <img src="/assets/media/bizo-reviews.webp" width="1700" height="728" loading="lazy" decoding="async"
                    alt="Three five-star Google reviews on a deep red homepage band, each with the reviewer's name, photo and review count, under the heading Customers Love Us.">
             </div>
-            <figcaption>Google reviews from the offline shop, running on the new store's homepage.</figcaption>
+            <figcaption data-fig="05">Google reviews from the offline shop, running on the new store's homepage.</figcaption>
           </figure>
         </article>
 
@@ -131,15 +155,17 @@
               <img src="/assets/media/bizo-sale.webp" width="1102" height="733" loading="lazy" decoding="async"
                    alt="Rows of sale creatives laid out in a grid. Each one uses the same template: a watch photograph, the Bizotico mark, a discount badge and a promo code.">
             </div>
-            <figcaption>Part of the sale set. One template, one designer, 25+ brands.</figcaption>
+            <figcaption data-fig="06">Part of the sale set. One template, one designer, 25+ brands.</figcaption>
           </figure>
         </article>
       </section>
 
       <section id="outcome">
         <h2>Outcome</h2>
+        <ul class="stats">
+          <li class="stat"><span class="stat__n">7.85x</span><span class="stat__s sub">ROAS on the May 2024 campaign: about &#8377;53,000 in ad spend against &#8377;4,16,131 in net sales. The marketing team ran the ads.</span></li>
+        </ul>
         <ul class="results">
-          <li>7.85x ROAS on the May 2024 campaign: about &#8377;53,000 in ad spend against &#8377;4,16,131 in net sales. The marketing team ran the ads.</li>
           <li>Orders held flat that month, 32 against April's 33, while net sales rose 92%.</li>
           <li>25+ brands the client adds to and runs without a developer.</li>
           <li>Still live more than two years later, as The Timekeepers.</li>
@@ -149,7 +175,7 @@
             <img src="/assets/media/bizo-recap.webp" width="740" height="391" loading="lazy" decoding="async"
                  alt="The May 2024 recap: 32 orders and net sales of 4,16,131.20 rupees against April's 33 orders and 2,17,184.40, with ad spend of 53,000 rupees and a ROAS of 7.85.">
           </div>
-          <figcaption>The May 2024 recap, as the client's dashboard reported it.</figcaption>
+          <figcaption data-fig="07">The May 2024 recap, as the client's dashboard reported it.</figcaption>
         </figure>
       </section>
 
@@ -162,27 +188,38 @@
 
     </main>
 
-    <aside class="rail" aria-label="Key decisions">
-      <p class="rail__label">Key decisions</p>
-      <ol>
-        <li><a href="#d1"><span class="n">01</span><span>Categories from search</span></a></li>
-        <li><a href="#d2"><span class="n">02</span><span>Partner brands first</span></a></li>
-        <li><a href="#d3"><span class="n">03</span><span>Warranty, and Obaku's flow</span></a></li>
-        <li><a href="#d4"><span class="n">04</span><span>Trust from the shop</span></a></li>
-        <li><a href="#d5"><span class="n">05</span><span>The sale</span></a></li>
-      </ol>
-    </aside>
   </div>
 
-  <footer class="foot">
-    <span>Rishabh Jain, Bizotico</span>
-    <a href="/#work">All work</a>
+  <section class="nextp" aria-labelledby="nextLabel">
+    <p class="label" id="nextLabel">Next &mdash;</p>
+    <div class="idx">
+      <a class="idx-row" href="/vistlabs.html" style="--dot: var(--dot-vistlabs)" data-thumb="/assets/media/vist-band-16x10.webp" aria-label="VIST Labs: Repositioning a post-harvest technology company for banks and growers. Product Designer, solo, 2025.">
+        <span class="idx-row__in">
+          <span class="idx-no label u-tab" aria-hidden="true">&rarr;</span>
+          <span class="idx-name">VIST Labs</span>
+          <span class="idx-line sub">Repositioning a post-harvest technology company for banks and growers</span>
+          <span class="idx-role label">Product Designer, solo</span>
+          <span class="idx-year label">2025</span>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="sfoot">
+    <div class="sfoot__grid label">
+      <span class="sfoot__who">Rishabh Jain</span>
+      <a class="sfoot__mail" href="mailto:theardentguy@gmail.com">theardentguy@gmail.com</a>
+      <span class="sfoot__out">
+        <a href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+        <a href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume <span aria-hidden="true">&#8599;</span></a>
+      </span>
+      <span class="sfoot__end"><span class="u-tab">2026</span></span>
+    </div>
   </footer>
 
 </div>
 
-<script src="/assets/case.js"></script>
-<script src="/assets/v2.js"></script>
+<script src="/assets/swiss.js"></script>
 
 </body>
 </html>

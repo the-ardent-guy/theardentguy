@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="light" data-dark>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,108 +7,121 @@
 <meta name="description" content="Brand and e-commerce work through Bleed and Margins, for luxury and heritage brands. Sintero, Koodai Kind, Kutty Jetty.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&display=swap" rel="stylesheet">
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="/assets/style.css">
 <link rel="stylesheet" href="/assets/v2.css">
+<link rel="stylesheet" href="/assets/swiss.css">
 <script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
 </head>
 <body>
 
-<div class="scroll-progress" aria-hidden="true"></div>
+<div class="wrap">
+  <header class="snav">
+    <a class="snav__mark" href="/">Rishabh Jain</a>
+    <nav class="snav__links" aria-label="Site">
+      <a href="/#work">Work</a>
+      <a href="/studio.html" aria-current="page">Studio</a>
+      <a href="/desserts.html">Desserts</a>
+      <a href="/#contact">Contact</a>
+      <button class="snav__tool" type="button" data-theme-switch aria-pressed="false" aria-label="Colour theme">light</button>
+    </nav>
+    <button class="snav__tool snav__menu" type="button" data-menu aria-expanded="false" aria-controls="sheet">Menu</button>
+  </header>
 
-<div class="dock">
-  <button class="dock__btn" id="navOpen" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navsheet">
-    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 4h14M1 8h14M1 12h14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-  </button>
-  <button class="dock__btn theme-toggle" type="button" aria-label="Toggle dark mode"></button>
-</div>
-
-<div class="navsheet" id="navsheet" role="dialog" aria-modal="true" aria-label="Menu">
-  <button class="navsheet__close" id="navClose" type="button" aria-label="Close menu">
-    <svg viewBox="0 0 16 16" aria-hidden="true" style="width:14px;height:14px"><path d="M3 3l10 10M13 3L3 13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-  </button>
-  <ul class="navsheet__list">
-    <li><a href="/#work">Work</a></li>
-    <li><a href="/desserts.html">Desserts</a></li>
-    <li><a href="/studio.html">Studio</a></li>
-    <li><a href="/#contact">Contact</a></li>
-    <li><a href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume</a></li>
-  </ul>
-</div>
-
-<main>
-  <div class="wrap">
-
-    <a class="backlink" href="/#work">
-      <svg viewBox="0 0 14 12" aria-hidden="true"><path d="M6 1 L1 6 L6 11 M1 6 H13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Work
-    </a>
-
-    <section class="section" style="padding-top: 60px;">
-      <p class="label">Studio</p>
-      <h1 class="section-heading">Freelance and brand work.</h1>
-      <p class="morework__lead">Brand, storefront, and design-system work delivered through Bleed and Margins, my studio, for luxury and heritage brands building narrative-driven e-commerce.</p>
-
-      <div class="projects">
-
-        <a class="project reveal" href="/sintero.html">
-          <div class="project__body">
-            <p class="project__eyebrow">Sintero</p>
-            <h3 class="project__title">A specification-grade design system for luxury stone surfaces, one visual language across web, store, and print.</h3>
-            <dl class="project__meta">
-              <div class="project__meta-row"><dt>Role</dt><dd>Digital Design Lead</dd></div>
-              <div class="project__meta-row"><dt>Scope</dt><dd>Shopify &middot; Web and print system &middot; Spec-enquiry flow</dd></div>
-              <div class="project__meta-row"><dt>Result</dt><dd><b>Live at sintero.in</b> &middot; One system, screen to page</dd></div>
-            </dl>
-            <div class="project__tags">
-              <span>Design System</span><span>Information Architecture</span><span>Shopify</span><span>Print</span>
-            </div>
-          </div>
-          <div class="project__media">
-            <div class="slot">[ IMAGE: Sintero responsive site on a dark charcoal ground ]</div>
-          </div>
-        </a>
-
-        <a class="project reveal" href="/koodaikind.html">
-          <div class="project__body">
-            <p class="project__eyebrow">Koodai Kind</p>
-            <h3 class="project__title">A mobile-first Shopify storefront for the South Indian koodai, the product leading every page.</h3>
-            <dl class="project__meta">
-              <div class="project__meta-row"><dt>Role</dt><dd>Product Designer and Design Lead</dd></div>
-              <div class="project__meta-row"><dt>Scope</dt><dd>Shopify &middot; Mobile-first UI &middot; Colour system &middot; Motion</dd></div>
-              <div class="project__meta-row"><dt>Result</dt><dd><b>Live at koodaikind.com</b> &middot; Pre-order storefront</dd></div>
-            </dl>
-            <div class="project__tags">
-              <span>E-commerce</span><span>Mobile-first</span><span>Colour System</span><span>Shopify</span>
-            </div>
-          </div>
-          <div class="project__media">
-            <div class="slot">[ IMAGE: Koodai Kind homepage on laptop and phone ]</div>
-          </div>
-        </a>
-
-        <div class="project reveal is-pending">
-          <div class="project__body">
-            <p class="project__eyebrow">Kutty Jetty</p>
-            <h3 class="project__title">A coastal kids label, brand and Shopify storefront built from scratch.</h3>
-            <dl class="project__meta">
-              <div class="project__meta-row"><dt>Role</dt><dd>Brand and Shopify</dd></div>
-              <div class="project__meta-row"><dt>Scope</dt><dd>Brand identity &middot; Shopify storefront</dd></div>
-            </dl>
-            <p class="project__status">Case study in progress</p>
-          </div>
-          <div class="project__media">
-            <div class="slot">[ IMAGE: Kutty Jetty storefront ]</div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
+  <div class="sheet" id="sheet">
+    <button class="snav__tool sheet__close" type="button" data-menu-close>Close</button>
+    <a href="/#work">Work</a>
+    <a href="/studio.html">Studio</a>
+    <a href="/desserts.html">Desserts</a>
+    <a href="/#contact">Contact</a>
   </div>
-</main>
 
-<script src="/assets/main.js"></script>
-<script src="/assets/v2.js"></script>
+  <a class="back" href="/#work">Work</a>
+
+  <main>
+    <header class="phead">
+      <p class="label">Studio</p>
+      <h1>Freelance and brand work.</h1>
+      <p class="phead__say">Brand, storefront, and design-system work delivered through Bleed and Margins, my studio, for luxury and heritage brands building narrative-driven e-commerce.</p>
+    </header>
+
+    <!-- A CATALOGUE, NOT CARDS.
+         Three columns: who it was and what it is, the mono record, and the
+         picture. Every picture here is a placeholder, so the third column
+         renders nothing at all. An empty right-hand column across three
+         entries reads as a margin; three dashed rectangles read as a site
+         that is not finished. -->
+    <div class="cat" data-stagger>
+
+      <a class="cat__i reveal" href="/sintero.html">
+        <div class="cat__l">
+          <p class="cat__name has-dot" style="--dot: var(--dot-sintero)">Sintero</p>
+          <p class="cat__one sub">A specification-grade design system for luxury stone surfaces, one visual language across web, store, and print.</p>
+          <p class="cat__tags label">Design System &middot; Information Architecture &middot; Shopify &middot; Print</p>
+        </div>
+        <div class="cat__m">
+          <dl>
+            <div><dt>Role</dt><dd>Digital Design Lead</dd></div>
+            <div><dt>Scope</dt><dd>Shopify &middot; Web and print system &middot; Spec-enquiry flow</dd></div>
+            <div><dt>Result</dt><dd><b>Live at sintero.in</b> &middot; One system, screen to page</dd></div>
+          </dl>
+        </div>
+        <div class="cat__r"></div>
+      </a>
+
+      <a class="cat__i reveal" href="/koodaikind.html">
+        <div class="cat__l">
+          <p class="cat__name has-dot" style="--dot: var(--dot-koodaikind)">Koodai Kind</p>
+          <p class="cat__one sub">A mobile-first Shopify storefront for the South Indian koodai, the product leading every page.</p>
+          <p class="cat__tags label">E-commerce &middot; Mobile-first &middot; Colour System &middot; Shopify</p>
+        </div>
+        <div class="cat__m">
+          <dl>
+            <div><dt>Role</dt><dd>Product Designer and Design Lead</dd></div>
+            <div><dt>Scope</dt><dd>Shopify &middot; Mobile-first UI &middot; Colour system &middot; Motion</dd></div>
+            <div><dt>Result</dt><dd><b>Live at koodaikind.com</b> &middot; Pre-order storefront</dd></div>
+          </dl>
+        </div>
+        <div class="cat__r"></div>
+      </a>
+
+      <!-- Not a link: there is no page to go to yet, and a dead row is
+           worse than a row that says so. Kutty Jetty has no --acc-* of its
+           own in style.css, so it carries no dot rather than borrowing
+           someone else's colour. -->
+      <div class="cat__i reveal">
+        <div class="cat__l">
+          <p class="cat__name">Kutty Jetty</p>
+          <p class="cat__one sub">A coastal kids label, brand and Shopify storefront built from scratch.</p>
+        </div>
+        <div class="cat__m">
+          <dl>
+            <div><dt>Role</dt><dd>Brand and Shopify</dd></div>
+            <div><dt>Scope</dt><dd>Brand identity &middot; Shopify storefront</dd></div>
+            <div><dt>Result</dt><dd><span class="cat__pending">Case study in progress</span></dd></div>
+          </dl>
+        </div>
+        <div class="cat__r"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="sfoot">
+    <div class="sfoot__grid label">
+      <span class="sfoot__who">Rishabh Jain</span>
+      <a class="sfoot__mail" href="mailto:theardentguy@gmail.com">theardentguy@gmail.com</a>
+      <span class="sfoot__out">
+        <a href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+        <a href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume <span aria-hidden="true">&#8599;</span></a>
+      </span>
+      <span class="sfoot__end"><span class="u-tab">2026</span></span>
+    </div>
+  </footer>
+
+</div>
+
+<script src="/assets/swiss.js"></script>
 </body>
 </html>

@@ -1,463 +1,309 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="light" data-dark>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Rishabh Jain, Product Designer</title>
-<!-- THE HOMEPAGE. Promoted from index-v3.html on 2026-10-21; the previous
-     bento homepage is the version of this file at commit 123a4aa and is the
-     thing to check out if this needs rolling back.
+<!-- THE HOMEPAGE, SWISS INDEX.
+     Restyled on 2026-10-22 against theardentguy-swiss-index-spec.md. The
+     bento homepage this replaces is the index.html of commit 88f08c4 and is
+     the thing to check out if this needs rolling back; the one before that
+     is 123a4aa.
 
-     Load order is style.css, then v2.css, then v3.css, and v3.css overrides
-     the first two rather than replacing them. It is the only file that
-     defines the --v3-* tokens, and it is loaded by this page alone, so the
-     case study pages still carry the older type and the maroon accent. That
-     seam is known and deliberate for now. -->
-<meta name="description" content="Rishabh Jain. Product designer, builder and illustrator. Story and meaning first, screens second. Case studies on Produsa, Supaca, Hasta, Bizotico and VIST Labs.">
+     Load order is style.css, v2.css, v3.css, swiss.css, and swiss.css is
+     last. The three underneath are kept, not replaced: style.css still
+     carries the reset and the page's own paper colour, v3.css still carries
+     the --v3-* palette including the whole dark theme. swiss.css overrides
+     tokens and components and never touches a background.
+
+     Only assets/swiss.js is loaded. main.js, v2.js and crazy.js are intact
+     in the repo and linked from nothing, because each was written for
+     markup this page no longer has: the curtain parallax, the toy box
+     physics, the window chrome, the nav sheet. -->
+<meta name="description" content="Rishabh Jain. Product designer, builder and illustrator. Story and meaning first, screens second. Case studies on Produsa, Supaca, Bizotico, VIST Labs and Sintero.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Kalam:wght@400;700&display=swap">
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="preload" as="image" href="/assets/hero.jpg" fetchpriority="high">
 <link rel="stylesheet" href="/assets/style.css">
 <link rel="stylesheet" href="/assets/v2.css">
 <link rel="stylesheet" href="/assets/v3.css">
-<!-- CRAZY MODE IS PARKED, 2026-10-20. His call: take it out for now, keep
-     the work. assets/crazy.css and assets/crazy.js are untouched and still
-     in the repo; nothing on this page loads them. To bring it back, undo
-     the four edits marked PARKED in this file. Nothing else changes.
-       1. <link rel="stylesheet" href="/assets/crazy.css">       (here)
-       2. the data-crazy clause in the head script               (below)
-       3. the window footer and its switch                       (in main)
-       4. <script src="/assets/crazy.js" defer></script>         (at the end)
-     PARKED 1 of 4. -->
+<link rel="stylesheet" href="/assets/swiss.css">
 <script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
 </head>
 <body>
 
-<!-- No reading-progress bar here. It earns its place on a long case study
-     and nowhere else, and a maroon hairline across the photograph breaks
-     the rule that this site has exactly two fixed controls. -->
+<!-- THE NAV. One 72px row on the wrap. Nothing sits behind it, so there is
+     no pill, no blur and no border; the hairline fades in once the page has
+     moved more than 8px and is the only thing that marks it off.
 
-<!-- ONE control, at the top. His call, 2026-10-21: the floating menu button
-     is gone and the dark mode switch moves into the bar, so the page has a
-     single piece of chrome instead of a pill plus two discs in the corner.
-     It reads as a toolbar: a group of destinations, a divider, the tool
-     that changes the view, then the one action.
-
-     The nav sheet went with the menu button. Studio was only reachable
-     through it, so it is a link here now; the resume is not, because its
-     href is still a placeholder. main.js's navSheet() exits on its own
-     when #navOpen is absent, and themeToggle() finds .theme-toggle
-     wherever it sits, so no script changes are needed.
-
-     v2.js reveals .bar once the photograph is scrolled past. It now
-     arrives from above rather than from below. -->
-<header class="bar bar--top">
-  <nav class="bar__in" aria-label="Site">
+     The theme and fun switches are text in brackets, set after the links.
+     Resume is not here: its href is still a placeholder, and a dead link in
+     a nav of four is more conspicuous than an absent one. -->
+<div class="wrap">
+  <header class="snav">
+  <a class="snav__mark" href="/">Rishabh Jain</a>
+  <nav class="snav__links" aria-label="Site">
     <a href="#work">Work</a>
-    <a href="/desserts.html">Desserts</a>
     <a href="/studio.html">Studio</a>
-    <span class="bar__sep" aria-hidden="true"></span>
-    <button class="bar__tool theme-toggle" type="button" aria-label="Toggle dark mode"></button>
-    <a class="bar__cta" href="#contact">Get in touch <span aria-hidden="true">&#8594;</span></a>
+    <a href="/desserts.html">Desserts</a>
+    <a href="#contact">Contact</a>
+    <button class="snav__tool" type="button" data-theme-switch aria-pressed="false" aria-label="Colour theme">light</button>
+    <button class="snav__tool" type="button" data-fun-switch role="switch" aria-checked="false"
+            data-off="fun" data-on="fun on" aria-label="Fun mode">fun</button>
   </nav>
-</header>
+  <button class="snav__tool snav__menu" type="button" data-menu aria-expanded="false" aria-controls="sheet">Menu</button>
+  </header>
+</div>
 
-<!-- THE CURTAIN.
-     One screen, one photograph, nothing else. The photograph is the tagline
-     made literal, so it is allowed to say the whole thing on its own.
-     .curtain is the scroll runway and stays in flow at 100svh. Its frame is
-     static by default, which is what no-JS and reduced-motion get: a plain
-     full screen you scroll past. main.js promotes the frame to fixed and
-     lifts it at 1.4x scroll speed, so the sheet leaves faster than the grid
-     arrives and the grid rises into the gap underneath. -->
-<div class="curtain" id="curtain">
-  <div class="curtain__frame">
-    <img class="curtain__img" src="/assets/hero.jpg" width="1200" height="1600" fetchpriority="high"
-         alt="Rishabh sits with his back to the camera at a weathered white picnic table in the Himalayas, bare winter trees and a snow ridge behind him. Two of his own drawn characters are sitting at the table with him, one in a green jumper holding a book and striped socks, one in a mustard jacket, and the word WHOA. is written in the air above them.">
-    <!-- The hero gets a name without a filter touching the photograph.
-         aria-hidden because the intro h1 already carries these exact words,
-         and .curtain__frame::after is a separate scrim layer, not a filter.
-         It sits bottom-left over the grass, which the crop budget already
-         counts as spent, and it fades on --cue like the scroll cue does. -->
-    <div class="curtain__title" aria-hidden="true">
-      <span class="curtain__name">Rishabh Jain</span>
-      <span class="curtain__line">Product Designer. Builder. Illustrator.</span>
-    </div>
-    <p class="curtain__cue" aria-hidden="true">
-      <span>Scroll</span>
-      <svg viewBox="0 0 12 14"><path d="M6 1v11M1.5 7.5 6 12.5l4.5-5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </p>
-  </div>
+<!-- The phone sheet. Full screen, links set left on the page's own ground.
+     Only reachable under 640px, where the nav's link row is display:none. -->
+<div class="sheet" id="sheet">
+  <button class="snav__tool sheet__close" type="button" data-menu-close>Close</button>
+  <a href="#work">Work</a>
+  <a href="/studio.html">Studio</a>
+  <a href="/desserts.html">Desserts</a>
+  <a href="#contact">Contact</a>
 </div>
 
 <main>
-  <div class="homewrap homewrap--curtained" id="work">
-   <!-- The window frame and its title bar are gone, 2026-10-21: no window
-        style on this page at all. The div stays as structure only, because
-        it still carries z-index 2 (which keeps .v2-grain under the page)
-        and overflow: clip (which is the wall the toybox pile bounces off).
-        It draws nothing. -->
-   <div class="window">
-    <div class="window__body">
 
-    <!-- THE BANDS.
-         The 204px row unit survives, but the mosaic is now band-partitioned:
-         every tile belongs to exactly one horizontal band, and no tile
-         straddles two. That is what makes row-expansion possible without a
-         single pixel of reflow. An expanded tile covers exactly its own band,
-         so the document height never changes and nothing above or below it
-         can move. Band heights alternate 1 row (204) and 2 rows (424).
-         DOM order is the reading order, so tab order and the mobile stack
-         are both right. -->
-    <div class="bento bento--home" id="bands">
+  <!-- A. THE TITLE PAGE.
+       Four corners of a grid with a hole in the middle: the index line top
+       left, the photograph top right, the name bottom left, the argument
+       bottom right. The hole is the point. The photograph has come out of
+       the full-bleed curtain and become a plate in the right columns, which
+       is what lets the opening be read rather than scrolled past.
 
-      <section class="tile tile--plain a-intro" aria-label="Introduction">
-        <div class="tile__in">
-          <div class="tile__lead intro">
-            <h1 class="intro__lead"><span class="ln">Rish, Product Designer<span class="pt">.</span></span>
-               <span class="ln">Builder<span class="pt">.</span> Illustrator<span class="pt">.</span></span></h1>
-            <p class="intro__claim">I bring storytelling and social psychology into how products think, behave, and feel.</p>
-            <!-- A list of two, not a paragraph of two sentences. The second
-                 one ends on a comma and the third opens on a capital, which
-                 as running prose is a transcription slip and as two list
-                 items is just two list items. The markup says what the
-                 setting says: these are notes, taken separately. A screen
-                 reader gets the same reading, announced as a list of 2.
+       The lede does not sit under the h1. That was the clog. -->
+  <section class="tpage wrap" aria-label="Introduction">
+    <p class="label tpage__index">Rishabh Jain &mdash; Product Designer. Builder. Illustrator.</p>
 
-                 It reads third and it is placed second: from 1000 up the
-                 CSS puts it in the right-hand cell beside the claim, and
-                 below that it comes back under it. The order here is the
-                 reading order and is the one to keep. -->
-            <ul class="intro__notes">
-              <li>Currently knee-deep in Agentic UX,</li>
-              <li>Deeply curious about myth, meaning, and what actually drives people.</li>
-            </ul>
-          </div>
-          <!-- The toy box. Empty on purpose: v2.js fills it, and .toybox:empty
-               is display:none, so with no JS this card is exactly what it was.
-               It covers the whole card and is out of flow, so nothing it does
-               can change the card's height, and a counter can be thrown
-               anywhere on it. Where the pile lives is a well in the card's
-               bottom-right corner which v2.js owns and nothing draws, and the
-               notes hold clear room above it, so the pile at rest never sits
-               on a word. In flight is another matter, which is the point of
-               it. The tile's overflow:hidden is the box's walls. -->
-          <div class="toybox" id="toybox" aria-hidden="true"></div>
-        </div>
-      </section>
+    <figure class="tpage__plate">
+      <img src="/assets/hero.jpg" width="1200" height="1600" fetchpriority="high"
+           alt="Rishabh sits with his back to the camera at a weathered white picnic table in the Himalayas, bare winter trees and a snow ridge behind him. Two of his own drawn characters are sitting at the table with him, one in a green jumper holding a book and striped socks, one in a mustard jacket, and the word WHOA. is written in the air above them.">
+      <figcaption class="sub" data-fig="00"></figcaption>
+    </figure>
 
-      <!-- THE LEAD PROJECT.
-           One card across the whole twelve columns: the mock on the left,
-           the argument on the right. It leads by being bigger and better
-           spaced than its neighbours, which is a statement, rather than by
-           wearing a tab strip and a heavy frame, which was a shout. His
-           call, 2026-10-20. The details underneath are a plain hierarchy
-           now, not a table: result first, because that is the interesting
-           part, then who and where, at meta size.
-           The class is tile--feature, not tile--band, so none of the band
-           grid rules reach it. -->
-      <a class="tile tile--feature a-produsa" href="/produsa.html">
-        <div class="tile__in">
-          <div class="fframe">
-            <div class="fmock">
-              <div class="tile__media"><img src="/assets/media/produsa-band.webp" width="1200" height="900" loading="lazy" decoding="async" alt="The Produsa studio. An owner asks the chat on the left for a header, a footer and a logo, and the finished Hornexa Technology site stands in the preview on the right."></div>
-            </div>
-            <div class="fcopy">
-              <p class="tile__eyebrow">Produsa</p>
-              <h2 class="tile__title">An AI platform that turns a website build into a conversation</h2>
-              <p class="fout">500+ builds and 290 live websites in the first two months after launch.</p>
-              <p class="tile__role">Product Designer and Builder<br>Produsa Labs, 2026</p>
-              <span class="fcta">Read the case study <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
-            </div>
-          </div>
-        </div>
+    <h1 class="tpage__h1"><span class="ln">Rish, Product Designer.</span><span class="ln">Builder. Illustrator.</span></h1>
+
+    <div class="tpage__say">
+      <p class="tpage__claim">I bring storytelling and social psychology into how products think, behave, and feel.</p>
+      <!-- A list of two, not a paragraph of two sentences. The second line
+           ends on a comma and the third opens on a capital, which as running
+           prose is a transcription slip and as two list items is just two
+           list items. A screen reader gets it announced as a list of 2. -->
+      <ul class="tpage__notes sub">
+        <li>Currently knee-deep in Agentic UX,</li>
+        <li>Deeply curious about myth, meaning, and what actually drives people.</li>
+      </ul>
+    </div>
+
+    <p class="label tpage__cue" aria-hidden="true">Scroll &darr;</p>
+  </section>
+
+  <!-- B. THE INDEX.
+       No h2. The list is the headline, and the five case-study links live
+       on the rows, so the big cards are gone with them.
+
+       Each row carries data-thumb only if a real picture of that project
+       exists. Sintero does not have one, so Sintero's row shows no
+       thumbnail at all rather than a grey box with a dashed border. -->
+  <section class="work wrap" id="work" aria-labelledby="workLabel">
+    <div class="idx__head">
+      <p class="label" id="workLabel">Selected work</p>
+      <p class="label idx__count u-tab">05</p>
+    </div>
+
+    <div class="idx" data-stagger>
+
+      <a class="idx-row reveal" href="/produsa.html" style="--dot: var(--dot-produsa)"
+         data-thumb="/assets/media/produsa-band.webp"
+         aria-label="Produsa: An AI platform that turns a website build into a conversation. Product Designer and Builder, 2026.">
+        <span class="idx-row__in">
+          <span class="idx-no label u-tab" aria-hidden="true">01</span>
+          <span class="idx-name">Produsa</span>
+          <span class="idx-line sub">An AI platform that turns a website build into a conversation</span>
+          <span class="idx-role label">Product Designer and Builder</span>
+          <span class="idx-year label">2026</span>
+        </span>
+        <span class="idx-row__out"><span class="sub">500+ builds and 290 live websites in the first two months after launch.</span></span>
       </a>
 
-      <!-- SUPACA, promoted to the featured size on his call, 2026-10-21.
-           Same anatomy as Produsa: picture left, argument right, result
-           first. The feature treatment used to be scoped to .a-produsa in
-           seventeen places; it is scoped to .tile--feature now, so the two
-           cards share one definition rather than one being a copy of the
-           other that can drift. -->
-      <a class="tile tile--feature a-supaca" href="/supaca.html">
-        <div class="tile__in">
-          <div class="fframe">
-            <div class="fmock">
-              <div class="tile__media"><div class="slot">[ IMAGE: the v1 event page, RSVP with your car and the Who's coming list ]</div></div>
-            </div>
-            <div class="fcopy">
-              <p class="tile__eyebrow">Supaca</p>
-              <h2 class="tile__title">Designing trust for a private network of supercar owners</h2>
-              <p class="fout">The beta is live, with real owners joining through the waitlist.</p>
-              <p class="tile__role">Lead UI/UX Designer<br>Mobile app, 2024 to 2025</p>
-              <span class="fcta">Read the case study <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
-            </div>
-          </div>
-        </div>
+      <a class="idx-row reveal" href="/supaca.html" style="--dot: var(--dot-supaca)"
+         data-thumb="/assets/media/supaca-hero.webp"
+         aria-label="Supaca: Designing trust for a private network of supercar owners. Lead UI/UX Designer, 2024 to 2025.">
+        <span class="idx-row__in">
+          <span class="idx-no label u-tab" aria-hidden="true">02</span>
+          <span class="idx-name">Supaca</span>
+          <span class="idx-line sub">Designing trust for a private network of supercar owners</span>
+          <span class="idx-role label">Lead UI/UX Designer</span>
+          <span class="idx-year label">2024&ndash;2025</span>
+        </span>
+        <span class="idx-row__out"><span class="sub">The beta is live, with real owners joining through the waitlist.</span></span>
       </a>
 
-      <a class="tile tile--band a-bizotico" href="/bizotico.html">
-        <div class="tile__in">
-          <div class="tile__media"><img src="/assets/media/bizo-band-16x10.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="The Bizotico storefront on a laptop and a phone. The laptop shows the hero, Upto 80% Off, Between Sea and Space, over a diver surfacing with a watch on his wrist, with four watch photographs below it."></div>
-          <div class="tile__lead">
-            <p class="tile__eyebrow">Bizotico</p>
-            <h2 class="tile__title">Designed a distributor's own D2C watch store</h2>
-            <div class="tile__foot">
-              <p class="tile__role">E-commerce Designer<br>2023 to 2024</p>
-              <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </div>
-          </div>
-          <div class="tile__more">
-            <div class="fact fact--lead">
-              <p class="fact__k">Outcome</p>
-              <p class="fact__v">7.85x ROAS on a May 2024 campaign. Still live two years later.</p>
-            </div>
-          </div>
-        </div>
+      <a class="idx-row reveal" href="/bizotico.html" style="--dot: var(--dot-bizotico)"
+         data-thumb="/assets/media/bizo-band-16x10.webp"
+         aria-label="Bizotico: Designed a distributor's own D2C watch store. E-commerce Designer, 2023 to 2024.">
+        <span class="idx-row__in">
+          <span class="idx-no label u-tab" aria-hidden="true">03</span>
+          <span class="idx-name">Bizotico</span>
+          <span class="idx-line sub">Designed a distributor's own D2C watch store</span>
+          <span class="idx-role label">E-commerce Designer</span>
+          <span class="idx-year label">2023&ndash;2024</span>
+        </span>
+        <span class="idx-row__out"><span class="sub">7.85x ROAS on a May 2024 campaign. Still live two years later.</span></span>
       </a>
 
-      <a class="tile tile--band a-vistlabs" href="/vistlabs.html">
-        <div class="tile__in">
-          <div class="tile__media"><img src="/assets/media/vist-band-16x10.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="The redesigned VIST Labs homepage hero. Diagnose, Decontaminate, Protect. in large white type over a dark teal photograph of pasteurisation equipment, under a plain white nav bar."></div>
-          <div class="tile__lead">
-            <p class="tile__eyebrow">VIST Labs, Illinois USA</p>
-            <h2 class="tile__title">Repositioning a post-harvest technology company for banks and growers</h2>
-            <div class="tile__foot">
-              <p class="tile__role">Product Designer, solo<br>2025</p>
-              <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </div>
-          </div>
-          <div class="tile__more">
-            <div class="fact fact--lead">
-              <p class="fact__k">Outcome</p>
-              <p class="fact__v">Launched as the client's primary site, and the founders used it with their customers.</p>
-            </div>
-          </div>
-        </div>
+      <a class="idx-row reveal" href="/vistlabs.html" style="--dot: var(--dot-vistlabs)"
+         data-thumb="/assets/media/vist-band-16x10.webp"
+         aria-label="VIST Labs: Repositioning a post-harvest technology company for banks and growers. Product Designer, solo, 2025.">
+        <span class="idx-row__in">
+          <span class="idx-no label u-tab" aria-hidden="true">04</span>
+          <span class="idx-name">VIST Labs</span>
+          <span class="idx-line sub">Repositioning a post-harvest technology company for banks and growers</span>
+          <span class="idx-role label">Product Designer, solo</span>
+          <span class="idx-year label">2025</span>
+        </span>
+        <span class="idx-row__out"><span class="sub">Launched as the client's primary site, and the founders used it with their customers.</span></span>
       </a>
 
-      <!-- Six lines that used to sit behind six photographs that do not
-           exist. No link and no accent wash, so it cannot be mistaken for
-           a case study, and it does not expand. -->
-      <!-- Two things that are not client work and are not case studies, so
-           they sit at the smaller size. Each links out to the thing itself. -->
-
-      <!-- Photographs stacked on each other. Tap and the next one comes to
-           the front. Replaces the lines that were only ever captions for
-           pictures that were not there. -->
-
-      <!-- Koodai Kind was here. Taken out of the grid on his call,
-           2026-10-20. /koodaikind.html is untouched and still reachable;
-           this only stops the homepage listing it as a project. Vist Labs
-           and Sintero take six columns each in its place. -->
-
-      <a class="tile tile--pair tile--sm a-sintero" href="/sintero.html">
-        <div class="tile__in">
-          <div class="tile__media"><div class="slot">[ IMAGE: the web and print system side by side ]</div></div>
-          <div class="tile__lead">
-            <p class="tile__eyebrow">Sintero</p>
-            <h2 class="tile__title">Brand identity and a specification-led website for a luxury stone brand</h2>
-            <div class="tile__foot">
-              <p class="tile__role">Brand and Digital Design Lead</p>
-              <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </div>
-          </div>
-          <div class="tile__more">
-            <div class="fact fact--lead">
-              <p class="fact__k">Outcome</p>
-              <p class="fact__v">Specified in projects for JW Marriott and Prestige Group.</p>
-            </div>
-          </div>
-        </div>
+      <!-- No data-thumb and no year: neither the picture nor the dates
+           exist on the site, and neither is going to be invented here. -->
+      <a class="idx-row reveal" href="/sintero.html" style="--dot: var(--dot-sintero)"
+         aria-label="Sintero: Brand identity and a specification-led website for a luxury stone brand. Brand and Digital Design Lead.">
+        <span class="idx-row__in">
+          <span class="idx-no label u-tab" aria-hidden="true">05</span>
+          <span class="idx-name">Sintero</span>
+          <span class="idx-line sub">Brand identity and a specification-led website for a luxury stone brand</span>
+          <span class="idx-role label">Brand and Digital Design Lead</span>
+          <span class="idx-year label"></span>
+        </span>
+        <span class="idx-row__out"><span class="sub">Specified in projects for JW Marriott and Prestige Group.</span></span>
       </a>
-
-
-
-      <section class="tile tile--pair tile--plain a-moments" aria-label="Also true">
-        <div class="tile__in">
-          <p class="tile__eyebrow">Also true</p>
-          <div class="pile" id="pile">
-            <button class="pile__card" type="button" style="--r:-3deg" data-cap="Curated the design and digital experience for a drive event with Ferrari India.">
-              <span class="slot">[ PHOTO: the Ferrari India drive event ]</span>
-            </button>
-            <button class="pile__card" type="button" style="--r:2.5deg" data-cap="Stood up against police brutality in college. There is an article with my picture.">
-              <span class="slot">[ PHOTO: the newspaper article ]</span>
-            </button>
-            <button class="pile__card" type="button" style="--r:-1.5deg" data-cap="Organised open mics, music jams, and poetry nights across Bengaluru for four years.">
-              <span class="slot">[ PHOTO: an open mic night ]</span>
-            </button>
-          </div>
-          <p class="pile__cap" id="pileCap">Curated the design and digital experience for a drive event with Ferrari India.</p>
-        </div>
-      </section>
-
-      <section class="tile tile--plain a-blog" id="writing" aria-label="Writing">
-        <div class="tile__in">
-          <p class="tile__eyebrow">Writing</p>
-          <h2 class="tile__title">Essays on design, AI and the work</h2>
-          <div class="blog">
-            <div class="slot">[ EMBED: Medium or Substack post ]</div>
-            <div class="slot">[ EMBED: Medium or Substack post ]</div>
-            <div class="slot">[ EMBED: Medium or Substack post ]</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- THE HINGE. Everything above this had a client; nothing below did.
-
-           It is the only de-bordered thing on the page: a filled band in
-           --v3-surface-accent, no border, no shadow. Fill-without-border is
-           the one material move the system had not spent, so it registers
-           as a different KIND of thing without inventing any geometry.
-
-           The division is made with space and material, not width. It keeps
-           the same left and right padding as every other card, because the
-           page's strongest asset is one unbroken left edge from the h1 to
-           the contact card and a full-bleed band would spend it.
-
-           #fun is here so the switch can be opened from a link. -->
-      <section class="tile tile--plain tile--divider a-desserts" id="fun" aria-labelledby="dividerTitle">
-        <div class="tile__in">
-          <div class="divider__copy">
-            <p class="tile__eyebrow">Desserts</p>
-            <h2 class="tile__title" id="dividerTitle">Nobody asked for any of this.</h2>
-            <p class="divider__line">I draw characters, make posters, and build apps that should not exist. The drawings live on their own page. The switch opens the apps and a shelf of skill files for agents.</p>
-
-            <!-- A real button with role="switch". The visible words change
-                 between states, which would make the accessible name move
-                 under a screen reader, so the name is the hidden "Fun mode"
-                 and the state lives in aria-checked where it belongs. The
-                 swapping words and the track are both aria-hidden. -->
-            <button class="funswitch" id="funSwitch" type="button" role="switch" aria-checked="false" aria-controls="funbox">
-              <span class="u-sr">Fun mode</span>
-              <span class="funswitch__label" aria-hidden="true" data-off="Enter fun mode" data-on="Fun mode. You did this.">Enter fun mode</span>
-              <span class="funswitch__track" aria-hidden="true"><span class="funswitch__thumb"></span></span>
-            </button>
-
-            <a class="divider__link" href="/desserts.html">See the drawings <span aria-hidden="true">&#8594;</span></a>
-          </div>
-
-          <!-- WHOA. lifted out of the old .dessert-art panel and set bare on
-               the band. That panel was a gradient box with a word inside it,
-               which is the "panel behind text" this system bans; it only got
-               away with it while the card was small. This keeps Kalam to
-               exactly one appearance on the page, now at the hinge. -->
-          <p class="divider__whoa" aria-hidden="true">WHOA.</p>
-        </div>
-      </section>
-
-      <!-- The revealed block. `hidden` when off, so it is out of the tab
-           order and out of the accessibility tree entirely rather than
-           merely invisible. The inner div carries .bento--home, so every
-           tile rule, the subgrid row levelling and all the breakpoints
-           apply to these three exactly as they do above, with no second
-           grid to keep in sync. -->
-      <div class="funbox" id="funbox" hidden>
-        <div class="funbox__grid bento bento--home">
-          <a class="tile tile--pair tile--sm a-cat" href="https://the-ardent-guy.github.io/ezraapp/" target="_blank" rel="noopener">
-            <div class="tile__in">
-              <div class="tile__media"><img src="/assets/media/ezra-site.webp" width="840" height="630" loading="lazy" decoding="async" alt="The Ezra site. YOUR DESKTOP HAS AN OWNER NOW. set in heavy mono capitals, the last word in amber, on a near-black ground."></div>
-              <div class="tile__lead">
-                <p class="tile__eyebrow">Ezra</p>
-                <h2 class="tile__title">Built a desktop app for my (ex) cat.</h2>
-                <div class="tile__foot">
-                  <p class="tile__role">Desktop app</p>
-                  <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-              </div>
-            </div>
-          </a>
-          <a class="tile tile--pair tile--sm a-lurch" href="https://lurchout.vercel.app/" target="_blank" rel="noopener">
-            <div class="tile__in">
-              <div class="tile__media"><img src="/assets/media/lurch-phones.webp" width="880" height="831" loading="lazy" decoding="async" alt="Two phones showing Lurch: the launch screen reading We match you on your trauma, and behind it a diagnostic screen headed Analysing your damage."></div>
-              <div class="tile__lead">
-                <p class="tile__eyebrow">Lurch</p>
-                <h2 class="tile__title">Made a dating app that matches you based on your trauma. (yes.)</h2>
-                <div class="tile__foot">
-                  <p class="tile__role">Dating app</p>
-                  <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 14 14"><path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-              </div>
-            </div>
-          </a>
-          <section class="tile tile--plain a-pharmacy" aria-labelledby="pharmTitle">
-            <div class="tile__in">
-              <p class="tile__eyebrow">Pharmacy</p>
-              <h2 class="tile__title" id="pharmTitle">Skill files for agents. Take as directed.</h2>
-              <p class="pharm__line">A skill file is a set of instructions you drop into Claude, Cursor or whatever you use, and it changes how the thing behaves. I keep writing them for myself, so they may as well be here.</p>
-              <p class="pharm__meta">One on the shelf so far. Over the counter: no prescription, no account, no email.</p>
-
-              <!-- A label, not a card. No border, no fill, no rule round an
-                   item: they are told apart by space alone. Tops align and
-                   bottoms are left ragged on purpose, which is the clearest
-                   signal that this is a list of things and not a grid of
-                   prices. -->
-              <ul class="pharm__shelf">
-                <li class="pharm__item">
-                  <h3 class="pharm__name">No-slop copy</h3>
-                  <p class="pharm__dir">Writes product and portfolio copy in first person, and refuses a list of words.</p>
-                  <p class="pharm__side">Side effects: it will not let you say &ldquo;seamless&rdquo;.</p>
-                  <p class="pharm__take"><a href="/skills/no-slop-copy.md" download>Take one</a> <span class="pharm__size">8 KB</span></p>
-                </li>
-              </ul>
-
-              <p class="pharm__foot">Dispensed as plain Markdown. Read it before you take it.</p>
-            </div>
-          </section>
-        </div>
-      </div>
-
-      <!-- TESTIMONIAL: removed, not forgotten. Three quotes have sat
-           unpermitted for a month. A full-width band announcing that is
-           worse than silence: nobody notices an absent testimonial, and
-           everybody notices a placeholder. Restore this band the day a name
-           and a permission exist, as a 1-row band above contact. -->
-
-
-
-      <section class="tile tile--plain a-contact" id="contact" aria-label="Contact">
-        <div class="tile__in">
-          <div class="tile__lead contact">
-            <div>
-              <p class="tile__eyebrow">Contact</p>
-              <h2 class="tile__title">Available for product design and consulting work.</h2>
-            </div>
-            <!-- Same three anchors, same hrefs, same words. They were
-                 inline and wrapped, so three different baselines; they are
-                 rows now, one left edge, 48px of thumb each. The two
-                 placeholder hrefs stay placeholders: filling them is not
-                 this pass. -->
-            <ul class="contact__list">
-              <li><a class="btn btn--primary" href="mailto:theardentguy@gmail.com">theardentguy@gmail.com</a></li>
-              <li><a class="contact__row" href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&#8599;</span></a></li>
-              <li><a class="contact__row" href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume <span aria-hidden="true">&#8599;</span></a></li>
-            </ul>
-          </div>
-        </div>
-      </section>
 
     </div>
+  </section>
+
+  <!-- C. ALSO TRUE.
+       One editorial line in the right columns. The three photographs (the
+       Ferrari drive, the newspaper article, the open mic night) do not
+       exist yet, so nothing is drawn for them: no stack of tilted
+       placeholder cards, no captions for pictures that are not there. The
+       two sentences that went with those photographs are waiting with
+       them. When the files arrive this becomes a 3-up strip at cols 5/13. -->
+  <section class="also wrap grid" aria-labelledby="alsoLabel">
+    <p class="label" id="alsoLabel">Also true</p>
+    <p class="also__line reveal">Curated the design and digital experience for a drive event with Ferrari India.</p>
+  </section>
+
+  <!-- D. WRITING.
+       Hidden, not styled. All three slots are embeds that do not exist, and
+       a section header over three empty rectangles is worse than silence.
+       Remove the hidden attribute the day there is one real post. -->
+  <section class="wrap grid" id="writing" aria-labelledby="writingLabel" hidden>
+    <p class="label" id="writingLabel">Writing</p>
+    <h2 class="dess__h2">Essays on design, AI and the work</h2>
+  </section>
+
+  <!-- E. DESSERTS. The doorway to the fun side, and the one section that
+       loosens up. It does it with a toggle and a mini index, not with a
+       different geometry: same twelve columns, same hairlines, same mono.
+
+       #fun is on the section so the switch can be linked to directly. -->
+  <section class="dess wrap grid" id="fun" aria-labelledby="dessLabel">
+    <p class="label" id="dessLabel">Desserts</p>
+    <h2 class="dess__h2">Nobody asked for any of this.</h2>
+    <p class="dess__say sub">I draw characters, make posters, and build apps that should not exist. The drawings live on their own page. The switch opens the apps and a shelf of skill files for agents.</p>
+
+    <div class="dess__acts">
+      <!-- The same switch as the one in the nav. Both carry
+           data-fun-switch and swiss.js keeps them in step, so there is one
+           state and two places to reach it. -->
+      <button class="action" type="button" data-fun-switch role="switch" aria-checked="false"
+              data-off="Enter fun mode" data-on="Fun mode. You did this." aria-label="Fun mode">Enter fun mode</button>
+      <a class="action" href="/desserts.html">See the drawings <span class="action__arrow" aria-hidden="true">&rarr;</span></a>
     </div>
-    <!-- PARKED 3 of 4. The footer held only the crazy switch, so with the
-         switch gone it is an empty strip. Both come back together.
-         NOTE, 2026-10-21: the window frame around this page was deleted,
-         but .window__foot survives in v3.css restyled as a rule plus the
-         switch, so unparking is still only these four edits:
-    <div class="window__foot">
-      <button class="crazy-switch" id="crazySwitch" type="button" role="switch" aria-checked="false">
-        <span class="crazy-switch__track" aria-hidden="true"><span class="crazy-switch__thumb"></span></span>
-        <span class="crazy-switch__label">crazy mode</span>
-      </button>
+
+    <div class="idx" data-stagger>
+      <a class="idx-row reveal" href="https://the-ardent-guy.github.io/ezraapp/" target="_blank" rel="noopener"
+         data-thumb="/assets/media/ezra-site.webp"
+         aria-label="Ezra: Built a desktop app for my (ex) cat. Desktop app.">
+        <span class="idx-row__in">
+          <span class="idx-no label u-tab" aria-hidden="true">D1</span>
+          <span class="idx-name">Ezra</span>
+          <span class="idx-line sub">Built a desktop app for my (ex) cat.</span>
+          <span class="idx-role label">Desktop app</span>
+          <span class="idx-year label"></span>
+        </span>
+      </a>
+
+      <a class="idx-row reveal" href="https://lurchout.vercel.app/" target="_blank" rel="noopener"
+         data-thumb="/assets/media/lurch-phones.webp"
+         aria-label="Lurch: Made a dating app that matches you based on your trauma. Dating app.">
+        <span class="idx-row__in">
+          <span class="idx-no label u-tab" aria-hidden="true">D2</span>
+          <span class="idx-name">Lurch</span>
+          <span class="idx-line sub">Made a dating app that matches you based on your trauma. (yes.)</span>
+          <span class="idx-role label">Dating app</span>
+          <span class="idx-year label"></span>
+        </span>
+      </a>
+
+      <!-- The pharmacy is the row, so the row is the download. The old
+           "Take one" link lived inside the card; a link inside a link is
+           not a thing, and a download hidden behind a hover is worse. -->
+      <a class="idx-row reveal" href="/skills/no-slop-copy.md" download
+         aria-label="Pharmacy: Skill files for agents. Take as directed. No-slop copy, 8 KB.">
+        <span class="idx-row__in">
+          <span class="idx-no label u-tab" aria-hidden="true">D3</span>
+          <span class="idx-name">Pharmacy</span>
+          <span class="idx-line sub">Skill files for agents. Take as directed.</span>
+          <span class="idx-role label">Markdown</span>
+          <span class="idx-year label u-tab">8 KB</span>
+        </span>
+        <span class="idx-row__out"><span class="sub">No-slop copy. Writes product and portfolio copy in first person, and refuses a list of words. One on the shelf so far.</span></span>
+      </a>
     </div>
-    -->
-   </div>
-  </div>
+  </section>
+
+  <!-- F. CONTACT.
+       60vh, content centred, and the one other hero-size line on the page.
+       The title page opens the sentence and this closes it.
+
+       The two outbound hrefs are still placeholders. They were placeholders
+       on the live site before this restyle, so they are not a regression,
+       and filling them is not this pass either. -->
+  <section class="say wrap" id="contact" aria-labelledby="sayLabel">
+    <p class="label" id="sayLabel">Contact</p>
+    <h2 class="say__h2">Available for product design and consulting work.</h2>
+    <div class="say__acts">
+      <a class="mailbtn" href="mailto:theardentguy@gmail.com">theardentguy@gmail.com</a>
+      <a class="action" href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener">LinkedIn <span class="action__arrow" aria-hidden="true">&#8599;</span></a>
+      <a class="action" href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume <span class="action__arrow" aria-hidden="true">&#8599;</span></a>
+    </div>
+  </section>
+
 </main>
 
-<script src="/assets/main.js"></script>
-<script src="/assets/v2.js"></script>
-<!-- PARKED 4 of 4: <script src="/assets/crazy.js" defer></script> -->
+<footer class="sfoot wrap">
+  <div class="sfoot__grid label">
+    <span class="sfoot__who">Rishabh Jain</span>
+    <a class="sfoot__mail" href="mailto:theardentguy@gmail.com">theardentguy@gmail.com</a>
+    <span class="sfoot__out">
+      <a href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+      <a href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume <span aria-hidden="true">&#8599;</span></a>
+    </span>
+    <span class="sfoot__end">
+      <span class="u-tab">2026</span>
+      <button class="snav__tool" type="button" data-fun-switch role="switch" aria-checked="false"
+              data-off="fun" data-on="fun on" aria-label="Fun mode">fun</button>
+    </span>
+  </div>
+</footer>
+
+<script src="/assets/swiss.js"></script>
 </body>
 </html>
