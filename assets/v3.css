@@ -2221,3 +2221,86 @@ body, .window, .bar__in, .dock__btn, .contact__row, .fact {
     grid-row: auto;
   }
 }
+
+/* ==========================================================================
+   14. THE FEATURE CARDS SPLIT AGAIN
+   His call, 2026-10-21: "can we go back to image on the left, text on the
+   right for the produsa and supaca case study blocks".
+
+   §12.3 stacked them to make the picture dominant. The cards came back in
+   §13, and inside a card the split works the way stacking was meant to:
+   the picture is still the biggest object in the tile, it just has the
+   argument beside it instead of underneath. This is §12.3 reverted, not a
+   new layout.
+   ========================================================================== */
+
+/* 14.1 Seven columns of picture, five of words, which is the proportion
+   this card was built on. The picture keeps the larger share, so it still
+   leads; the copy gets a 5/12 column, which at 1440 is about 390px and
+   holds the headline in three lines. Centred, because the copy is always
+   shorter than the picture and aligning both to the top leaves the words
+   floating against a tall panel. */
+.fframe {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(24px, 3.4vw, 56px);
+  align-items: center;
+}
+
+/* 14.2 The copy stacks in its own column again.
+   §12.3 made .fcopy a 7/5 grid of its own and §12.10 pinned each child to
+   a row, which was the right answer for two columns of words under one
+   wide picture. In a 5/12 column it is one column, read top to bottom, so
+   every one of those placements has to be undone or the role and the link
+   stay pinned to a column 2 that no longer exists. */
+.bento--home .tile--feature .fcopy {
+  display: block;
+  grid-template-columns: none;
+  column-gap: 0;
+  row-gap: 0;
+}
+
+.bento--home .tile--feature .tile__title,
+.bento--home .tile--feature .fout,
+.bento--home .tile--feature .tile__role,
+.bento--home .tile--feature .fcta {
+  grid-column: auto;
+  grid-row: auto;
+}
+
+/* 14.3 The vertical rhythm comes back with it. §12.11 zeroed these
+   margins because the two-column copy block used a row gap instead; a
+   stack has no row gap, so without them the outcome, the role and the
+   link sit flush against each other. */
+.bento--home .tile--feature .fout { margin: 0 0 16px; }
+.bento--home .tile--feature .tile__role { margin: 0 0 22px; }
+
+/* 14.4 Back to 4:3, which un-crops Produsa.
+   §12.8 went to 16:10 because a 4:3 picture across all twelve columns was
+   745px tall. In seven columns that argument is gone: the panel is about
+   550px wide, so 4:3 is 413px tall and the card does not grow.
+
+   The ratio also matters more than it looks. produsa-band.webp is
+   1200x900, natively 4:3, and .tile__media img is object-fit: cover with
+   object-position: 50% 0 (style.css:3724). In a 16:10 box that quietly
+   took about 17% off the bottom of the shot. At 4:3 it fits exactly and
+   nothing is lost. */
+.bento--home .tile--feature .fmock .tile__media { aspect-ratio: 4 / 3; }
+
+/* 14.5 Below 900 it stacks.
+   The original collapsed at 699, but at 860 the copy column is down to
+   about 280px and a 28px headline breaks to five or six lines next to a
+   390px picture. 900 is where the split stops being worth it. The 699
+   rule in §7.5 still exists and now simply agrees with this one. */
+@media (max-width: 899px) {
+  .fframe {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+  }
+  /* 4:3 holds here too, so the master is never cropped at any width.
+     §12.8's reason for 16:10 was that 4:3 across all twelve columns is
+     810px tall; stacking now only happens below 899, where the picture is
+     at most about 725px wide and 4:3 is 544px tall. The crop costs more
+     than the height saves. */
+}
