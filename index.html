@@ -27,12 +27,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Kalam:wght@400;700&display=swap">
 <link rel="preload" as="image" href="/assets/hero.jpg" fetchpriority="high">
 <link rel="stylesheet" href="/assets/style.css">
 <link rel="stylesheet" href="/assets/v2.css">
 <link rel="stylesheet" href="/assets/v3.css">
 <link rel="stylesheet" href="/assets/swiss.css">
+<link rel="stylesheet" href="/assets/notebook.css">
 <script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
 </head>
 <body>
@@ -109,7 +110,7 @@
        a dashed grey box reads as a site that is not finished. -->
   <section class="work wrap" id="work" aria-labelledby="workLabel">
     <div class="idx__head">
-      <p class="label" id="workLabel">Selected work</p>
+      <p class="label nb-note" id="workLabel">Selected work</p>
       <p class="label idx__count u-tab">05</p>
     </div>
 
@@ -127,7 +128,7 @@
             <span class="pyear label u-tab">2026</span>
             <p class="pline">An AI platform that turns a website build into a conversation</p>
             <p class="prole label">Product Designer and Builder</p>
-            <p class="pout sub">500+ builds and 290 live websites in the first two months after launch.</p>
+            <p class="pout sub"><mark class="nb-mark">500+ builds</mark> and 290 live websites in the first two months after launch.</p>
             <span class="action pcta">Read the case study <span class="action__arrow" aria-hidden="true">&rarr;</span></span>
           </div>
         </a>
@@ -163,7 +164,7 @@
             <span class="pyear label u-tab">2023&ndash;2024</span>
             <p class="pline">Designed a distributor&#39;s own D2C watch store</p>
             <p class="prole label">E-commerce Designer</p>
-            <p class="pout sub">7.85x ROAS on a May 2024 campaign. Still live two years later.</p>
+            <p class="pout sub"><mark class="nb-mark">7.85x ROAS</mark> on a May 2024 campaign. Still live two years later.</p>
             <span class="action pcta">Read the case study <span class="action__arrow" aria-hidden="true">&rarr;</span></span>
           </div>
         </a>
@@ -202,7 +203,7 @@
              exist yet, so the one line that does stands on its own. -->
         <section class="pcell pcell--r pcell--plain pcell--noshot" aria-labelledby="alsoLabel">
           <div class="pmeta reveal">
-            <p class="label" id="alsoLabel">Also true</p>
+            <p class="label nb-note" id="alsoLabel">Also true</p>
             <p class="pline">Curated the design and digital experience for a drive event with Ferrari India.</p>
           </div>
         </section>
@@ -215,14 +216,14 @@
        exist, and a section header over three empty rectangles is worse than
        silence. Remove the hidden attribute the day there is one real post. -->
   <section class="wrap grid" id="writing" aria-labelledby="writingLabel" hidden>
-    <p class="label" id="writingLabel">Writing</p>
+    <p class="label nb-note" id="writingLabel">Writing</p>
     <h2>Essays on design, AI and the work</h2>
   </section>
 
   <!-- DESSERTS. No switch and nothing hidden behind one: the three rows are
        simply here. -->
   <section class="dess wrap grid" aria-labelledby="dessLabel">
-    <p class="label" id="dessLabel">Desserts</p>
+    <p class="label nb-note" id="dessLabel">Desserts</p>
     <h2 class="dess__h2">Nobody asked for any of this.</h2>
     <p class="dess__say sub">I draw characters, make posters, and build apps that should not exist. The drawings live on their own page.</p>
 
@@ -276,7 +277,7 @@
        restyle, so they are not a regression, and filling them is not this
        pass either. -->
   <section class="say wrap" id="contact" aria-labelledby="sayLabel">
-    <p class="label" id="sayLabel">Contact</p>
+    <p class="label nb-note" id="sayLabel">Contact</p>
     <h2 class="say__h2">Available for product design and consulting work.</h2>
     <div class="say__acts">
       <a class="mailbtn" href="mailto:theardentguy@gmail.com">theardentguy@gmail.com</a>
@@ -295,10 +296,19 @@
       <a href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&#8599;</span></a>
       <a href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume <span aria-hidden="true">&#8599;</span></a>
     </span>
+    <span class="nb-clock" data-clock hidden>Bengaluru (BLR), India <span aria-hidden="true">&#9201;</span> <time aria-live="off"></time> IST</span>
     <span class="sfoot__end"><span class="u-tab">2026</span></span>
   </div>
 </footer>
 
+<!-- Ask Rish mounts here and builds its own markup. Nothing without JS,
+     deliberately: an inert pill that opens an empty panel is worse than
+     no pill. Only the homepage carries it this round. The five case
+     studies are light-only reading pages and a floating pill over one is
+     a distraction; adding it there is this one line. -->
+<div data-ask-rish></div>
+
 <script src="/assets/swiss.js"></script>
+<script src="/assets/notebook.js"></script>
 </body>
 </html>

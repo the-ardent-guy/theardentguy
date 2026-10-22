@@ -1,0 +1,632 @@
+/* ===========================================================================
+   NOTEBOOK
+   Loaded LAST, after style.css / v2.css / v3.css / case.css / swiss.css.
+   The third style, built on top of the Swiss index rather than instead of it.
+
+   WHAT THIS LAYER IS, AND WHAT IT DELIBERATELY IS NOT
+
+   The spec's notebook kit (sec 7) is built from SURFACES: a ruled sheet, a red
+   margin rule, index cards, polaroid frames. The Swiss index has no surfaces
+   on purpose -- "the grid has no cards", one hairline does all the separating.
+   Dropping cards back in to hold ruled lines would not be a layer on the
+   Swiss index, it would be a quiet revert of it.
+
+   So this layer takes the kit's MARKS and leaves its surfaces alone:
+     in   margin notes in Kalam with a drawn underline    (spec 7.2)
+     in   highlighter swipe on one metric per project      (spec 7.3, the idea)
+     in   washi tape on the project pictures               (spec 7.4, --taped)
+     in   a drawn ellipse round secondary actions          (spec 7.6)
+     in   the margin clock and footer meta                 (spec 7.7)
+     in   the hero block's measurements                    (spec 6)
+     in   the Ask Rish sticky note and panel               (spec 11.6)
+
+     out  the ruled sheet and the red margin rule (spec 7.1). He asked for the
+          notebook DOT grid on 2026-10-22 and it is measured and shipping in
+          swiss.css 16.1. Rules plus dots is two grounds arguing. The block in
+          sec 2 below turns the rules on for anyone who wants to see them.
+     out  index cards and polaroid frames (spec 7.3 / 7.4). Surfaces, as above.
+     out  punch holes (spec 7.1, marked optional there). Dots, tape and holes
+          at once is costume.
+
+   THE HARD RULE FROM THE SWISS PASS STILL HOLDS: this file never touches the
+   page background. Search it for "background" and every hit is on a mark, a
+   tape strip, a highlighter band or the chat panel. Never on the page.
+   =========================================================================== */
+
+
+/* ---------------------------------------------------------------------------
+   1. TOKENS
+
+   Same read-through pattern swiss.css uses: var(--v3-*, literal), so one
+   declaration serves the homepage (which loads v3.css) and the case studies
+   (which do not). The fallbacks are the v3 light values, not new colours.
+   --------------------------------------------------------------------------- */
+
+:root {
+  --nb-hand: "Kalam", "Segoe Print", cursive;
+
+  /* Highlighter. 14.6:1 for --ink on this, measured, so the swipe never
+     costs the metric any legibility. */
+  --nb-highlight: #F3E7A1;
+
+  /* Tape. Deliberately NOT a grey wash: on a photograph that reads as a
+     render artefact. A warm opaque strip reads as tape. */
+  --nb-tape: rgba(226, 214, 180, 0.82);
+  --nb-tape-edge: rgba(150, 134, 94, 0.28);
+
+  /* The drawn marks are baked at a fixed colour because a background-image
+     data URI cannot read currentColor. Light = the v3 forest accent, dark =
+     the v3 sand accent. Any change to --v3-accent has to be made here too. */
+  --nb-draw: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10'%3E%3Cpath d='M1 5 C 30 2, 55 9, 85 5 S 130 1, 160 8 S 186 3, 199 5' fill='none' stroke='%232F6344' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+  --nb-ellipse: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40' preserveAspectRatio='none'%3E%3Cpath d='M14 21 C 12 9, 42 4, 62 4 C 92 4, 114 9, 112 20 C 110 32, 78 37, 56 36 C 26 35, 10 31, 9 19' fill='none' stroke='%232F6344' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+[data-theme="dark"] {
+  /* Ink on #F3E7A1 in dark would be sand on sand. The dark swipe is a low
+     wash under light ink instead: 8.9:1 for --ink on the mixed result. */
+  --nb-highlight: rgba(220, 208, 174, 0.22);
+  --nb-tape: rgba(220, 208, 174, 0.16);
+  --nb-tape-edge: rgba(220, 208, 174, 0.26);
+  --nb-draw: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10'%3E%3Cpath d='M1 5 C 30 2, 55 9, 85 5 S 130 1, 160 8 S 186 3, 199 5' fill='none' stroke='%23DCD0AE' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+  --nb-ellipse: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40' preserveAspectRatio='none'%3E%3Cpath d='M14 21 C 12 9, 42 4, 62 4 C 92 4, 114 9, 112 20 C 110 32, 78 37, 56 36 C 26 35, 10 31, 9 19' fill='none' stroke='%23DCD0AE' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+
+/* ---------------------------------------------------------------------------
+   2. THE RULED SHEET, OFF BY DEFAULT
+
+   Spec 7.1, kept whole so it can be judged rather than described. Put
+   data-ruled on <html> to see it. It is not on, for the reason in the header.
+   --------------------------------------------------------------------------- */
+
+[data-ruled] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(to bottom,
+    transparent 0 27px,
+    color-mix(in srgb, var(--accent) 16%, transparent) 27px 28px);
+}
+
+
+/* ---------------------------------------------------------------------------
+   3. MARGIN NOTES  (spec 7.2)
+
+   Applied by an explicit .nb-note class in the markup, never by reaching
+   through .label. The swiss pass lost a round trip to exactly that: .dess
+   .label at (0,2,0) beat .idx-no at (0,1,0) through the rows nested inside
+   the section and stacked three of them into a staircase. A class on the six
+   elements that want it cannot do that to anything.
+
+   The pencil glyph is content on a pseudo-element, so it is not in the
+   accessible name and not in a copy-paste.
+   --------------------------------------------------------------------------- */
+
+.nb-note {
+  font-family: var(--nb-hand);
+  font-weight: 400;
+  /* The mono label this replaces is 11px/.08em uppercase. Kalam at 17px
+     lowercase lands on about the same optical weight and takes the same
+     line. */
+  font-size: 17px;
+  letter-spacing: 0;
+  line-height: 1.2;
+  /* lowercase, not none: the label underneath is uppercase mono and a note
+     written in capitals is not a note. The source copy is untouched, so a
+     screen reader and a copy-paste still get "Selected work". */
+  text-transform: lowercase;
+  color: var(--accent);
+  display: inline-block;
+  /* MEASURED at 768: the label sits in a squeezed flex row beside the count
+     and "selected work" wrapped onto two lines, which put the squiggle under
+     the second word only. All six notes are one or two words and the longest
+     measures about 105px, so nowrap is safe down to 375. */
+  white-space: nowrap;
+  transform: rotate(-1.5deg);
+  transform-origin: left bottom;
+  padding-bottom: 9px;
+  background-image: var(--nb-draw);
+  background-repeat: repeat-x;
+  /* auto, not 100%: at 100% the wobble squashes flat and the whole point of
+     drawing it by hand goes. At a fixed height it tiles at its own aspect,
+     and the path starts and ends on the same y so the seam does not show. */
+  background-size: auto 7px;
+  background-position: left bottom;
+}
+
+/* A margin, not an escaped space: a space or \00a0 immediately after a hex
+   escape is read as part of the escape, and the probe came back with a
+   replacement character where the gap should have been. */
+.nb-note::before { content: "\270E"; margin-right: 0.3em; }
+
+
+/* ---------------------------------------------------------------------------
+   4. HIGHLIGHTER  (spec 7.3, the one idea in the index card worth keeping)
+
+   One swipe per project, on the number. A band behind the text rather than a
+   background on it, so the swipe can sit low and skewed like a real marker
+   pass and the baseline is still readable.
+   --------------------------------------------------------------------------- */
+
+.nb-mark {
+  position: relative;
+  background: none;
+  color: inherit;
+  white-space: nowrap;
+}
+
+.nb-mark::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -0.18em;
+  right: -0.18em;
+  bottom: -0.04em;
+  /* Not the full line box: a marker nib is narrower than the text it crosses
+     and leaves the ascenders showing. */
+  height: 0.72em;
+  background: var(--nb-highlight);
+  transform: skewX(-9deg) rotate(-0.6deg);
+  border-radius: 1px;
+}
+
+
+/* ---------------------------------------------------------------------------
+   5. TAPE ON THE PROJECT PICTURES  (spec 7.4, the --taped variant)
+
+   .pshot keeps its overflow: hidden, for two reasons. It is the element
+   swiss.js observes for the picture reveal, and the image inside it scales on
+   hover and needs a clipping parent. So the tape does not overhang the frame;
+   it crosses the corner from inside and clips at the edge, which is what tape
+   running off a photograph looks like anyway.
+
+   Only on the two lead cells. Tape on all five is wallpaper.
+   --------------------------------------------------------------------------- */
+
+.pcell--lead .pshot { position: relative; }
+
+.pcell--lead .pshot::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  left: -16px;
+  width: 92px;
+  height: 26px;
+  background: var(--nb-tape);
+  border-left: 1px solid var(--nb-tape-edge);
+  border-right: 1px solid var(--nb-tape-edge);
+  transform: rotate(-8deg);
+  pointer-events: none;
+}
+
+
+/* ---------------------------------------------------------------------------
+   6. THE DRAWN ELLIPSE  (spec 7.6, secondary)
+
+   On the contact actions. Drawn, not animated: the stroke-draw in spec 8 M5
+   belongs to the motion kit, which is not in this round. Opacity only, so
+   nothing moves under the pointer and nothing reflows.
+
+   Pointer-fine only. On a touch screen there is no hover state to reward, and
+   an ellipse that appears on tap-and-hold is noise.
+   --------------------------------------------------------------------------- */
+
+@media (hover: hover) and (pointer: fine) {
+  .action { position: relative; }
+
+  .action::after {
+    content: "";
+    position: absolute;
+    inset: -8px -13px;
+    background-image: var(--nb-ellipse);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--dur) var(--ease);
+  }
+
+  .action:hover::after,
+  .action:focus-visible::after { opacity: 1; }
+}
+
+
+/* ---------------------------------------------------------------------------
+   7. THE HERO BLOCK  (spec 6)
+
+   The banner markup is not touched. The block is already bottom-left inside
+   .wrap, already over the bottom-weighted scrim in swiss.css 16.2, so this is
+   the spec's MEASUREMENTS applied to the block that is there, not a second
+   text layer added over it. A second one would put the name on the photograph
+   twice, since .banner__eyebrow is already the name.
+
+   What the spec asks for and what lands here:
+     block width 22rem      -> 352px, capped so it never meets the cue
+     H1 : p of 48 : 17      -> the h1 is 46px on this page already, so the
+                               line under it is 17/130% and the ratio holds
+     gap 16                 -> --s2
+     edge inset 20          -> .wrap's own gutter, unchanged
+
+   NOT applied: the spec's fluid root (font-size: calc(100vw/1440*16)). It
+   rescales every rem in the ~290KB of CSS under this file, all of it authored
+   at 16px, while every px value in those same files holds still. The hairline
+   grid and the 26px dot pitch would stay put while the type grew 33% at
+   1920. Measurements are in px below for that reason.
+   --------------------------------------------------------------------------- */
+
+/* MEASURED, and it caught the auto-margin trap a second time. Capping .wrap
+   itself at 352px does not give a 352px column on the left, it gives a 352px
+   column in the MIDDLE: .wrap carries the page gutter as auto inline margins,
+   and a block with auto margins and a max-width centres. The probe read
+   left = 537px on a 1440 viewport, which is the opposite of spec 6.
+
+   So .wrap keeps its full width and its gutter, and the cap goes on the text
+   instead. The cue is absolute against .wrap, so it lands on the right edge
+   of the content column rather than the right edge of the screen. */
+.banner .wrap { position: relative; }
+
+.banner__h1 {
+  letter-spacing: -0.02em;
+  /* 22rem, spec 6. Overrides the 20ch in swiss.css 16.2, which is about 460px
+     at 46px and would let the headline run past the block. */
+  max-width: 352px;
+}
+
+.banner__line {
+  margin: var(--s2) 0 0;
+  max-width: 352px;
+  font-size: 17px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  /* On the photograph, so it does not follow the theme. Measured against the
+     scrim it sits on in sec 16.2, not against the paper. */
+  color: rgba(251, 248, 241, 0.86);
+}
+
+/* The cue moves out of the block's way, bottom right, so the 352px column
+   and the cue are not arguing over the same corner. */
+.banner__cue {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+}
+
+
+/* ---------------------------------------------------------------------------
+   8. THE MARGIN CLOCK  (spec 7.7)
+
+   In the footer, in the margin voice. aria-live is off in the markup so a
+   screen reader is not told the time once a second.
+   --------------------------------------------------------------------------- */
+
+.nb-clock {
+  font-family: var(--nb-hand);
+  font-size: 15px;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-60);
+  display: inline-block;
+  transform: rotate(-1deg);
+}
+
+.nb-clock[hidden] { display: none; }
+
+/* Tabular, or the line jitters every second as the digits change width. */
+.nb-clock time { font-variant-numeric: tabular-nums; }
+
+/* Row two of the footer's twelve columns, left. Three columns beside the year
+   is not enough: the line measures about 270px in Kalam 15 and .sfoot__end is
+   roughly 320px wide at 1440 with the year and a 24px gap already in it. */
+.sfoot__grid .nb-clock { grid-column: 1 / 7; }
+
+@media (max-width: 700px) {
+  .sfoot__grid .nb-clock { grid-column: 1 / 13; }
+}
+
+
+/* ---------------------------------------------------------------------------
+   9. ASK RISH  (spec 11.6)
+
+   A sticky note bottom right, and a panel that grows out of its corner with
+   the nav timing from spec A6 (0.7s cubic-bezier(.5,.5,0,1), scale .15 -> 1).
+   The panel is the one place in this file that paints a surface, because a
+   chat panel with no surface of its own is unreadable over anything.
+   --------------------------------------------------------------------------- */
+
+.ar {
+  position: fixed;
+  right: clamp(16px, 4vw, 32px);
+  bottom: clamp(16px, 4vw, 32px);
+  z-index: 60;
+}
+
+/* 9.1 The sticky note ------------------------------------------------------ */
+
+.ar__pill {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  padding: 0 6px;
+  border: 0;
+  border-radius: 0;
+  background: var(--nb-highlight);
+  color: #15120C;
+  font-family: var(--nb-hand);
+  font-size: 13px;
+  line-height: 1.1;
+  text-align: center;
+  cursor: pointer;
+  transform: rotate(2deg);
+  transition: transform var(--dur) var(--ease);
+  /* A sticky note lifts at one corner. Two stops, not a blur halo. */
+  box-shadow: 1px 2px 0 rgba(21, 18, 12, 0.10), 3px 5px 10px rgba(21, 18, 12, 0.12);
+}
+
+[data-theme="dark"] .ar__pill {
+  /* The low wash that works behind light ink is far too dark to be a note.
+     In dark the note is the sand accent at full strength with dark ink on
+     it: 9.7:1, and it is still the one yellow thing on the page. */
+  background: #DCD0AE;
+  color: #171C18;
+  box-shadow: 1px 2px 0 rgba(0, 0, 0, 0.26), 3px 5px 10px rgba(0, 0, 0, 0.30);
+}
+
+.ar__pill:hover { transform: rotate(0deg); }
+.ar__pill:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.ar[data-open="true"] .ar__pill { transform: rotate(0deg) scale(0.92); }
+
+/* 9.2 The panel ------------------------------------------------------------ */
+
+.ar__panel {
+  position: absolute;
+  right: 0;
+  bottom: 68px;
+  width: 380px;
+  height: 560px;
+  max-height: calc(100svh - 120px);
+  display: flex;
+  flex-direction: column;
+  background: var(--v3-surface, #FBF8F1);
+  border: 1px solid var(--rule-strong);
+  transform-origin: 100% 100%;
+  transform: scale(0.15);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform 0.7s cubic-bezier(.5, .5, 0, 1),
+    opacity 0.5s linear,
+    visibility 0s linear 0.7s;
+}
+
+.ar[data-open="true"] .ar__panel {
+  transform: scale(1);
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s, 0s, 0s;
+}
+
+[data-theme="dark"] .ar__panel { background: var(--v3-surface, #1E241F); }
+
+.ar__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s1);
+  padding: var(--s2);
+  border-bottom: 1px solid var(--rule);
+}
+
+.ar__title { margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
+
+.ar__close {
+  border: 0;
+  background: none;
+  color: var(--ink-60);
+  font: inherit;
+  font-size: 18px;
+  line-height: 1;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+.ar__close:hover { color: var(--ink); }
+.ar__close:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* 9.3 The log -------------------------------------------------------------- */
+
+/* Inside the panel, and only inside it, the ruled sheet is on. This is the
+   one place it does not fight the dot grid, because the panel has a ground of
+   its own. 27px pitch = the 15px/27px line-height the messages are set at, so
+   the answers sit ON the rules rather than across them. */
+.ar__log {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--s2);
+  background-image: repeating-linear-gradient(to bottom,
+    transparent 0 27px,
+    color-mix(in srgb, var(--accent) 14%, transparent) 27px 28px);
+  background-attachment: local;
+}
+
+.ar__msg { margin: 0 0 27px; font-size: 15px; line-height: 27px; }
+
+/* The visitor's turn is a slip of paper. The bot's turn sits on the rules, so
+   the two are told apart by what they are written on, not by a bubble. */
+.ar__msg--me {
+  margin-left: auto;
+  max-width: 82%;
+  width: fit-content;
+  padding: 0 10px;
+  background: var(--v3-surface-accent, #E3DDD0);
+  color: var(--ink);
+  transform: rotate(-0.4deg);
+}
+
+.ar__msg--bot { color: var(--ink); }
+.ar__msg--bot a { color: var(--accent); }
+
+.ar__msg--err { color: var(--ink-60); font-family: var(--nb-hand); font-size: 16px; }
+
+.ar__think { font-family: var(--nb-hand); font-size: 16px; color: var(--ink-60); }
+
+.ar__think::after {
+  content: "";
+  display: inline-block;
+  width: 1.1em;
+  text-align: left;
+  animation: ar-dots 1.2s steps(1) infinite;
+}
+@keyframes ar-dots {
+  0%   { content: ""; }
+  25%  { content: "."; }
+  50%  { content: ".."; }
+  75%  { content: "..."; }
+}
+
+/* 9.4 Starters, input, footnote -------------------------------------------- */
+
+.ar__starts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 var(--s2) var(--s1);
+}
+
+.ar__start {
+  font-family: var(--nb-hand);
+  font-size: 15px;
+  color: var(--accent);
+  background: none;
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  padding: 4px 11px;
+  cursor: pointer;
+  transition: border-color var(--dur) var(--ease);
+}
+.ar__start:hover { border-color: var(--accent); }
+.ar__start:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.ar__form {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--s1);
+  padding: var(--s2);
+  border-top: 1px solid var(--rule);
+}
+
+.ar__input {
+  flex: 1;
+  min-width: 0;
+  resize: none;
+  field-sizing: content;
+  max-height: 5lh;
+  font: inherit;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--ink);
+  background: none;
+  border: 0;
+  padding: 0;
+}
+.ar__input::placeholder { color: var(--ink-40); }
+.ar__input:focus { outline: 0; }
+.ar__form:focus-within { border-top-color: var(--accent); }
+
+.ar__send {
+  flex: none;
+  /* 44px, the spec's minimum hit target. */
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+}
+.ar__send:disabled { opacity: 0.35; cursor: default; }
+.ar__send:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.ar__send svg { width: 16px; height: 16px; fill: currentColor; }
+
+.ar__count {
+  font-size: 11px;
+  color: var(--ink-40);
+  font-variant-numeric: tabular-nums;
+}
+.ar__count[hidden] { display: none; }
+
+.ar__note {
+  margin: 0;
+  padding: 0 var(--s2) var(--s2);
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--ink-60);
+}
+.ar__note a { color: inherit; }
+
+.ar__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+
+/* ---------------------------------------------------------------------------
+   10. RESPONSIVE
+   --------------------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .banner__h1, .banner__line { max-width: 20rem; }
+  .banner__line { font-size: 15px; }
+  .nb-note { font-size: 16px; }
+}
+
+@media (max-width: 560px) {
+  .banner__h1, .banner__line { max-width: none; }
+  /* Under 560 the cue and a full-width text block cannot share the bottom
+     edge, so the cue goes back into the flow. */
+  .banner__cue { position: static; margin-top: var(--s2); }
+
+  /* MEASURED at 390: the lead picture is 335px wide there, so a 92px strip is
+     27% of the frame against 15% at 1440 and reads as a label rather than a
+     piece of tape. */
+  .pcell--lead .pshot::after { width: 62px; height: 20px; top: 8px; left: -12px; }
+
+  /* Full-screen sheet, spec 9. */
+  .ar { right: 0; bottom: 0; left: 0; }
+  .ar__pill { position: absolute; right: 16px; bottom: 16px; }
+  .ar__panel {
+    position: fixed;
+    inset: 0;
+    width: auto;
+    height: auto;
+    max-height: none;
+    border: 0;
+  }
+}
+
+
+/* ---------------------------------------------------------------------------
+   11. REDUCED MOTION
+
+   Nothing in this layer is frame-driven, so this is short: the scale-from-
+   corner becomes a fade, and the thinking dots stop.
+   --------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .ar__panel { transform: none; transition: opacity 0.2s linear, visibility 0s linear 0.2s; }
+  .ar[data-open="true"] .ar__panel { transform: none; }
+  .ar__pill:hover { transform: rotate(2deg); }
+  .ar__think::after { animation: none; content: "..."; }
+}
