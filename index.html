@@ -42,8 +42,11 @@
     <div class="banner__copy">
       <p class="banner__hi">I'm Rishabh,</p>
       <h1 class="banner__h1" id="bannerTitle">Product Designer and AI-native builder.</h1>
-      <p class="label banner__cue" aria-hidden="true">Scroll &darr;</p>
     </div>
+    <!-- Pinned to the foot of the copy column, centred under the text — a child
+         of .banner__in (position:relative), so it anchors there, not in the
+         copy flow where it used to float. -->
+    <p class="label banner__cue" aria-hidden="true">Scroll &darr;</p>
   </div>
 </section>
 
@@ -237,6 +240,19 @@
     </svg>
   </div>
 </section>
+
+<!-- Rotating music disc. Hover swipes out the title bar; click the record to play. -->
+<div class="disc" data-disc hidden>
+  <button class="disc__rec" type="button" aria-pressed="false" aria-label="Play music"></button>
+  <div class="disc__bar" aria-hidden="true">
+    <span class="disc__eq"><i></i><i></i><i></i></span>
+    <span class="disc__meta">
+      <span class="disc__title">November Rain</span>
+      <span class="disc__artist">Guns N&rsquo; Roses</span>
+    </span>
+  </div>
+  <audio class="disc__audio" src="/assets/audio/november-rain.mp3" preload="none" loop></audio>
+</div>
 
 <script src="/assets/swiss.js"></script>
 <script src="/assets/notebook.js"></script>

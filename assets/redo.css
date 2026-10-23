@@ -94,7 +94,7 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 /* swiss.css makes .banner__in absolute inset:0 (it used to overlay the full
    photo). Pull it back into the grid so it is the right-hand cell. */
 .banner__in {
-  position: static; inset: auto;
+  position: relative; inset: auto;                    /* anchor for the scroll cue */
   display: flex; flex-direction: column;
   justify-content: center; align-items: flex-start;   /* vertically centred, left-aligned */
   padding: 0 clamp(28px, 5vw, 92px);
@@ -474,3 +474,61 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 .has-cursor .toy-note__put { cursor: none; }
 
 @media (prefers-reduced-motion: reduce) { .toy.is-home { animation: none; } }
+
+
+/* ---------------------------------------------------------------------------
+   8. ROTATING MUSIC DISC
+   A little record spins in the bottom-left. Hover (or focus, or press play)
+   and a bar swipes out from under it with the track. Click the record to
+   play or pause. The audio file is the one thing not in the repo — drop it
+   at /assets/audio/november-rain.mp3 and it plays; until then the disc spins
+   and the bar still swipes, the click just finds nothing to play.
+   --------------------------------------------------------------------------- */
+.disc {
+  position: fixed; left: clamp(14px, 2vw, 26px); bottom: clamp(14px, 2.4vh, 28px);
+  z-index: 80; display: flex; align-items: center;
+}
+.disc[hidden] { display: none; }
+.disc__rec {
+  position: relative; z-index: 2; flex: none; width: 56px; height: 56px;
+  padding: 0; border: 0; border-radius: 50%; cursor: pointer;
+  background:
+    radial-gradient(circle at 50% 50%, #c9304a 0 15%, #0d0d0f 15.5% 20%, transparent 20.5%),
+    repeating-radial-gradient(circle at 50% 50%, #17171a 0 1.4px, #2b2b30 1.4px 3px),
+    #111;
+  box-shadow: 0 6px 18px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.08) inset;
+  animation: disc-rpm 3.6s linear infinite;
+}
+.disc__rec::after {                 /* the spindle hole */
+  content: ""; position: absolute; left: 50%; top: 50%; width: 5px; height: 5px;
+  transform: translate(-50%, -50%); border-radius: 50%; background: #0b0b0c;
+  box-shadow: 0 0 0 2px #e9e4d8;
+}
+.disc__rec:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+@keyframes disc-rpm { to { transform: rotate(360deg); } }
+
+.disc__bar {
+  display: flex; align-items: center; gap: 10px;
+  margin-left: -30px; padding: 8px 18px 8px 42px; height: 40px;
+  border-radius: 0 999px 999px 0; background: #0d0d0f; color: #fff; white-space: nowrap;
+  max-width: 0; opacity: 0; overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0,0,0,.4);
+  transition: max-width .42s cubic-bezier(.22,1,.36,1), opacity .3s ease, padding .42s ease;
+}
+.disc:hover .disc__bar, .disc:focus-within .disc__bar, .disc.is-playing .disc__bar {
+  max-width: 320px; opacity: 1;
+}
+.disc__meta { display: flex; flex-direction: column; line-height: 1.12; }
+.disc__title { font-weight: 700; font-size: 13px; letter-spacing: .01em; }
+.disc__artist { font-size: 11px; color: #a8a8ad; }
+.disc__eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 14px; }
+.disc__eq i { width: 3px; height: 4px; background: #c9304a; border-radius: 1px; }
+.disc.is-playing .disc__eq i { animation: disc-eq .9s ease-in-out infinite; }
+.disc.is-playing .disc__eq i:nth-child(2) { animation-delay: .25s; }
+.disc.is-playing .disc__eq i:nth-child(3) { animation-delay: .5s; }
+@keyframes disc-eq { 0%, 100% { height: 4px; } 50% { height: 14px; } }
+.has-cursor .disc__rec { cursor: none; }
+@media (prefers-reduced-motion: reduce) {
+  .disc__rec { animation: none; }
+  .disc.is-playing .disc__eq i { animation: none; }
+}

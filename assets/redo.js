@@ -1,10 +1,11 @@
 /* ===========================================================================
    REDO — homepage behaviour
-   2026-10-23 (r3). Four jobs, each a no-op where its hooks are absent:
+   2026-10-23 (r4). Five jobs, each a no-op where its hooks are absent:
      1  the floating pill nav arrives once the black stage covers the banner
      2  the DESSERTS wordmark is fitted to the viewport width
      3  the custom cursor (desktop pointers only)
      4  the toy pile — draggable software logos with gravity (desktop only)
+     5  the music disc — click to play/pause (all devices)
    The scroll overlay and the end-reveal are pure CSS (sticky banner + fixed
    wordmark + stage bottom-margin); nothing here drives them.
    =========================================================================== */
@@ -436,7 +437,39 @@
   }
 
 
-  function boot() { nav(); fit(); cursor(); toys(); }
+  /* 5. MUSIC DISC — click the record to play/pause; hover swipes out the bar.
+     Works on touch too (a tap plays), so it is not gated like the cursor or
+     the toys. The audio element is the only thing that needs a real file. --- */
+  function disc() {
+    var el = document.querySelector("[data-disc]");
+    if (!el) return;
+    var btn = el.querySelector(".disc__rec");
+    var audio = el.querySelector(".disc__audio");
+    if (!btn || !audio) return;
+    el.hidden = false;
+
+    function sync() {
+      var playing = !audio.paused && !audio.ended;
+      el.classList.toggle("is-playing", playing);
+      btn.setAttribute("aria-pressed", playing ? "true" : "false");
+      btn.setAttribute("aria-label", playing ? "Pause music" : "Play music");
+    }
+    btn.addEventListener("click", function () {
+      if (audio.paused) {
+        var p = audio.play();
+        if (p && p.catch) p.catch(function () {});   // missing file or autoplay block: no-op
+      } else {
+        audio.pause();
+      }
+    });
+    audio.addEventListener("play", sync);
+    audio.addEventListener("pause", sync);
+    audio.addEventListener("ended", sync);
+    sync();
+  }
+
+
+  function boot() { nav(); fit(); cursor(); toys(); disc(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();
 }());
