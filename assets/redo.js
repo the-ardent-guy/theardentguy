@@ -107,15 +107,16 @@
     document.addEventListener("mouseover", function (e) {
       var t = e.target;
       if (!t || !t.closest) return;
-      var onDark = !!t.closest(".stage, .mcard");
+      var onDark = !!t.closest(".stage");
       wrap.classList.toggle("on-dark", onDark);
 
-      var card = t.closest(".mcard");
+      var card = t.closest(".mcard, .feat, .dz");
       if (card) {
-        var acc = card.getAttribute("data-accent") || "#fff";
+        var host = card.closest("[data-accent]") || card;
+        var acc = host.getAttribute("data-accent") || "#fff";
         wrap.style.setProperty("--cur-accent", acc);
         wrap.style.setProperty("--cur-ink", inkFor(acc));
-        pill.textContent = card.getAttribute("data-cursor-label") || "View";
+        pill.textContent = host.getAttribute("data-cursor-label") || "View";
         wrap.classList.add("is-card"); wrap.classList.remove("is-link");
         return;
       }
@@ -126,9 +127,9 @@
     document.addEventListener("mouseout", function (e) {
       var t = e.target, rel = e.relatedTarget;
       function left(sel) { return t.closest && t.closest(sel) && !(rel && rel.closest && rel.closest(sel)); }
-      if (left(".mcard")) wrap.classList.remove("is-card");
-      if (left("a, button, [role='button']") && !(rel && rel.closest && rel.closest(".mcard"))) wrap.classList.remove("is-link");
-      if (left(".stage, .mcard")) wrap.classList.remove("on-dark");
+      if (left(".mcard, .feat, .dz")) wrap.classList.remove("is-card");
+      if (left("a, button, [role='button']") && !(rel && rel.closest && rel.closest(".mcard, .feat, .dz"))) wrap.classList.remove("is-link");
+      if (left(".stage")) wrap.classList.remove("on-dark");
     });
   }
 
