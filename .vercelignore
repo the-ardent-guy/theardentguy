@@ -13,9 +13,3 @@ explorations/
 # order resolves: without this every Take one link 404s in production
 # while the local build looks perfectly fine.
 !skills/*.md
-
-# Ask Rish reads api/brain.md off disk at runtime, and *.md above would
-# keep it out of the deploy. Same negation, same reason as skills/*.md:
-# without this line the function answers every question with "that's not
-# in my notes" in production while working perfectly on this machine.
-!api/brain.md

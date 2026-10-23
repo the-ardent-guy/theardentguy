@@ -1,8 +1,1 @@
-{
-  "functions": {
-    "api/chat.js": {
-      "includeFiles": "api/brain.md",
-      "maxDuration": 30
-    }
-  }
-}
+{}

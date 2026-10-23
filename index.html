@@ -4,44 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Rishabh Jain, Product Designer</title>
-<!-- THE HOMEPAGE.
-     2026-10-23. What changed in this pass, and why, in his order:
-
-     THE BANNER IS THE WHOLE SCREEN. There is no nav on the paper above it
-     any more, so the photograph gets 100svh. The block of words is the one
-     that was already there, in the place it was already in, bottom left.
-     Not retyped and not moved: he asked for it as is.
-
-     NO NAV BAR. .snav and its mobile sheet are gone from this page. The
-     rounded floating nav comes back instead, fixed, centred, and away until
-     the banner has left the screen. home.js owns when it arrives.
-
-     THE WORK. Six projects now, with Hasta in. Produsa, Supaca and Hasta
-     take a full row each with the picture on the left; VIST Labs and
-     Bizotico sit side by side, which is what he asked for; Sintero pairs
-     with the one line that is true but is not a project. Exactly one
-     hairline between any two of them, and a great deal more air around
-     every one than there was.
-
-     THE SCROLL ANIMATION. Each row carries data-tint. home.js drifts that
-     row's details upward while the row crosses the screen, and washes the
-     whole page in that project's own colour while it is the one being read.
-
-     NO CROPPING. Every picture on this page is shown whole. The only
-     object-fit: cover left in the building is on the banner photograph,
-     which is 1200x1600 and cannot fill a landscape screen any other way.
-
-     NO HANDWRITING. Kalam is not loaded by this page any more and notebook.css
-     no longer sets a hand anywhere. The section labels are mono, like every
-     other label on the site, and nothing is underlined.
-
-     Load order: style, v2, v3, swiss, notebook, home. home.css is last and
-     is loaded by this page only. Scripts: swiss.js, notebook.js, home.js. -->
 <meta name="description" content="Rishabh Jain. Product designer, builder and illustrator. Story and meaning first, screens second. Case studies on Produsa, Supaca, Hasta, VIST Labs, Bizotico and Sintero.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&display=swap">
 <link rel="preload" as="image" href="/assets/hero.jpg" fetchpriority="high">
 <link rel="stylesheet" href="/assets/style.css">
 <link rel="stylesheet" href="/assets/v2.css">
@@ -49,16 +16,15 @@
 <link rel="stylesheet" href="/assets/swiss.css">
 <link rel="stylesheet" href="/assets/notebook.css">
 <link rel="stylesheet" href="/assets/home.css">
+<link rel="stylesheet" href="/assets/redo.css">
 <script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
 </head>
 <body>
 
-<!-- The wash that carries whichever project is being read. Empty, fixed,
-     and under the dot grid. home.css section 1. -->
+<!-- The old colour wash stays in the markup but is switched off in redo.css;
+     nothing paints it any more. -->
 <div class="shade" aria-hidden="true"></div>
 
-<!-- THE FLOATING NAV. Not on the photograph: not there at all until the
-     photograph has gone. home.js adds .is-up when the banner leaves. -->
 <header class="fnav" data-fnav>
   <nav class="fnav__in" aria-label="Site">
     <a href="#work">Work</a>
@@ -70,11 +36,7 @@
   </nav>
 </header>
 
-<!-- THE BANNER.
-     One screen, one photograph, and the words bottom-left over the grass,
-     which is the part of the frame the crop budget already counts as spent.
-     The scrim is a gradient on a layer of its own, never a filter on the
-     photograph: the drawn characters and the snow keep their contrast. -->
+<!-- THE BANNER. Unchanged: one screen, one photograph, the words bottom-left. -->
 <section class="banner" aria-labelledby="bannerTitle">
   <img class="banner__img" src="/assets/hero.jpg" width="1200" height="1600" fetchpriority="high"
        alt="Rishabh sits with his back to the camera at a weathered white picnic table in the Himalayas, bare winter trees and a snow ridge behind him. Two of his own drawn characters are sitting at the table with him, one in a green jumper holding a book and striped socks, one in a mustard jacket, and the word WHOA. is written in the air above them.">
@@ -89,168 +51,105 @@
 
 <main>
 
-  <!-- The claim and the two notes: a headline with one short line beside it,
-       which is the opening he drew in the reference. -->
   <section class="intro wrap grid" aria-label="Introduction">
     <h2 class="intro__claim reveal">I bring storytelling and social psychology into how products think, behave, and feel.</h2>
-    <!-- A list of two, not a paragraph of two sentences. The first line ends
-         on a comma and the second opens on a capital, which as running prose
-         is a transcription slip and as two list items is just two list
-         items. A screen reader gets it announced as a list of 2. -->
     <ul class="intro__notes sub reveal">
       <li>Currently knee-deep in Agentic UX,</li>
       <li>Deeply curious about myth, meaning, and what actually drives people.</li>
     </ul>
   </section>
 
-  <!-- THE WORK.
-       data-tint on each row is read by home.js twice: once for the drift of
-       that row's details, once for the colour the whole screen takes while
-       the row is the one at the centre of it. The value is the suffix of a
-       --dot-* token in swiss.css section 1, so it follows the theme on its
-       own and there is no second colour table anywhere.
+  <!-- THE WORK, AS A BLACK MOSAIC.
+       2026-10-23, his direction: the lead-left rows become a full-bleed black
+       panel with a two-column mosaic of case studies. Full-bleed image, square
+       corners, caption under it: name white, services grey. The per-project
+       colour dots and the colour wash are gone (redo.css sec 1). Each card is
+       a link to its case study. Sintero has no shot yet, so it gets a flat
+       field with its initial, not a dashed box. -->
+  <section class="work work--black" id="work" aria-labelledby="workLabel">
+    <div class="work__in">
 
-       Sintero has no picture yet, so its cell has none. An empty picture
-       column beside five full ones reads as a thing that has not been shot;
-       a dashed grey box reads as a site that is not finished. -->
-  <section class="work wrap" id="work" aria-labelledby="workLabel">
-    <div class="idx__head">
-      <p class="label nb-note" id="workLabel">Selected work</p>
-      <p class="label idx__count u-tab">06</p>
-    </div>
+      <div class="idx__head">
+        <p class="label nb-note" id="workLabel">Selected work</p>
+        <p class="label idx__count u-tab">06</p>
+      </div>
 
-    <div class="pgrid">
+      <div class="mosaic">
 
-      <div class="prow" data-tint="produsa">
-        <a class="pcell pcell--lead" href="/produsa.html" style="--dot: var(--dot-produsa)">
-          <figure class="pshot reveal-img">
+        <a class="mcard" href="/produsa.html">
+          <figure class="mcard__shot">
             <img src="/assets/media/produsa-band.webp" width="1200" height="900" loading="lazy" decoding="async"
                  alt="The Produsa studio. An owner asks the chat on the left for a header, a footer and a logo, and the finished Hornexa Technology site stands in the preview on the right.">
           </figure>
-          <div class="pmeta reveal">
-            <span class="pno label u-tab" aria-hidden="true">01</span>
-            <h3 class="pname">Produsa</h3>
-            <span class="pyear label u-tab">2026</span>
-            <p class="pline">An AI platform that turns a website build into a conversation</p>
-            <p class="prole label">Product Designer and Builder</p>
-            <p class="pout sub"><mark class="nb-mark">500+ builds</mark> and 290 live websites in the first two months after launch.</p>
-            <span class="action pcta">Read the case study <span class="action__arrow" aria-hidden="true">&rarr;</span></span>
+          <div class="mcard__cap">
+            <p class="mcard__name"><span class="mcard__no" aria-hidden="true">01</span> Produsa</p>
+            <p class="mcard__svc">Product Designer &amp; Builder &middot; 2026</p>
           </div>
         </a>
-      </div>
 
-      <div class="prow" data-tint="supaca">
-        <a class="pcell pcell--lead" href="/supaca.html" style="--dot: var(--dot-supaca)">
-          <figure class="pshot reveal-img">
+        <a class="mcard" href="/supaca.html">
+          <figure class="mcard__shot">
             <img src="/assets/media/supaca-hero.webp" width="1700" height="1294" loading="lazy" decoding="async"
-                 alt="The Supaca beta landing page. Make the drive, in large type over a near-black ground, with the line India&#39;s supercar owners&#39; network, a join the waitlist button beside member login, and cards for Boit Club, Club Octane and Sunrise drives floating around the headline.">
+                 alt="The Supaca beta landing page. Make the drive, in large type over a near-black ground, with the line India&#39;s supercar owners&#39; network and cards for Boit Club, Club Octane and Sunrise drives floating around the headline.">
           </figure>
-          <div class="pmeta reveal">
-            <span class="pno label u-tab" aria-hidden="true">02</span>
-            <h3 class="pname">Supaca</h3>
-            <span class="pyear label u-tab">2024&ndash;2025</span>
-            <p class="pline">Designing trust for a private network of supercar owners</p>
-            <p class="prole label">Lead UI/UX Designer</p>
-            <p class="pout sub">The beta is live, with real owners joining through the waitlist.</p>
-            <span class="action pcta">Read the case study <span class="action__arrow" aria-hidden="true">&rarr;</span></span>
+          <div class="mcard__cap">
+            <p class="mcard__name"><span class="mcard__no" aria-hidden="true">02</span> Supaca</p>
+            <p class="mcard__svc">Lead UI/UX Designer &middot; 2024&ndash;2025</p>
           </div>
         </a>
-      </div>
 
-      <div class="prow" data-tint="hasta">
-        <a class="pcell pcell--lead" href="/hasta.html" style="--dot: var(--dot-hasta)">
-          <figure class="pshot reveal-img">
+        <a class="mcard" href="/hasta.html">
+          <figure class="mcard__shot">
             <img src="/assets/media/hasta-lead-4x3.webp" width="1200" height="900" loading="lazy" decoding="async"
-                 alt="The Hasta landing page. A drawn hand mark over the word HASTA, the line Palm reading from a photo, Samudrika Shastra and Chiromancy, then What is written in your hand? in large cream serif capitals across a candlelit photograph of an open palm, with a Scan your palm button under it.">
+                 alt="The Hasta landing page. A drawn hand mark over the word HASTA, the line Palm reading from a photo, then What is written in your hand? in large cream serif capitals across a candlelit photograph of an open palm.">
           </figure>
-          <div class="pmeta reveal">
-            <span class="pno label u-tab" aria-hidden="true">03</span>
-            <h3 class="pname">Hasta</h3>
-            <span class="pyear label u-tab">2026</span>
-            <p class="pline">Cutting the generic slop out of palm reading</p>
-            <p class="prole label">Lead Designer, UI/UX and AI experience</p>
-            <p class="pout sub">Launched August 2026. Every claim names the line and the book it came from.</p>
-            <span class="action pcta">Read the case study <span class="action__arrow" aria-hidden="true">&rarr;</span></span>
+          <div class="mcard__cap">
+            <p class="mcard__name"><span class="mcard__no" aria-hidden="true">03</span> Hasta</p>
+            <p class="mcard__svc">Lead Designer, UI/UX &amp; AI &middot; 2026</p>
           </div>
         </a>
-      </div>
 
-      <!-- The pair he asked for: these two side by side rather than a full
-           row each. The vertical hairline stands in the gutter between
-           them, not on the edge of either. -->
-      <div class="prow prow--pair" data-tint="vistlabs">
-        <a class="pcell" href="/vistlabs.html" style="--dot: var(--dot-vistlabs)">
-          <figure class="pshot reveal-img">
+        <a class="mcard" href="/vistlabs.html">
+          <figure class="mcard__shot">
             <img src="/assets/media/vist-band-16x10.webp" width="1600" height="1000" loading="lazy" decoding="async"
-                 alt="The redesigned VIST Labs homepage hero. Diagnose, Decontaminate, Protect. in large white type over a dark teal photograph of pasteurisation equipment, under a plain white nav bar.">
+                 alt="The redesigned VIST Labs homepage hero. Diagnose, Decontaminate, Protect. in large white type over a dark teal photograph of pasteurisation equipment.">
           </figure>
-          <div class="pmeta reveal">
-            <span class="pno label u-tab" aria-hidden="true">04</span>
-            <h3 class="pname">VIST Labs</h3>
-            <span class="pyear label u-tab">2025</span>
-            <p class="pline">Repositioning a post-harvest technology company for banks and growers</p>
-            <p class="prole label">Product Designer, solo</p>
-            <p class="pout sub">Launched as the client&#39;s primary site, and the founders used it with their customers.</p>
-            <span class="action pcta">Read the case study <span class="action__arrow" aria-hidden="true">&rarr;</span></span>
+          <div class="mcard__cap">
+            <p class="mcard__name"><span class="mcard__no" aria-hidden="true">04</span> VIST Labs</p>
+            <p class="mcard__svc">Product Designer, solo &middot; 2025</p>
           </div>
         </a>
-        <a class="pcell pcell--r" href="/bizotico.html" style="--dot: var(--dot-bizotico)">
-          <figure class="pshot reveal-img">
+
+        <a class="mcard" href="/bizotico.html">
+          <figure class="mcard__shot">
             <img src="/assets/media/bizo-band-16x10.webp" width="1600" height="1000" loading="lazy" decoding="async"
-                 alt="The Bizotico storefront on a laptop and a phone. The laptop shows the hero, Upto 80% Off, Between Sea and Space, over a diver surfacing with a watch on his wrist, with four watch photographs below it.">
+                 alt="The Bizotico storefront on a laptop and a phone. The laptop shows the hero, Upto 80% Off, Between Sea and Space, over a diver surfacing with a watch on his wrist.">
           </figure>
-          <div class="pmeta reveal">
-            <span class="pno label u-tab" aria-hidden="true">05</span>
-            <h3 class="pname">Bizotico</h3>
-            <span class="pyear label u-tab">2023&ndash;2024</span>
-            <p class="pline">Designed a distributor&#39;s own D2C watch store</p>
-            <p class="prole label">E-commerce Designer</p>
-            <p class="pout sub"><mark class="nb-mark">7.85x ROAS</mark> on a May 2024 campaign. Still live two years later.</p>
-            <span class="action pcta">Read the case study <span class="action__arrow" aria-hidden="true">&rarr;</span></span>
-          </div>
-        </a>
-      </div>
-
-      <div class="prow prow--pair" data-tint="sintero">
-        <a class="pcell pcell--noshot" href="/sintero.html" style="--dot: var(--dot-sintero)">
-          <div class="pmeta reveal">
-            <span class="pno label u-tab" aria-hidden="true">06</span>
-            <h3 class="pname">Sintero</h3>
-            <span class="pyear label u-tab"></span>
-            <p class="pline">Brand identity and a specification-led website for a luxury stone brand</p>
-            <p class="prole label">Brand and Digital Design Lead</p>
-            <p class="pout sub">Specified in projects for JW Marriott and Prestige Group.</p>
-            <span class="action pcta">Read the case study <span class="action__arrow" aria-hidden="true">&rarr;</span></span>
+          <div class="mcard__cap">
+            <p class="mcard__name"><span class="mcard__no" aria-hidden="true">05</span> Bizotico</p>
+            <p class="mcard__svc">E-commerce Designer &middot; 2023&ndash;2024</p>
           </div>
         </a>
 
-        <!-- Not a project and not a link, so it carries no number, no dot
-             and no arrow. -->
-        <section class="pcell pcell--r pcell--plain pcell--noshot" aria-labelledby="alsoLabel">
-          <div class="pmeta reveal">
-            <p class="label nb-note" id="alsoLabel">Also true</p>
-            <p class="pline">Curated the design and digital experience for a drive event with Ferrari India.</p>
+        <a class="mcard mcard--noshot" href="/sintero.html">
+          <div class="mcard__shot" data-mark="S" aria-hidden="true"></div>
+          <div class="mcard__cap">
+            <p class="mcard__name"><span class="mcard__no" aria-hidden="true">06</span> Sintero</p>
+            <p class="mcard__svc">Brand &amp; Digital Design Lead</p>
           </div>
-        </section>
-      </div>
+        </a>
 
+      </div>
     </div>
   </section>
 
-  <!-- WRITING. Hidden, not styled. All three slots are embeds that do not
-       exist, and a section header over three empty rectangles is worse than
-       silence. Remove the hidden attribute the day there is one real post. -->
+  <!-- WRITING. Hidden until there is a real post. -->
   <section class="wrap grid" id="writing" aria-labelledby="writingLabel" hidden>
     <p class="label nb-note" id="writingLabel">Writing</p>
     <h2>Essays on design, AI and the work</h2>
   </section>
 
-  <!-- DESSERTS.
-       Two panels side by side, then the pharmacy as a row. Lurch is framed
-       as the satire it is before the premise is read, because a dating app
-       that matches on trauma, said flat, reads as a product someone shipped
-       in earnest. Ezra is the one piece of drawing on this page, and she is
-       standing in front of her own frame rather than inside it. -->
+  <!-- DESSERTS. The illustrated block stays on the home this pass. -->
   <section class="dess wrap grid" aria-labelledby="dessLabel">
     <p class="label nb-note" id="dessLabel">Desserts</p>
     <h2 class="dess__h2">Nobody asked for any of this.</h2>
@@ -293,8 +192,6 @@
 
     </div>
 
-    <!-- The row is the download. The old "Take one" link lived inside a
-         card, and a link inside a link is not a thing. -->
     <div class="idx">
       <a class="idx-row reveal" href="/skills/no-slop-copy.md" download
          aria-label="Pharmacy: Skill files for agents. Take as directed. No-slop copy, 8 KB.">
@@ -310,10 +207,13 @@
     </div>
   </section>
 
-  <!-- CONTACT. The one other hero-size line on the page.
-       The two outbound hrefs were placeholders on the live site before this
-       restyle, so they are not a regression, and filling them is not this
-       pass either. -->
+  <!-- THE CLOSER. Giant, bottom-clipped DESSERTS, white ground, before the
+       contact line. The full footer-reveal choreography is the later rebuild;
+       this reskin ships it as a closing band. -->
+  <section class="endmark" aria-hidden="true">
+    <p class="endmark__word">DESSERTS</p>
+  </section>
+
   <section class="say wrap" id="contact" aria-labelledby="sayLabel">
     <p class="label nb-note" id="sayLabel">Contact</p>
     <h2 class="say__h2">Available for product design and consulting work.</h2>
@@ -339,16 +239,12 @@
   </div>
 </footer>
 
-<!-- ASK RISH WAS HERE, AND IS NOT ANY MORE.
-     2026-10-23, his call: "remove the ask rish thingy, not needed here."
-     The mount point is deleted, which is the whole switch: askRish() in
-     notebook.js looks for [data-ask-rish] and returns on its own when it
-     is absent, so no script changes and no dead markup. api/chat.js,
-     api/brain.md, the Upstash wiring and the panel's CSS in notebook.css
-     sec 9 are all intact. Putting it back is this one div. -->
+<!-- Ask Rish is gone, his call 2026-10-23. The mount point, the dead client
+     code in notebook.js, the api/ handler and its CSS are all removed. -->
 
 <script src="/assets/swiss.js"></script>
 <script src="/assets/notebook.js"></script>
 <script src="/assets/home.js"></script>
+<script src="/assets/redo.js"></script>
 </body>
 </html>

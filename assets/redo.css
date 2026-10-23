@@ -1,0 +1,359 @@
+/* ===========================================================================
+   REDO — bold / sober / monochrome override layer
+   2026-10-23. Loaded LAST on every page, after style / v2 / v3 / case /
+   swiss / notebook / home, so it is the top of the cascade and needs almost
+   no !important to win.
+
+   His brief, in his words, and where each one lives below:
+     - "remove the ask rish thingy"                 -> markup + dead code removed
+     - "the notebook bots on black looks bad"       -> sec 1 (dot grid off)
+     - "the mono font sucks on case studies"        -> sec 2 (mono -> sans)
+     - "BOLD ... go bolder, sober colors"           -> sec 2 + 3
+     - "remove this dots next to case study names"  -> sec 1
+     - "get rid of that whole style"                -> sec 1 (tints/marks/wash)
+     - the DESSERTS scroll spec, reskin pass        -> sec 4 (mosaic) + 5 (word)
+
+   This layer never edits the files under it. Everything here is reversible by
+   dropping the one <link> that loads it.
+   =========================================================================== */
+
+
+/* ---------------------------------------------------------------------------
+   1. GET RID OF THAT WHOLE STYLE
+
+   The notebook kit: the dot grid behind everything, the per-project colour
+   wash, the coloured dot that replaces a number, the highlighter swipe, the
+   drawn marks, the category dots on the case nav. All off. Nothing here is
+   softened; it is removed, which is what he asked for.
+   --------------------------------------------------------------------------- */
+
+/* The dot grid. swiss.css paints it on body::before, fixed, z-index -1.
+   "the notebook bots on black looks bad" — so there are no bots anywhere. */
+body::before { display: none !important; }
+[data-ruled] body::after { display: none !important; }
+
+/* The colour wash that carried whichever project was being read. */
+.shade { display: none !important; }
+
+/* The number-that-turns-into-a-dot on the homepage work list, and the dots
+   next to category names on the case nav. The number stays; the dot goes. */
+.pno::after,
+.idx-no::after,
+.cat__name[style*="--dot"]::before,
+.cat__name.has-dot::before { content: none !important; display: none !important; }
+.idx-row:hover .idx-no, .idx-row:focus-visible .idx-no { color: var(--ink-40) !important; }
+.prow.is-live .pno { color: var(--ink-40) !important; }
+
+/* The highlighter swipe behind a metric, and any drawn ellipse/mark left in
+   the kit. A sober page does not highlight itself in yellow. */
+.nb-mark::before { display: none !important; }
+.nb-mark { background: none !important; }
+
+/* The project tints are no longer read by anything on screen, but home.js
+   still writes the live row's drift. Keep the drift calm and drop the live
+   hairline flip so the list reads as one quiet column, not a light show. */
+.prow.is-live { border-top-color: var(--rule-strong) !important; }
+
+
+/* ---------------------------------------------------------------------------
+   2. TYPE — DROP THE MONO VOICE, GO BOLDER
+
+   "the mono font sucks on case studies". Every label on the site is set in
+   --mono (JetBrains Mono). Pointing --mono at the sans turns every one of
+   them — nav, eyebrows, section labels, meta, footer — into Inter Tight in a
+   single move, with no file edits under this one. Labels keep their uppercase
+   tracking so they still read as labels, just not as code.
+
+   Bolder: the display weights come up, the wordmark weight is added.
+   --------------------------------------------------------------------------- */
+
+:root {
+  --mono: var(--sans);
+  /* Heavier labels now that they are a grotesk, not a monospace. */
+  --w-label: 600;
+  --tr-label: 0.07em;
+}
+
+/* Labels, wherever they come from (swiss .label, notebook .nb-note, case
+   .eyebrow / .rail__label / .meta th). One sober, confident label voice. */
+.label, .nb-note, .eyebrow, .rail__label, .decision__n,
+.meta th, .compare th, .top {
+  font-family: var(--sans) !important;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+}
+
+/* Headlines come up in weight and tighten. Inter Tight carries 700/800 well;
+   the display face below is loaded for the one place that needs black. */
+.banner__h1, .intro__claim, .dess__h2, .say__h2,
+h1, h2, .pname, .dname {
+  font-weight: 700;
+  letter-spacing: -0.022em;
+}
+.banner__h1 { font-weight: 800; }
+
+
+/* ---------------------------------------------------------------------------
+   3. SOBER COLOUR
+
+   The warm paper stays — it is already quiet — but the loud parts go: the
+   accent greens and sands that fired on links, CTAs and focus rings are
+   pulled to ink, so the page is black / white / grey and the only colour
+   left is in the photographs themselves.
+   --------------------------------------------------------------------------- */
+
+:root {
+  --accent: var(--ink);
+  --v3-accent: var(--ink);
+  --v3-accent-press: var(--ink);
+  --v3-focus: var(--ink);
+}
+
+/* Action arrows and links were accent-coloured; they read as ink now, and
+   the motion stays as the only hover tell. */
+.action, .pcta, .idx-name { color: var(--ink); }
+
+/* The floating nav CTA: keep the existing ink-background / surface-text pair
+   (theme-safe in both light and dark), just bolder. Don't force #fff text —
+   in dark mode --ink is light, and white-on-light would vanish. */
+.fnav__in a.fnav__cta { font-weight: 600; }
+
+
+/* ---------------------------------------------------------------------------
+   4. THE WORK, AS A BLACK MOSAIC  (reskin of the DESSERTS spec, beat 3)
+
+   The six projects were a warm-paper list of lead-left rows. They become a
+   full-bleed black panel holding a two-column mosaic: a full-bleed image,
+   square corners, and the caption UNDER it — name bold white on the left,
+   the role/line in grey beside it. The right column is dropped ~44px so the
+   grid reads as a loose masonry, not a brick wall. Cards link to the case
+   study, exactly as before.
+
+   The markup is rewritten in index.html to .mosaic / .mcard; this styles it.
+   --------------------------------------------------------------------------- */
+
+.work.work--black {
+  /* A direct child of <main>, which is full width (margin-left:0), so this is
+     full-bleed on its own. No 100vw break-out: that adds a horizontal
+     scrollbar on desktop, where body only clips overflow under 768px. */
+  background: #000;
+  color: #fff;
+  padding-block: clamp(72px, 10vw, 160px);
+  padding-inline: clamp(16px, 3vw, 40px);
+}
+
+/* The section label and count, white on black. */
+.work--black .work__in { max-width: 1400px; margin-inline: auto; }
+.work--black .idx__head { padding-bottom: clamp(32px, 5vw, 64px); }
+.work--black .idx__head .label,
+.work--black .idx__count { color: rgba(255,255,255,.55) !important; }
+
+.mosaic {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(16px, 2vw, 28px);
+  row-gap: clamp(40px, 5vw, 72px);
+  align-items: start;
+}
+
+/* The loose-masonry offset: the second column starts lower. */
+.mosaic > :nth-child(even) { margin-top: clamp(24px, 5vw, 64px); }
+
+.mcard {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+}
+
+.mcard__shot {
+  margin: 0;
+  overflow: hidden;
+  background: #111;
+  aspect-ratio: 16 / 10;
+}
+.mcard__shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* square corners, per spec */
+  border-radius: 0;
+  transition: transform 600ms var(--ease, cubic-bezier(.22,1,.36,1));
+}
+.mcard:hover .mcard__shot img,
+.mcard:focus-visible .mcard__shot img { transform: scale(1.02); }
+
+/* A project with no shot yet (Sintero) gets a flat field, not a dashed box. */
+.mcard--noshot .mcard__shot {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 10;
+}
+.mcard--noshot .mcard__shot::after {
+  content: attr(data-mark);
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: clamp(28px, 4vw, 52px);
+  letter-spacing: -0.02em;
+  color: rgba(255,255,255,.08);
+}
+
+/* Caption UNDER the image: name left, services/line right, baseline shared. */
+.mcard__cap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 20px;
+  margin-top: 14px;
+}
+.mcard__name {
+  margin: 0;
+  font-size: clamp(16px, 0.6vw + 13px, 19px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+.mcard__svc {
+  margin: 0;
+  font-size: clamp(12px, 0.3vw + 11px, 13px);
+  line-height: 1.4;
+  color: #8A8A8A;
+  text-align: right;
+  max-width: 48%;
+}
+.mcard__no {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,.4);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 720px) {
+  .mosaic { grid-template-columns: minmax(0, 1fr); row-gap: clamp(32px, 8vw, 48px); }
+  .mosaic > :nth-child(even) { margin-top: 0; }
+  .mcard__svc { max-width: 60%; }
+}
+
+
+/* ---------------------------------------------------------------------------
+   5. THE CLOSER — giant, bottom-clipped DESSERTS
+
+   A white band holding the word DESSERTS, near-black, full viewport width,
+   bottom-anchored and clipped by the band's own bottom edge so the counters
+   of the letters are cropped — the end-brand beat from the spec. It is a
+   closing band before Contact in this reskin pass; the full footer-reveal
+   choreography is the later rebuild.
+   --------------------------------------------------------------------------- */
+
+.endmark {
+  /* Full-bleed like .work--black: a plain full-width block, no 100vw. */
+  position: relative;
+  background: #fff;
+  overflow: hidden;
+  /* room so the word can be bigger than the band and get clipped at the foot */
+  height: clamp(104px, 18vw, 260px);
+}
+.endmark__word {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.16em;          /* drop the feet of the letters below the fold */
+  margin: 0;
+  font-family: "Inter Tight", system-ui, sans-serif;
+  font-weight: 900;
+  /* ~19vw keeps 8 heavy letters inside the viewport without wrapping */
+  font-size: clamp(52px, 19vw, 300px);
+  line-height: 0.8;
+  letter-spacing: -0.03em;
+  text-align: center;
+  white-space: nowrap;
+  color: #111;
+  -webkit-user-select: none;
+  user-select: none;
+}
+[data-theme="dark"] .endmark { background: #fff; }
+
+
+/* ---------------------------------------------------------------------------
+   6. CASE STUDY PAGES — bolder, sober, no mono, no dots
+
+   The detail pages (produsa / supaca / hasta / vistlabs / bizotico / sintero
+   / koodaikind) are where "the mono font sucks" was aimed. The mono->sans
+   move in sec 2 already fixes the voice; this tightens the rest: the category
+   dots on the index nav are gone (sec 1), the eyebrow and section labels come
+   up in weight, and the accent on links is ink (sec 3). Case headings in
+   case.css are already 700/800 — this just makes sure nothing under it softens
+   them back.
+   --------------------------------------------------------------------------- */
+
+:root[data-case] .eyebrow,
+:root[data-case] .rail__label,
+:root[data-case] .decision__n { font-weight: 700; letter-spacing: 0.1em; }
+
+/* The case index category rows: the coloured leading dot is gone, so the name
+   carries the line on its own. */
+.cat__name { padding-left: 0 !important; }
+
+
+/* ---------------------------------------------------------------------------
+   7. CUSTOM CURSOR  (reskin: the quiet version)
+
+   A small solid dot that follows with a little lag, ink on light, white on
+   the black work panel. It grows on anything interactive. The full arrow +
+   pill from the spec is the later rebuild; this is the restrained first step.
+   Desktop pointers only, and off entirely for touch and reduced-motion —
+   redo.js adds .has-cursor to <html> only when it is safe.
+   --------------------------------------------------------------------------- */
+
+.has-cursor,
+.has-cursor a,
+.has-cursor button,
+.has-cursor .mcard,
+.has-cursor [role="button"] { cursor: none; }
+
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--ink, #111);
+  pointer-events: none;
+  mix-blend-mode: normal;
+  transition: width 180ms var(--ease, ease), height 180ms var(--ease, ease),
+              background-color 180ms var(--ease, ease), opacity 180ms var(--ease, ease);
+  opacity: 0;
+}
+.cursor.is-on { opacity: 1; }
+.cursor.on-dark { background: #fff; }
+.cursor.is-hot {
+  width: 42px;
+  height: 42px;
+  margin: -21px 0 0 -21px;
+  background: color-mix(in srgb, var(--ink) 18%, transparent);
+}
+.cursor.on-dark.is-hot { background: rgba(255,255,255,.22); }
+
+
+/* ---------------------------------------------------------------------------
+   8. BREATHING SPACE + LEGIBILITY GUARDS (the design-QA asks)
+   --------------------------------------------------------------------------- */
+
+/* The intro claim gets a touch more weight-matched air under the bolder type. */
+.intro__claim { line-height: 1.12; }
+
+/* Nothing on a phone should sit edge-to-edge; the mosaic and endmark keep an
+   inset even at their full-bleed width. */
+@media (max-width: 480px) {
+  .work.work--black { padding-inline: 16px; }
+  .endmark { height: clamp(96px, 26vw, 180px); }
+}
+
+/* Focus stays visible on the black panel. */
+.work--black a:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
