@@ -52,7 +52,7 @@
       var byWidth = 100 * target / cur;
       // Also cap against the band height, so on a wide-but-short viewport the
       // word doesn't grow so tall its tops get clipped more than the foot.
-      var byHeight = band.clientHeight * 1.5;
+      var byHeight = band.clientHeight * 1.25;
       word.style.fontSize = Math.min(byWidth, byHeight).toFixed(1) + "px";
       word.style.width = "";
       word.style.right = "";
