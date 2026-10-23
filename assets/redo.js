@@ -118,7 +118,9 @@
         var acc = host.getAttribute("data-accent") || "#fff";
         wrap.style.setProperty("--cur-accent", acc);
         wrap.style.setProperty("--cur-ink", inkFor(acc));
-        pill.textContent = host.getAttribute("data-cursor-label") || "View";
+        var label = host.getAttribute("data-cursor-label");
+        if (label) { pill.textContent = label; wrap.classList.remove("no-label"); }
+        else { wrap.classList.add("no-label"); }      // case-study rows: no text
         wrap.classList.add("is-card"); wrap.classList.remove("is-link");
         return;
       }
@@ -129,47 +131,49 @@
     document.addEventListener("mouseout", function (e) {
       var t = e.target, rel = e.relatedTarget;
       function left(sel) { return t.closest && t.closest(sel) && !(rel && rel.closest && rel.closest(sel)); }
-      if (left(".mcard, .feat, .dz")) wrap.classList.remove("is-card");
+      if (left(".mcard, .feat, .dz")) { wrap.classList.remove("is-card"); wrap.classList.remove("no-label"); }
       if (left("a, button, [role='button']") && !(rel && rel.closest && rel.closest(".mcard, .feat, .dz"))) wrap.classList.remove("is-link");
       if (left(".stage")) wrap.classList.remove("on-dark");
     });
   }
 
 
-  /* 4. THE TOY PILE — draggable software logos with gravity. ----------------
-     The six tools sit as white chips on the rule under "Selected work".
-     Grab one and it lifts; throw it and gravity takes over — it falls, lands
-     on whatever card is under it, bounces, and settles. Nudge one off the end
-     of the line and it drops straight down. Leave the pile in the footer or
-     the Desserts and a note asks, nicely, to put them back.
-
-     Desktop pointers only, and never under reduced motion: dragging on touch
-     would fight the scroll, and a page of falling objects is no gift to
-     someone who asked the OS to hold still. Everything is one coordinate
-     space — pixels from the top-left of .stage__in, which scrolls with the
-     pile — so nothing here reads scroll position in a frame. ------------- */
+  /* 4. THE BALL PIT  — the behavioural map
+     The six tools are little balls, resting on the RIGHT of the rule under
+     "Selected work" so the heading on the left balances them. Pick one up from
+     wherever it sits and it lifts to the pointer; let go and it keeps the speed
+     of the throw. From there it is a ball:
+       GRAVITY pulls it down, AIR bleeds a little speed.
+       FLOORS — the rule, every case-study card, the two dessert tiles, the
+         contact block, and a full-width floor at the foot — catch it. A fast
+         landing BOUNCES (keeps ~3/4 of its speed, loses a little sideways); a
+         slow one comes to REST and ROLLS with friction until it stops or rolls
+         off the edge and falls on.
+       WALLS — the sides of the column — bounce it back.
+       BALL-TO-BALL: they push apart and trade the speed along the line between
+         them, so a thrown ball scatters the pile and a dropped one knocks its
+         neighbours awake.
+       BONK: a real landing or knock gives the thing it hit a quick nudge, so
+         the page reacts to being played with.
+       ROLL: a ball spins at the speed it travels, so it reads as rolling.
+     Leave them in the footer or the Desserts and the note asks for them back;
+     "put them back" sends the lot home. Desktop pointers only, off under
+     reduced motion. One coordinate space: pixels from the top-left of
+     .stage__in, which scrolls with the pit. */
   function toys() {
     if (!fine || reduce) return;
 
     var stageIn = document.querySelector(".stage__in");
-    var head = document.querySelector(".stage .idx__head");           /* the "Selected work" rule */
+    var head = document.querySelector(".stage .idx__head");
     if (!stageIn || !head || !document.querySelector(".feat")) return;
 
-    var TOOLS = [
-      { f: "figma",   label: "Figma"   },
-      { f: "cursor",  label: "Cursor"  },
-      { f: "claude",  label: "Claude"  },
-      { f: "make",    label: "Make"    },
-      { f: "n8n",     label: "n8n"     },
-      { f: "shopify", label: "Shopify" }
-    ];
+    var TOOLS = ["figma", "cursor", "claude", "make", "n8n", "shopify"];
 
-    /* tuning — all in 60fps-frame units */
-    var G = 0.85, AIR = 0.994, REST = 0.52, WALL = 0.42;
-    var BOUNCE_FRICTION = 0.7, SLIDE = 0.86, REST_V = 1.7, STOP_V = 0.25;
-    var LAND_SLACK = 14, THROW_CAP = 42;
+    /* tuning — 60fps-frame units */
+    var G = 0.9, AIR = 0.995, REST = 0.74, WALL = 0.6, ROLL = 0.9;
+    var REST_V = 1.5, STOP_V = 0.3, LAND_SLACK = 16, THROW_CAP = 40, BONK_V = 6, PAIR_REST = 0.55;
+    var R = 15;
 
-    var S = 56;
     var layer = document.createElement("div");
     layer.className = "toys"; layer.setAttribute("aria-hidden", "true");
     stageIn.appendChild(layer);
@@ -184,7 +188,7 @@
 
     var stageRect = null, W = 0;
     var surfaces = [], footZ = null, dessZ = null, lineTop = 0, lineX0 = 0, lineX1 = 0;
-    var chips = [], topZ = 10, raf = 0, lastT = 0, held = null;
+    var balls = [], topZ = 10, raf = 0, lastT = 0, held = null;
 
     function rel(el) {
       var r = el.getBoundingClientRect();
@@ -193,141 +197,120 @@
     function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
 
     function layout() {
-      stageRect = stageIn.getBoundingClientRect();
-      W = stageRect.width;
-      S = W < 760 ? 48 : 56;
+      stageRect = stageIn.getBoundingClientRect(); W = stageRect.width;
+      R = W < 760 ? 13 : 15;
       var hr = rel(head);
-      lineTop = hr.y + hr.h; lineX0 = hr.x; lineX1 = hr.x + hr.w;      /* the rule line */
+      lineTop = hr.y + hr.h; lineX0 = hr.x; lineX1 = hr.x + hr.w;
 
-      surfaces = [{ top: lineTop, x0: lineX0, x1: lineX1 }];
-      var sel = ".feat, .feat-sm, .dz__box, .dz__stage";
-      Array.prototype.forEach.call(document.querySelectorAll(sel), function (el) {
+      surfaces = [{ top: lineTop, x0: lineX0, x1: lineX1, el: null }];
+      Array.prototype.forEach.call(document.querySelectorAll(".feat, .feat-sm, .dz__cat2, .dz__stage"), function (el) {
         var r = rel(el);
-        surfaces.push({ top: r.y, x0: r.x, x1: r.x + r.w });
+        surfaces.push({ top: r.y, x0: r.x, x1: r.x + r.w, el: el.querySelector(".feat__shot") || el });
       });
-
       var end = document.querySelector(".stage__end");
       if (end) {
         var er = rel(end);
-        surfaces.push({ top: er.y, x0: er.x, x1: er.x + er.w });
-        /* a full-width floor at the foot of the contact block, so nothing
-           falls forever if it misses every card */
-        surfaces.push({ top: er.y + er.h, x0: -1e4, x1: 1e4 });
-        /* the footer zone covers the block and the floor just below it */
-        footZ = { x0: -1e4, y0: er.y, x1: 1e4, y1: er.y + er.h + S + 28 };
+        surfaces.push({ top: er.y, x0: er.x, x1: er.x + er.w, el: null });
+        surfaces.push({ top: er.y + er.h, x0: -1e4, x1: 1e4, el: null });
+        footZ = { x0: -1e4, y0: er.y, x1: 1e4, y1: er.y + er.h + R * 2 + 28 };
       }
       var dess = document.querySelector(".dess2");
       if (dess) { var dr = rel(dess); dessZ = { x0: dr.x, y0: dr.y, x1: dr.x + dr.w, y1: dr.y + dr.h }; }
-
       surfaces.sort(function (a, b) { return a.top - b.top; });
     }
 
     function homeSlot(i) {
-      var n = TOOLS.length, span = Math.min((n - 1) * S * 0.58, (lineX1 - lineX0) - S);
-      var cx = (lineX0 + lineX1) / 2;
-      return { x: clamp(cx - span / 2 + i * (span / (n - 1)) - S / 2, 0, W - S), y: lineTop - S + 2 };
+      var n = TOOLS.length, step = R * 2 + 3;
+      var cx0 = lineX0 + (lineX1 - lineX0) * 0.76 - ((n - 1) * step) / 2;
+      return { cx: clamp(cx0 + i * step, R, W - R), cy: lineTop - R };
     }
 
-    function place(c) { c.el.style.left = c.x.toFixed(1) + "px"; c.el.style.top = c.y.toFixed(1) + "px"; }
+    function place(b) {
+      b.el.style.transform = "translate(" + (b.cx - R).toFixed(1) + "px," + (b.cy - R).toFixed(1) +
+        "px) rotate(" + (b.ang % 360).toFixed(1) + "deg)";
+    }
 
     function build() {
       layout();
-      TOOLS.forEach(function (t, i) {
+      TOOLS.forEach(function (f, i) {
         var el = document.createElement("span");
-        el.className = "toy is-home"; el.setAttribute("aria-hidden", "true");
-        el.style.setProperty("--toy", S + "px");
-        el.style.setProperty("--sway", (-i * 0.6).toFixed(2) + "s");
-        var baseR = (i % 2 ? 1 : -1) * (2 + (i % 3) * 2);
-        el.style.setProperty("--r", baseR + "deg");
-        var img = new Image(); img.src = "/assets/logos/" + t.f + ".svg"; img.alt = ""; el.appendChild(img);
+        el.className = "ball"; el.setAttribute("aria-hidden", "true");
+        el.style.setProperty("--d", (R * 2) + "px");
+        var img = new Image(); img.src = "/assets/logos/" + f + ".svg"; img.alt = ""; el.appendChild(img);
         layer.appendChild(el);
-
-        var slot = homeSlot(i);
-        var c = { el: el, img: img, i: i, baseR: baseR, x: slot.x, y: slot.y,
-                  vx: 0, vy: 0, r: baseR, restOn: null, settled: true, home: true,
-                  _lx: slot.x, _ly: slot.y, _lt: 0 };
-        place(c);
+        var s = homeSlot(i);
+        var b = { el: el, i: i, cx: s.cx, cy: s.cy, vx: 0, vy: 0, ang: 0,
+                  restOn: null, settled: true, home: true, held: false,
+                  gdx: 0, gdy: 0, _lx: s.cx, _ly: s.cy, _lt: 0 };
+        place(b);
         el.style.zIndex = (topZ++);
-        el.addEventListener("pointerdown", function (e) { grab(c, e); });
-        chips.push(c);
+        el.addEventListener("pointerdown", function (e) { grab(b, e); });
+        balls.push(b);
       });
     }
 
-    /* ---- drag ---- */
+    /* ---- drag: grab from anywhere, throw with the release speed ---- */
     function ptr(e) { return { x: e.clientX - stageRect.left, y: e.clientY - stageRect.top }; }
 
-    function grab(c, e) {
+    function grab(b, e) {
       e.preventDefault();
       stageRect = stageIn.getBoundingClientRect(); W = stageRect.width;
-      try { c.el.setPointerCapture(e.pointerId); } catch (err) {}
+      try { b.el.setPointerCapture(e.pointerId); } catch (err) {}
       var p = ptr(e);
-      c.held = true; c.settled = false; c.restOn = null; c.home = false;
-      c.el.classList.remove("is-home", "is-homing"); c.el.classList.add("is-held");
-      c.el.style.transform = "rotate(" + c.r.toFixed(1) + "deg)";
-      c.gdx = p.x - c.x; c.gdy = p.y - c.y;
-      c._lx = c.x; c._ly = c.y; c._lt = performance.now();
-      c.vx = c.vy = 0;
-      c.el.style.zIndex = (topZ++);
-      held = c;
+      b.held = true; b.settled = false; b.restOn = null; b.home = false;
+      b.el.classList.remove("is-homing"); b.el.classList.add("is-held");
+      b.gdx = p.x - b.cx; b.gdy = p.y - b.cy;
+      b._lx = b.cx; b._ly = b.cy; b._lt = performance.now();
+      b.vx = b.vy = 0;
+      b.el.style.zIndex = (topZ++);
+      held = b; kick();
     }
 
     function onMove(e) {
       if (!held) return;
       stageRect = stageIn.getBoundingClientRect(); W = stageRect.width;
-      var p = ptr(e), c = held;
-      var nx = clamp(p.x - c.gdx, 0, W - S);
-      var ny = clamp(p.y - c.gdy, -S - 40, (surfaces.length ? surfaces[surfaces.length - 1].top : 4000));
-      var now = performance.now(), dtf = (now - c._lt) / 16.667 || 1;
-      var svx = (nx - c._lx) / dtf, svy = (ny - c._ly) / dtf;
-      c.vx = 0.55 * c.vx + 0.45 * svx; c.vy = 0.55 * c.vy + 0.45 * svy;
-      c._lx = nx; c._ly = ny; c._lt = now;
-      c.x = nx; c.y = ny; place(c);
+      var p = ptr(e), b = held;
+      var ncx = clamp(p.x - b.gdx, R, W - R);
+      var ncy = p.y - b.gdy;
+      var now = performance.now(), dtf = (now - b._lt) / 16.667 || 1;
+      b.vx = 0.5 * b.vx + 0.5 * (ncx - b._lx) / dtf;
+      b.vy = 0.5 * b.vy + 0.5 * (ncy - b._ly) / dtf;
+      b._lx = ncx; b._ly = ncy; b._lt = now;
+      b.cx = ncx; b.cy = ncy; b.ang += (b.vx / R) * 10; place(b);
     }
 
     function onUp(e) {
       if (!held) return;
-      var c = held; held = null;
-      try { c.el.releasePointerCapture(e.pointerId); } catch (err) {}
-      c.held = false; c.el.classList.remove("is-held");
-
-      /* dropped back on the line, gently → it goes home */
-      var cx = c.x + S / 2, slow = Math.abs(c.vx) < 6 && Math.abs(c.vy) < 6;
-      var overLine = cx >= lineX0 - 20 && cx <= lineX1 + 20 && c.y > lineTop - S - 52 && c.y < lineTop - S + 34;
-      if (slow && overLine) { goHome(c); return; }
-
-      c.vx = clamp(c.vx, -THROW_CAP, THROW_CAP);
-      c.vy = clamp(c.vy, -THROW_CAP, THROW_CAP);
-      c.restOn = null; c.settled = false;
+      var b = held; held = null;
+      try { b.el.releasePointerCapture(e.pointerId); } catch (err) {}
+      b.held = false; b.el.classList.remove("is-held");
+      b.vx = clamp(b.vx, -THROW_CAP, THROW_CAP);
+      b.vy = clamp(b.vy, -THROW_CAP, THROW_CAP);
+      b.restOn = null; b.settled = false;
       kick();
     }
 
-    function goHome(c) {
-      var slot = homeSlot(c.i);
-      c.el.classList.add("is-homing");
-      c.x = slot.x; c.y = slot.y; place(c);
-      c.el.style.transform = "rotate(" + c.baseR + "deg)";
-      c.vx = c.vy = 0; c.restOn = null;
+    function goHome(b) {
+      var s = homeSlot(b.i);
+      b.el.classList.add("is-homing");
+      b.cx = s.cx; b.cy = s.cy; b.ang = 0; place(b);
+      b.vx = b.vy = 0; b.restOn = null;
       var done = function () {
-        c.el.removeEventListener("transitionend", done);
-        c.el.classList.remove("is-homing");
-        c.el.style.transform = ""; c.el.style.setProperty("--r", c.baseR + "deg");
-        c.el.classList.add("is-home");
-        c.settled = true; c.home = true;
+        b.el.removeEventListener("transitionend", done);
+        b.el.classList.remove("is-homing");
+        b.settled = true; b.home = true;
       };
-      c.el.addEventListener("transitionend", done);
+      b.el.addEventListener("transitionend", done);
       checkNote();
     }
-
-    function returnAll() {
-      chips.forEach(function (c) { if (!c.home) goHome(c); });
-    }
+    function returnAll() { balls.forEach(function (b) { if (!b.home) goHome(b); }); }
 
     /* ---- physics ---- */
-    function landFor(c, prevBottom, nx, ny) {
-      var newBottom = ny + S, cx = nx + S / 2, best = null;
+    function landFor(b, prevBottom, ncx, ncy) {
+      var newBottom = ncy + R, best = null;
       for (var i = 0; i < surfaces.length; i++) {
         var s = surfaces[i];
-        if (cx < s.x0 - 6 || cx > s.x1 + 6) continue;
+        if (ncx < s.x0 - R * 0.5 || ncx > s.x1 + R * 0.5) continue;
         if (s.top >= prevBottom - LAND_SLACK && s.top <= newBottom) {
           if (!best || s.top < best.top) best = s;
         }
@@ -335,52 +318,90 @@
       return best;
     }
 
-    function step(dt) {
-      var moving = false;
-      for (var i = 0; i < chips.length; i++) {
-        var c = chips[i];
-        if (c.held) { moving = true; continue; }
-        if (c.settled) continue;
+    function bonk(s) {
+      if (!s || !s.el) return;
+      var now = performance.now();
+      if (s._bonk && now - s._bonk < 450) return;
+      s._bonk = now;
+      s.el.classList.add("ball-bonk");
+      setTimeout(function () { s.el.classList.remove("ball-bonk"); }, 360);
+    }
 
-        if (c.restOn) {
-          /* resting on a ledge: slide with friction, tip off an edge */
-          c.vx *= Math.pow(SLIDE, dt);
-          var nx = clamp(c.x + c.vx * dt, 0, W - S), cx = nx + S / 2;
-          if (nx <= 0 || nx >= W - S) c.vx = -c.vx * WALL;
-          if (cx < c.restOn.x0 || cx > c.restOn.x1) { c.restOn = null; c.vy = 0.4; }  /* off the edge */
-          else {
-            c.x = nx; c.y = c.restOn.top - S;
-            if (Math.abs(c.vx) < STOP_V) { c.vx = 0; settle(c); place(c); continue; }
+    function wake(b) { b.settled = false; b.restOn = null; b.home = false; }
+
+    function pairs() {
+      for (var i = 0; i < balls.length; i++) {
+        for (var j = i + 1; j < balls.length; j++) {
+          var a = balls[i], b = balls[j];
+          if (a.settled && b.settled && !a.held && !b.held) continue;
+          var dx = b.cx - a.cx, dy = b.cy - a.cy;
+          var d = Math.sqrt(dx * dx + dy * dy); if (d < 0.01) { dx = 0.1; dy = 0; d = 0.1; }
+          var min = R * 2;
+          if (d >= min) continue;
+          var nx = dx / d, ny = dy / d, overlap = min - d;
+          if (a.held) { b.cx += nx * overlap; b.cy += ny * overlap; }
+          else if (b.held) { a.cx -= nx * overlap; a.cy -= ny * overlap; }
+          else { a.cx -= nx * overlap / 2; a.cy -= ny * overlap / 2; b.cx += nx * overlap / 2; b.cy += ny * overlap / 2; }
+          var vn = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
+          if (vn < 0) {
+            var imp = -(1 + PAIR_REST) * vn / 2;
+            if (!a.held) { a.vx -= imp * nx; a.vy -= imp * ny; wake(a); }
+            if (!b.held) { b.vx += imp * nx; b.vy += imp * ny; wake(b); }
+          } else {
+            if (!a.held && a.settled) wake(a);
+            if (!b.held && b.settled) wake(b);
           }
-          place(c); moving = true; continue;
         }
+      }
+    }
 
-        /* airborne */
-        c.vy += G * dt; c.vx *= Math.pow(AIR, dt);
-        var prevBottom = c.y + S;
-        var nx2 = c.x + c.vx * dt, ny2 = c.y + c.vy * dt;
-        if (nx2 < 0) { nx2 = 0; c.vx = -c.vx * WALL; }
-        else if (nx2 > W - S) { nx2 = W - S; c.vx = -c.vx * WALL; }
-
-        var hit = landFor(c, prevBottom, nx2, ny2);
-        if (hit) {
-          ny2 = hit.top - S;
-          if (Math.abs(c.vy) > REST_V) { c.vy = -c.vy * REST; c.vx *= BOUNCE_FRICTION; }
-          else { c.vy = 0; c.restOn = hit; }
-        } else {
-          c.r += c.vx * 0.5 * dt;                         /* tumble in the air */
+    function moveBall(b, dt) {
+      if (b.restOn) {
+        b.vx *= Math.pow(ROLL, dt);
+        var ncx = clamp(b.cx + b.vx * dt, R, W - R);
+        if (ncx <= R || ncx >= W - R) b.vx = -b.vx * WALL;
+        if (ncx < b.restOn.x0 || ncx > b.restOn.x1) { b.restOn = null; b.vy = 0.5; }   /* rolled off the edge */
+        else {
+          b.cx = ncx; b.cy = b.restOn.top - R; b.ang += (b.vx / R) * 10 * dt;
+          if (Math.abs(b.vx) < STOP_V) { b.vx = 0; settle(b); }
         }
-        c.x = nx2; c.y = ny2;
-        c.el.style.transform = "rotate(" + (c.r % 360).toFixed(1) + "deg)";
-        place(c); moving = true;
+        return;
+      }
+      b.vy += G * dt; b.vx *= Math.pow(AIR, dt);
+      var prevBottom = b.cy + R;
+      var ncx2 = b.cx + b.vx * dt, ncy2 = b.cy + b.vy * dt;
+      if (ncx2 < R) { ncx2 = R; b.vx = -b.vx * WALL; }
+      else if (ncx2 > W - R) { ncx2 = W - R; b.vx = -b.vx * WALL; }
+      var hit = landFor(b, prevBottom, ncx2, ncy2);
+      if (hit) {
+        ncy2 = hit.top - R;
+        if (Math.abs(b.vy) > BONK_V) bonk(hit);
+        if (Math.abs(b.vy) > REST_V) { b.vy = -b.vy * REST; b.vx *= 0.85; }
+        else { b.vy = 0; b.restOn = hit; }
+      }
+      b.ang += (b.vx / R) * 10 * dt;
+      b.cx = ncx2; b.cy = ncy2;
+    }
+
+    function step(dt) {
+      var i;
+      for (i = 0; i < balls.length; i++) {
+        if (balls[i].held || balls[i].settled) continue;
+        moveBall(balls[i], dt);
+      }
+      pairs();
+      var moving = false;
+      for (i = 0; i < balls.length; i++) {
+        place(balls[i]);
+        if (balls[i].held || !balls[i].settled) moving = true;
       }
       return moving;
     }
 
-    function settle(c) {
-      if (c.settled) return;
-      c.settled = true;
-      c.el.style.transform = "rotate(" + (c.r % 360).toFixed(1) + "deg)";
+    function settle(b) {
+      if (b.settled) return;
+      b.settled = true;
+      place(b);
       checkNote();
     }
 
@@ -394,18 +415,16 @@
     function kick() { if (!raf) { lastT = 0; raf = requestAnimationFrame(tick); } }
 
     /* ---- the note ---- */
-    function inZone(c, z) {
+    function inZone(b, z) {
       if (!z) return false;
-      var cx = c.x + S / 2, cy = c.y + S / 2;
-      return cx >= z.x0 && cx <= z.x1 && cy >= z.y0 && cy <= z.y1;
+      return b.cx >= z.x0 && b.cx <= z.x1 && b.cy >= z.y0 && b.cy <= z.y1;
     }
     function checkNote() {
-      var stray = chips.filter(function (c) { return c.settled && !c.home && (inZone(c, footZ) || inZone(c, dessZ)); });
+      var stray = balls.filter(function (b) { return b.settled && !b.home && (inZone(b, footZ) || inZone(b, dessZ)); });
       if (stray.length) {
-        /* anchor the note above the highest stray chip */
-        var top = stray.reduce(function (a, b) { return b.y < a.y ? b : a; });
-        var nx = clamp(top.x - 18, 8, W - 276);
-        var ny = Math.max(top.y - note.offsetHeight - 16, 8);
+        var top = stray.reduce(function (a, c) { return c.cy < a.cy ? c : a; });
+        var nx = clamp(top.cx - 24, 8, W - 276);
+        var ny = Math.max(top.cy - R - note.offsetHeight - 14, 8);
         note.style.left = nx.toFixed(0) + "px"; note.style.top = ny.toFixed(0) + "px";
         if (!noteOn) { noteOn = true; requestAnimationFrame(function () { note.classList.add("is-on"); }); }
       } else if (noteOn) { noteOn = false; note.classList.remove("is-on"); }
@@ -417,9 +436,10 @@
       clearTimeout(rt);
       rt = setTimeout(function () {
         layout();
-        chips.forEach(function (c) {
-          if (c.home) { var s = homeSlot(c.i); c.x = s.x; c.y = s.y; place(c); }
-          else { c.settled = false; c.restOn = null; if (c.vy === 0) c.vy = 0.5; }
+        balls.forEach(function (b) {
+          b.el.style.setProperty("--d", (R * 2) + "px");
+          if (b.home) { var s = homeSlot(b.i); b.cx = s.cx; b.cy = s.cy; place(b); }
+          else { b.settled = false; b.restOn = null; if (b.vy === 0) b.vy = 0.5; }
         });
         checkNote(); kick();
       }, 160);
@@ -469,7 +489,65 @@
   }
 
 
-  function boot() { nav(); fit(); cursor(); toys(); disc(); }
+  /* 6. EZRA'S EYES — two pupils that follow the cursor while she is on screen,
+     and now and then look away and ignore it. Off under reduced motion. The
+     eye centres come from the markup as a percent of the image. ------------ */
+  function eyes() {
+    if (reduce) return;
+    var host = document.querySelector("[data-eyes]");
+    if (!host) return;
+    var pupils = host.querySelectorAll(".dz__eye");
+    if (!pupils.length) return;
+
+    Array.prototype.forEach.call(pupils, function (p) {
+      p.style.left = (parseFloat(p.getAttribute("data-cx")) || 50) + "%";
+      p.style.top = (parseFloat(p.getAttribute("data-cy")) || 50) + "%";
+    });
+
+    var inView = true, ignoring = false;
+    if ("IntersectionObserver" in window) {
+      inView = false;
+      new IntersectionObserver(function (es) { inView = es[0].isIntersecting; }, { threshold: 0.25 }).observe(host);
+    }
+
+    function maxOff() { return Math.max(3, (host.clientWidth || 300) * 0.016); }
+
+    function aim(px, py) {                         // each pupil from its own socket
+      var r = host.getBoundingClientRect(), max = maxOff();
+      Array.prototype.forEach.call(pupils, function (p) {
+        var ex = r.left + r.width * (parseFloat(p.getAttribute("data-cx")) / 100);
+        var ey = r.top + r.height * (parseFloat(p.getAttribute("data-cy")) / 100);
+        var dx = px - ex, dy = py - ey, len = Math.sqrt(dx * dx + dy * dy) || 1;
+        p.style.setProperty("--ox", ((dx / len) * max).toFixed(1) + "px");
+        p.style.setProperty("--oy", ((dy / len) * max).toFixed(1) + "px");
+      });
+    }
+    function glance(dx, dy) {                       // both pupils the same way
+      var max = maxOff(), len = Math.sqrt(dx * dx + dy * dy) || 1;
+      Array.prototype.forEach.call(pupils, function (p) {
+        p.style.setProperty("--ox", ((dx / len) * max).toFixed(1) + "px");
+        p.style.setProperty("--oy", ((dy / len) * max).toFixed(1) + "px");
+      });
+    }
+
+    window.addEventListener("pointermove", function (e) {
+      if (!inView || ignoring) return;
+      aim(e.clientX, e.clientY);
+    }, { passive: true });
+
+    setInterval(function () {                        // now and then, ignore the cursor
+      if (!inView || ignoring) return;
+      if (Math.random() < 0.3) {
+        ignoring = true;
+        var a = Math.random() * Math.PI * 2;
+        glance(Math.cos(a), Math.sin(a));
+        setTimeout(function () { ignoring = false; }, 800 + Math.random() * 1400);
+      }
+    }, 3200);
+  }
+
+
+  function boot() { nav(); fit(); cursor(); toys(); disc(); eyes(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();
 }());

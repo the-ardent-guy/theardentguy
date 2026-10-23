@@ -125,8 +125,11 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 @media (prefers-reduced-motion: reduce) { :root.js .banner__cue { animation: none; } }
 
 @media (max-width: 760px) {
-  .banner.banner--split { grid-template-columns: 1fr; grid-template-rows: 52svh 1fr; min-height: 0; }
-  .banner__in { align-items: flex-start; padding-block: clamp(28px, 6vh, 52px); }
+  /* Text on top (35%), photo below (65%) — the image gets the room. */
+  .banner.banner--split { grid-template-columns: 1fr; grid-template-rows: 35svh 65svh; height: 100svh; min-height: 0; }
+  .banner__in { grid-row: 1; align-items: flex-start; justify-content: center; padding-block: clamp(20px, 4vh, 40px); }
+  .banner__media { grid-row: 2; }
+  .banner__cue { display: none; }   /* no room for it between the two rows */
 }
 
 /* --- Layer B: the stage --------------------------------------------------- */
@@ -171,6 +174,8 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 .feat__name a:hover { opacity: .8; }
 .feat__problem { margin: 0 0 20px; max-width: 34ch; color: #CDCDD2; font-size: clamp(15px, 1vw + 9px, 18px); line-height: 1.5; }
 .feat__role { margin: 0 0 22px; color: #8A8A8A; font-size: 13px; letter-spacing: 0.03em; }
+/* Quiet location line — e.g. VIST Labs, Illinois. Not loud. */
+.feat__loc { margin: -14px 0 22px; color: #6E6E72; font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; }
 .feat__go { color: #fff; text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; border-bottom: 1px solid rgba(255,255,255,.3); padding-bottom: 3px; }
 .feat__go span { display: inline-block; transition: transform .2s; }
 .feat:hover .feat__go span { transform: translateX(4px); }
@@ -200,35 +205,25 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
   gap: clamp(32px, 6vw, 84px);
   max-width: 880px; margin-inline: auto;
   align-items: end;                             /* captions sit on a shared baseline */
-  padding-top: clamp(56px, 9vh, 104px);         /* room for the cat to break the top */
 }
 .dz { display: block; color: #fff; text-decoration: none; }
 
-/* Ezra: a window-box, the wordmark down the left, the cat standing inside with
-   its tail breaking out the top-right (box is overflow:visible). */
-.dz__box {
-  position: relative; display: block; aspect-ratio: 5 / 4;
-  border: 1.5px solid rgba(255,255,255,.55); border-radius: 12px;
-}
-.dz__tab {                                       /* the little window ear, top-right */
-  position: absolute; top: -1.5px; right: 22px; width: 34px; height: 9px;
-  border: 1.5px solid rgba(255,255,255,.55); border-bottom: 0;
-  border-radius: 6px 6px 0 0; background: #000;
-}
-.dz__vlabel {
-  position: absolute; left: clamp(10px, 1.6vw, 18px); top: 50%; z-index: 1;
-  writing-mode: vertical-rl; transform: translateY(-50%) rotate(180deg);
-  font-weight: 800; letter-spacing: 0.18em; line-height: 1;
-  font-size: clamp(26px, 3vw, 40px); color: #fff;
-}
-.dz__cat {
-  position: absolute; left: 50%; bottom: -1px; z-index: 2;
-  height: 120%; width: auto; transform: translateX(-44%);
-  filter: drop-shadow(0 16px 22px rgba(0,0,0,.45));
+/* Ezra: just the cat (no box). Two pupils ride over her eyes and follow the
+   cursor — positioned and driven from redo.js. */
+.dz__cat2 { position: relative; display: block; }
+.dz__cat2 img {
+  display: block; width: 100%; height: auto;
+  filter: drop-shadow(0 18px 26px rgba(0,0,0,.45));
   transition: transform .45s cubic-bezier(.22,1,.36,1);
 }
-.dz--ezra:hover .dz__cat { transform: translateX(-44%) translateY(-8px); }
-.dz__arrow { position: absolute; left: 14px; bottom: 11px; z-index: 3; font-size: 20px; color: #fff; }
+.dz--ezra:hover .dz__cat2 img { transform: translateY(-8px); }
+.dz__eye {
+  position: absolute; width: 2.5%; aspect-ratio: 1; border-radius: 50%;
+  background: #141210; left: 50%; top: 50%;     /* real % set from the image in redo.js */
+  transform: translate(-50%, -50%) translate(var(--ox, 0px), var(--oy, 0px));
+  transition: transform .16s ease-out;
+  box-shadow: 0 0 1px rgba(0,0,0,.4);
+}
 
 /* Lurch: just the phones, no box. Labels float over the screens. */
 .dz__stage { position: relative; display: block; }
@@ -328,21 +323,17 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 .bird--b { top: 15%; left: 58%; width: 9px; animation: redo-bird 80s linear infinite; animation-delay: -34s; }
 @keyframes redo-bird { from { transform: translateX(0); } to { transform: translateX(36vw); } }
 
-/* The orange pixel tabby, running across in front of the word every ~15s. */
-.scene__cat {
-  position: absolute; z-index: 3; left: 0;
-  bottom: clamp(26px, 7vh, 86px);
-  width: clamp(52px, 7vw, 96px); aspect-ratio: 16 / 10;
-  image-rendering: pixelated;
-  animation: cat-run 15s linear infinite;
+/* A crooked little slice of cake, sitting on the wordmark. */
+.endmark__cake {
+  position: absolute; z-index: 3; pointer-events: none;
+  left: 50%; bottom: clamp(74px, 15vh, 180px);
+  width: clamp(76px, 10vw, 128px); height: auto;
+  transform: translateX(-50%) rotate(-11deg);
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,.28));
 }
-.scene__cat svg { display: block; width: 100%; height: 100%; image-rendering: pixelated; animation: cat-bob .26s steps(2) infinite alternate; }
-@keyframes cat-run { 0% { transform: translateX(-14vw); } 36% { transform: translateX(114vw); } 100% { transform: translateX(114vw); } }
-@keyframes cat-bob { from { transform: translateY(0); } to { transform: translateY(-2px); } }
 
 @media (prefers-reduced-motion: reduce) {
-  .bird, .scene__cat, .scene__cat svg { animation: none !important; }
-  .scene__cat { transform: translateX(-14vw); }
+  .bird { animation: none !important; }
 }
 
 .endmark__word {
@@ -385,6 +376,8 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 .cursor.is-card .cursor__dot::after { content: "\2192"; }
 .cursor__pill { position: absolute; top: 0; left: 0; transform: translate(34px, -13px) scale(0.7); transform-origin: left center; padding: 6px 12px; border-radius: 5px; background: var(--cur-accent); color: var(--cur-ink); font-size: 11px; font-weight: 700; letter-spacing: 0.04em; white-space: nowrap; opacity: 0; transition: opacity 180ms ease, transform 220ms cubic-bezier(.22,1,.36,1); }
 .cursor.is-card .cursor__pill { opacity: 1; transform: translate(40px, -13px) scale(1); }
+/* Case-study rows carry no label, so the cursor shows no text over them. */
+.cursor.no-label .cursor__pill { opacity: 0 !important; }
 
 
 /* ---------------------------------------------------------------------------
@@ -415,37 +408,39 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 
 
 /* ---------------------------------------------------------------------------
-   7. THE TOY PILE
-   The software logos live as little white chips piled on the rule under
-   "Selected work". Grab one, throw it, and gravity takes over: it falls,
-   lands on whatever card is beneath it, and bounces to a rest. Leave the
-   pile scattered in the footer or the Desserts and a note asks you, nicely,
-   to put them back. All of it is built, positioned and driven from redo.js;
-   none of it exists for a visitor with no JS, a coarse pointer, or reduced
-   motion, so this is the whole surface it needs.
+   7. THE BALL PIT
+   The software logos are little balls resting on the right of the rule under
+   "Selected work". Grab one, throw it, and it bounces: off the cards, the
+   tiles, the floor, the walls, and off each other. Leave them in the footer
+   or the Desserts and a note asks for them back. All built, positioned and
+   driven from redo.js; none of it exists for a visitor with no JS, a coarse
+   pointer, or reduced motion, so this is the whole surface it needs.
    --------------------------------------------------------------------------- */
 .toys { position: absolute; inset: 0; z-index: 40; pointer-events: none; }
 
-.toy {
-  position: absolute; top: 0; left: 0; width: var(--toy, 56px); height: var(--toy, 56px);
-  border-radius: 15px; background: #fff;
-  box-shadow: 0 7px 18px rgba(0,0,0,.34), 0 1px 0 rgba(255,255,255,.7) inset;
+.ball {
+  position: absolute; top: 0; left: 0; width: var(--d, 30px); height: var(--d, 30px);
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #fff, #ededf0 78%);
+  box-shadow: 0 3px 8px rgba(0,0,0,.3), 0 1px 1px rgba(255,255,255,.85) inset, 0 -3px 6px rgba(0,0,0,.07) inset;
   display: grid; place-items: center;
   pointer-events: auto; cursor: grab; touch-action: none;
-  user-select: none; -webkit-user-select: none; will-change: transform, left, top;
-  transition: box-shadow .2s ease;
+  user-select: none; -webkit-user-select: none; will-change: transform;
 }
-.toy img { width: 58%; height: 58%; pointer-events: none; -webkit-user-drag: none; display: block; }
-.toy.is-held { cursor: grabbing; box-shadow: 0 20px 40px rgba(0,0,0,.5); }
-/* A smooth glide home when the note's "put them back" is used. */
-.toy.is-homing { transition: left .6s cubic-bezier(.22,1,.36,1), top .6s cubic-bezier(.22,1,.36,1), transform .6s cubic-bezier(.22,1,.36,1), box-shadow .2s ease; }
-/* The gentle idle life while they sit on the line. */
-.toy.is-home { animation: toy-sway 5.5s ease-in-out infinite; animation-delay: var(--sway, 0s); }
-@keyframes toy-sway {
-  0%, 100% { transform: rotate(var(--r, 0deg)) translateY(0); }
-  50%      { transform: rotate(calc(var(--r, 0deg) + 1.6deg)) translateY(-3px); }
+.ball img { width: 54%; height: 54%; pointer-events: none; -webkit-user-drag: none; display: block; }
+.ball.is-held { cursor: grabbing; box-shadow: 0 12px 26px rgba(0,0,0,.45), 0 1px 1px rgba(255,255,255,.85) inset; }
+/* A smooth glide home when "put them back" is used. */
+.ball.is-homing { transition: transform .6s cubic-bezier(.22,1,.36,1); }
+.has-cursor .ball { cursor: none; }   /* the custom dot stands in for grab/grabbing */
+
+/* The little nudge a card/tile does when a ball lands on it hard. */
+.ball-bonk { animation: ball-bonk .34s ease; }
+@keyframes ball-bonk {
+  0% { transform: translateY(0); }
+  28% { transform: translateY(3px); }
+  60% { transform: translateY(-1px); }
+  100% { transform: translateY(0); }
 }
-.has-cursor .toy { cursor: none; }   /* the custom dot stands in for grab/grabbing */
 
 /* The scolding note. */
 .toy-note {
@@ -473,7 +468,7 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 .toy-note__put:hover { background: #000; }
 .has-cursor .toy-note__put { cursor: none; }
 
-@media (prefers-reduced-motion: reduce) { .toy.is-home { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .ball-bonk { animation: none; } }
 
 
 /* ---------------------------------------------------------------------------
@@ -485,8 +480,8 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
    and the bar still swipes, the click just finds nothing to play.
    --------------------------------------------------------------------------- */
 .disc {
-  position: fixed; left: clamp(14px, 2vw, 26px); bottom: clamp(14px, 2.4vh, 28px);
-  z-index: 80; display: flex; align-items: center;
+  position: fixed; right: clamp(14px, 2vw, 26px); top: clamp(14px, 2vh, 22px);
+  z-index: 80; display: flex; flex-direction: row-reverse; align-items: center;
 }
 .disc[hidden] { display: none; }
 .disc__rec {
@@ -509,8 +504,8 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 
 .disc__bar {
   display: flex; align-items: center; gap: 10px;
-  margin-left: -30px; padding: 8px 18px 8px 42px; height: 40px;
-  border-radius: 0 999px 999px 0; background: #0d0d0f; color: #fff; white-space: nowrap;
+  margin-right: -30px; padding: 8px 42px 8px 18px; height: 40px;
+  border-radius: 999px 0 0 999px; background: #0d0d0f; color: #fff; white-space: nowrap;
   max-width: 0; opacity: 0; overflow: hidden;
   box-shadow: 0 6px 18px rgba(0,0,0,.4);
   transition: max-width .42s cubic-bezier(.22,1,.36,1), opacity .3s ease, padding .42s ease;
