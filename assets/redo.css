@@ -39,7 +39,7 @@
   --home-ink: #F3F0E7;
   --home-ink-soft: #B4AF9F;
   --home-scrim: linear-gradient(to top, rgba(14,15,18,.9) 0%, rgba(14,15,18,0) 42%);
-  --band-ground: #0C0C0D;
+  --band-ground: #1A1A1E;      /* a real step off the stage so the reveal keeps an edge */
   --band-ink: #F3F0E7;
 }
 
@@ -106,9 +106,24 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
   object-fit: contain;
   filter: drop-shadow(0 24px 60px rgba(10,12,16,.22));
 }
+/* In dark the near-black shadow vanishes on the dark gradient, so the photo
+   looks pasted on — give it a deeper, darker lift instead. */
+:root[data-theme="dark"] .banner__img { filter: drop-shadow(0 20px 54px rgba(0,0,0,.55)); }
 /* The old dark bottom scrims (home.css + swiss.css) are replaced by the
    theme-aware .banner::after below. */
 .banner__in::before { display: none !important; }
+
+/* Editorial staging: on desktop the portrait anchors top-right and is capped
+   in height so it clears the lower-left headline column; on phones it sits up
+   top with the text below. (Fixes the "caption crashing into the photo's
+   feet / floating snapshot" composition.) */
+@media (min-width: 721px) {
+  .banner__media { place-items: start end; padding: clamp(48px, 8vh, 96px) 5vw 0; }
+  .banner__img { max-width: min(46vw, 520px); max-height: min(62vh, 560px); }
+}
+@media (max-width: 720px) {
+  .banner__media { place-items: start center; padding-top: clamp(56px, 9vh, 100px); }
+}
 /* a soft, theme-aware scrim at the foot so the text always reads */
 .banner::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 46%;
@@ -120,11 +135,11 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 }
 .banner__in .wrap { position: relative; padding-bottom: clamp(40px, 7vh, 92px); }
 .banner__hi {
-  margin: 0 0 6px;
-  font-weight: 300;
+  margin: 0 0 12px;                 /* more air before the headline */
+  font-weight: 400;                 /* not limp */
   font-size: clamp(17px, 1.4vw + 10px, 24px);
   letter-spacing: -0.01em;
-  color: var(--home-ink-soft);
+  color: var(--home-ink);           /* full strength: a deliberate opener */
 }
 .banner__h1 {
   margin: 0; max-width: 16ch;
@@ -215,6 +230,11 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 .mcard__shot--contain { display: grid; place-items: center; }
 .mcard__shot--contain img { width: auto; height: 80%; object-fit: contain; transform: none; }
 .mcard:hover .mcard__shot--contain img { transform: scale(1.03); }
+
+/* The Desserts pair reads as a pair: both tiles a taller 4/5 so Lurch fills it
+   and Ezra's cutout no longer floats small in a wide slab. */
+.mosaic--dess .mcard__shot { aspect-ratio: 4 / 5; }
+.mosaic--dess .mcard__shot--contain img { height: 92%; }
 
 .mcard__cap {
   display: flex; flex-wrap: wrap; align-items: baseline;

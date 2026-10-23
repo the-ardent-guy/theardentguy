@@ -49,7 +49,11 @@
       var pad = parseFloat(getComputedStyle(band).paddingLeft) || 0;
       var target = (band.clientWidth - pad * 2) * 0.98;   // fill the padded inner width
       var cur = word.scrollWidth || 1;
-      word.style.fontSize = (100 * target / cur).toFixed(1) + "px";
+      var byWidth = 100 * target / cur;
+      // Also cap against the band height, so on a wide-but-short viewport the
+      // word doesn't grow so tall its tops get clipped more than the foot.
+      var byHeight = band.clientHeight * 1.5;
+      word.style.fontSize = Math.min(byWidth, byHeight).toFixed(1) + "px";
       word.style.width = "";
       word.style.right = "";
     }
