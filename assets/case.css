@@ -660,24 +660,25 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 18px 40px -22px rgba(60, 45, 20, .30);
 }
 
+/* No aspect-ratio and no object-fit, 2026-10-23: a forced 9:16 box with
+   cover took a slice off a recording that was not exactly 9:16. The video
+   fills the width it is given and is as tall as it is. */
 .phone video {
   display: block;
-  height: clamp(400px, 34vw, 480px);
-  width: auto;
-  aspect-ratio: 9 / 16;
-  object-fit: cover;
+  width: 100%;
+  height: auto;
   border-radius: 24px;
   background: #121316;
 }
 
 @media (max-width: 899px) {
   .phone { --bezel: 5px; border-radius: 26px; margin-inline: auto; }
-  .phone video { height: clamp(380px, 78vw, 460px); border-radius: 21px; }
+  .phone video { border-radius: 21px; }
 }
 
 @media (max-width: 559px) {
   .phone { --bezel: 4px; border-radius: 22px; }
-  .phone video { height: clamp(340px, 86vw, 420px); border-radius: 18px; }
+  .phone video { border-radius: 18px; }
 }
 
 /* --- Text left, a tall phone right -------------------------------------

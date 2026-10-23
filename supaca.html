@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-case>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Kalam:wght@400;700&display=swap">
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="/assets/case.css">
 <link rel="stylesheet" href="/assets/v2.css">
 <link rel="stylesheet" href="/assets/swiss.css">
@@ -142,11 +142,31 @@
       <section id="process">
         <h2>Process</h2>
         <p>I set four principles before any screen: every member is verified by a human, members never pay, nothing is shared without consent, and every path leads to the next drive. I then fixed the information architecture, so every screen had a defined slot and new features could be added without restructuring navigation. I wireframed the core flows and tested them with owners before visual design.</p>
-        <figure class="bleed">
-          <div class="shot shot--wide">[ IMAGE: information architecture, from invite to the members' area ]</div>
-        </figure>
-        <figure class="bleed">
-          <div class="shot shot--tall">[ IMAGE: wireframes, the gate, the event page and garage verification ]</div>
+        <figure class="bleed nb-pile" data-pile style="--nbp-ar: 1280 / 976; --nbp-depth: 3">
+          <ul class="nb-pile__stack" data-pile-stack>
+            <li class="nb-pile__sheet">
+              <img src="/assets/media/supaca-sketch-1.webp" width="1280" height="970" loading="lazy" decoding="async"
+                   alt="A hand-drawn onboarding flow for Supaca: register as an owner or a club owner, sign up, add cars with the registration document, review and confirm, verification pending, then home. Under it, lists of what the home, owner profile and club dashboard screens each hold.">
+            </li>
+            <li class="nb-pile__sheet">
+              <img src="/assets/media/supaca-sketch-2.webp" width="1280" height="976" loading="lazy" decoding="async"
+                   alt="A hand-drawn owner flow for Supaca: the home router across marketplace, events, clubs and profile; the marketplace with filters, categories and a car listing that leads to a chat with the owner; and the clubs grid leading to a club profile with a join-club action.">
+            </li>
+            <li class="nb-pile__sheet">
+              <img src="/assets/media/supaca-sketch-3.webp" width="1280" height="981" loading="lazy" decoding="async"
+                   alt="Hand-drawn Supaca wireframes: three intro screens and a verification-in-progress state, create account, add your car, add club details, then the event page, the clubs list, a locked club page with join or request access, and a car listing page.">
+            </li>
+            <li class="nb-pile__sheet">
+              <img src="/assets/media/supaca-sketch-4.webp" width="824" height="1280" loading="lazy" decoding="async"
+                   alt="A hand-drawn page of Supaca wireframes: login leading either to onboarding or to a guest view of past events; the events homepage with a filter, an event gallery, a map and an RSVP overlay that asks which car you are bringing; a vendors list with an offer overlay; and a settings screen.">
+            </li>
+          </ul>
+          <div class="nb-pile__bar" data-pile-bar hidden>
+            <button class="nb-pile__step" type="button" data-pile-prev aria-label="Previous sheet"><svg viewBox="0 0 16 12" aria-hidden="true"><path d="M6.5 1 L1 6 L6.5 11 M1 6 H15"/></svg></button>
+            <button class="nb-pile__step" type="button" data-pile-next aria-label="Next sheet"><svg viewBox="0 0 16 12" aria-hidden="true"><path d="M9.5 1 L15 6 L9.5 11 M15 6 H1"/></svg></button>
+            <p class="nb-pile__count"><span data-pile-at>1</span> / 4</p>
+          </div>
+          <figcaption data-fig="02">Flows and wireframes on paper, before any screen was drawn.</figcaption>
         </figure>
       </section>
 

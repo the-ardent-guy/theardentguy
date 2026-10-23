@@ -1,0 +1,528 @@
+/* ===========================================================================
+   HOME, 2026-10-23
+   Loaded only by index.html, and last, after style / v2 / v3 / swiss /
+   notebook. It is the homepage's own layer and nothing in it reaches
+   another page.
+
+   What he asked for, in order, and where each one lives below:
+
+     1  the banner is the whole screen, and the words stay exactly
+        where they are, bottom left                              -> sec 2
+     2  no nav bar on the homepage; the rounded floating one comes
+        back, and it arrives when the case studies do            -> sec 3
+     3  the case studies: ample breathing space, padding, a line
+        between each, and two of them side by side               -> sec 4
+     4  a scroll animation: the details move up while the project
+        holds the screen, and the whole screen changes shade      -> sec 5
+     5  Ezra, out of the frame                                    -> sec 6
+     6  Lurch, framed as the satire it is                         -> sec 6
+
+   Nothing here crops a picture. There is not one object-fit: cover and not
+   one aspect-ratio box on a photograph in this file, on purpose.
+   =========================================================================== */
+
+
+/* ---------------------------------------------------------------------------
+   1. THE SHADE
+
+   One fixed layer under everything, including the dot grid, carrying a
+   colour that home.js changes as each project takes the screen. It is a
+   wash, not a background: 7% of the project's own ink in light, 14% in
+   dark, which is the difference between "the room changed" and "the page
+   changed colour".
+
+   It sits at z-index -2 and swiss.css's dot grid at -1, so the dots stay on
+   top of it and the paper, the mottle and the grain stay underneath.
+   --------------------------------------------------------------------------- */
+
+:root { --shade-strength: 7%; }
+:root[data-dark][data-theme="dark"] { --shade-strength: 14%; }
+
+.shade {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-color: var(--shade, transparent);
+  transition: background-color 900ms var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shade { transition-duration: 1ms; }
+}
+
+
+/* ---------------------------------------------------------------------------
+   2. THE BANNER IS THE WHOLE SCREEN
+
+   It was 100svh minus 72px, because a nav sat on the paper above it. The
+   nav has gone, so the photograph gets the screen.
+
+   The words do not move. .banner__in is still bottom-left inside .wrap and
+   the 352px cap from notebook.css section 7 still holds, which is the block
+   he asked to keep as it is. All that changes is how much paper is under
+   it, and the scrim, which now also has to hold the floating nav off the
+   top of the frame on its way past.
+   --------------------------------------------------------------------------- */
+
+.banner {
+  height: 100svh;
+  min-height: 540px;
+  max-height: none;
+}
+
+.banner__in { padding-bottom: clamp(48px, 7vh, 96px); }
+
+/* Two stops added at the top. The bottom of the gradient is unchanged, so
+   the words sit on exactly the scrim they sat on before. */
+.banner__in::before {
+  background: linear-gradient(to top,
+    rgba(14, 16, 13, 0.82) 0%,
+    rgba(14, 16, 13, 0.62) 16%,
+    rgba(14, 16, 13, 0.24) 38%,
+    rgba(14, 16, 13, 0) 62%,
+    rgba(14, 16, 13, 0) 88%,
+    rgba(14, 16, 13, 0.22) 100%);
+}
+
+/* The cue is absolute bottom-right of .wrap, set in notebook.css 7. It gets
+   a slow breath, because it is the only hint that there is a page below a
+   photograph that now fills the screen. */
+:root.js .banner__cue { animation: home-cue 2.8s var(--ease) infinite; }
+
+@keyframes home-cue {
+  0%, 100% { transform: translateY(0); opacity: .8; }
+  50%      { transform: translateY(5px); opacity: .45; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root.js .banner__cue { animation: none; }
+}
+
+@media (max-width: 1024px) { .banner { height: 100svh; } }
+@media (max-width: 640px)  { .banner { height: 100svh; min-height: 460px; } }
+
+
+/* ---------------------------------------------------------------------------
+   3. THE FLOATING NAV
+
+   No nav bar on the homepage. This one is fixed, centred, rounded, and it
+   is not there until the banner has gone: home.js watches the banner and
+   puts .is-up on it the moment the work arrives, which is the behaviour the
+   published site had and the one he asked for back.
+
+   Without JS it is simply visible from the top, because a nav that depends
+   on a script that failed to load is not a nav.
+   --------------------------------------------------------------------------- */
+
+.fnav {
+  position: fixed;
+  top: calc(14px + env(safe-area-inset-top, 0px));
+  left: 0;
+  right: 0;
+  z-index: 500;
+  display: flex;
+  justify-content: center;
+  padding-inline: var(--margin);
+  pointer-events: none;
+}
+
+.fnav__in {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  max-width: 100%;
+  padding: 5px;
+  border-radius: 999px;
+  border: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--v3-surface, #FBF8F1) 86%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(1.06);
+  backdrop-filter: blur(16px) saturate(1.06);
+  box-shadow: 0 1px 2px rgba(20, 16, 8, .05),
+              0 18px 40px -26px rgba(20, 16, 8, .60);
+}
+
+@supports not (color: color-mix(in srgb, #fff 86%, transparent)) {
+  .fnav__in { background: var(--v3-surface, #FBF8F1); }
+}
+
+.fnav__in a,
+.fnav__tool {
+  display: inline-flex;
+  align-items: center;
+  height: 38px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  line-height: 1;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink-60);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--dur) var(--ease), background-color var(--dur) var(--ease);
+}
+
+.fnav__in a:hover,
+.fnav__in a:focus-visible,
+.fnav__tool:hover,
+.fnav__tool:focus-visible {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+}
+
+.fnav__in a:focus-visible,
+.fnav__tool:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.fnav__sep { width: 1px; height: 20px; margin-inline: 6px; background: var(--rule); flex: none; }
+
+.fnav__in a.fnav__cta {
+  color: var(--v3-surface, #FBF8F1);
+  background: var(--ink);
+  padding: 0 18px;
+}
+
+.fnav__in a.fnav__cta:hover,
+.fnav__in a.fnav__cta:focus-visible {
+  color: var(--v3-surface, #FBF8F1);
+  background: color-mix(in srgb, var(--ink) 86%, var(--accent));
+}
+
+/* Hidden while the photograph owns the screen. visibility, not opacity
+   alone, so nothing in it is tabbable or clickable off-screen. */
+:root.js .fnav {
+  transform: translateY(calc(-100% - 20px));
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 440ms var(--ease), opacity 260ms var(--ease), visibility 0s 440ms;
+}
+
+:root.js .fnav.is-up {
+  transform: none;
+  opacity: 1;
+  visibility: visible;
+  transition: transform 440ms var(--ease), opacity 260ms var(--ease), visibility 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root.js .fnav,
+  :root.js .fnav.is-up { transition-duration: 1ms, 1ms, 0s; }
+}
+
+/* Narrow: the two secondary destinations drop. Work, the switch and the
+   action are the smallest set that still does every job. */
+@media (max-width: 560px) {
+  .fnav { padding-inline: 12px; }
+  .fnav__in a, .fnav__tool { height: 36px; padding: 0 13px; }
+  .fnav__in a[href="/studio.html"],
+  .fnav__in a[href="/desserts.html"] { display: none; }
+}
+
+
+/* ---------------------------------------------------------------------------
+   4. THE WORK, WITH ROOM AROUND IT
+
+   The shape he drew: Produsa, Supaca and Hasta each take a full row with
+   the picture on the left; VIST Labs and Bizotico sit side by side; Sintero
+   pairs with the one line that is true but is not a project.
+
+   The air is the point. A project row was 64px top and bottom; it is now
+   between 80 and 136, and the gutter the vertical hairline stands in opens
+   from 24 to between 32 and 56. Nothing else about the grid changes: still
+   no card, still no radius, still exactly one hairline between any two
+   projects.
+   --------------------------------------------------------------------------- */
+
+.work { padding-top: clamp(72px, 9vw, 136px); }
+
+.idx__head { padding-bottom: var(--s4); }
+
+.pgrid {
+  --gutter: clamp(32px, 4vw, 56px);
+  margin-top: 0;
+}
+
+.prow { padding-block: clamp(80px, 8.5vw, 136px); }
+
+/* The lead picture takes seven columns of twelve and keeps every pixel it
+   was exported with, so the row is as tall as the picture is. The words
+   centre against it. */
+.pcell--lead .pshot { grid-column: 1 / 8; }
+.pcell--lead .pmeta { grid-column: 8 / 13; }
+
+.pshot { margin-bottom: var(--s5); }
+.pcell--lead .pshot { margin-bottom: 0; }
+
+/* The words, given room between their own lines. */
+.pname { font-size: clamp(24px, 1.5vw + 16px, 30px); }
+.pline { margin-top: var(--s4); max-width: 34ch; }
+.prole { margin-top: var(--s3); }
+.pout  { margin-top: var(--s4); }
+.pcta  { margin-top: var(--s5); }
+
+
+/* ---------------------------------------------------------------------------
+   5. THE SCROLL ANIMATION
+
+   Two things, and only two.
+
+   THE DETAILS MOVE UP. "just the details move up", from his sketch, read
+   literally: the picture is still and the words beside it travel. home.js
+   writes --rise on each row, in pixels, running from about +44 when the row
+   is a screen below the middle to about -44 when it is a screen above. So
+   the block of words drifts upward through the row for as long as the row
+   is on screen, and sits level with its picture as the row crosses the
+   centre, which is where it is read.
+
+   THE SCREEN CHANGES SHADE. Whichever row is nearest the middle of the
+   screen owns the page: home.js mixes that project's own colour into the
+   .shade layer in section 1. One project at a time, 900ms to cross over.
+
+   Both are transform and background-color only. Nothing here reads layout
+   inside the scroll handler, so it cannot thrash.
+   --------------------------------------------------------------------------- */
+
+/* The transform has to beat swiss.css 13, where `:root.js .reveal.is-in`
+   sets transform: none to land the 8px entry rise. .pmeta carries .reveal,
+   so without the extra classes here the drift is silently overwritten and
+   every row reads as a matrix identity. Measured, on 2026-10-23: it was.
+
+   The entry rise is not lost, it is replaced. .pmeta now transitions
+   opacity only and the transform belongs to --rise alone, which starts at
+   0, so a row still fades in and now arrives on the drift instead of on a
+   second, shorter one of its own. */
+:root.js .prow .pmeta.reveal,
+:root.js .prow .pmeta.reveal.is-in {
+  transform: translate3d(0, calc(var(--rise, 0) * 1px), 0);
+  transition-property: opacity;
+  will-change: transform;
+}
+
+/* The row that currently owns the screen says so quietly: its hairline
+   darkens to full ink and its number turns into its dot, which is the same
+   crossfade the hover already uses. Nothing moves. */
+.prow { transition: border-color 600ms var(--ease); }
+.prow.is-live { border-top-color: var(--ink); }
+
+.prow.is-live .pno { color: transparent; }
+.prow.is-live .pno::after { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root.js .prow .pmeta.reveal,
+  :root.js .prow .pmeta.reveal.is-in { transform: none; }
+  .prow { transition: none; }
+}
+
+
+/* ---------------------------------------------------------------------------
+   6. THE DESSERTS
+
+   Two of them get a panel each, side by side, with the same single hairline
+   standing in the gutter that separates a pair of projects. Below them the
+   pharmacy stays a row, because a markdown file is a row.
+   --------------------------------------------------------------------------- */
+
+/* .dess is a twelve-column grid with align-items: baseline, so the label,
+   the headline and the line beside it share a baseline. Nothing here is
+   allowed a margin-top that would break that: the air goes on the section
+   and on the two blocks below the headline row. */
+.dess { padding-block-start: clamp(104px, 12vw, 190px); }
+.dess__acts { margin-top: var(--s6); }
+.dess > .dgrid { grid-column: 1 / 13; }
+
+.dgrid {
+  --dgut: clamp(32px, 4vw, 56px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--dgut);
+  grid-template-rows: auto auto;
+  margin-top: clamp(56px, 6vw, 88px);
+  padding-top: clamp(56px, 6vw, 88px);
+  border-top: 1px solid var(--rule-strong);
+}
+
+/* A grid of two rows, 1fr for the picture and auto for the words. Both
+   cards are in the same row of .dgrid, so they are the same height, so the
+   1fr rows are the same height, so the two blocks of words start on the
+   same line. Laid out as blocks they did not: the Lurch phones are 499px
+   tall and Ezra's stage was 396, and the two captions sat 99px apart. */
+.dcard {
+  position: relative;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+/* Subgrid, so the PICTURE rows match rather than the cards. Stretching the
+   cards alone is not enough: Lurch's words run four lines deeper than
+   Ezra's, so equal card heights gave unequal picture rows and the two
+   captions started 85px apart (measured). With subgrid both rows are
+   shared and both captions start on the same line.
+
+   It has to sit AFTER the .dcard rule above, not before it: the first time
+   this was written it came first and the 1fr auto below simply overwrote
+   it, and the probe read grid-template-rows back as two pixel values. */
+@supports (grid-template-rows: subgrid) {
+  .dcard { grid-row: span 2; grid-template-rows: subgrid; }
+}
+
+/* The same perpendicular hairline as a project pair: in the gutter, not on
+   the edge of either card. */
+.dcard + .dcard::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--dgut) / 2);
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--rule-strong);
+}
+
+.dmeta { margin-top: var(--s5); }
+
+.dno   { display: block; color: var(--ink-40); }
+.dname { margin: var(--s2) 0 0; font-size: clamp(22px, 1.4vw + 15px, 28px); line-height: 1.15; font-weight: 500; letter-spacing: -0.015em; color: var(--ink); }
+.dline { margin: var(--s3) 0 0; font-size: var(--t-body); line-height: var(--lh-body); max-width: 32ch; color: var(--ink); }
+.dsay  { margin: var(--s3) 0 0; max-width: 42ch; }
+.dcard .action { margin-top: var(--s4); }
+
+.dcard:hover .action__arrow,
+.dcard:focus-visible .action__arrow { transform: translateX(4px); }
+
+/* --- 6.1 Lurch -------------------------------------------------------------
+   A screenshot, shown whole. SATIRE is a tag rather than a word in the
+   sentence, because the joke only works if you are told it is one before
+   you read the premise. */
+
+.dtag {
+  display: inline-block;
+  margin-left: var(--s2);
+  padding: 3px 9px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  color: var(--ink-60);
+  vertical-align: middle;
+}
+
+.dshot { margin: 0; overflow: hidden; }
+.dshot img { display: block; width: 100%; height: auto; transition: transform var(--dur) var(--ease); }
+.dcard:hover .dshot img { transform: scale(1.015); }
+
+/* --- 6.2 Ezra, out of the frame --------------------------------------------
+   The effect, plainly: there is a frame, and the cat is not inside it.
+
+   The frame is a lit panel that starts 22% down the stage. The cat is a
+   cut-out, 58% of the stage wide, standing on the frame's floor, and at
+   that size she is taller than the panel: her head, both ears and the whole
+   tail finish above its top edge, against the paper. Her drop shadow falls
+   onto the frame below her, which is the part that sells it.
+
+   On hover she takes one more step out, 10px, and the shadow lengthens.
+   The asset is a real alpha cut-out, assets/media/ezra-cat.webp, exported
+   from EZRA CHARACTER.png on 2026-10-23, so none of this is a crop or a
+   mask: the picture genuinely has no background behind her. */
+
+/* No aspect-ratio: the row sets the height and the stage fills it, so the
+   frame and the cat stay in proportion to each other whatever the card
+   beside this one turns out to be. */
+.dstage {
+  position: relative;
+  min-height: 300px;
+}
+
+.dstage__frame {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 22%;
+  bottom: 0;
+  border: 1px solid var(--rule-strong);
+  background:
+    radial-gradient(ellipse 62% 58% at 50% 78%,
+      rgba(246, 203, 70, .52), rgba(246, 203, 70, 0) 72%),
+    color-mix(in srgb, var(--ink) 5%, transparent);
+}
+
+@supports not (color: color-mix(in srgb, #000 5%, transparent)) {
+  .dstage__frame {
+    background: radial-gradient(ellipse 62% 58% at 50% 78%,
+      rgba(246, 203, 70, .52), rgba(246, 203, 70, 0) 72%);
+  }
+}
+
+/* Sized off the stage's HEIGHT, not its width. The frame starts 22% down,
+   so it is 78% of the stage tall; the cat is 86% of the stage tall and
+   stands 7% up from the floor, which puts her ears and the tip of her tail
+   15% of the stage ABOVE the frame's top edge at every size. Sized by
+   width she slipped back inside the frame the moment the card beside her
+   got taller. */
+.dstage__cat {
+  position: absolute;
+  left: 50%;
+  bottom: 7%;
+  height: 86%;
+  width: auto;
+  transform: translate3d(-50%, 0, 0);
+  filter: drop-shadow(0 16px 20px rgba(26, 20, 6, .30));
+  transition: transform 420ms var(--ease), filter 420ms var(--ease);
+}
+
+.dcard:hover .dstage__cat,
+.dcard:focus-visible .dstage__cat {
+  transform: translate3d(-50%, -10px, 0);
+  filter: drop-shadow(0 26px 26px rgba(26, 20, 6, .34));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dcard:hover .dstage__cat,
+  .dcard:focus-visible .dstage__cat { transform: translate3d(-50%, 0, 0); }
+}
+
+/* The pharmacy keeps its hairline row, with air above it. */
+.dess .idx { margin-top: clamp(56px, 6vw, 88px); }
+
+
+/* ---------------------------------------------------------------------------
+   7. THE REST OF THE PAGE GETS THE SAME AIR
+   --------------------------------------------------------------------------- */
+
+/* Same rule as the desserts block: .intro and .say are baseline grids, so
+   the air is added to the section, never to a child inside the row. */
+.intro { padding-block: clamp(104px, 12vw, 190px) 0; }
+.say { padding-block: clamp(120px, 14vw, 220px) clamp(96px, 11vw, 170px); }
+.say__acts { margin-top: var(--s6); }
+.sfoot { padding-block: var(--s10); }
+
+
+/* ---------------------------------------------------------------------------
+   8. NARROW
+   A project pair becomes a stack and its vertical hairline becomes a
+   horizontal one, which swiss.css 16.6 already does. The dessert pair
+   follows the same rule at its own width, where two panels stop holding a
+   picture and four lines.
+   --------------------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+  .pcell--lead .pshot { margin-bottom: var(--s5); }
+}
+
+@media (max-width: 760px) {
+  .dgrid { grid-template-columns: minmax(0, 1fr); }
+  .dcard + .dcard::before { display: none; }
+  .dcard + .dcard {
+    margin-top: clamp(48px, 7vw, 72px);
+    padding-top: clamp(48px, 7vw, 72px);
+    border-top: 1px solid var(--rule-strong);
+  }
+}
+
+@media (max-width: 640px) {
+  .prow { padding-block: clamp(56px, 11vw, 80px); }
+  .dstage { min-height: 260px; }
+}

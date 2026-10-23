@@ -1106,12 +1106,12 @@ p a:focus-visible { text-decoration-color: var(--accent); }
   margin-block: 0;
 }
 
+/* max-height: 80vh with object-fit: cover was a crop: a 1800x900 hero on a
+   900px-tall screen lost the bottom of itself. The hero is shown whole. */
 .fullbleed img,
 .fullbleed video {
   width: 100%;
   height: auto;
-  max-height: 80vh;
-  object-fit: cover;
   border-radius: 0;
 }
 
@@ -1968,21 +1968,21 @@ body::before {
 
 .pcell--lead .pshot { grid-column: 1 / 8; margin: 0; }
 
+/* NOTHING ON THIS PAGE IS CROPPED, 2026-10-23, his call and not negotiable.
+   Every picture here was exported at the ratio it wants: produsa-band and
+   hasta-lead at 4:3, supaca-hero at 1.31:1, the two band shots at 16:10.
+   A forced aspect-ratio box plus object-fit: cover took the difference off
+   the bottom of whichever one did not match, which is how the Produsa mock
+   lost its console once already. So there is no box: the image is as wide
+   as the column and as tall as it is, and the row grows to hold it. */
 .pshot img {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
+  object-fit: fill;
   border-radius: 0;
   transition: transform var(--dur) var(--ease);
 }
-
-/* produsa-band is natively 1200x900 and supaca-hero 1700x1294, both 4:3.
-   Forcing a 16:10 box on either takes about 17% off the bottom with
-   object-fit: cover, which is how the Produsa mock lost its console once
-   already. The lead picture keeps the ratio it was exported at. */
-.pcell--lead .pshot img { aspect-ratio: 4 / 3; }
 
 .pcell[href]:hover .pshot img,
 .pcell[href]:focus-visible .pshot img { transform: scale(1.015); }
@@ -2128,8 +2128,7 @@ body::before {
   /* The lead project stacks: a 4:3 picture in seven of eight columns leaves
      the words a column and a half, which is not a column. */
   .pcell--lead { display: block; }
-  .pcell--lead .pshot { margin: 0 0 var(--s4); }
-  .pcell--lead .pshot img { aspect-ratio: 16 / 10; }
+  .pcell--lead .pshot { margin: 0 0 var(--s5); }
   .pcell--lead .pmeta { margin: 0; }
 }
 
@@ -2154,5 +2153,92 @@ body::before {
   }
 
   .pname { font-size: 20px; }
-  .pshot img, .pcell--lead .pshot img { aspect-ratio: 16 / 10; }
+}
+
+
+/* ---------------------------------------------------------------------------
+   17. THE CASE STUDIES GET THEIR AIR
+   2026-10-23. His call, in his words: "the flow and the content of the case
+   studies is good, don't touch that, the layout is good too, but there needs
+   to be margins, and padding everywhere, non negotiable."
+
+   So nothing here moves a thing. No element changes column, order, size or
+   voice. Every declaration in this section is a space: a margin, a padding,
+   a gutter or a gap. If a rule in here does anything else, it is a bug.
+
+   Scoped to [data-case], which the seven case-study pages now carry on
+   <html>. The homepage, the studio and the desserts page do not, so none of
+   this reaches them.
+   --------------------------------------------------------------------------- */
+
+:root[data-case] {
+  /* The page gutter, the column gutter and the measure all open up. --max
+     goes with them, or a wider gutter just eats the reading column. */
+  --margin: clamp(24px, 6vw, 104px);
+  --max: 1320px;
+  --gutter: 32px;
+
+  /* The dots are paper on the homepage and should be less than paper here,
+     under 10,000 words of reading. 13% -> 6%, and the pitch opens so the
+     field is quieter still. */
+  --dotgrid: color-mix(in srgb, var(--ink) 6%, transparent);
+  --dotpitch: 32px;
+}
+
+@supports not (color: color-mix(in srgb, #000 6%, transparent)) {
+  :root[data-case] { --dotgrid: #E8E4DA; }
+}
+
+/* --- The top of the page --- */
+[data-case] .back { margin-top: var(--s6); }
+
+[data-case] .head { padding: clamp(72px, 9vw, 136px) 0 0; }
+[data-case] .head .eyebrow { margin-bottom: var(--s5); }
+
+[data-case] .mstrip {
+  margin-top: clamp(64px, 7vw, 112px);
+  padding-block: var(--s5);
+  row-gap: var(--s5);
+}
+
+[data-case] .mstrip dd { margin-top: var(--s2); }
+
+/* --- The reading column --- */
+[data-case] .layout { padding-bottom: clamp(120px, 14vw, 220px); }
+[data-case] .chapters { top: clamp(48px, 6vw, 96px); gap: 14px; }
+
+[data-case] .col h2 { margin-bottom: var(--s4); }
+[data-case] .col h3 { margin-bottom: var(--s3); }
+[data-case] .col p  { margin-bottom: var(--s3); }
+[data-case] .col p:last-child { margin-bottom: 0; }
+[data-case] .col .hmw { margin-block: var(--s8); }
+[data-case] .col .why { margin-top: var(--s5); }
+
+[data-case] ul.plain li,
+[data-case] ol.steps li,
+[data-case] .results li { padding-block: var(--s3); }
+
+/* --- Everything that is a picture --- */
+[data-case] .grid:has(> .lead-note) { margin-block: clamp(80px, 9vw, 150px); }
+[data-case] .lead-note { padding-top: var(--s4); }
+
+[data-case] .fullbleed { margin-block: clamp(64px, 7vw, 112px); }
+[data-case] .fullbleed figcaption { margin-top: var(--s4); }
+
+[data-case] .col figure { margin-top: clamp(56px, 6vw, 96px); }
+[data-case] .col figure + p,
+[data-case] .col figure + h3,
+[data-case] .why + figure { margin-top: clamp(56px, 6vw, 96px); }
+[data-case] figcaption { margin-top: var(--s3); }
+
+[data-case] .compare { margin-top: var(--s5); }
+[data-case] .compare th { padding-bottom: var(--s2); }
+[data-case] .compare td { padding-block: var(--s2); }
+
+/* --- The foot --- */
+[data-case] .sfoot { padding-block: var(--s10); }
+
+@media (max-width: 900px) {
+  [data-case] .head { padding-top: clamp(56px, 10vw, 88px); }
+  [data-case] .col figure { margin-top: var(--s8); }
 }

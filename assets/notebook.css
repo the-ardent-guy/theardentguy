@@ -12,7 +12,7 @@
    Swiss index, it would be a quiet revert of it.
 
    So this layer takes the kit's MARKS and leaves its surfaces alone:
-     in   margin notes in Kalam with a drawn underline    (spec 7.2)
+     in   section labels, in mono        (spec 7.2, de-handwritten 10-23)
      in   highlighter swipe on one metric per project      (spec 7.3, the idea)
      in   washi tape on the project pictures               (spec 7.4, --taped)
      in   a drawn ellipse round secondary actions          (spec 7.6)
@@ -43,7 +43,9 @@
    --------------------------------------------------------------------------- */
 
 :root {
-  --nb-hand: "Kalam", "Segoe Print", cursive;
+  /* 2026-10-23: no handwriting anywhere. The token is kept because Ask Rish
+     reads it in two places; it now points at the page's own sans. */
+  --nb-hand: var(--sans, "Inter Tight", system-ui, sans-serif);
 
   /* Highlighter. 14.6:1 for --ink on this, measured, so the swipe never
      costs the metric any legibility. */
@@ -92,62 +94,37 @@
 
 
 /* ---------------------------------------------------------------------------
-   3. MARGIN NOTES  (spec 7.2)
+   3. SECTION LABELS  (was: margin notes in a handwriting face)
 
-   Applied by an explicit .nb-note class in the markup, never by reaching
-   through .label. The swiss pass lost a round trip to exactly that: .dess
-   .label at (0,2,0) beat .idx-no at (0,1,0) through the rows nested inside
-   the section and stacked three of them into a staircase. A class on the six
-   elements that want it cannot do that to anything.
+   2026-10-23, his call: the handwriting and the drawn underline are out.
+   Kalam, the rotation, the pencil glyph and the hand-drawn squiggle under
+   every note all went with it. .nb-note stays as a class because thirteen
+   elements across ten pages carry it; it is now simply the mono label the
+   rest of the site already uses, so a label reads the same wherever it is.
 
-   The pencil glyph is content on a pseudo-element, so it is not in the
-   accessible name and not in a copy-paste.
+   Nothing else in this file draws a line under anything.
    --------------------------------------------------------------------------- */
 
 .nb-note {
-  font-family: var(--nb-hand);
-  font-weight: 400;
-  /* The mono label this replaces is 11px/.08em uppercase. Kalam at 17px
-     lowercase lands on about the same optical weight and takes the same
-     line. */
-  font-size: 17px;
-  letter-spacing: 0;
-  line-height: 1.2;
-  /* lowercase, not none: the label underneath is uppercase mono and a note
-     written in capitals is not a note. The source copy is untouched, so a
-     screen reader and a copy-paste still get "Selected work". */
-  text-transform: lowercase;
-  color: var(--accent);
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  line-height: var(--lh-label);
+  font-weight: var(--w-label);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink-60);
   display: inline-block;
-  /* MEASURED at 768: the label sits in a squeezed flex row beside the count
-     and "selected work" wrapped onto two lines, which put the squiggle under
-     the second word only. All six notes are one or two words and the longest
-     measures about 105px, so nowrap is safe down to 375. */
   white-space: nowrap;
-  transform: rotate(-1.5deg);
-  transform-origin: left bottom;
-  padding-bottom: 9px;
-  background-image: var(--nb-draw);
-  background-repeat: repeat-x;
-  /* auto, not 100%: at 100% the wobble squashes flat and the whole point of
-     drawing it by hand goes. At a fixed height it tiles at its own aspect,
-     and the path starts and ends on the same y so the seam does not show. */
-  background-size: auto 7px;
-  background-position: left bottom;
 }
-
-/* A margin, not an escaped space: a space or \00a0 immediately after a hex
-   escape is read as part of the escape, and the probe came back with a
-   replacement character where the gap should have been. */
-.nb-note::before { content: "\270E"; margin-right: 0.3em; }
 
 
 /* ---------------------------------------------------------------------------
-   4. HIGHLIGHTER  (spec 7.3, the one idea in the index card worth keeping)
+   4. THE HIGHLIGHT  (spec 7.3, straightened)
 
-   One swipe per project, on the number. A band behind the text rather than a
-   background on it, so the swipe can sit low and skewed like a real marker
-   pass and the baseline is still readable.
+   One band per project, behind the number that matters. The skew and the
+   rotation are gone with the rest of the hand: a flat band reads as a
+   deliberate highlight rather than as a marker pass. It sits low and short
+   of the line box so the ascenders stay clear.
    --------------------------------------------------------------------------- */
 
 .nb-mark {
@@ -163,76 +140,22 @@
   z-index: -1;
   left: -0.18em;
   right: -0.18em;
-  bottom: -0.04em;
-  /* Not the full line box: a marker nib is narrower than the text it crosses
-     and leaves the ascenders showing. */
-  height: 0.72em;
+  bottom: -0.02em;
+  height: 0.62em;
   background: var(--nb-highlight);
-  transform: skewX(-9deg) rotate(-0.6deg);
   border-radius: 1px;
 }
 
 
 /* ---------------------------------------------------------------------------
-   5. TAPE ON THE PROJECT PICTURES  (spec 7.4, the --taped variant)
+   5 and 6. REMOVED, 2026-10-23
 
-   .pshot keeps its overflow: hidden, for two reasons. It is the element
-   swiss.js observes for the picture reveal, and the image inside it scales on
-   hover and needs a clipping parent. So the tape does not overhang the frame;
-   it crosses the corner from inside and clips at the edge, which is what tape
-   running off a photograph looks like anyway.
-
-   Only on the two lead cells. Tape on all five is wallpaper.
+   The tape across the lead project pictures and the drawn ellipse behind
+   every .action were the other two hand-made marks. Both are gone with the
+   handwriting. --nb-tape, --nb-tape-edge, --nb-draw and --nb-ellipse are
+   left declared in section 1 and read by nothing; they cost nothing and
+   they are the record of what was here.
    --------------------------------------------------------------------------- */
-
-.pcell--lead .pshot { position: relative; }
-
-.pcell--lead .pshot::after {
-  content: "";
-  position: absolute;
-  z-index: 2;
-  top: 10px;
-  left: -16px;
-  width: 92px;
-  height: 26px;
-  background: var(--nb-tape);
-  border-left: 1px solid var(--nb-tape-edge);
-  border-right: 1px solid var(--nb-tape-edge);
-  transform: rotate(-8deg);
-  pointer-events: none;
-}
-
-
-/* ---------------------------------------------------------------------------
-   6. THE DRAWN ELLIPSE  (spec 7.6, secondary)
-
-   On the contact actions. Drawn, not animated: the stroke-draw in spec 8 M5
-   belongs to the motion kit, which is not in this round. Opacity only, so
-   nothing moves under the pointer and nothing reflows.
-
-   Pointer-fine only. On a touch screen there is no hover state to reward, and
-   an ellipse that appears on tap-and-hold is noise.
-   --------------------------------------------------------------------------- */
-
-@media (hover: hover) and (pointer: fine) {
-  .action { position: relative; }
-
-  .action::after {
-    content: "";
-    position: absolute;
-    inset: -8px -13px;
-    background-image: var(--nb-ellipse);
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity var(--dur) var(--ease);
-  }
-
-  .action:hover::after,
-  .action:focus-visible::after { opacity: 1; }
-}
-
 
 /* ---------------------------------------------------------------------------
    7. THE HERO BLOCK  (spec 6)
@@ -299,19 +222,19 @@
 /* ---------------------------------------------------------------------------
    8. THE MARGIN CLOCK  (spec 7.7)
 
-   In the footer, in the margin voice. aria-live is off in the markup so a
-   screen reader is not told the time once a second.
+   In the footer, in the label voice now rather than a handwritten one.
+   aria-live is off in the markup so a screen reader is not told the time
+   once a second.
    --------------------------------------------------------------------------- */
 
 .nb-clock {
-  font-family: var(--nb-hand);
-  font-size: 15px;
-  line-height: 1.2;
-  letter-spacing: 0;
-  text-transform: none;
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  line-height: var(--lh-label);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
   color: var(--ink-60);
   display: inline-block;
-  transform: rotate(-1deg);
 }
 
 .nb-clock[hidden] { display: none; }
@@ -319,9 +242,7 @@
 /* Tabular, or the line jitters every second as the digits change width. */
 .nb-clock time { font-variant-numeric: tabular-nums; }
 
-/* Row two of the footer's twelve columns, left. Three columns beside the year
-   is not enough: the line measures about 270px in Kalam 15 and .sfoot__end is
-   roughly 320px wide at 1440 with the year and a 24px gap already in it. */
+/* Row two of the footer's twelve columns, left. */
 .sfoot__grid .nb-clock { grid-column: 1 / 7; }
 
 @media (max-width: 700px) {
@@ -629,4 +550,170 @@
   .ar[data-open="true"] .ar__panel { transform: none; }
   .ar__pill:hover { transform: rotate(2deg); }
   .ar__think::after { animation: none; content: "..."; }
+}
+
+
+/* ---------------------------------------------------------------------------
+   12. THE SKETCH PILE
+
+   NAMED nb-pile, NOT pile. v2.css already has a .pile, an earlier stacked-
+   photos component for the homepage bento, and it carries height: 260px.
+   Nothing links its markup any more, but v2.css is still loaded on these
+   pages, so a figure called .pile is silently clamped to 260 and its sheets
+   fall through onto the section below. Measured, not guessed.
+
+   Added 2026-10-23, for the scanned low-fidelity wireframes and user flows on
+   supaca.html and vistlabs.html. One stack of sheets per case study: the top
+   one readable, the ones under it showing an edge, and a tap or an arrow sends
+   the top sheet to the back of the pile.
+
+   THIS IS NOT THE SURFACE THE FILE HEADER REFUSES. Spec 7.3/7.4 wanted index
+   cards and polaroid frames drawn round site content, a fake paper edge on
+   something that is not paper. Here the content IS paper: a photograph of a
+   sheet, with its own edge, lying on the dot grid. The hairline and the shadow
+   do what the mat in case.css does, which swiss.css switched off for
+   screenshots because a screenshot is a plate, not a sheet.
+
+   The scans are tinted to #FDFCF7 when they are encoded, a few points up from
+   the page's #F7F6F3, so a sheet separates from the ground by its own value
+   and the hairline only confirms the edge rather than drawing it. The script
+   that does it sits with the original photographs in
+   content/case-studies/supplied-images/sketches/, which is gitignored along
+   with the rest of content/.
+
+   Sheets are never reordered in the DOM. Depth is one custom property, --nbp-i,
+   so a screen reader always walks them in reading order and nothing a visitor
+   has focused moves under them.
+   --------------------------------------------------------------------------- */
+
+.nb-pile {
+  /* The landscape scans' own ratio, as a fallback. Each figure sets its own,
+     because a pile that is mostly portrait wants a taller box to sit in. */
+  --nbp-ar: 1280 / 976;
+  --nbp-step-x: 13px;
+  --nbp-step-y: 9px;
+  --nbp-tilt: 1.1deg;
+  --nbp-depth: 3;
+}
+
+.nb-pile__stack {
+  position: relative;
+  aspect-ratio: var(--nbp-ar);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The deepest sheet is offset down and right, so every sheet is inset from
+   the bottom and right edges of the stack by the room that offset needs.
+   Padding on .nb-pile__stack would not do it: an absolutely positioned child
+   resolves inset against the padding box, not the content box. */
+.nb-pile__sheet {
+  position: absolute;
+  inset: 0 calc(var(--nbp-step-x) * var(--nbp-depth))
+         calc(var(--nbp-step-y) * var(--nbp-depth)) 0;
+  /* Flex, not grid. MEASURED: with place-items on a grid, the row track is
+     sized by the image, so max-height: 100% on the image resolves against the
+     track it just grew, not against the sheet. The portrait scan came out
+     1013px tall inside a 512px box. A flex item's percentage resolves against
+     the flex container's own content box, which is definite here. */
+  display: flex;
+  /* Top left, not centred. The scans are a mix of portrait and landscape, and
+     a narrow sheet centred over a wide one reads as a frame round it rather
+     than as a pile. Squared up along one corner, the way paper on a desk is,
+     a sheet that is smaller than the one under it simply sits on top of it. */
+  align-items: flex-start;
+  justify-content: flex-start;
+  z-index: calc(10 - var(--nbp-i, 0));
+  transform:
+    translate(calc(var(--nbp-i, 0) * var(--nbp-step-x)),
+              calc(var(--nbp-i, 0) * var(--nbp-step-y)))
+    rotate(calc(var(--nbp-i, 0) * var(--nbp-tilt) + var(--nbp-own, 0deg)));
+  transition: transform 420ms var(--ease);
+}
+
+/* --nbp-i is 0 for the sheet on top. These nth-child values are what a visitor
+   with no JS sees: a real pile, first sheet up, just not shuffleable.
+   notebook.js writes --nbp-i inline from here on.
+
+   --nbp-own is the tilt each sheet keeps as it travels through the pile, the
+   way a real one does. Odd and even lean opposite ways, so the stack reads as
+   a heap rather than as a fan. */
+.nb-pile__sheet:nth-child(1) { --nbp-i: 0; --nbp-own: -0.8deg; }
+.nb-pile__sheet:nth-child(2) { --nbp-i: 1; --nbp-own:  0.5deg; }
+.nb-pile__sheet:nth-child(3) { --nbp-i: 2; --nbp-own: -0.4deg; }
+.nb-pile__sheet:nth-child(4) { --nbp-i: 3; --nbp-own:  0.9deg; }
+
+/* The sheet is the image, nothing wraps it. A portrait scan in a landscape
+   box stays portrait and sits narrower, which is what a mixed pile of paper
+   on a desk actually looks like. */
+.nb-pile__sheet img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  background: #FDFCF7;
+  box-shadow:
+    0 0 0 1px var(--rule),
+    0 10px 24px -16px rgba(60, 45, 20, 0.5);
+}
+
+/* Pointer only. The buttons below carry the same action for keyboard and for
+   assistive tech, so the stack itself never needs a tab stop. */
+.nb-pile__stack[data-pile-tap] { cursor: pointer; }
+
+.nb-pile__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin-top: var(--s3);
+}
+
+.nb-pile__bar[hidden] { display: none; }
+
+.nb-pile__step {
+  appearance: none;
+  background: none;
+  border: 0;
+  margin: 0;
+  padding: 4px;
+  font: inherit;
+  line-height: 1;
+  color: var(--ink-60);
+  cursor: pointer;
+  transition: color var(--dur) var(--ease);
+}
+
+.nb-pile__step:hover { color: var(--ink); }
+.nb-pile__step:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.nb-pile__step svg {
+  display: block;
+  width: 18px;
+  height: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.nb-pile__count {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  letter-spacing: var(--tr-label);
+  color: var(--ink-40);
+  font-variant-numeric: tabular-nums;
+}
+
+/* MEASURED at 390: a 13px step is 3.7% of the stack there against 1.2% at
+   1440, and three of them put the bottom sheet a visible finger's width off
+   the top one. The offsets scale with the frame instead. */
+@media (max-width: 560px) {
+  .nb-pile { --nbp-step-x: 7px; --nbp-step-y: 5px; --nbp-tilt: 0.8deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nb-pile__sheet { transition: none; }
 }

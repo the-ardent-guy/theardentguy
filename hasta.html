@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" data-case>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hasta, cutting the generic slop out of palm reading</title>
+<meta name="description" content="A palm reading that names the line and the book behind every claim, and leaves the reader a card that names their hand. Case study by Rishabh Jain.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/case.css">
+<link rel="stylesheet" href="/assets/v2.css">
+<link rel="stylesheet" href="/assets/swiss.css">
+<link rel="stylesheet" href="/assets/notebook.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body style="--dot: var(--dot-hasta)">
+
+<div class="wrap">
+
+  <header class="snav">
+    <a class="snav__mark" href="/">Rishabh Jain</a>
+    <nav class="snav__links" aria-label="Site">
+      <a href="/#work">Work</a>
+      <a href="/studio.html">Studio</a>
+      <a href="/desserts.html">Desserts</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+    <button class="snav__tool snav__menu" type="button" data-menu aria-expanded="false" aria-controls="sheet">Menu</button>
+  </header>
+
+  <div class="sheet" id="sheet">
+    <button class="snav__tool sheet__close" type="button" data-menu-close>Close</button>
+    <a href="/#work">Work</a>
+    <a href="/studio.html">Studio</a>
+    <a href="/desserts.html">Desserts</a>
+    <a href="/#contact">Contact</a>
+  </div>
+
+  <a class="back" href="/#work">
+    <svg viewBox="0 0 16 12" aria-hidden="true"><path d="M6.5 1 L1 6 L6.5 11 M1 6 H15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    All work
+  </a>
+
+  <header class="head">
+    <p class="eyebrow">Hasta</p>
+    <h1>Cutting the generic slop out of palm reading</h1>
+    <p class="standfirst">Hasta reads a photo of your palm through three traditions: Samudrika Shastra, Western chiromancy and the Chinese five-element school. You get a free reading, a card that names your hand, and a full manuscript for &#8377;99.</p>
+  </header>
+
+    <dl class="mstrip">
+      <div class="mstrip__i">
+        <dt>Role</dt>
+        <dd>Lead Designer, UI/UX/AIX, at Produsa Labs</dd>
+      </div>
+      <div class="mstrip__i">
+        <dt>Timeline</dt>
+        <dd>1 month, launched August 2026</dd>
+      </div>
+      <div class="mstrip__i">
+        <dt>Platform</dt>
+        <dd>Web product, hasta.produsa.app</dd>
+      </div>
+      <div class="mstrip__i mstrip__i--wide">
+        <dt>My work</dt>
+        <dd>Product research, the canon, UI/UX, and the AI experience: reading output, chat behaviour and prompts. I led the features, the hand card, pricing and the ethics rails. Built with a small engineering team.</dd>
+      </div>
+    </dl>
+
+    <div class="grid">
+      <p class="lead-note">I started at the output, not the interface. The first page of my notebook asks what the reading itself has to be before any screen around it is worth designing.</p>
+    </div>
+
+    <figure class="fullbleed">
+      <div class="media">
+        <img src="/assets/media/hasta-hero.webp" width="1800" height="900" decoding="async"
+             alt="The Hasta landing page. A drawn hand mark over the word Hasta, the line Palm reading from a photo, Samudrika Shastra and Chiromancy, then What is written in your hand? in cream serif capitals across a candlelit photograph of an open palm. Under it a Scan your palm button, the note Free reading, full manuscript 99 rupees, and three small panels reading Read from your real lines, A mirror not a verdict, and Your photo is deleted after.">
+      </div>
+      <figcaption data-fig="01">The landing page. One photo, one price, both on screen before anything is asked.</figcaption>
+    </figure>
+
+  <div class="layout">
+    <nav class="chapters" aria-label="Chapters"></nav>
+
+    <main class="col">
+
+      <section id="problem">
+        <h2>The problem</h2>
+        <p>Open any palm app and the reading fits anybody. Bertram Forer showed why in 1948: he handed his students a personality profile he had assembled out of a newspaper astrology column, and they rated it as an accurate description of themselves. Statements that are favourable and flexible read as personal.</p>
+
+        <p>Language models made that cheap. They write fluent prose that sounds like a reading and is tied to nothing on the hand in the photo. My notebook calls the two of them together Barnum slop, and it is the whole category.</p>
+
+        <p>The second failure is quieter. After one of those readings there is nothing you can tell a friend in five words. No identity, just a paragraph you read once. People put INFJ in their dating profile because a label about yourself is social currency, and palm reading, which is about you more directly than any personality test, was handing out nothing to carry.</p>
+
+        <p class="hmw">How might we make a palm reading specific enough that a person can check it against their own hand, and leave them with something from it worth passing on?</p>
+      </section>
+
+      <section id="research">
+        <h2>What I found</h2>
+
+        <ul class="plain principles">
+          <li><b>Readings repeat themselves because they read too few features.</b> Hand shape and the three big lines, which nearly every hand on earth offers, give a model almost nothing to work with, so it fills the rest with lines that fit anyone.</li>
+          <li><b>Generic doesn't feel wrong to the person reading it.</b> That is Forer's finding, and it means user complaints would never surface the problem. It had to be measured instead.</li>
+          <li><b>Two things people reliably share are a label and a picture.</b> A reading is neither.</li>
+          <li><b>Some of the most familiar palmistry is unusable.</b> Earth, Air, Fire and Water hand types date from 1965 and can't be sold as tradition, and DMIT and finger-ratio claims are pseudoscience. All of it stayed out of the canon.</li>
+        </ul>
+
+        <figure class="bleed nb-pile" data-pile style="--nbp-ar: 6 / 7; --nbp-depth: 1">
+          <ul class="nb-pile__stack" data-pile-stack>
+            <li class="nb-pile__sheet">
+              <img src="/assets/media/hasta-sketch-1.webp" width="630" height="914" loading="lazy" decoding="async"
+                   alt="A handwritten page on orange paper headed Hasta, palm reading. Output: Barnum slop, the Barnum effect plus AI slop. Verdict, themes, appendix as photo-progressive disclosure. Nothing the user can tell in five words, aka no identity, eg MBTI type in Korean dating apps, circled as soft identity and social currency. Forer's finding, fluent editorial prose, ostensive detachment after Pascal Boyer, divination as decision support. At the foot, the output parts: card with archetype name, glyph, lined palm photo and one epithet line, then portrait, pages, evidence and the palmist chat.">
+            </li>
+            <li class="nb-pile__sheet">
+              <img src="/assets/media/hasta-sketch-2.webp" width="691" height="1015" loading="lazy" decoding="async"
+                   alt="A second handwritten orange page. One, info source, intelligence, hastacanon.md: reliability plus specificity plus differentiation, more sources but one canon, braced with the note so the same hand doesn't get different results. Below it, avoid Barnum slop for credibility and relatability, listing perceived tailoring, source detachment, fluency and secure language, with ask a question or two and IKEA effect written alongside, and questions about them, not the hand. Two, features: both hands, agami, and Saath for couples.">
+            </li>
+          </ul>
+          <div class="nb-pile__bar" data-pile-bar hidden>
+            <button class="nb-pile__step" type="button" data-pile-prev aria-label="Previous sheet"><svg viewBox="0 0 16 12" aria-hidden="true"><path d="M6.5 1 L1 6 L6.5 11 M1 6 H15"/></svg></button>
+            <button class="nb-pile__step" type="button" data-pile-next aria-label="Next sheet"><svg viewBox="0 0 16 12" aria-hidden="true"><path d="M9.5 1 L15 6 L9.5 11 M15 6 H1"/></svg></button>
+            <p class="nb-pile__count"><span data-pile-at>1</span> / 2</p>
+          </div>
+          <figcaption data-fig="02">The two pages the product was argued out on. Everything below is on one of them.</figcaption>
+        </figure>
+      </section>
+
+      <section id="decisions">
+        <h2>Key decisions</h2>
+
+        <article class="decision" id="d1">
+          <span class="decision__n">01</span>
+          <h3>More sources, one canon</h3>
+          <p>I directed a study of six palmistry traditions and supplied the source material: deep research, transcripts of classical books and lectures, and recordings of practising pandits. Three traditions made it into the product, and ten sources were merged into one rulebook: the Garuda Purana and K.C. Sen's Hast Samudrika Shastra at about 116 entries, W.G. Benham's The Laws of Scientific Hand Reading from 1900 at about 185 entries, and the Chinese five-element school.</p>
+          <p>A sign earned its place on three counts, and I wrote them at the top of the page: reliability, specificity and differentiation. It had to come from a source I could name, say something precise, and tell one hand apart from another.</p>
+          <p>They merge into one canon rather than sitting side by side, because the same hand must not get a different reading depending on which book the model happened to reach for. The rulebook loads as cached ground truth and the model may only read in its vocabulary of lines, mounts and classical signs. That fixed vocabulary is what makes citing a source possible at all.</p>
+          <p class="why"><b>Trade-off:</b> The reading cannot say anything the canon doesn't carry. That is the point, and it also caps how surprising a reading is allowed to be.</p>
+          <figure class="bleed">
+            <div class="media">
+              <img src="/assets/media/hasta-canon.webp" width="1270" height="760" loading="lazy" decoding="async"
+                   alt="The Hasta Canon section of the site, headed We read the books first. Four book spines in red, ochre, brown and green: the Garuda Purana chapter LXV on the auspicious marks, K.C. Sen's Hast Samudrika Shastra, W. G. Benham's The Laws of Scientific Hand Reading from 1900, and Shouxiang, the Chinese five element school. Underneath, three figures: three traditions, ten sources merged, five conflicts resolved on the record.">
+            </div>
+            <figcaption data-fig="03">The canon, shown on the site as the books it came from.</figcaption>
+          </figure>
+        </article>
+
+        <article class="decision" id="d2">
+          <span class="decision__n">02</span>
+          <h3>Measured the genericness instead of trusting my ear</h3>
+          <p>One layer of the prompt, "read this hand, not a hand", bans the cold-reading phrases by name. Then a weekly eval harness runs an independent model across readings and scores each one for faithfulness, distinctiveness and genericness, tracked release over release.</p>
+          <p>Underneath that sit the four levers I had sketched for why one reading feels tailored and another doesn't. Perceived tailoring: the sentence points at a mark that is on your hand. Source detachment: the claim belongs to a book, not to us. Fluency: editorial prose rather than horoscope rhythm. Secure language: it commits, instead of hedging its way to safety.</p>
+          <p class="why"><b>Trade-off:</b> Every release costs extra eval runs. Genericness is the category's defining failure, so it's the thing I was willing to pay to watch.</p>
+        </article>
+
+        <article class="decision" id="d3">
+          <span class="decision__n">03</span>
+          <h3>Asked one question about them, not about their hand</h3>
+          <p>At about 72% the reading stops and asks one thing. When a group settles on a plan, would you still rather go your own way? The answers are "That is me" and "I like to fit in", and the skip is written so it costs nothing: leave this one to our eye.</p>
+          <p>Two reasons. The answer gives the reading a self-report to weigh against a sign it only saw faintly. And a person who has put one hand on the thing values what comes out of it more than a person who waited for it, which is the IKEA effect doing work a loading spinner cannot.</p>
+          <p>The question is deliberately about the person, never about their hand. Asking whether their heart line forks would hand the reader our job and break the promise in the same sentence.</p>
+        </article>
+
+        <article class="decision" id="d4">
+          <span class="decision__n">04</span>
+          <h3>The hand holds the authority, and the product says so out loud</h3>
+          <p>"The lines are yours, we just read them." Hasta never speaks as a seer. The anthropologist Pascal Boyer calls this ostensive detachment: a divination reads as true when the answer appears to arrive from the object rather than from the person holding it, and the reader's own stake in it disappears.</p>
+          <p>That one idea settles arguments further down. The reading is decision support, so it describes tendencies and never dates. There is no score, no forecast, nothing about marriage or children, and no gemstone to buy at the end. A mirror, not a verdict.</p>
+        </article>
+
+        <article class="decision" id="d5">
+          <span class="decision__n">05</span>
+          <h3>A card that names your hand</h3>
+          <p>Every reading produces a card: an archetype name, a drawn glyph, the person's own lined palm photo, and a single epithet line.</p>
+          <p>The card is free and it arrives before the paywall, so nobody leaves empty-handed and every share is an advertisement that isn't selling fear. It is the identity layer the category never had, except the label is drawn from the person's actual hand rather than from a quiz. The privacy promise rides on the card too, which means every share repeats it to somebody new.</p>
+          <p class="why"><b>Trade-off:</b> A card compresses a whole reading into a few lines and risks flattening it into a horoscope label. Carrying only the dominant readings, from the real photo, is what keeps it specific.</p>
+          <figure class="bleed">
+            <div class="media media--light">
+              <img src="/assets/media/hasta-card.webp" width="1400" height="1284" loading="lazy" decoding="async"
+                   alt="The head of a finished reading on cream paper. On the left a drawn gold and oxblood glyph labelled Your Mudra Ring, on the right the photograph of the open palm that was read, labelled The hand read. Under both, the epithet in italics: The warm engine with a quiet thinker riding it, then Right palm, reading no. 5541, and the line Read by Hasta with the Hasta Canon, Samudrika Shastra and Western Chiromancy, 12 October 2026.">
+            </div>
+            <figcaption data-fig="04">The card from a real reading. The glyph, the hand that was read, and one line to repeat.</figcaption>
+          </figure>
+        </article>
+
+        <article class="decision" id="d6">
+          <span class="decision__n">06</span>
+          <h3>Verdict first, evidence last</h3>
+          <p>The reading is ordered the way the notebook has it: verdict, then themes, then appendix. The card, the portrait, the pages, the evidence, and then the chat for whatever is still unanswered. Progressive disclosure, so the person meets the conclusion before the apparatus.</p>
+          <p>The evidence is there for anyone who opens it. Each claim names the line or mount it was read from and the book that says so, and the output schema makes the model declare for every line whether it saw it clearly, faintly or not at all, so it cannot describe a line that wasn't there. Where the three schools disagree, the reading says which school says what. Nine conflicts are on the register so far: five carry a ruling, three a recorded lean, and the serpent mark is still open.</p>
+          <p class="why"><b>Trade-off:</b> Showing the working makes a reading less magical. Being checkable mattered more.</p>
+          <figure>
+            <div class="media media--light">
+              <img src="/assets/media/hasta-evidence.webp" width="1400" height="1247" loading="lazy" decoding="async"
+                   alt="A page of the manuscript headed What do people see in me that I do not? Two findings, each followed by a line labelled The cost and a line labelled Read from, which names the feature on the hand: the strong comfort-seeking thumb ball dominating the hand, and the inward sloping head line under a calm, smooth upper palm.">
+            </div>
+            <figcaption data-fig="05">Every claim carries the feature it was read from, so the reader can check it against their own hand.</figcaption>
+          </figure>
+        </article>
+      </section>
+
+      <section id="outcome">
+        <h2>Outcome</h2>
+        <ul class="plain principles">
+          <li><b>850 readings</b> in the first two months.</li>
+          <li><b>4.7% of free readings</b> convert to the &#8377;99 manuscript, with no subscription, no countdown, no expiring credits and no fear-selling.</li>
+          <li><b>Built in one month</b>, launched August 2026, live at hasta.produsa.app.</li>
+        </ul>
+        <p>The price sits on the landing page before anything is asked of anyone. &#8377;99, once, for that reading.</p>
+        <p>One number I don't have: how many readings begin from a shared card. The identity layer is the reach bet of the whole product and it is still unmeasured.</p>
+      </section>
+
+      <section id="reflection">
+        <h2>Reflection</h2>
+        <ul class="plain principles">
+          <li><b>Instrument the card before shipping it, not after.</b> I can show that people pay without being frightened into it. I can't yet show that a label travels, which is the claim I most want to make.</li>
+          <li><b>Make the privacy page match the tags.</b> It says "no account and no tracking" while the site loads Google Analytics and Microsoft Clarity behind a consent banner. On a product whose argument is that you can check it, the page about trust is the worst one to be caught out on. Either the line reads "no tracking without consent" or the tags go.</li>
+          <li><b>Say the wait once.</b> The analysis screen carries two different promises in two places, two to three minutes and two to four. It is the one number a reader can time, one screen before the reveal.</li>
+        </ul>
+      </section>
+
+    </main>
+
+  </div>
+
+  <section class="nextp" aria-labelledby="nextLabel">
+    <p class="label nb-note" id="nextLabel">Next &mdash;</p>
+    <div class="idx">
+      <a class="idx-row" href="/produsa.html" style="--dot: var(--dot-produsa)" data-thumb="/assets/media/produsa-band.webp" aria-label="Produsa: An AI platform that turns a website build into a conversation. Product Designer and Builder, 2026.">
+        <span class="idx-row__in">
+          <span class="idx-no label u-tab" aria-hidden="true">&rarr;</span>
+          <span class="idx-name">Produsa</span>
+          <span class="idx-line sub">An AI platform that turns a website build into a conversation</span>
+          <span class="idx-role label">Product Designer and Builder</span>
+          <span class="idx-year label">2026</span>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="sfoot">
+    <div class="sfoot__grid label">
+      <span class="sfoot__who">Rishabh Jain</span>
+      <a class="sfoot__mail" href="mailto:theardentguy@gmail.com">theardentguy@gmail.com</a>
+      <span class="sfoot__out">
+        <a href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&#8599;</span></a>
+        <a href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume <span aria-hidden="true">&#8599;</span></a>
+      </span>
+          <span class="nb-clock" data-clock hidden>Bengaluru (BLR), India <span aria-hidden="true">&#9201;</span> <time aria-live="off"></time> IST</span>
+    <span class="sfoot__end"><span class="u-tab">2026</span></span>
+    </div>
+  </footer>
+
+</div>
+
+<script src="/assets/swiss.js"></script>
+<script src="/assets/notebook.js"></script>
+
+</body>
+</html>

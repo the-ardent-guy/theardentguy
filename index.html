@@ -4,71 +4,77 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Rishabh Jain, Product Designer</title>
-<!-- THE HOMEPAGE, SWISS STYLE ON THE PUBLISHED LAYOUT.
-     2026-10-22. The restyle is kept; the shape of the live site comes back.
-     The full-screen photograph is the banner again, the projects are a grid
-     with their pictures in it rather than a bare list of names, and there is
-     no fun mode on this page.
+<!-- THE HOMEPAGE.
+     2026-10-23. What changed in this pass, and why, in his order:
 
-     The grid has no cards. Between any two projects there is exactly one
-     hairline: horizontal between rows, vertical between a pair. That line is
-     the only thing doing the separating.
+     THE BANNER IS THE WHOLE SCREEN. There is no nav on the paper above it
+     any more, so the photograph gets 100svh. The block of words is the one
+     that was already there, in the place it was already in, bottom left.
+     Not retyped and not moved: he asked for it as is.
 
-     Load order is style.css, v2.css, v3.css, swiss.css, and swiss.css is
-     last. The three underneath are kept, not replaced. The one thing that
-     has changed about the page's ground is the notebook dot grid, which he
-     asked for on 2026-10-22; it is a separate fixed layer in swiss.css
-     section 16, not an edit to body's own background, so the paper colour
-     and the mottle machinery underneath are still untouched.
+     NO NAV BAR. .snav and its mobile sheet are gone from this page. The
+     rounded floating nav comes back instead, fixed, centred, and away until
+     the banner has left the screen. home.js owns when it arrives.
 
-     Only assets/swiss.js is loaded. main.js, v2.js and crazy.js are intact
-     in the repo and linked from nothing. -->
-<meta name="description" content="Rishabh Jain. Product designer, builder and illustrator. Story and meaning first, screens second. Case studies on Produsa, Supaca, Bizotico, VIST Labs and Sintero.">
+     THE WORK. Six projects now, with Hasta in. Produsa, Supaca and Hasta
+     take a full row each with the picture on the left; VIST Labs and
+     Bizotico sit side by side, which is what he asked for; Sintero pairs
+     with the one line that is true but is not a project. Exactly one
+     hairline between any two of them, and a great deal more air around
+     every one than there was.
+
+     THE SCROLL ANIMATION. Each row carries data-tint. home.js drifts that
+     row's details upward while the row crosses the screen, and washes the
+     whole page in that project's own colour while it is the one being read.
+
+     NO CROPPING. Every picture on this page is shown whole. The only
+     object-fit: cover left in the building is on the banner photograph,
+     which is 1200x1600 and cannot fill a landscape screen any other way.
+
+     NO HANDWRITING. Kalam is not loaded by this page any more and notebook.css
+     no longer sets a hand anywhere. The section labels are mono, like every
+     other label on the site, and nothing is underlined.
+
+     Load order: style, v2, v3, swiss, notebook, home. home.css is last and
+     is loaded by this page only. Scripts: swiss.js, notebook.js, home.js. -->
+<meta name="description" content="Rishabh Jain. Product designer, builder and illustrator. Story and meaning first, screens second. Case studies on Produsa, Supaca, Hasta, VIST Labs, Bizotico and Sintero.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Kalam:wght@400;700&display=swap">
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="preload" as="image" href="/assets/hero.jpg" fetchpriority="high">
 <link rel="stylesheet" href="/assets/style.css">
 <link rel="stylesheet" href="/assets/v2.css">
 <link rel="stylesheet" href="/assets/v3.css">
 <link rel="stylesheet" href="/assets/swiss.css">
 <link rel="stylesheet" href="/assets/notebook.css">
+<link rel="stylesheet" href="/assets/home.css">
 <script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
 </head>
 <body>
 
-<!-- The nav sits on the paper ABOVE the photograph, not over it. Over the
-     photograph it would need a scrim and a colour that flips on scroll, and
-     that is two pieces of machinery to solve a problem that only exists if
-     you put it there. The banner takes the rest of the screen. -->
-<div class="wrap">
-  <header class="snav">
-    <a class="snav__mark" href="/">Rishabh Jain</a>
-    <nav class="snav__links" aria-label="Site">
-      <a href="#work">Work</a>
-      <a href="/studio.html">Studio</a>
-      <a href="/desserts.html">Desserts</a>
-      <a href="#contact">Contact</a>
-      <button class="snav__tool" type="button" data-theme-switch aria-pressed="false" aria-label="Colour theme">light</button>
-    </nav>
-    <button class="snav__tool snav__menu" type="button" data-menu aria-expanded="false" aria-controls="sheet">Menu</button>
-  </header>
-</div>
+<!-- The wash that carries whichever project is being read. Empty, fixed,
+     and under the dot grid. home.css section 1. -->
+<div class="shade" aria-hidden="true"></div>
 
-<div class="sheet" id="sheet">
-  <button class="snav__tool sheet__close" type="button" data-menu-close>Close</button>
-  <a href="#work">Work</a>
-  <a href="/studio.html">Studio</a>
-  <a href="/desserts.html">Desserts</a>
-  <a href="#contact">Contact</a>
-</div>
+<!-- THE FLOATING NAV. Not on the photograph: not there at all until the
+     photograph has gone. home.js adds .is-up when the banner leaves. -->
+<header class="fnav" data-fnav>
+  <nav class="fnav__in" aria-label="Site">
+    <a href="#work">Work</a>
+    <a href="/studio.html">Studio</a>
+    <a href="/desserts.html">Desserts</a>
+    <span class="fnav__sep" aria-hidden="true"></span>
+    <button class="fnav__tool" type="button" data-theme-switch aria-pressed="false" aria-label="Colour theme">light</button>
+    <a class="fnav__cta" href="#contact">Get in touch <span aria-hidden="true">&rarr;</span></a>
+  </nav>
+</header>
 
 <!-- THE BANNER.
-     One screen, one photograph. The words sit on it bottom-left, over the
-     grass, which is the part of the frame the crop budget already counts as
-     spent. The scrim is a gradient on a layer of its own, never a filter on
-     the photograph: the drawn characters and the snow keep their contrast. -->
+     One screen, one photograph, and the words bottom-left over the grass,
+     which is the part of the frame the crop budget already counts as spent.
+     The scrim is a gradient on a layer of its own, never a filter on the
+     photograph: the drawn characters and the snow keep their contrast. -->
 <section class="banner" aria-labelledby="bannerTitle">
   <img class="banner__img" src="/assets/hero.jpg" width="1200" height="1600" fetchpriority="high"
        alt="Rishabh sits with his back to the camera at a weathered white picnic table in the Himalayas, bare winter trees and a snow ridge behind him. Two of his own drawn characters are sitting at the table with him, one in a green jumper holding a book and striped socks, one in a mustard jacket, and the word WHOA. is written in the air above them.">
@@ -84,8 +90,7 @@
 <main>
 
   <!-- The claim and the two notes: a headline with one short line beside it,
-       which is the opening he drew in the reference. The accent appears here
-       once as a 6px mark, and twice more on the whole page. -->
+       which is the opening he drew in the reference. -->
   <section class="intro wrap grid" aria-label="Introduction">
     <h2 class="intro__claim reveal">I bring storytelling and social psychology into how products think, behave, and feel.</h2>
     <!-- A list of two, not a paragraph of two sentences. The first line ends
@@ -99,24 +104,24 @@
   </section>
 
   <!-- THE WORK.
-       The published layout: two lead projects across the full width with the
-       picture on the left, then two pairs. No surfaces, no border round a
-       card, no radius, no shadow. Every row opens on a hairline, and the two
-       halves of a pair are told apart by a second hairline standing in the
-       gutter between them.
+       data-tint on each row is read by home.js twice: once for the drift of
+       that row's details, once for the colour the whole screen takes while
+       the row is the one at the centre of it. The value is the suffix of a
+       --dot-* token in swiss.css section 1, so it follows the theme on its
+       own and there is no second colour table anywhere.
 
        Sintero has no picture yet, so its cell has none. An empty picture
-       column beside three full ones reads as a thing that has not been shot;
+       column beside five full ones reads as a thing that has not been shot;
        a dashed grey box reads as a site that is not finished. -->
   <section class="work wrap" id="work" aria-labelledby="workLabel">
     <div class="idx__head">
       <p class="label nb-note" id="workLabel">Selected work</p>
-      <p class="label idx__count u-tab">05</p>
+      <p class="label idx__count u-tab">06</p>
     </div>
 
     <div class="pgrid">
 
-      <div class="prow">
+      <div class="prow" data-tint="produsa">
         <a class="pcell pcell--lead" href="/produsa.html" style="--dot: var(--dot-produsa)">
           <figure class="pshot reveal-img">
             <img src="/assets/media/produsa-band.webp" width="1200" height="900" loading="lazy" decoding="async"
@@ -134,7 +139,7 @@
         </a>
       </div>
 
-      <div class="prow">
+      <div class="prow" data-tint="supaca">
         <a class="pcell pcell--lead" href="/supaca.html" style="--dot: var(--dot-supaca)">
           <figure class="pshot reveal-img">
             <img src="/assets/media/supaca-hero.webp" width="1700" height="1294" loading="lazy" decoding="async"
@@ -152,23 +157,29 @@
         </a>
       </div>
 
-      <div class="prow prow--pair">
-        <a class="pcell" href="/bizotico.html" style="--dot: var(--dot-bizotico)">
+      <div class="prow" data-tint="hasta">
+        <a class="pcell pcell--lead" href="/hasta.html" style="--dot: var(--dot-hasta)">
           <figure class="pshot reveal-img">
-            <img src="/assets/media/bizo-band-16x10.webp" width="1600" height="1000" loading="lazy" decoding="async"
-                 alt="The Bizotico storefront on a laptop and a phone. The laptop shows the hero, Upto 80% Off, Between Sea and Space, over a diver surfacing with a watch on his wrist, with four watch photographs below it.">
+            <img src="/assets/media/hasta-lead-4x3.webp" width="1200" height="900" loading="lazy" decoding="async"
+                 alt="The Hasta landing page. A drawn hand mark over the word HASTA, the line Palm reading from a photo, Samudrika Shastra and Chiromancy, then What is written in your hand? in large cream serif capitals across a candlelit photograph of an open palm, with a Scan your palm button under it.">
           </figure>
           <div class="pmeta reveal">
             <span class="pno label u-tab" aria-hidden="true">03</span>
-            <h3 class="pname">Bizotico</h3>
-            <span class="pyear label u-tab">2023&ndash;2024</span>
-            <p class="pline">Designed a distributor&#39;s own D2C watch store</p>
-            <p class="prole label">E-commerce Designer</p>
-            <p class="pout sub"><mark class="nb-mark">7.85x ROAS</mark> on a May 2024 campaign. Still live two years later.</p>
+            <h3 class="pname">Hasta</h3>
+            <span class="pyear label u-tab">2026</span>
+            <p class="pline">Cutting the generic slop out of palm reading</p>
+            <p class="prole label">Lead Designer, UI/UX and AI experience</p>
+            <p class="pout sub">Launched August 2026. Every claim names the line and the book it came from.</p>
             <span class="action pcta">Read the case study <span class="action__arrow" aria-hidden="true">&rarr;</span></span>
           </div>
         </a>
-        <a class="pcell pcell--r" href="/vistlabs.html" style="--dot: var(--dot-vistlabs)">
+      </div>
+
+      <!-- The pair he asked for: these two side by side rather than a full
+           row each. The vertical hairline stands in the gutter between
+           them, not on the edge of either. -->
+      <div class="prow prow--pair" data-tint="vistlabs">
+        <a class="pcell" href="/vistlabs.html" style="--dot: var(--dot-vistlabs)">
           <figure class="pshot reveal-img">
             <img src="/assets/media/vist-band-16x10.webp" width="1600" height="1000" loading="lazy" decoding="async"
                  alt="The redesigned VIST Labs homepage hero. Diagnose, Decontaminate, Protect. in large white type over a dark teal photograph of pasteurisation equipment, under a plain white nav bar.">
@@ -183,12 +194,27 @@
             <span class="action pcta">Read the case study <span class="action__arrow" aria-hidden="true">&rarr;</span></span>
           </div>
         </a>
-      </div>
-
-      <div class="prow prow--pair">
-        <a class="pcell pcell--noshot" href="/sintero.html" style="--dot: var(--dot-sintero)">
+        <a class="pcell pcell--r" href="/bizotico.html" style="--dot: var(--dot-bizotico)">
+          <figure class="pshot reveal-img">
+            <img src="/assets/media/bizo-band-16x10.webp" width="1600" height="1000" loading="lazy" decoding="async"
+                 alt="The Bizotico storefront on a laptop and a phone. The laptop shows the hero, Upto 80% Off, Between Sea and Space, over a diver surfacing with a watch on his wrist, with four watch photographs below it.">
+          </figure>
           <div class="pmeta reveal">
             <span class="pno label u-tab" aria-hidden="true">05</span>
+            <h3 class="pname">Bizotico</h3>
+            <span class="pyear label u-tab">2023&ndash;2024</span>
+            <p class="pline">Designed a distributor&#39;s own D2C watch store</p>
+            <p class="prole label">E-commerce Designer</p>
+            <p class="pout sub"><mark class="nb-mark">7.85x ROAS</mark> on a May 2024 campaign. Still live two years later.</p>
+            <span class="action pcta">Read the case study <span class="action__arrow" aria-hidden="true">&rarr;</span></span>
+          </div>
+        </a>
+      </div>
+
+      <div class="prow prow--pair" data-tint="sintero">
+        <a class="pcell pcell--noshot" href="/sintero.html" style="--dot: var(--dot-sintero)">
+          <div class="pmeta reveal">
+            <span class="pno label u-tab" aria-hidden="true">06</span>
             <h3 class="pname">Sintero</h3>
             <span class="pyear label u-tab"></span>
             <p class="pline">Brand identity and a specification-led website for a luxury stone brand</p>
@@ -199,8 +225,7 @@
         </a>
 
         <!-- Not a project and not a link, so it carries no number, no dot
-             and no arrow. The three photographs that belong under it do not
-             exist yet, so the one line that does stands on its own. -->
+             and no arrow. -->
         <section class="pcell pcell--r pcell--plain pcell--noshot" aria-labelledby="alsoLabel">
           <div class="pmeta reveal">
             <p class="label nb-note" id="alsoLabel">Also true</p>
@@ -220,8 +245,12 @@
     <h2>Essays on design, AI and the work</h2>
   </section>
 
-  <!-- DESSERTS. No switch and nothing hidden behind one: the three rows are
-       simply here. -->
+  <!-- DESSERTS.
+       Two panels side by side, then the pharmacy as a row. Lurch is framed
+       as the satire it is before the premise is read, because a dating app
+       that matches on trauma, said flat, reads as a product someone shipped
+       in earnest. Ezra is the one piece of drawing on this page, and she is
+       standing in front of her own frame rather than inside it. -->
   <section class="dess wrap grid" aria-labelledby="dessLabel">
     <p class="label nb-note" id="dessLabel">Desserts</p>
     <h2 class="dess__h2">Nobody asked for any of this.</h2>
@@ -231,33 +260,42 @@
       <a class="action" href="/desserts.html">See the drawings <span class="action__arrow" aria-hidden="true">&rarr;</span></a>
     </div>
 
-    <div class="idx" data-stagger>
-      <a class="idx-row reveal" href="https://the-ardent-guy.github.io/ezraapp/" target="_blank" rel="noopener"
-         data-thumb="/assets/media/ezra-site.webp"
-         aria-label="Ezra: Built a desktop app for my (ex) cat. Desktop app.">
-        <span class="idx-row__in">
-          <span class="idx-no label u-tab" aria-hidden="true">D1</span>
-          <span class="idx-name">Ezra</span>
-          <span class="idx-line sub">Built a desktop app for my (ex) cat.</span>
-          <span class="idx-role label">Desktop app</span>
-          <span class="idx-year label"></span>
-        </span>
+    <div class="dgrid">
+
+      <a class="dcard" href="https://lurchout.vercel.app/" target="_blank" rel="noopener">
+        <figure class="dshot reveal-img">
+          <img src="/assets/media/lurch-phones.webp" width="880" height="831" loading="lazy" decoding="async"
+               alt="Three phone screens from Lurch, the dating app, showing profile cards laid out for swiping.">
+        </figure>
+        <div class="dmeta reveal">
+          <span class="dno label u-tab" aria-hidden="true">D1</span>
+          <h3 class="dname">Lurch <span class="dtag label">Satire</span></h3>
+          <p class="dline">A dating app that matches you on your trauma.</p>
+          <p class="dsay sub">Swiping turns a whole person into a card, rewards a standard nobody meets, and kills eros on the way past. Lurch takes that logic at its word and ships the product it implies.</p>
+          <span class="action">Open it <span class="action__arrow" aria-hidden="true">&#8599;</span></span>
+        </div>
       </a>
 
-      <a class="idx-row reveal" href="https://lurchout.vercel.app/" target="_blank" rel="noopener"
-         data-thumb="/assets/media/lurch-phones.webp"
-         aria-label="Lurch: Made a dating app that matches you based on your trauma. Dating app.">
-        <span class="idx-row__in">
-          <span class="idx-no label u-tab" aria-hidden="true">D2</span>
-          <span class="idx-name">Lurch</span>
-          <span class="idx-line sub">Made a dating app that matches you based on your trauma. (yes.)</span>
-          <span class="idx-role label">Dating app</span>
-          <span class="idx-year label"></span>
-        </span>
+      <a class="dcard" href="https://the-ardent-guy.github.io/ezraapp/" target="_blank" rel="noopener">
+        <div class="dstage">
+          <span class="dstage__frame" aria-hidden="true"></span>
+          <img class="dstage__cat" src="/assets/media/ezra-cat.webp" width="760" height="861" loading="lazy" decoding="async"
+               alt="Ezra, a ginger tabby drawn in flat paper shapes, standing with her tail up and a red collar with a silver bell, stepping out of a lit panel.">
+        </div>
+        <div class="dmeta reveal">
+          <span class="dno label u-tab" aria-hidden="true">D2</span>
+          <h3 class="dname">Ezra</h3>
+          <p class="dline">Built a desktop app for my (ex) cat.</p>
+          <p class="dsay sub">She came out of the frame. She does that.</p>
+          <span class="action">Open it <span class="action__arrow" aria-hidden="true">&#8599;</span></span>
+        </div>
       </a>
 
-      <!-- The row is the download. The old "Take one" link lived inside a
-           card, and a link inside a link is not a thing. -->
+    </div>
+
+    <!-- The row is the download. The old "Take one" link lived inside a
+         card, and a link inside a link is not a thing. -->
+    <div class="idx">
       <a class="idx-row reveal" href="/skills/no-slop-copy.md" download
          aria-label="Pharmacy: Skill files for agents. Take as directed. No-slop copy, 8 KB.">
         <span class="idx-row__in">
@@ -301,14 +339,16 @@
   </div>
 </footer>
 
-<!-- Ask Rish mounts here and builds its own markup. Nothing without JS,
-     deliberately: an inert pill that opens an empty panel is worse than
-     no pill. Only the homepage carries it this round. The five case
-     studies are light-only reading pages and a floating pill over one is
-     a distraction; adding it there is this one line. -->
-<div data-ask-rish></div>
+<!-- ASK RISH WAS HERE, AND IS NOT ANY MORE.
+     2026-10-23, his call: "remove the ask rish thingy, not needed here."
+     The mount point is deleted, which is the whole switch: askRish() in
+     notebook.js looks for [data-ask-rish] and returns on its own when it
+     is absent, so no script changes and no dead markup. api/chat.js,
+     api/brain.md, the Upstash wiring and the panel's CSS in notebook.css
+     sec 9 are all intact. Putting it back is this one div. -->
 
 <script src="/assets/swiss.js"></script>
 <script src="/assets/notebook.js"></script>
+<script src="/assets/home.js"></script>
 </body>
 </html>
