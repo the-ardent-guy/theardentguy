@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Rishabh Jain, Product Designer</title>
-<meta name="description" content="Rishabh Jain. Product designer, builder and illustrator. Story and meaning first, screens second. Case studies on Produsa, Supaca, Hasta, VIST Labs, Bizotico and Sintero.">
+<meta name="description" content="Rishabh Jain. Product designer and AI-native builder. Story and meaning first, screens second. Case studies on Produsa, Supaca, Hasta, VIST Labs and Bizotico.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&display=swap">
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700;800;900&display=swap">
 <link rel="preload" as="image" href="/assets/hero.jpg" fetchpriority="high">
 <link rel="stylesheet" href="/assets/style.css">
 <link rel="stylesheet" href="/assets/v2.css">
@@ -21,8 +21,7 @@
 </head>
 <body>
 
-<!-- THE FLOATING WHITE PILL NAV. Hidden until the black stage has covered the
-     banner; redo.js adds .is-up by scroll position. -->
+<!-- Floating white pill nav; redo.js reveals it on scroll. -->
 <header class="fnav" data-fnav>
   <nav class="fnav__in" aria-label="Site">
     <a href="#work">Work</a>
@@ -34,15 +33,17 @@
   </nav>
 </header>
 
-<!-- LAYER A — the banner, pinned (redo.css makes it position:sticky) and
-     covered by the stage as it rises. Its internal design is unchanged. -->
+<!-- LAYER A — the banner, pinned and covered. Zoomed out (object-fit:contain)
+     over a gradient so the whole frame, including "WHOA.", stays in view. -->
 <section class="banner" aria-labelledby="bannerTitle">
-  <img class="banner__img" src="/assets/hero.jpg" width="1200" height="1600" fetchpriority="high"
-       alt="Rishabh sits with his back to the camera at a weathered white picnic table in the Himalayas, bare winter trees and a snow ridge behind him. Two of his own drawn characters are sitting at the table with him, one in a green jumper holding a book and striped socks, one in a mustard jacket, and the word WHOA. is written in the air above them.">
+  <div class="banner__media">
+    <img class="banner__img" src="/assets/hero.jpg" width="1200" height="1600" fetchpriority="high"
+         alt="Rishabh sits with his back to the camera at a weathered white picnic table in the Himalayas, bare winter trees and a snow ridge behind him. Two of his own drawn characters are sitting at the table with him, one in a green jumper holding a book and striped socks, one in a mustard jacket, and the word WHOA. is written in the air above them.">
+  </div>
   <div class="banner__in">
     <div class="wrap">
-      <p class="label banner__eyebrow">Rishabh Jain</p>
-      <h1 class="banner__h1" id="bannerTitle">Product Designer. Builder. Illustrator.</h1>
+      <p class="banner__hi">I'm Rishabh,</p>
+      <h1 class="banner__h1" id="bannerTitle">Product Designer and AI-native builder.</h1>
       <p class="label banner__cue" aria-hidden="true">Scroll &darr;</p>
     </div>
   </div>
@@ -50,8 +51,7 @@
 
 <main>
 
-  <!-- LAYER B — the black stage that rises over the banner. Holds a short
-       lead, the case-study mosaic, and the contact/colophon. -->
+  <!-- LAYER B — the stage that rises over the banner. -->
   <section class="stage" id="work" aria-labelledby="workLabel">
     <div class="stage__in">
 
@@ -59,7 +59,7 @@
 
       <div class="idx__head">
         <p class="label" id="workLabel">Selected work</p>
-        <p class="label idx__count">06</p>
+        <p class="label idx__count">05</p>
       </div>
 
       <div class="mosaic">
@@ -119,24 +119,45 @@
           </div>
         </a>
 
-        <a class="mcard mcard--noshot" href="/sintero.html" data-accent="#7A3A10" data-cursor-label="Sintero">
-          <div class="mcard__shot" data-mark="S" aria-hidden="true"></div>
+      </div>
+
+      <!-- Desserts: the two that should not exist but do. -->
+      <div class="idx__head idx__head--sub">
+        <p class="label">Desserts</p>
+        <a class="label stage__seeall" href="/desserts.html">See all &rarr;</a>
+      </div>
+
+      <div class="mosaic mosaic--dess">
+        <a class="mcard" href="https://lurchout.vercel.app/" target="_blank" rel="noopener" data-accent="#FF1100" data-cursor-label="Open">
+          <figure class="mcard__shot">
+            <img src="/assets/media/lurch-phones.webp" width="880" height="831" loading="lazy" decoding="async"
+                 alt="Three phone screens from Lurch, the dating app, showing profile cards laid out for swiping.">
+          </figure>
           <div class="mcard__cap">
-            <p class="mcard__name"><span class="mcard__no" aria-hidden="true">06</span> Sintero</p>
-            <p class="mcard__svc">Brand &amp; Digital Design Lead</p>
+            <p class="mcard__name">Lurch <span class="mcard__tag">Satire</span></p>
+            <p class="mcard__svc">A dating app that matches on trauma &#8599;</p>
           </div>
         </a>
 
+        <a class="mcard" href="https://the-ardent-guy.github.io/ezraapp/" target="_blank" rel="noopener" data-accent="#FFA81A" data-cursor-label="Open">
+          <figure class="mcard__shot mcard__shot--contain">
+            <img src="/assets/media/ezra-cat.webp" width="760" height="861" loading="lazy" decoding="async"
+                 alt="Ezra, a ginger tabby drawn in flat paper shapes, standing with her tail up and a red collar with a silver bell.">
+          </figure>
+          <div class="mcard__cap">
+            <p class="mcard__name">Ezra</p>
+            <p class="mcard__svc">A desktop app for my (ex) cat &#8599;</p>
+          </div>
+        </a>
       </div>
 
-      <!-- Contact + colophon, at the foot of the black stage. -->
+      <!-- Contact + colophon. -->
       <div class="stage__end" id="contact">
         <h2>Available for product design and consulting work.</h2>
         <div class="stage__acts">
           <a class="stage__mail" href="mailto:theardentguy@gmail.com">theardentguy@gmail.com</a>
           <a class="stage__link" href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener">LinkedIn &#8599;</a>
           <a class="stage__link" href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume &#8599;</a>
-          <a class="stage__link" href="/desserts.html">Desserts &rarr;</a>
         </div>
         <div class="stage__colophon">
           <span>Rishabh Jain</span>
@@ -145,16 +166,18 @@
         </div>
       </div>
 
+      <!-- Room above the DESSERTS reveal, for elements to come. -->
+      <div class="stage__space" aria-hidden="true"></div>
+
     </div>
   </section>
 
 </main>
 
-<!-- LAYER C — the giant, bottom-clipped DESSERTS wordmark. Fixed at the foot,
-     painted below the banner and the stage, revealed in the gap the stage's
-     bottom margin opens at the end of the page. redo.js fits it to width. -->
-<section class="endmark" aria-hidden="true">
-  <p class="endmark__word">DESSERTS</p>
+<!-- LAYER C — the giant, bottom-clipped DESSERTS wordmark, now a padded LINK
+     to the desserts page. Fitted to width by redo.js. -->
+<section class="endmark">
+  <a class="endmark__word" href="/desserts.html" aria-label="Desserts">DESSERTS</a>
 </section>
 
 <script src="/assets/swiss.js"></script>

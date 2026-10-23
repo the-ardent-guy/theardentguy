@@ -1,62 +1,69 @@
 /* ===========================================================================
    REDO — full DESSERTS homepage spec + sober monochrome system
-   2026-10-23 (r2, full rebuild). Loaded LAST on every page.
+   2026-10-23 (r3). Loaded LAST on every page.
 
-   Homepage choreography (DESSERTS-HOMEPAGE-SCROLL-SPEC):
-     A  the existing banner, pinned, covered (not scrolled away)
-     B  a black panel that rises over it, holding the case-study mosaic
-     C  a giant bottom-clipped DESSERTS wordmark, revealed under B at the end
-     +  a custom cursor (dot -> accent circle + arrow + pill on cards)
-     +  monochrome black/white/grey, colour only in photos + per-card accents
-
-   Sitewide it also strips the old notebook kit (dot grid, colour tints, name
-   dots, highlighter, mono labels) and restyles the case-study pages. All of
-   it is reversible by dropping the one <link> that loads this file.
+   Homepage: pinned banner (zoomed out on a gradient) -> black stage rising
+   over it (lead + smaller, aligned, well-spaced case mosaic + Lurch/Ezra +
+   contact + room to grow) -> giant bottom-clipped DESSERTS wordmark, now a
+   padded link to the desserts page. Light and dark both resolve. Lighter type
+   on the homepage. Sitewide it strips the old notebook kit and restyles the
+   case pages (incl. keeping their media off the full bleed).
    =========================================================================== */
 
 
 /* ---------------------------------------------------------------------------
-   0. TOKENS
+   0. TOKENS + THEME
    --------------------------------------------------------------------------- */
 :root {
-  --mono: var(--sans);              /* kill the monospace label voice */
+  --mono: var(--sans);
   --w-label: 600;
   --tr-label: 0.07em;
-  --endmark-h: clamp(140px, 26vh, 320px);   /* Layer C band / B's reveal gap */
+  --endmark-h: clamp(150px, 28vh, 340px);
 
-  /* Sober: pull every accent to ink. !important so it also wins under the
-     higher-specificity dark blocks in swiss.css / v3.css. */
   --accent: var(--ink) !important;
   --v3-accent: var(--ink) !important;
   --v3-accent-press: var(--ink) !important;
   --v3-focus: var(--ink) !important;
+
+  /* Homepage surfaces — light defaults. */
+  --home-grad: linear-gradient(162deg, #F6F3EC 0%, #ECEDF1 52%, #E6E3DB 100%);
+  --home-ink: #14151A;
+  --home-ink-soft: #5B6069;
+  --home-scrim: linear-gradient(to top, rgba(246,243,236,.86) 0%, rgba(246,243,236,0) 42%);
+  --stage-bg: #0B0B0C;        /* the signature dark panel, both themes */
+  --band-ground: #FFFFFF;     /* DESSERTS band */
+  --band-ink: #111111;
+}
+:root[data-theme="dark"] {
+  --home-grad: linear-gradient(162deg, #16171C 0%, #0E0F12 55%, #121217 100%);
+  --home-ink: #F3F0E7;
+  --home-ink-soft: #B4AF9F;
+  --home-scrim: linear-gradient(to top, rgba(14,15,18,.9) 0%, rgba(14,15,18,0) 42%);
+  --band-ground: #0C0C0D;
+  --band-ink: #F3F0E7;
 }
 
 
 /* ---------------------------------------------------------------------------
    1. GET RID OF THE WHOLE NOTEBOOK STYLE
    --------------------------------------------------------------------------- */
-body::before { display: none !important; }          /* the dot grid */
+body::before { display: none !important; }
 [data-ruled] body::after { display: none !important; }
-.shade { display: none !important; }                /* the colour wash */
+.shade { display: none !important; }
 
-/* Every coloured dot: the home number-dots, the pharmacy row dot, the case
-   eyebrow dot, the case-nav category dots, and the "next project" hover dot.
-   --dot is set inline per project; a stylesheet !important beats inline. */
 :root, body { --dot: transparent !important; }
 .pno::after, .idx-no::after,
 .head .eyebrow::before,
 .cat__name[style*="--dot"]::before, .cat__name.has-dot::before {
   content: none !important; display: none !important;
 }
-
-/* The highlighter swipe. */
 .nb-mark::before { display: none !important; }
 .nb-mark { background: none !important; }
 
 
 /* ---------------------------------------------------------------------------
-   2. TYPE — bolder, no mono
+   2. TYPE — no mono; labels bolder, case headings bold (homepage is lighter,
+   handled in sec 3).
    --------------------------------------------------------------------------- */
 .label, .nb-note, .eyebrow, .rail__label, .decision__n,
 .meta th, .compare th, .top {
@@ -64,283 +71,253 @@ body::before { display: none !important; }          /* the dot grid */
   font-weight: 600;
   letter-spacing: 0.07em;
 }
-.banner__h1, .intro__claim, h1, h2, .pname, .dname {
-  font-weight: 700;
-  letter-spacing: -0.022em;
-}
-.banner__h1 { font-weight: 800; }
+h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 :root[data-case] .eyebrow,
 :root[data-case] .rail__label,
 :root[data-case] .decision__n { font-weight: 700; letter-spacing: 0.1em; }
 .cat__name { padding-left: 0 !important; }
-
-/* links / arrows read as ink, motion is the only hover tell */
 .action, .pcta, .idx-name { color: var(--ink); }
 
 
 /* ===========================================================================
-   3. HOMEPAGE — THE THREE LAYERS
-   Everything in this block is scoped to elements that exist on index.html
-   only (.banner, .stage, .endmark), so it never reaches a case page.
+   3. HOMEPAGE
    =========================================================================== */
 
-/* --- Layer A: the banner, pinned and covered -------------------------------
-   Sticky at the top of the document (its container is <body>, so it stays
-   pinned the whole scroll) and a lower paint layer than the stage, so the
-   stage slides up and OVERS it rather than it scrolling away. */
+/* --- Layer A: banner, pinned, zoomed out over a gradient ------------------- */
 .banner {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  /* Fallback ground so a slow/failed hero never lets the white endmark band
-     show through at the foot of the first screen. */
-  background: #111;
-}
-
-/* --- Layer C: the end wordmark, fixed at the very bottom --------------------
-   Painted BELOW the banner and the stage (z-index 0), so it is hidden behind
-   them until the stage's bottom margin opens a gap at the end of the page and
-   lets it show. The word is bottom-anchored and clipped by the band's edge. */
-.endmark {
-  position: fixed;
-  left: 0; right: 0; bottom: 0;
-  z-index: 0;
-  height: var(--endmark-h);
-  background: #fff;
+  position: -webkit-sticky; position: sticky;
+  top: 0; z-index: 1;
+  height: 100svh; min-height: 560px;
+  background: var(--home-grad);
   overflow: hidden;
-  pointer-events: none;
+}
+.banner__media {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  padding: clamp(40px, 7vh, 90px) 5vw clamp(96px, 18vh, 220px);
+}
+/* contain, not cover: the whole frame (and "WHOA.") stays in view. Overrides
+   swiss.css's position:absolute / inset:0 / 100% cover. */
+.banner__img {
+  position: static; inset: auto;
+  width: auto; height: auto;
+  max-width: min(86vw, 540px);
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 24px 60px rgba(10,12,16,.22));
+}
+/* The old dark bottom scrims (home.css + swiss.css) are replaced by the
+   theme-aware .banner::after below. */
+.banner__in::before { display: none !important; }
+/* a soft, theme-aware scrim at the foot so the text always reads */
+.banner::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 46%;
+  background: var(--home-scrim); pointer-events: none;
+}
+.banner__in {
+  position: absolute; inset: 0; z-index: 1;
+  display: flex; align-items: flex-end;
+}
+.banner__in .wrap { position: relative; padding-bottom: clamp(40px, 7vh, 92px); }
+.banner__hi {
+  margin: 0 0 6px;
+  font-weight: 300;
+  font-size: clamp(17px, 1.4vw + 10px, 24px);
+  letter-spacing: -0.01em;
+  color: var(--home-ink-soft);
+}
+.banner__h1 {
+  margin: 0; max-width: 16ch;
+  font-weight: 400;                 /* lighter, per brief */
+  font-size: clamp(30px, 4.4vw, 58px);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  color: var(--home-ink);
+}
+.banner__cue { position: absolute; right: 0; bottom: 0; margin: 0; color: var(--home-ink-soft); }
+@media (max-width: 560px) { .banner__cue { position: static; margin-top: var(--s2); } }
+
+/* --- Layer C: the end wordmark, a padded link, theme-aware ----------------- */
+.endmark {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 0;
+  height: var(--endmark-h);
+  background: var(--band-ground);
+  overflow: hidden;
+  pointer-events: none;                     /* band never blocks the stage */
+  padding-inline: clamp(16px, 4vw, 72px);   /* some padding, per brief */
 }
 .endmark__word {
   position: absolute;
-  left: 0; right: 0;
-  bottom: -0.17em;                 /* drop the feet below the band's edge */
+  left: 0; right: 0;                 /* side padding comes from .endmark */
+  bottom: -0.16em;
   margin: 0;
+  display: block;
+  pointer-events: auto;                     /* the word itself is clickable */
   font-family: "Inter Tight", system-ui, sans-serif;
-  font-weight: 900;
-  font-size: 15vw;                 /* JS fits it to width; this is the fallback */
-  line-height: 0.8;
-  letter-spacing: -0.03em;
-  text-align: center;
-  white-space: nowrap;
-  color: #111;
+  font-weight: 900; font-size: 14vw;        /* JS fits to width */
+  line-height: 0.8; letter-spacing: -0.03em;
+  text-align: center; white-space: nowrap;
+  color: var(--band-ink); text-decoration: none;
   -webkit-user-select: none; user-select: none;
+  transition: opacity 180ms ease;
 }
+.endmark__word:hover { opacity: 0.72; }
+.endmark__word:focus-visible { outline: 3px solid var(--band-ink); outline-offset: 6px; }
 
-/* --- Layer B: the black stage that rises over the banner -------------------
-   Opaque black, a higher paint layer than the banner, with a bottom margin
-   the exact height of Layer C so the reveal has room. */
+/* --- Layer B: the black stage --------------------------------------------- */
 .stage {
-  position: relative;
-  z-index: 2;                      /* above banner (1), which is above endmark (0) */
-  background: #000;
+  position: relative; z-index: 2;
+  background: var(--stage-bg);
   color: #fff;
   margin-bottom: var(--endmark-h);
-  padding-block: clamp(80px, 12vh, 180px) clamp(64px, 9vh, 140px);
+  padding-block: clamp(80px, 12vh, 180px) 0;
   padding-inline: clamp(16px, 3vw, 40px);
 }
-.stage__in { max-width: 1400px; margin-inline: auto; }
+.stage__in { max-width: 1120px; margin-inline: auto; }
 
-/* A short lead at the top of the stage — the one line of positioning, white
-   on black, no Jarcos essay. */
 .stage__lead {
-  margin: 0 0 clamp(48px, 8vh, 110px);
-  max-width: 20ch;
-  font-size: clamp(26px, 3.4vw, 46px);
-  font-weight: 700;
-  line-height: 1.12;
-  letter-spacing: -0.025em;
+  margin: 0 0 clamp(56px, 9vh, 120px);
+  max-width: 24ch;
+  font-size: clamp(24px, 3vw, 40px);
+  font-weight: 400;                 /* lighter */
+  line-height: 1.22; letter-spacing: -0.02em;
   color: #fff;
 }
-.stage__lead span { color: #8A8A8A; }
+.stage__lead span { color: #7E7E86; }
 
-/* The section label row, white on black. */
 .stage .idx__head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  padding-bottom: clamp(24px, 4vh, 48px);
+  display: flex; align-items: baseline; justify-content: space-between;
+  padding-bottom: clamp(22px, 3.5vh, 40px);
   border-bottom: 1px solid rgba(255,255,255,.14);
-  margin-bottom: clamp(40px, 6vh, 72px);
+  margin-bottom: clamp(44px, 7vh, 80px);
 }
-.stage .idx__head .label,
-.stage .idx__count { color: rgba(255,255,255,.55) !important; font-size: 12px; }
+.stage .idx__head .label, .stage .idx__count { color: rgba(255,255,255,.6) !important; font-size: 12px; }
+.idx__head--sub { margin-top: clamp(96px, 15vh, 190px); }
+.stage__seeall { color: rgba(255,255,255,.6) !important; text-decoration: none; }
+.stage__seeall:hover { color: #fff !important; }
 
-/* --- The mosaic: 2 columns, loose masonry, caption under the image -------- */
+/* --- The mosaic: smaller images, aligned (no stagger), more air ----------- */
 .mosaic {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: clamp(16px, 2vw, 28px);
-  row-gap: clamp(44px, 6vw, 80px);
+  column-gap: clamp(28px, 4vw, 72px);
+  row-gap: clamp(64px, 9vw, 128px);
   align-items: start;
 }
-.mosaic > :nth-child(even) { margin-top: clamp(28px, 6vw, 72px); }
-
 .mcard { display: block; color: #fff; text-decoration: none; }
-.mcard__shot { margin: 0; overflow: hidden; background: #111; aspect-ratio: 16 / 10; }
+.mcard__shot { margin: 0; overflow: hidden; background: #141414; aspect-ratio: 16 / 10; }
 .mcard__shot img {
   display: block; width: 100%; height: 100%;
   object-fit: cover; border-radius: 0;
   transition: transform 640ms cubic-bezier(.22,1,.36,1);
 }
-.mcard:hover .mcard__shot img,
-.mcard:focus-visible .mcard__shot img { transform: scale(1.025); }
-
-.mcard--noshot .mcard__shot { display: grid; place-items: center; }
-.mcard--noshot .mcard__shot::after {
-  content: attr(data-mark);
-  font-weight: 900; font-size: clamp(28px, 4vw, 52px);
-  letter-spacing: -0.02em; color: rgba(255,255,255,.08);
-}
+.mcard:hover .mcard__shot img, .mcard:focus-visible .mcard__shot img { transform: scale(1.025); }
+.mcard__shot--contain { display: grid; place-items: center; }
+.mcard__shot--contain img { width: auto; height: 80%; object-fit: contain; transform: none; }
+.mcard:hover .mcard__shot--contain img { transform: scale(1.03); }
 
 .mcard__cap {
   display: flex; flex-wrap: wrap; align-items: baseline;
-  justify-content: space-between; gap: 4px 20px; margin-top: 14px;
+  justify-content: space-between; gap: 4px 20px; margin-top: 15px;
 }
-.mcard__name {
-  margin: 0; font-size: clamp(16px, 0.6vw + 13px, 19px);
-  font-weight: 700; letter-spacing: -0.01em; color: #fff;
-}
-.mcard__no {
-  font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
-  color: rgba(255,255,255,.55); font-variant-numeric: tabular-nums;
-}
-.mcard__svc {
-  margin: 0; font-size: clamp(12px, 0.3vw + 11px, 13px);
-  line-height: 1.4; color: #8A8A8A; text-align: right; max-width: 48%;
+.mcard__name { margin: 0; font-size: clamp(16px, 0.5vw + 13px, 19px); font-weight: 600; letter-spacing: -0.01em; color: #fff; }
+.mcard__no { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: rgba(255,255,255,.55); font-variant-numeric: tabular-nums; }
+.mcard__svc { margin: 0; font-size: clamp(12px, 0.3vw + 11px, 13px); line-height: 1.4; color: #8A8A8A; text-align: right; max-width: 52%; }
+.mcard__tag {
+  display: inline-block; margin-left: 8px; padding: 2px 9px;
+  border: 1px solid rgba(255,255,255,.26); border-radius: 999px;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.05em; color: #9A9AA2; vertical-align: middle;
 }
 
-/* --- Contact + colophon, at the foot of the stage ------------------------- */
-.stage__end {
-  margin-top: clamp(80px, 14vh, 200px);
-  padding-top: clamp(32px, 5vh, 56px);
-  border-top: 1px solid rgba(255,255,255,.14);
-}
-.stage__end h2 {
-  margin: 0 0 clamp(24px, 4vh, 40px);
-  max-width: 20ch;
-  font-size: clamp(28px, 4vw, 56px);
-  font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; color: #fff;
-}
+/* --- Contact / colophon --------------------------------------------------- */
+.stage__end { margin-top: clamp(96px, 16vh, 220px); padding-top: clamp(32px, 5vh, 56px); border-top: 1px solid rgba(255,255,255,.14); }
+.stage__end h2 { margin: 0 0 clamp(24px, 4vh, 40px); max-width: 20ch; font-size: clamp(28px, 4vw, 54px); font-weight: 500; line-height: 1.08; letter-spacing: -0.03em; color: #fff; }
 .stage__acts { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; }
-.stage__mail {
-  font-size: clamp(18px, 2vw, 26px); font-weight: 700;
-  letter-spacing: -0.02em; color: #fff; text-decoration: none;
-  border-bottom: 2px solid rgba(255,255,255,.3); padding-bottom: 2px;
-  transition: border-color 200ms ease;
-}
+.stage__mail { font-size: clamp(18px, 2vw, 26px); font-weight: 600; letter-spacing: -0.02em; color: #fff; text-decoration: none; border-bottom: 2px solid rgba(255,255,255,.3); padding-bottom: 2px; transition: border-color 200ms ease; }
 .stage__mail:hover { border-color: #fff; }
 .stage__acts a.stage__link { color: #8A8A8A; text-decoration: none; font-size: 14px; }
 .stage__acts a.stage__link:hover { color: #fff; }
-.stage__colophon {
-  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
-  margin-top: clamp(48px, 8vh, 96px);
-  font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
-  color: rgba(255,255,255,.62);
-}
+.stage__colophon { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: clamp(48px, 8vh, 96px); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,.62); }
+
+/* Room above the DESSERTS reveal — the page scrolls further; space to grow. */
+.stage__space { height: clamp(180px, 46vh, 560px); }
 
 .stage a:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 
 @media (max-width: 720px) {
-  .mosaic { grid-template-columns: minmax(0,1fr); row-gap: clamp(32px, 9vw, 52px); }
-  .mosaic > :nth-child(even) { margin-top: 0; }
-  .mcard__svc { max-width: 60%; }
+  .mosaic { grid-template-columns: minmax(0,1fr); row-gap: clamp(40px, 11vw, 64px); }
+  .mcard__svc { max-width: 62%; }
 }
 
 
 /* ---------------------------------------------------------------------------
-   4. THE FLOATING WHITE PILL NAV
-   home.css already shapes .fnav as a rounded pill and hides it under :root.js
-   until .is-up; redo.js now adds .is-up by scroll position (the banner is
-   pinned, so an intersection test would never fire). Here it is made a true
-   white pill per the spec.
+   4. FLOATING WHITE PILL NAV
    --------------------------------------------------------------------------- */
 .fnav__in { background: #fff !important; border-color: rgba(0,0,0,.08) !important; }
 .fnav__in a, .fnav__tool { color: #111; }
 .fnav__in a:hover, .fnav__tool:hover { background: rgba(0,0,0,.06); color: #000; }
 .fnav__in a.fnav__cta { background: #111; color: #fff; font-weight: 600; }
 .fnav__in a.fnav__cta:hover { background: #000; color: #fff; }
-/* The pill is always white in both themes, so the focus ring must be dark —
-   the themed var(--accent) goes near-white in dark mode and would vanish. */
 .fnav__in a:focus-visible, .fnav__tool:focus-visible { outline: 2px solid #111 !important; outline-offset: 2px; }
 
 
 /* ---------------------------------------------------------------------------
-   5. CUSTOM CURSOR  (spec §5)
-   Default: a small dot that lags. Over a card: an accent circle with an arrow
-   and a pill label. Over a nav/text link: a small blob. Desktop pointers only
-   — redo.js adds .has-cursor to <html> and never touches touch / reduced-motion.
+   5. CUSTOM CURSOR
    --------------------------------------------------------------------------- */
 .has-cursor, .has-cursor a, .has-cursor button,
 .has-cursor .mcard, .has-cursor [role="button"] { cursor: none; }
 
-.cursor {
-  position: fixed; top: 0; left: 0; z-index: 9999;
-  pointer-events: none; opacity: 0;
-  transition: opacity 200ms ease;
-  --cur-accent: #fff; --cur-ink: #111;
-}
+.cursor { position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none; opacity: 0; transition: opacity 200ms ease; --cur-accent: #fff; --cur-ink: #111; }
 .cursor.is-on { opacity: 1; }
-
 .cursor__dot {
   position: absolute; top: 0; left: 0;
   width: 10px; height: 10px; margin: -5px 0 0 -5px;
-  border-radius: 50%;
-  display: grid; place-items: center;
-  background: var(--ink, #111);
-  color: transparent;
+  border-radius: 50%; display: grid; place-items: center;
+  background: var(--ink, #111); color: transparent;
   font-size: 15px; line-height: 1; font-weight: 700;
-  transition: width 220ms cubic-bezier(.22,1,.36,1),
-              height 220ms cubic-bezier(.22,1,.36,1),
-              margin 220ms cubic-bezier(.22,1,.36,1),
-              background-color 200ms ease, color 160ms ease;
+  transition: width 220ms cubic-bezier(.22,1,.36,1), height 220ms cubic-bezier(.22,1,.36,1),
+              margin 220ms cubic-bezier(.22,1,.36,1), background-color 200ms ease, color 160ms ease;
 }
 .cursor.on-dark .cursor__dot { background: #fff; }
-
-/* blob over a plain link */
 .cursor.is-link .cursor__dot { width: 26px; height: 26px; margin: -13px 0 0 -13px; }
-
-/* accent circle + arrow over a card */
-.cursor.is-card .cursor__dot {
-  width: 56px; height: 56px; margin: -28px 0 0 -28px;
-  background: var(--cur-accent);
-  color: var(--cur-ink);
-}
-.cursor.is-card .cursor__dot::after { content: "\2192"; }   /* → */
-
-/* the pill label, to the right of the circle, card only */
+.cursor.is-card .cursor__dot { width: 56px; height: 56px; margin: -28px 0 0 -28px; background: var(--cur-accent); color: var(--cur-ink); }
+.cursor.is-card .cursor__dot::after { content: "\2192"; }
 .cursor__pill {
   position: absolute; top: 0; left: 0;
-  transform: translate(34px, -13px) scale(0.7);
-  transform-origin: left center;
-  padding: 6px 12px; border-radius: 5px;
-  background: var(--cur-accent); color: var(--cur-ink);
-  font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
-  white-space: nowrap; opacity: 0;
+  transform: translate(34px, -13px) scale(0.7); transform-origin: left center;
+  padding: 6px 12px; border-radius: 5px; background: var(--cur-accent); color: var(--cur-ink);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.04em; white-space: nowrap; opacity: 0;
   transition: opacity 180ms ease, transform 220ms cubic-bezier(.22,1,.36,1);
 }
 .cursor.is-card .cursor__pill { opacity: 1; transform: translate(40px, -13px) scale(1); }
 
 
 /* ---------------------------------------------------------------------------
-   6. REDUCED MOTION
-   The overlay is pure scroll, so it stays. The cursor is off (redo.js never
-   builds it), and image hover-scale is dropped.
+   6. CASE PAGES — images/videos get margins, not full bleed
+   The case layout already pads via .wrap; .bleed and .d-split widen media PAST
+   the text column. Pull them back so every plate sits inside the column with
+   the page gutter around it.
+   --------------------------------------------------------------------------- */
+:root[data-case] figure.bleed { width: 100% !important; }
+:root[data-case] .d-split { width: 100% !important; }
+/* A touch of breathing room so a plate never kisses the column edges. */
+:root[data-case] .media, :root[data-case] .phone { margin-inline: auto; }
+
+
+/* ---------------------------------------------------------------------------
+   7. REDUCED MOTION / SMALL
    --------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .mcard:hover .mcard__shot img,
-  .mcard:focus-visible .mcard__shot img { transform: none; }
+  .mcard:hover .mcard__shot img, .mcard:focus-visible .mcard__shot img,
+  .mcard:hover .mcard__shot--contain img { transform: none; }
 }
 
-/* style.css sets body{overflow-x:hidden} under 768px, and an ancestor with
-   overflow:hidden makes body a scroll container — which breaks the sticky
-   banner's pin-and-cover on phones/tablets. `clip` prevents the horizontal
-   scrollbar WITHOUT becoming a scroll container, so sticky survives. */
-@media (max-width: 768px) {
-  body { overflow-x: clip; }
-}
+/* style.css sets body{overflow-x:hidden} under 768px; an overflow:hidden
+   ancestor breaks the sticky banner. `clip` prevents the scrollbar without
+   becoming a scroll container, so the pin survives. */
+@media (max-width: 768px) { body { overflow-x: clip; } }
 
 @media (max-width: 480px) {
   .stage { padding-inline: 16px; }
-  :root { --endmark-h: clamp(92px, 30vw, 150px); }
+  :root { --endmark-h: clamp(100px, 32vw, 170px); }
 }

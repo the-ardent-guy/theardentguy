@@ -46,7 +46,8 @@
       word.style.right = "auto";
       word.style.width = "max-content";
       word.style.fontSize = "100px";
-      var target = band.clientWidth * 0.94;
+      var pad = parseFloat(getComputedStyle(band).paddingLeft) || 0;
+      var target = (band.clientWidth - pad * 2) * 0.98;   // fill the padded inner width
       var cur = word.scrollWidth || 1;
       word.style.fontSize = (100 * target / cur).toFixed(1) + "px";
       word.style.width = "";
