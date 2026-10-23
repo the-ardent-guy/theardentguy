@@ -1,359 +1,332 @@
 /* ===========================================================================
-   REDO — bold / sober / monochrome override layer
-   2026-10-23. Loaded LAST on every page, after style / v2 / v3 / case /
-   swiss / notebook / home, so it is the top of the cascade and needs almost
-   no !important to win.
+   REDO — full DESSERTS homepage spec + sober monochrome system
+   2026-10-23 (r2, full rebuild). Loaded LAST on every page.
 
-   His brief, in his words, and where each one lives below:
-     - "remove the ask rish thingy"                 -> markup + dead code removed
-     - "the notebook bots on black looks bad"       -> sec 1 (dot grid off)
-     - "the mono font sucks on case studies"        -> sec 2 (mono -> sans)
-     - "BOLD ... go bolder, sober colors"           -> sec 2 + 3
-     - "remove this dots next to case study names"  -> sec 1
-     - "get rid of that whole style"                -> sec 1 (tints/marks/wash)
-     - the DESSERTS scroll spec, reskin pass        -> sec 4 (mosaic) + 5 (word)
+   Homepage choreography (DESSERTS-HOMEPAGE-SCROLL-SPEC):
+     A  the existing banner, pinned, covered (not scrolled away)
+     B  a black panel that rises over it, holding the case-study mosaic
+     C  a giant bottom-clipped DESSERTS wordmark, revealed under B at the end
+     +  a custom cursor (dot -> accent circle + arrow + pill on cards)
+     +  monochrome black/white/grey, colour only in photos + per-card accents
 
-   This layer never edits the files under it. Everything here is reversible by
-   dropping the one <link> that loads it.
+   Sitewide it also strips the old notebook kit (dot grid, colour tints, name
+   dots, highlighter, mono labels) and restyles the case-study pages. All of
+   it is reversible by dropping the one <link> that loads this file.
    =========================================================================== */
 
 
 /* ---------------------------------------------------------------------------
-   1. GET RID OF THAT WHOLE STYLE
-
-   The notebook kit: the dot grid behind everything, the per-project colour
-   wash, the coloured dot that replaces a number, the highlighter swipe, the
-   drawn marks, the category dots on the case nav. All off. Nothing here is
-   softened; it is removed, which is what he asked for.
+   0. TOKENS
    --------------------------------------------------------------------------- */
+:root {
+  --mono: var(--sans);              /* kill the monospace label voice */
+  --w-label: 600;
+  --tr-label: 0.07em;
+  --endmark-h: clamp(140px, 26vh, 320px);   /* Layer C band / B's reveal gap */
 
-/* The dot grid. swiss.css paints it on body::before, fixed, z-index -1.
-   "the notebook bots on black looks bad" — so there are no bots anywhere. */
-body::before { display: none !important; }
-[data-ruled] body::after { display: none !important; }
-
-/* The colour wash that carried whichever project was being read. */
-.shade { display: none !important; }
-
-/* The number-that-turns-into-a-dot on the homepage work list, and the dots
-   next to category names on the case nav. The number stays; the dot goes. */
-.pno::after,
-.idx-no::after,
-.cat__name[style*="--dot"]::before,
-.cat__name.has-dot::before { content: none !important; display: none !important; }
-.idx-row:hover .idx-no, .idx-row:focus-visible .idx-no { color: var(--ink-40) !important; }
-.prow.is-live .pno { color: var(--ink-40) !important; }
-
-/* The highlighter swipe behind a metric, and any drawn ellipse/mark left in
-   the kit. A sober page does not highlight itself in yellow. */
-.nb-mark::before { display: none !important; }
-.nb-mark { background: none !important; }
-
-/* The project tints are no longer read by anything on screen, but home.js
-   still writes the live row's drift. Keep the drift calm and drop the live
-   hairline flip so the list reads as one quiet column, not a light show. */
-.prow.is-live { border-top-color: var(--rule-strong) !important; }
+  /* Sober: pull every accent to ink. !important so it also wins under the
+     higher-specificity dark blocks in swiss.css / v3.css. */
+  --accent: var(--ink) !important;
+  --v3-accent: var(--ink) !important;
+  --v3-accent-press: var(--ink) !important;
+  --v3-focus: var(--ink) !important;
+}
 
 
 /* ---------------------------------------------------------------------------
-   2. TYPE — DROP THE MONO VOICE, GO BOLDER
-
-   "the mono font sucks on case studies". Every label on the site is set in
-   --mono (JetBrains Mono). Pointing --mono at the sans turns every one of
-   them — nav, eyebrows, section labels, meta, footer — into Inter Tight in a
-   single move, with no file edits under this one. Labels keep their uppercase
-   tracking so they still read as labels, just not as code.
-
-   Bolder: the display weights come up, the wordmark weight is added.
+   1. GET RID OF THE WHOLE NOTEBOOK STYLE
    --------------------------------------------------------------------------- */
+body::before { display: none !important; }          /* the dot grid */
+[data-ruled] body::after { display: none !important; }
+.shade { display: none !important; }                /* the colour wash */
 
-:root {
-  --mono: var(--sans);
-  /* Heavier labels now that they are a grotesk, not a monospace. */
-  --w-label: 600;
-  --tr-label: 0.07em;
+/* Every coloured dot: the home number-dots, the pharmacy row dot, the case
+   eyebrow dot, the case-nav category dots, and the "next project" hover dot.
+   --dot is set inline per project; a stylesheet !important beats inline. */
+:root, body { --dot: transparent !important; }
+.pno::after, .idx-no::after,
+.head .eyebrow::before,
+.cat__name[style*="--dot"]::before, .cat__name.has-dot::before {
+  content: none !important; display: none !important;
 }
 
-/* Labels, wherever they come from (swiss .label, notebook .nb-note, case
-   .eyebrow / .rail__label / .meta th). One sober, confident label voice. */
+/* The highlighter swipe. */
+.nb-mark::before { display: none !important; }
+.nb-mark { background: none !important; }
+
+
+/* ---------------------------------------------------------------------------
+   2. TYPE — bolder, no mono
+   --------------------------------------------------------------------------- */
 .label, .nb-note, .eyebrow, .rail__label, .decision__n,
 .meta th, .compare th, .top {
   font-family: var(--sans) !important;
   font-weight: 600;
   letter-spacing: 0.07em;
 }
-
-/* Headlines come up in weight and tighten. Inter Tight carries 700/800 well;
-   the display face below is loaded for the one place that needs black. */
-.banner__h1, .intro__claim, .dess__h2, .say__h2,
-h1, h2, .pname, .dname {
+.banner__h1, .intro__claim, h1, h2, .pname, .dname {
   font-weight: 700;
   letter-spacing: -0.022em;
 }
 .banner__h1 { font-weight: 800; }
+:root[data-case] .eyebrow,
+:root[data-case] .rail__label,
+:root[data-case] .decision__n { font-weight: 700; letter-spacing: 0.1em; }
+.cat__name { padding-left: 0 !important; }
 
-
-/* ---------------------------------------------------------------------------
-   3. SOBER COLOUR
-
-   The warm paper stays — it is already quiet — but the loud parts go: the
-   accent greens and sands that fired on links, CTAs and focus rings are
-   pulled to ink, so the page is black / white / grey and the only colour
-   left is in the photographs themselves.
-   --------------------------------------------------------------------------- */
-
-:root {
-  --accent: var(--ink);
-  --v3-accent: var(--ink);
-  --v3-accent-press: var(--ink);
-  --v3-focus: var(--ink);
-}
-
-/* Action arrows and links were accent-coloured; they read as ink now, and
-   the motion stays as the only hover tell. */
+/* links / arrows read as ink, motion is the only hover tell */
 .action, .pcta, .idx-name { color: var(--ink); }
 
-/* The floating nav CTA: keep the existing ink-background / surface-text pair
-   (theme-safe in both light and dark), just bolder. Don't force #fff text —
-   in dark mode --ink is light, and white-on-light would vanish. */
-.fnav__in a.fnav__cta { font-weight: 600; }
 
+/* ===========================================================================
+   3. HOMEPAGE — THE THREE LAYERS
+   Everything in this block is scoped to elements that exist on index.html
+   only (.banner, .stage, .endmark), so it never reaches a case page.
+   =========================================================================== */
 
-/* ---------------------------------------------------------------------------
-   4. THE WORK, AS A BLACK MOSAIC  (reskin of the DESSERTS spec, beat 3)
-
-   The six projects were a warm-paper list of lead-left rows. They become a
-   full-bleed black panel holding a two-column mosaic: a full-bleed image,
-   square corners, and the caption UNDER it — name bold white on the left,
-   the role/line in grey beside it. The right column is dropped ~44px so the
-   grid reads as a loose masonry, not a brick wall. Cards link to the case
-   study, exactly as before.
-
-   The markup is rewritten in index.html to .mosaic / .mcard; this styles it.
-   --------------------------------------------------------------------------- */
-
-.work.work--black {
-  /* A direct child of <main>, which is full width (margin-left:0), so this is
-     full-bleed on its own. No 100vw break-out: that adds a horizontal
-     scrollbar on desktop, where body only clips overflow under 768px. */
-  background: #000;
-  color: #fff;
-  padding-block: clamp(72px, 10vw, 160px);
-  padding-inline: clamp(16px, 3vw, 40px);
+/* --- Layer A: the banner, pinned and covered -------------------------------
+   Sticky at the top of the document (its container is <body>, so it stays
+   pinned the whole scroll) and a lower paint layer than the stage, so the
+   stage slides up and OVERS it rather than it scrolling away. */
+.banner {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
-/* The section label and count, white on black. */
-.work--black .work__in { max-width: 1400px; margin-inline: auto; }
-.work--black .idx__head { padding-bottom: clamp(32px, 5vw, 64px); }
-.work--black .idx__head .label,
-.work--black .idx__count { color: rgba(255,255,255,.55) !important; }
+/* --- Layer C: the end wordmark, fixed at the very bottom --------------------
+   Painted BELOW the banner and the stage (z-index 0), so it is hidden behind
+   them until the stage's bottom margin opens a gap at the end of the page and
+   lets it show. The word is bottom-anchored and clipped by the band's edge. */
+.endmark {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  height: var(--endmark-h);
+  background: #fff;
+  overflow: hidden;
+  pointer-events: none;
+}
+.endmark__word {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: -0.17em;                 /* drop the feet below the band's edge */
+  margin: 0;
+  font-family: "Inter Tight", system-ui, sans-serif;
+  font-weight: 900;
+  font-size: 15vw;                 /* JS fits it to width; this is the fallback */
+  line-height: 0.8;
+  letter-spacing: -0.03em;
+  text-align: center;
+  white-space: nowrap;
+  color: #111;
+  -webkit-user-select: none; user-select: none;
+}
 
+/* --- Layer B: the black stage that rises over the banner -------------------
+   Opaque black, a higher paint layer than the banner, with a bottom margin
+   the exact height of Layer C so the reveal has room. */
+.stage {
+  position: relative;
+  z-index: 2;                      /* above banner (1), which is above endmark (0) */
+  background: #000;
+  color: #fff;
+  margin-bottom: var(--endmark-h);
+  padding-block: clamp(80px, 12vh, 180px) clamp(64px, 9vh, 140px);
+  padding-inline: clamp(16px, 3vw, 40px);
+}
+.stage__in { max-width: 1400px; margin-inline: auto; }
+
+/* A short lead at the top of the stage — the one line of positioning, white
+   on black, no Jarcos essay. */
+.stage__lead {
+  margin: 0 0 clamp(48px, 8vh, 110px);
+  max-width: 20ch;
+  font-size: clamp(26px, 3.4vw, 46px);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  color: #fff;
+}
+.stage__lead span { color: #8A8A8A; }
+
+/* The section label row, white on black. */
+.stage .idx__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: clamp(24px, 4vh, 48px);
+  border-bottom: 1px solid rgba(255,255,255,.14);
+  margin-bottom: clamp(40px, 6vh, 72px);
+}
+.stage .idx__head .label,
+.stage .idx__count { color: rgba(255,255,255,.55) !important; font-size: 12px; }
+
+/* --- The mosaic: 2 columns, loose masonry, caption under the image -------- */
 .mosaic {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: clamp(16px, 2vw, 28px);
-  row-gap: clamp(40px, 5vw, 72px);
+  row-gap: clamp(44px, 6vw, 80px);
   align-items: start;
 }
+.mosaic > :nth-child(even) { margin-top: clamp(28px, 6vw, 72px); }
 
-/* The loose-masonry offset: the second column starts lower. */
-.mosaic > :nth-child(even) { margin-top: clamp(24px, 5vw, 64px); }
-
-.mcard {
-  display: block;
-  color: #fff;
-  text-decoration: none;
-}
-
-.mcard__shot {
-  margin: 0;
-  overflow: hidden;
-  background: #111;
-  aspect-ratio: 16 / 10;
-}
+.mcard { display: block; color: #fff; text-decoration: none; }
+.mcard__shot { margin: 0; overflow: hidden; background: #111; aspect-ratio: 16 / 10; }
 .mcard__shot img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* square corners, per spec */
-  border-radius: 0;
-  transition: transform 600ms var(--ease, cubic-bezier(.22,1,.36,1));
+  display: block; width: 100%; height: 100%;
+  object-fit: cover; border-radius: 0;
+  transition: transform 640ms cubic-bezier(.22,1,.36,1);
 }
 .mcard:hover .mcard__shot img,
-.mcard:focus-visible .mcard__shot img { transform: scale(1.02); }
+.mcard:focus-visible .mcard__shot img { transform: scale(1.025); }
 
-/* A project with no shot yet (Sintero) gets a flat field, not a dashed box. */
-.mcard--noshot .mcard__shot {
-  display: grid;
-  place-items: center;
-  aspect-ratio: 16 / 10;
-}
+.mcard--noshot .mcard__shot { display: grid; place-items: center; }
 .mcard--noshot .mcard__shot::after {
   content: attr(data-mark);
-  font-family: var(--sans);
-  font-weight: 800;
-  font-size: clamp(28px, 4vw, 52px);
-  letter-spacing: -0.02em;
-  color: rgba(255,255,255,.08);
+  font-weight: 900; font-size: clamp(28px, 4vw, 52px);
+  letter-spacing: -0.02em; color: rgba(255,255,255,.08);
 }
 
-/* Caption UNDER the image: name left, services/line right, baseline shared. */
 .mcard__cap {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 4px 20px;
-  margin-top: 14px;
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  justify-content: space-between; gap: 4px 20px; margin-top: 14px;
 }
 .mcard__name {
-  margin: 0;
-  font-size: clamp(16px, 0.6vw + 13px, 19px);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: #fff;
-}
-.mcard__svc {
-  margin: 0;
-  font-size: clamp(12px, 0.3vw + 11px, 13px);
-  line-height: 1.4;
-  color: #8A8A8A;
-  text-align: right;
-  max-width: 48%;
+  margin: 0; font-size: clamp(16px, 0.6vw + 13px, 19px);
+  font-weight: 700; letter-spacing: -0.01em; color: #fff;
 }
 .mcard__no {
-  font-family: var(--sans);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: rgba(255,255,255,.4);
-  font-variant-numeric: tabular-nums;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+  color: rgba(255,255,255,.4); font-variant-numeric: tabular-nums;
+}
+.mcard__svc {
+  margin: 0; font-size: clamp(12px, 0.3vw + 11px, 13px);
+  line-height: 1.4; color: #8A8A8A; text-align: right; max-width: 48%;
 }
 
+/* --- Contact + colophon, at the foot of the stage ------------------------- */
+.stage__end {
+  margin-top: clamp(80px, 14vh, 200px);
+  padding-top: clamp(32px, 5vh, 56px);
+  border-top: 1px solid rgba(255,255,255,.14);
+}
+.stage__end h2 {
+  margin: 0 0 clamp(24px, 4vh, 40px);
+  max-width: 20ch;
+  font-size: clamp(28px, 4vw, 56px);
+  font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; color: #fff;
+}
+.stage__acts { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; }
+.stage__mail {
+  font-size: clamp(18px, 2vw, 26px); font-weight: 700;
+  letter-spacing: -0.02em; color: #fff; text-decoration: none;
+  border-bottom: 2px solid rgba(255,255,255,.3); padding-bottom: 2px;
+  transition: border-color 200ms ease;
+}
+.stage__mail:hover { border-color: #fff; }
+.stage__acts a.stage__link { color: #8A8A8A; text-decoration: none; font-size: 14px; }
+.stage__acts a.stage__link:hover { color: #fff; }
+.stage__colophon {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  margin-top: clamp(48px, 8vh, 96px);
+  font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: rgba(255,255,255,.4);
+}
+
+.stage a:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+
 @media (max-width: 720px) {
-  .mosaic { grid-template-columns: minmax(0, 1fr); row-gap: clamp(32px, 8vw, 48px); }
+  .mosaic { grid-template-columns: minmax(0,1fr); row-gap: clamp(32px, 9vw, 52px); }
   .mosaic > :nth-child(even) { margin-top: 0; }
   .mcard__svc { max-width: 60%; }
 }
 
 
 /* ---------------------------------------------------------------------------
-   5. THE CLOSER — giant, bottom-clipped DESSERTS
-
-   A white band holding the word DESSERTS, near-black, full viewport width,
-   bottom-anchored and clipped by the band's own bottom edge so the counters
-   of the letters are cropped — the end-brand beat from the spec. It is a
-   closing band before Contact in this reskin pass; the full footer-reveal
-   choreography is the later rebuild.
+   4. THE FLOATING WHITE PILL NAV
+   home.css already shapes .fnav as a rounded pill and hides it under :root.js
+   until .is-up; redo.js now adds .is-up by scroll position (the banner is
+   pinned, so an intersection test would never fire). Here it is made a true
+   white pill per the spec.
    --------------------------------------------------------------------------- */
-
-.endmark {
-  /* Full-bleed like .work--black: a plain full-width block, no 100vw. */
-  position: relative;
-  background: #fff;
-  overflow: hidden;
-  /* room so the word can be bigger than the band and get clipped at the foot */
-  height: clamp(104px, 18vw, 260px);
-}
-.endmark__word {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -0.16em;          /* drop the feet of the letters below the fold */
-  margin: 0;
-  font-family: "Inter Tight", system-ui, sans-serif;
-  font-weight: 900;
-  /* ~19vw keeps 8 heavy letters inside the viewport without wrapping */
-  font-size: clamp(52px, 19vw, 300px);
-  line-height: 0.8;
-  letter-spacing: -0.03em;
-  text-align: center;
-  white-space: nowrap;
-  color: #111;
-  -webkit-user-select: none;
-  user-select: none;
-}
-[data-theme="dark"] .endmark { background: #fff; }
+.fnav__in { background: #fff !important; border-color: rgba(0,0,0,.08) !important; }
+.fnav__in a, .fnav__tool { color: #111; }
+.fnav__in a:hover, .fnav__tool:hover { background: rgba(0,0,0,.06); color: #000; }
+.fnav__in a.fnav__cta { background: #111; color: #fff; font-weight: 600; }
+.fnav__in a.fnav__cta:hover { background: #000; color: #fff; }
 
 
 /* ---------------------------------------------------------------------------
-   6. CASE STUDY PAGES — bolder, sober, no mono, no dots
-
-   The detail pages (produsa / supaca / hasta / vistlabs / bizotico / sintero
-   / koodaikind) are where "the mono font sucks" was aimed. The mono->sans
-   move in sec 2 already fixes the voice; this tightens the rest: the category
-   dots on the index nav are gone (sec 1), the eyebrow and section labels come
-   up in weight, and the accent on links is ink (sec 3). Case headings in
-   case.css are already 700/800 — this just makes sure nothing under it softens
-   them back.
+   5. CUSTOM CURSOR  (spec §5)
+   Default: a small dot that lags. Over a card: an accent circle with an arrow
+   and a pill label. Over a nav/text link: a small blob. Desktop pointers only
+   — redo.js adds .has-cursor to <html> and never touches touch / reduced-motion.
    --------------------------------------------------------------------------- */
-
-:root[data-case] .eyebrow,
-:root[data-case] .rail__label,
-:root[data-case] .decision__n { font-weight: 700; letter-spacing: 0.1em; }
-
-/* The case index category rows: the coloured leading dot is gone, so the name
-   carries the line on its own. */
-.cat__name { padding-left: 0 !important; }
-
-
-/* ---------------------------------------------------------------------------
-   7. CUSTOM CURSOR  (reskin: the quiet version)
-
-   A small solid dot that follows with a little lag, ink on light, white on
-   the black work panel. It grows on anything interactive. The full arrow +
-   pill from the spec is the later rebuild; this is the restrained first step.
-   Desktop pointers only, and off entirely for touch and reduced-motion —
-   redo.js adds .has-cursor to <html> only when it is safe.
-   --------------------------------------------------------------------------- */
-
-.has-cursor,
-.has-cursor a,
-.has-cursor button,
-.has-cursor .mcard,
-.has-cursor [role="button"] { cursor: none; }
+.has-cursor, .has-cursor a, .has-cursor button,
+.has-cursor .mcard, .has-cursor [role="button"] { cursor: none; }
 
 .cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-  width: 10px;
-  height: 10px;
-  margin: -5px 0 0 -5px;
-  border-radius: 50%;
-  background: var(--ink, #111);
-  pointer-events: none;
-  mix-blend-mode: normal;
-  transition: width 180ms var(--ease, ease), height 180ms var(--ease, ease),
-              background-color 180ms var(--ease, ease), opacity 180ms var(--ease, ease);
-  opacity: 0;
+  position: fixed; top: 0; left: 0; z-index: 9999;
+  pointer-events: none; opacity: 0;
+  transition: opacity 200ms ease;
+  --cur-accent: #fff; --cur-ink: #111;
 }
 .cursor.is-on { opacity: 1; }
-.cursor.on-dark { background: #fff; }
-.cursor.is-hot {
-  width: 42px;
-  height: 42px;
-  margin: -21px 0 0 -21px;
-  background: color-mix(in srgb, var(--ink) 18%, transparent);
+
+.cursor__dot {
+  position: absolute; top: 0; left: 0;
+  width: 10px; height: 10px; margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--ink, #111);
+  color: transparent;
+  font-size: 15px; line-height: 1; font-weight: 700;
+  transition: width 220ms cubic-bezier(.22,1,.36,1),
+              height 220ms cubic-bezier(.22,1,.36,1),
+              margin 220ms cubic-bezier(.22,1,.36,1),
+              background-color 200ms ease, color 160ms ease;
 }
-.cursor.on-dark.is-hot { background: rgba(255,255,255,.22); }
+.cursor.on-dark .cursor__dot { background: #fff; }
+
+/* blob over a plain link */
+.cursor.is-link .cursor__dot { width: 26px; height: 26px; margin: -13px 0 0 -13px; }
+
+/* accent circle + arrow over a card */
+.cursor.is-card .cursor__dot {
+  width: 56px; height: 56px; margin: -28px 0 0 -28px;
+  background: var(--cur-accent);
+  color: var(--cur-ink);
+}
+.cursor.is-card .cursor__dot::after { content: "\2192"; }   /* → */
+
+/* the pill label, to the right of the circle, card only */
+.cursor__pill {
+  position: absolute; top: 0; left: 0;
+  transform: translate(34px, -13px) scale(0.7);
+  transform-origin: left center;
+  padding: 6px 12px; border-radius: 5px;
+  background: var(--cur-accent); color: var(--cur-ink);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+  white-space: nowrap; opacity: 0;
+  transition: opacity 180ms ease, transform 220ms cubic-bezier(.22,1,.36,1);
+}
+.cursor.is-card .cursor__pill { opacity: 1; transform: translate(40px, -13px) scale(1); }
 
 
 /* ---------------------------------------------------------------------------
-   8. BREATHING SPACE + LEGIBILITY GUARDS (the design-QA asks)
+   6. REDUCED MOTION
+   The overlay is pure scroll, so it stays. The cursor is off (redo.js never
+   builds it), and image hover-scale is dropped.
    --------------------------------------------------------------------------- */
-
-/* The intro claim gets a touch more weight-matched air under the bolder type. */
-.intro__claim { line-height: 1.12; }
-
-/* Nothing on a phone should sit edge-to-edge; the mosaic and endmark keep an
-   inset even at their full-bleed width. */
-@media (max-width: 480px) {
-  .work.work--black { padding-inline: 16px; }
-  .endmark { height: clamp(96px, 26vw, 180px); }
+@media (prefers-reduced-motion: reduce) {
+  .mcard:hover .mcard__shot img,
+  .mcard:focus-visible .mcard__shot img { transform: none; }
 }
 
-/* Focus stays visible on the black panel. */
-.work--black a:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+@media (max-width: 480px) {
+  .stage { padding-inline: 16px; }
+  :root { --endmark-h: clamp(92px, 30vw, 150px); }
+}

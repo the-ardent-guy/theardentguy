@@ -21,10 +21,8 @@
 </head>
 <body>
 
-<!-- The old colour wash stays in the markup but is switched off in redo.css;
-     nothing paints it any more. -->
-<div class="shade" aria-hidden="true"></div>
-
+<!-- THE FLOATING WHITE PILL NAV. Hidden until the black stage has covered the
+     banner; redo.js adds .is-up by scroll position. -->
 <header class="fnav" data-fnav>
   <nav class="fnav__in" aria-label="Site">
     <a href="#work">Work</a>
@@ -36,7 +34,8 @@
   </nav>
 </header>
 
-<!-- THE BANNER. Unchanged: one screen, one photograph, the words bottom-left. -->
+<!-- LAYER A — the banner, pinned (redo.css makes it position:sticky) and
+     covered by the stage as it rises. Its internal design is unchanged. -->
 <section class="banner" aria-labelledby="bannerTitle">
   <img class="banner__img" src="/assets/hero.jpg" width="1200" height="1600" fetchpriority="high"
        alt="Rishabh sits with his back to the camera at a weathered white picnic table in the Himalayas, bare winter trees and a snow ridge behind him. Two of his own drawn characters are sitting at the table with him, one in a green jumper holding a book and striped socks, one in a mustard jacket, and the word WHOA. is written in the air above them.">
@@ -51,32 +50,21 @@
 
 <main>
 
-  <section class="intro wrap grid" aria-label="Introduction">
-    <h2 class="intro__claim reveal">I bring storytelling and social psychology into how products think, behave, and feel.</h2>
-    <ul class="intro__notes sub reveal">
-      <li>Currently knee-deep in Agentic UX,</li>
-      <li>Deeply curious about myth, meaning, and what actually drives people.</li>
-    </ul>
-  </section>
+  <!-- LAYER B — the black stage that rises over the banner. Holds a short
+       lead, the case-study mosaic, and the contact/colophon. -->
+  <section class="stage" id="work" aria-labelledby="workLabel">
+    <div class="stage__in">
 
-  <!-- THE WORK, AS A BLACK MOSAIC.
-       2026-10-23, his direction: the lead-left rows become a full-bleed black
-       panel with a two-column mosaic of case studies. Full-bleed image, square
-       corners, caption under it: name white, services grey. The per-project
-       colour dots and the colour wash are gone (redo.css sec 1). Each card is
-       a link to its case study. Sintero has no shot yet, so it gets a flat
-       field with its initial, not a dashed box. -->
-  <section class="work work--black" id="work" aria-labelledby="workLabel">
-    <div class="work__in">
+      <p class="stage__lead">I bring storytelling and social psychology into how products think, behave, and feel. <span>Story and meaning first, screens second.</span></p>
 
       <div class="idx__head">
-        <p class="label nb-note" id="workLabel">Selected work</p>
-        <p class="label idx__count u-tab">06</p>
+        <p class="label" id="workLabel">Selected work</p>
+        <p class="label idx__count">06</p>
       </div>
 
       <div class="mosaic">
 
-        <a class="mcard" href="/produsa.html">
+        <a class="mcard" href="/produsa.html" data-accent="#0050FF" data-cursor-label="Produsa">
           <figure class="mcard__shot">
             <img src="/assets/media/produsa-band.webp" width="1200" height="900" loading="lazy" decoding="async"
                  alt="The Produsa studio. An owner asks the chat on the left for a header, a footer and a logo, and the finished Hornexa Technology site stands in the preview on the right.">
@@ -87,7 +75,7 @@
           </div>
         </a>
 
-        <a class="mcard" href="/supaca.html">
+        <a class="mcard" href="/supaca.html" data-accent="#FF1100" data-cursor-label="Supaca">
           <figure class="mcard__shot">
             <img src="/assets/media/supaca-hero.webp" width="1700" height="1294" loading="lazy" decoding="async"
                  alt="The Supaca beta landing page. Make the drive, in large type over a near-black ground, with the line India&#39;s supercar owners&#39; network and cards for Boit Club, Club Octane and Sunrise drives floating around the headline.">
@@ -98,7 +86,7 @@
           </div>
         </a>
 
-        <a class="mcard" href="/hasta.html">
+        <a class="mcard" href="/hasta.html" data-accent="#FFA81A" data-cursor-label="Hasta">
           <figure class="mcard__shot">
             <img src="/assets/media/hasta-lead-4x3.webp" width="1200" height="900" loading="lazy" decoding="async"
                  alt="The Hasta landing page. A drawn hand mark over the word HASTA, the line Palm reading from a photo, then What is written in your hand? in large cream serif capitals across a candlelit photograph of an open palm.">
@@ -109,7 +97,7 @@
           </div>
         </a>
 
-        <a class="mcard" href="/vistlabs.html">
+        <a class="mcard" href="/vistlabs.html" data-accent="#9ACD20" data-cursor-label="VIST Labs">
           <figure class="mcard__shot">
             <img src="/assets/media/vist-band-16x10.webp" width="1600" height="1000" loading="lazy" decoding="async"
                  alt="The redesigned VIST Labs homepage hero. Diagnose, Decontaminate, Protect. in large white type over a dark teal photograph of pasteurisation equipment.">
@@ -120,7 +108,7 @@
           </div>
         </a>
 
-        <a class="mcard" href="/bizotico.html">
+        <a class="mcard" href="/bizotico.html" data-accent="#B8A07C" data-cursor-label="Bizotico">
           <figure class="mcard__shot">
             <img src="/assets/media/bizo-band-16x10.webp" width="1600" height="1000" loading="lazy" decoding="async"
                  alt="The Bizotico storefront on a laptop and a phone. The laptop shows the hero, Upto 80% Off, Between Sea and Space, over a diver surfacing with a watch on his wrist.">
@@ -131,7 +119,7 @@
           </div>
         </a>
 
-        <a class="mcard mcard--noshot" href="/sintero.html">
+        <a class="mcard mcard--noshot" href="/sintero.html" data-accent="#7A3A10" data-cursor-label="Sintero">
           <div class="mcard__shot" data-mark="S" aria-hidden="true"></div>
           <div class="mcard__cap">
             <p class="mcard__name"><span class="mcard__no" aria-hidden="true">06</span> Sintero</p>
@@ -140,111 +128,37 @@
         </a>
 
       </div>
-    </div>
-  </section>
 
-  <!-- WRITING. Hidden until there is a real post. -->
-  <section class="wrap grid" id="writing" aria-labelledby="writingLabel" hidden>
-    <p class="label nb-note" id="writingLabel">Writing</p>
-    <h2>Essays on design, AI and the work</h2>
-  </section>
-
-  <!-- DESSERTS. The illustrated block stays on the home this pass. -->
-  <section class="dess wrap grid" aria-labelledby="dessLabel">
-    <p class="label nb-note" id="dessLabel">Desserts</p>
-    <h2 class="dess__h2">Nobody asked for any of this.</h2>
-    <p class="dess__say sub">I draw characters, make posters, and build apps that should not exist. The drawings live on their own page.</p>
-
-    <div class="dess__acts">
-      <a class="action" href="/desserts.html">See the drawings <span class="action__arrow" aria-hidden="true">&rarr;</span></a>
-    </div>
-
-    <div class="dgrid">
-
-      <a class="dcard" href="https://lurchout.vercel.app/" target="_blank" rel="noopener">
-        <figure class="dshot reveal-img">
-          <img src="/assets/media/lurch-phones.webp" width="880" height="831" loading="lazy" decoding="async"
-               alt="Three phone screens from Lurch, the dating app, showing profile cards laid out for swiping.">
-        </figure>
-        <div class="dmeta reveal">
-          <span class="dno label u-tab" aria-hidden="true">D1</span>
-          <h3 class="dname">Lurch <span class="dtag label">Satire</span></h3>
-          <p class="dline">A dating app that matches you on your trauma.</p>
-          <p class="dsay sub">Swiping turns a whole person into a card, rewards a standard nobody meets, and kills eros on the way past. Lurch takes that logic at its word and ships the product it implies.</p>
-          <span class="action">Open it <span class="action__arrow" aria-hidden="true">&#8599;</span></span>
+      <!-- Contact + colophon, at the foot of the black stage. -->
+      <div class="stage__end" id="contact">
+        <h2>Available for product design and consulting work.</h2>
+        <div class="stage__acts">
+          <a class="stage__mail" href="mailto:theardentguy@gmail.com">theardentguy@gmail.com</a>
+          <a class="stage__link" href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener">LinkedIn &#8599;</a>
+          <a class="stage__link" href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume &#8599;</a>
+          <a class="stage__link" href="/desserts.html">Desserts &rarr;</a>
         </div>
-      </a>
-
-      <a class="dcard" href="https://the-ardent-guy.github.io/ezraapp/" target="_blank" rel="noopener">
-        <div class="dstage">
-          <span class="dstage__frame" aria-hidden="true"></span>
-          <img class="dstage__cat" src="/assets/media/ezra-cat.webp" width="760" height="861" loading="lazy" decoding="async"
-               alt="Ezra, a ginger tabby drawn in flat paper shapes, standing with her tail up and a red collar with a silver bell, stepping out of a lit panel.">
+        <div class="stage__colophon">
+          <span>Rishabh Jain</span>
+          <span>Bengaluru, India</span>
+          <span>&copy; 2026</span>
         </div>
-        <div class="dmeta reveal">
-          <span class="dno label u-tab" aria-hidden="true">D2</span>
-          <h3 class="dname">Ezra</h3>
-          <p class="dline">Built a desktop app for my (ex) cat.</p>
-          <p class="dsay sub">She came out of the frame. She does that.</p>
-          <span class="action">Open it <span class="action__arrow" aria-hidden="true">&#8599;</span></span>
-        </div>
-      </a>
+      </div>
 
-    </div>
-
-    <div class="idx">
-      <a class="idx-row reveal" href="/skills/no-slop-copy.md" download
-         aria-label="Pharmacy: Skill files for agents. Take as directed. No-slop copy, 8 KB.">
-        <span class="idx-row__in">
-          <span class="idx-no label u-tab" aria-hidden="true">D3</span>
-          <span class="idx-name">Pharmacy</span>
-          <span class="idx-line sub">Skill files for agents. Take as directed.</span>
-          <span class="idx-role label">Markdown</span>
-          <span class="idx-year label u-tab">8 KB</span>
-        </span>
-        <span class="idx-row__out"><span class="sub">No-slop copy. Writes product and portfolio copy in first person, and refuses a list of words. One on the shelf so far.</span></span>
-      </a>
-    </div>
-  </section>
-
-  <!-- THE CLOSER. Giant, bottom-clipped DESSERTS, white ground, before the
-       contact line. The full footer-reveal choreography is the later rebuild;
-       this reskin ships it as a closing band. -->
-  <section class="endmark" aria-hidden="true">
-    <p class="endmark__word">DESSERTS</p>
-  </section>
-
-  <section class="say wrap" id="contact" aria-labelledby="sayLabel">
-    <p class="label nb-note" id="sayLabel">Contact</p>
-    <h2 class="say__h2">Available for product design and consulting work.</h2>
-    <div class="say__acts">
-      <a class="mailbtn" href="mailto:theardentguy@gmail.com">theardentguy@gmail.com</a>
-      <a class="action" href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener">LinkedIn <span class="action__arrow" aria-hidden="true">&#8599;</span></a>
-      <a class="action" href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume <span class="action__arrow" aria-hidden="true">&#8599;</span></a>
     </div>
   </section>
 
 </main>
 
-<footer class="sfoot wrap">
-  <div class="sfoot__grid label">
-    <span class="sfoot__who">Rishabh Jain</span>
-    <a class="sfoot__mail" href="mailto:theardentguy@gmail.com">theardentguy@gmail.com</a>
-    <span class="sfoot__out">
-      <a href="YOUR_LINKEDIN_URL" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&#8599;</span></a>
-      <a href="YOUR_DRIVE_LINK_HERE" target="_blank" rel="noopener">Resume <span aria-hidden="true">&#8599;</span></a>
-    </span>
-    <span class="nb-clock" data-clock hidden>Bengaluru (BLR), India <span aria-hidden="true">&#9201;</span> <time aria-live="off"></time> IST</span>
-    <span class="sfoot__end"><span class="u-tab">2026</span></span>
-  </div>
-</footer>
-
-<!-- Ask Rish is gone, his call 2026-10-23. The mount point, the dead client
-     code in notebook.js, the api/ handler and its CSS are all removed. -->
+<!-- LAYER C — the giant, bottom-clipped DESSERTS wordmark. Fixed at the foot,
+     painted below the banner and the stage, revealed in the gap the stage's
+     bottom margin opens at the end of the page. redo.js fits it to width. -->
+<section class="endmark" aria-hidden="true">
+  <p class="endmark__word">DESSERTS</p>
+</section>
 
 <script src="/assets/swiss.js"></script>
 <script src="/assets/notebook.js"></script>
-<script src="/assets/home.js"></script>
 <script src="/assets/redo.js"></script>
 </body>
 </html>
