@@ -39,10 +39,18 @@
     var word = band && band.querySelector(".endmark__word");
     if (!word) return;
     function run() {
+      // The word is absolutely positioned left:0/right:0, so it is stretched
+      // to the band width — scrollWidth would just report the band, not the
+      // glyphs. Un-stretch it to shrink-wrap, measure, then restore so it
+      // re-centres at the new size.
+      word.style.right = "auto";
+      word.style.width = "max-content";
       word.style.fontSize = "100px";
       var target = band.clientWidth * 0.94;
       var cur = word.scrollWidth || 1;
       word.style.fontSize = (100 * target / cur).toFixed(1) + "px";
+      word.style.width = "";
+      word.style.right = "";
     }
     run();
     var t;

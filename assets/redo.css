@@ -93,6 +93,9 @@ body::before { display: none !important; }          /* the dot grid */
   position: sticky;
   top: 0;
   z-index: 1;
+  /* Fallback ground so a slow/failed hero never lets the white endmark band
+     show through at the foot of the first screen. */
+  background: #111;
 }
 
 /* --- Layer C: the end wordmark, fixed at the very bottom --------------------
@@ -200,7 +203,7 @@ body::before { display: none !important; }          /* the dot grid */
 }
 .mcard__no {
   font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
-  color: rgba(255,255,255,.4); font-variant-numeric: tabular-nums;
+  color: rgba(255,255,255,.55); font-variant-numeric: tabular-nums;
 }
 .mcard__svc {
   margin: 0; font-size: clamp(12px, 0.3vw + 11px, 13px);
@@ -233,7 +236,7 @@ body::before { display: none !important; }          /* the dot grid */
   display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
   margin-top: clamp(48px, 8vh, 96px);
   font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
-  color: rgba(255,255,255,.4);
+  color: rgba(255,255,255,.62);
 }
 
 .stage a:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
@@ -257,6 +260,9 @@ body::before { display: none !important; }          /* the dot grid */
 .fnav__in a:hover, .fnav__tool:hover { background: rgba(0,0,0,.06); color: #000; }
 .fnav__in a.fnav__cta { background: #111; color: #fff; font-weight: 600; }
 .fnav__in a.fnav__cta:hover { background: #000; color: #fff; }
+/* The pill is always white in both themes, so the focus ring must be dark —
+   the themed var(--accent) goes near-white in dark mode and would vanish. */
+.fnav__in a:focus-visible, .fnav__tool:focus-visible { outline: 2px solid #111 !important; outline-offset: 2px; }
 
 
 /* ---------------------------------------------------------------------------
@@ -324,6 +330,14 @@ body::before { display: none !important; }          /* the dot grid */
 @media (prefers-reduced-motion: reduce) {
   .mcard:hover .mcard__shot img,
   .mcard:focus-visible .mcard__shot img { transform: none; }
+}
+
+/* style.css sets body{overflow-x:hidden} under 768px, and an ancestor with
+   overflow:hidden makes body a scroll container — which breaks the sticky
+   banner's pin-and-cover on phones/tablets. `clip` prevents the horizontal
+   scrollbar WITHOUT becoming a scroll container, so sticky survives. */
+@media (max-width: 768px) {
+  body { overflow-x: clip; }
 }
 
 @media (max-width: 480px) {
