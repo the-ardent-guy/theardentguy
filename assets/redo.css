@@ -137,7 +137,7 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
   padding-block: clamp(80px, 12vh, 180px) 0;
   padding-inline: clamp(16px, 3vw, 40px);
 }
-.stage__in { max-width: 1120px; margin-inline: auto; }
+.stage__in { max-width: 1120px; margin-inline: auto; position: relative; }
 .stage__lead {
   margin: 0 0 clamp(56px, 9vh, 120px); max-width: 22ch;
   font-size: clamp(24px, 3vw, 42px); font-weight: 400;
@@ -193,46 +193,66 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 .feat-sm:hover .feat-sm__go { transform: translateX(4px); }
 @media (max-width: 560px) { .feat-sm__role { display: none; } }
 
-/* --- Desserts: two framed tiles side by side, per the sketch --------------- */
+/* --- Desserts: two tiles side by side, per the sketch ---------------------- */
 .dess2 { margin-top: clamp(110px, 18vh, 240px); }
 .dess2__row {
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: clamp(28px, 5vw, 72px);
-  max-width: 820px; margin-inline: auto;        /* smaller tiles */
-  padding-top: clamp(44px, 8vh, 96px);          /* room for the cat to break the top */
+  gap: clamp(32px, 6vw, 84px);
+  max-width: 880px; margin-inline: auto;
+  align-items: end;                             /* captions sit on a shared baseline */
+  padding-top: clamp(56px, 9vh, 104px);         /* room for the cat to break the top */
 }
 .dz { display: block; color: #fff; text-decoration: none; }
-.dz__frame { position: relative; aspect-ratio: 4 / 3; border: 1px solid rgba(255,255,255,.4); }
 
-/* Ezra: the wordmark down the left, the cat standing over the box, tail/ears
-   breaking out the TOP (no overflow:hidden on the frame, so it shows above). */
+/* Ezra: a window-box, the wordmark down the left, the cat standing inside with
+   its tail breaking out the top-right (box is overflow:visible). */
+.dz__box {
+  position: relative; display: block; aspect-ratio: 5 / 4;
+  border: 1.5px solid rgba(255,255,255,.55); border-radius: 12px;
+}
+.dz__tab {                                       /* the little window ear, top-right */
+  position: absolute; top: -1.5px; right: 22px; width: 34px; height: 9px;
+  border: 1.5px solid rgba(255,255,255,.55); border-bottom: 0;
+  border-radius: 6px 6px 0 0; background: #000;
+}
 .dz__vlabel {
-  position: absolute; left: clamp(8px, 1.4vw, 16px); top: 50%; z-index: 1;
+  position: absolute; left: clamp(10px, 1.6vw, 18px); top: 50%; z-index: 1;
   writing-mode: vertical-rl; transform: translateY(-50%) rotate(180deg);
-  font-weight: 800; letter-spacing: 0.16em; line-height: 1;
-  font-size: clamp(22px, 2.6vw, 34px); color: #fff;
+  font-weight: 800; letter-spacing: 0.18em; line-height: 1;
+  font-size: clamp(26px, 3vw, 40px); color: #fff;
 }
 .dz__cat {
-  position: absolute; left: 26%; bottom: 0; z-index: 2;
-  height: 118%; width: auto;
-  filter: drop-shadow(0 18px 24px rgba(0,0,0,.5));
+  position: absolute; left: 50%; bottom: -1px; z-index: 2;
+  height: 120%; width: auto; transform: translateX(-44%);
+  filter: drop-shadow(0 16px 22px rgba(0,0,0,.45));
   transition: transform .45s cubic-bezier(.22,1,.36,1);
 }
-.dz--ezra:hover .dz__cat { transform: translateY(-6px); }
-.dz__arrow { position: absolute; left: 12px; bottom: 10px; z-index: 1; font-size: 18px; color: #fff; }
+.dz--ezra:hover .dz__cat { transform: translateX(-44%) translateY(-8px); }
+.dz__arrow { position: absolute; left: 14px; bottom: 11px; z-index: 3; font-size: 20px; color: #fff; }
 
-/* Lurch: the phones in a frame, label top-left, YES! bottom-right. */
-.dz__frame--phones { display: grid; place-items: center; overflow: hidden; }
-.dz__hlabel { position: absolute; top: 12px; left: 14px; z-index: 2; font-weight: 800; letter-spacing: 0.08em; font-size: clamp(16px, 1.8vw, 24px); color: #fff; }
-.dz__phones { width: 84%; height: 84%; object-fit: contain; }
-.dz__yes { position: absolute; right: 14px; bottom: 20px; z-index: 2; font-weight: 800; font-size: clamp(16px, 1.8vw, 24px); line-height: 1; color: #fff; display: flex; align-items: baseline; gap: 6px; }
+/* Lurch: just the phones, no box. Labels float over the screens. */
+.dz__stage { position: relative; display: block; }
+.dz__phones {
+  display: block; width: 100%; height: auto;
+  filter: drop-shadow(0 22px 30px rgba(0,0,0,.5));
+}
+.dz__hlabel {
+  position: absolute; top: 6%; left: 2%; z-index: 2;
+  font-weight: 800; letter-spacing: 0.06em; font-size: clamp(18px, 2.2vw, 30px); color: #fff;
+}
+.dz__yes {
+  position: absolute; right: 1%; bottom: 14%; z-index: 2;
+  font-weight: 800; font-size: clamp(18px, 2.2vw, 30px); line-height: 1; color: #fff;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 2px;
+}
+.dz__yes span { font-size: .8em; }
 
-.dz__cap { display: block; margin-top: 16px; font-size: clamp(14px, 0.6vw + 11px, 17px); color: #CDCDD2; }
+.dz__cap { display: block; margin-top: 18px; font-size: clamp(14px, 0.6vw + 11px, 17px); color: #CDCDD2; }
 .dz__wip { color: #8A8A8A; }
 .dz:hover .dz__cap { color: #fff; }
 
 @media (max-width: 680px) {
-  .dess2__row { grid-template-columns: 1fr; gap: clamp(72px, 16vw, 110px); max-width: 420px; }
+  .dess2__row { grid-template-columns: 1fr; gap: clamp(72px, 16vw, 110px); max-width: 420px; align-items: stretch; }
 }
 
 /* --- Contact / colophon --------------------------------------------------- */
@@ -392,3 +412,65 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
   .stage { padding-inline: 16px; }
   :root { --endmark-h: clamp(220px, 46vh, 380px); }
 }
+
+
+/* ---------------------------------------------------------------------------
+   7. THE TOY PILE
+   The software logos live as little white chips piled on the rule under
+   "Selected work". Grab one, throw it, and gravity takes over: it falls,
+   lands on whatever card is beneath it, and bounces to a rest. Leave the
+   pile scattered in the footer or the Desserts and a note asks you, nicely,
+   to put them back. All of it is built, positioned and driven from redo.js;
+   none of it exists for a visitor with no JS, a coarse pointer, or reduced
+   motion, so this is the whole surface it needs.
+   --------------------------------------------------------------------------- */
+.toys { position: absolute; inset: 0; z-index: 40; pointer-events: none; }
+
+.toy {
+  position: absolute; top: 0; left: 0; width: var(--toy, 56px); height: var(--toy, 56px);
+  border-radius: 15px; background: #fff;
+  box-shadow: 0 7px 18px rgba(0,0,0,.34), 0 1px 0 rgba(255,255,255,.7) inset;
+  display: grid; place-items: center;
+  pointer-events: auto; cursor: grab; touch-action: none;
+  user-select: none; -webkit-user-select: none; will-change: transform, left, top;
+  transition: box-shadow .2s ease;
+}
+.toy img { width: 58%; height: 58%; pointer-events: none; -webkit-user-drag: none; display: block; }
+.toy.is-held { cursor: grabbing; box-shadow: 0 20px 40px rgba(0,0,0,.5); }
+/* A smooth glide home when the note's "put them back" is used. */
+.toy.is-homing { transition: left .6s cubic-bezier(.22,1,.36,1), top .6s cubic-bezier(.22,1,.36,1), transform .6s cubic-bezier(.22,1,.36,1), box-shadow .2s ease; }
+/* The gentle idle life while they sit on the line. */
+.toy.is-home { animation: toy-sway 5.5s ease-in-out infinite; animation-delay: var(--sway, 0s); }
+@keyframes toy-sway {
+  0%, 100% { transform: rotate(var(--r, 0deg)) translateY(0); }
+  50%      { transform: rotate(calc(var(--r, 0deg) + 1.6deg)) translateY(-3px); }
+}
+.has-cursor .toy { cursor: none; }   /* the custom dot stands in for grab/grabbing */
+
+/* The scolding note. */
+.toy-note {
+  position: absolute; z-index: 60; max-width: 260px;
+  padding: 13px 15px 14px; border-radius: 14px;
+  background: #fff; color: #141414;
+  font-size: 14px; line-height: 1.38; font-weight: 500;
+  box-shadow: 0 16px 40px rgba(0,0,0,.4);
+  pointer-events: auto; opacity: 0; transform: translateY(6px) scale(.96);
+  transform-origin: left bottom; transition: opacity .28s ease, transform .28s cubic-bezier(.22,1,.36,1);
+}
+.toy-note.is-on { opacity: 1; transform: translateY(0) scale(1); }
+.toy-note::after {           /* the little tail, pointing down toward the mess */
+  content: ""; position: absolute; left: 26px; bottom: -8px; width: 16px; height: 16px;
+  background: #fff; transform: rotate(45deg); border-radius: 0 0 3px 0;
+  box-shadow: 4px 4px 10px rgba(0,0,0,.08);
+}
+.toy-note strong { font-weight: 700; }
+.toy-note__put {
+  display: inline-flex; align-items: center; gap: 5px; margin-top: 9px;
+  padding: 5px 11px; border: 0; border-radius: 999px; cursor: pointer;
+  background: #141414; color: #fff; font: inherit; font-size: 12px; font-weight: 700;
+  letter-spacing: .01em;
+}
+.toy-note__put:hover { background: #000; }
+.has-cursor .toy-note__put { cursor: none; }
+
+@media (prefers-reduced-motion: reduce) { .toy.is-home { animation: none; } }
