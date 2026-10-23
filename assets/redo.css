@@ -1,15 +1,11 @@
 /* ===========================================================================
-   REDO — full DESSERTS homepage spec + sober monochrome system
-   2026-10-23 (r3). Loaded LAST on every page.
-
-   Homepage: pinned banner (zoomed out on a gradient) -> black stage rising
-   over it (lead + smaller, aligned, well-spaced case mosaic + Lurch/Ezra +
-   contact + room to grow) -> giant bottom-clipped DESSERTS wordmark, now a
-   padded link to the desserts page. Light and dark both resolve. Lighter type
-   on the homepage. Sitewide it strips the old notebook kit and restyles the
-   case pages (incl. keeping their media off the full bleed).
+   REDO — r4. Loaded LAST on every page.
+   Homepage: split banner (photo left half / copy right) -> black stage with
+   four full-width case rows + a compact fifth + a composed Ezra/Lurch pair ->
+   a half-screen pixel scenery (hills, mountains, drifting clouds) behind a
+   giant DESSERTS link. Sitewide: strips the notebook kit, sober monochrome,
+   case pages restyled AND given a working light/dark theme.
    =========================================================================== */
-
 
 /* ---------------------------------------------------------------------------
    0. TOKENS + THEME
@@ -18,63 +14,58 @@
   --mono: var(--sans);
   --w-label: 600;
   --tr-label: 0.07em;
-  --endmark-h: clamp(150px, 28vh, 340px);
+  --endmark-h: clamp(300px, 50vh, 620px);     /* ~half screen reveal */
 
   --accent: var(--ink) !important;
   --v3-accent: var(--ink) !important;
   --v3-accent-press: var(--ink) !important;
   --v3-focus: var(--ink) !important;
 
-  /* Homepage surfaces — light defaults. */
-  --home-grad: linear-gradient(162deg, #F6F3EC 0%, #ECEDF1 52%, #E6E3DB 100%);
+  --home-grad: linear-gradient(158deg, #F6F3EC 0%, #ECEDF1 52%, #E6E3DB 100%);
   --home-ink: #14151A;
   --home-ink-soft: #5B6069;
-  --home-scrim: linear-gradient(to top, rgba(246,243,236,.86) 0%, rgba(246,243,236,0) 42%);
-  --stage-bg: #0B0B0C;        /* the signature dark panel, both themes */
-  --band-ground: #FFFFFF;     /* DESSERTS band */
-  --band-ink: #111111;
+  --stage-bg: #0B0B0C;
 }
 :root[data-theme="dark"] {
-  --home-grad: linear-gradient(162deg, #16171C 0%, #0E0F12 55%, #121217 100%);
+  --home-grad: linear-gradient(158deg, #16171C 0%, #0E0F12 55%, #121217 100%);
   --home-ink: #F3F0E7;
   --home-ink-soft: #B4AF9F;
-  --home-scrim: linear-gradient(to top, rgba(14,15,18,.9) 0%, rgba(14,15,18,0) 42%);
-  --band-ground: #1A1A1E;      /* a real step off the stage so the reveal keeps an edge */
-  --band-ink: #F3F0E7;
+}
+
+/* Case pages: a real dark theme (case.css ships light-only). Flipping its
+   tokens gives every case page a working dark mode; the media mats already
+   have a dark variant in case.css. */
+:root[data-case][data-theme="dark"] {
+  --bg: #121317; --surface: #1B1D22;
+  --rule: #2C2F36; --rule-soft: #24272D;
+  --ink: #F2F0EA; --body: #C8C6BE; --soft: #A8A79F; --label: #8C8B84;
+  --accent: #9FC2DC !important;
 }
 
 
 /* ---------------------------------------------------------------------------
-   1. GET RID OF THE WHOLE NOTEBOOK STYLE
+   1. STRIP THE NOTEBOOK STYLE
    --------------------------------------------------------------------------- */
 body::before { display: none !important; }
 [data-ruled] body::after { display: none !important; }
 .shade { display: none !important; }
-
 :root, body { --dot: transparent !important; }
 .pno::after, .idx-no::after,
 .head .eyebrow::before,
-.cat__name[style*="--dot"]::before, .cat__name.has-dot::before {
-  content: none !important; display: none !important;
-}
+.cat__name[style*="--dot"]::before, .cat__name.has-dot::before { content: none !important; display: none !important; }
 .nb-mark::before { display: none !important; }
 .nb-mark { background: none !important; }
 
 
 /* ---------------------------------------------------------------------------
-   2. TYPE — no mono; labels bolder, case headings bold (homepage is lighter,
-   handled in sec 3).
+   2. TYPE
    --------------------------------------------------------------------------- */
 .label, .nb-note, .eyebrow, .rail__label, .decision__n,
 .meta th, .compare th, .top {
-  font-family: var(--sans) !important;
-  font-weight: 600;
-  letter-spacing: 0.07em;
+  font-family: var(--sans) !important; font-weight: 600; letter-spacing: 0.07em;
 }
 h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
-:root[data-case] .eyebrow,
-:root[data-case] .rail__label,
-:root[data-case] .decision__n { font-weight: 700; letter-spacing: 0.1em; }
+:root[data-case] .eyebrow, :root[data-case] .rail__label, :root[data-case] .decision__n { font-weight: 700; letter-spacing: 0.1em; }
 .cat__name { padding-left: 0 !important; }
 .action, .pcta, .idx-name { color: var(--ink); }
 
@@ -83,174 +74,151 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
    3. HOMEPAGE
    =========================================================================== */
 
-/* --- Layer A: banner, pinned, zoomed out over a gradient ------------------- */
-.banner {
-  position: -webkit-sticky; position: sticky;
-  top: 0; z-index: 1;
-  height: 100svh; min-height: 560px;
+/* --- Layer A: split banner — photo left half, copy right ------------------- */
+.banner.banner--split {
+  position: -webkit-sticky; position: sticky; top: 0; z-index: 1;
+  display: grid; grid-template-columns: 1fr 1fr;
+  height: 100svh; min-height: 600px;
   background: var(--home-grad);
   overflow: hidden;
 }
-.banner__media {
-  position: absolute; inset: 0;
-  display: grid; place-items: center;
-  padding: clamp(40px, 7vh, 90px) 5vw clamp(96px, 18vh, 220px);
-}
-/* contain, not cover: the whole frame (and "WHOA.") stays in view. Overrides
-   swiss.css's position:absolute / inset:0 / 100% cover. */
+.banner__media { position: relative; height: 100%; overflow: hidden; }
 .banner__img {
-  position: static; inset: auto;
-  width: auto; height: auto;
-  max-width: min(86vw, 540px);
-  max-height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 24px 60px rgba(10,12,16,.22));
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 32%;   /* bias up so "WHOA." stays in */
 }
-/* In dark the near-black shadow vanishes on the dark gradient, so the photo
-   looks pasted on — give it a deeper, darker lift instead. */
-:root[data-theme="dark"] .banner__img { filter: drop-shadow(0 20px 54px rgba(0,0,0,.55)); }
-/* The old dark bottom scrims (home.css + swiss.css) are replaced by the
-   theme-aware .banner::after below. */
+/* The old dark bottom scrims (home.css + swiss.css) would tint the right-hand
+   copy column now that the photo is only the left half. Off. */
 .banner__in::before { display: none !important; }
-
-/* Editorial staging: on desktop the portrait anchors top-right and is capped
-   in height so it clears the lower-left headline column; on phones it sits up
-   top with the text below. (Fixes the "caption crashing into the photo's
-   feet / floating snapshot" composition.) */
-@media (min-width: 721px) {
-  .banner__media { place-items: start end; padding: clamp(48px, 8vh, 96px) 5vw 0; }
-  .banner__img { max-width: min(46vw, 520px); max-height: min(62vh, 560px); }
-}
-@media (max-width: 720px) {
-  .banner__media { place-items: start center; padding-top: clamp(56px, 9vh, 100px); }
-}
-/* a soft, theme-aware scrim at the foot so the text always reads */
-.banner::after {
-  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 46%;
-  background: var(--home-scrim); pointer-events: none;
-}
+/* swiss.css makes .banner__in absolute inset:0 (it used to overlay the full
+   photo). Pull it back into the grid so it is the right-hand cell. */
 .banner__in {
-  position: absolute; inset: 0; z-index: 1;
-  display: flex; align-items: flex-end;
+  position: static; inset: auto;
+  display: flex; align-items: center;
+  padding: 0 clamp(28px, 5vw, 92px);
 }
-.banner__in .wrap { position: relative; padding-bottom: clamp(40px, 7vh, 92px); }
+.banner__copy { position: relative; max-width: 30rem; }
 .banner__hi {
-  margin: 0 0 12px;                 /* more air before the headline */
-  font-weight: 400;                 /* not limp */
+  margin: 0 0 12px; font-weight: 400;
   font-size: clamp(17px, 1.4vw + 10px, 24px);
-  letter-spacing: -0.01em;
-  color: var(--home-ink);           /* full strength: a deliberate opener */
+  letter-spacing: -0.01em; color: var(--home-ink);
 }
 .banner__h1 {
-  margin: 0; max-width: 16ch;
-  font-weight: 400;                 /* lighter, per brief */
-  font-size: clamp(30px, 4.4vw, 58px);
-  line-height: 1.04;
-  letter-spacing: -0.025em;
-  color: var(--home-ink);
+  margin: 0; max-width: 16ch; font-weight: 400;
+  font-size: clamp(30px, 3.6vw, 56px); line-height: 1.05;
+  letter-spacing: -0.025em; color: var(--home-ink);
 }
-.banner__cue { position: absolute; right: 0; bottom: 0; margin: 0; color: var(--home-ink-soft); }
-@media (max-width: 560px) { .banner__cue { position: static; margin-top: var(--s2); } }
+.banner__cue { margin: clamp(28px, 5vh, 56px) 0 0; color: var(--home-ink-soft); }
 
-/* --- Layer C: the end wordmark, a padded link, theme-aware ----------------- */
-.endmark {
-  position: fixed; left: 0; right: 0; bottom: 0; z-index: 0;
-  height: var(--endmark-h);
-  background: var(--band-ground);
-  overflow: hidden;
-  pointer-events: none;                     /* band never blocks the stage */
-  padding-inline: clamp(16px, 4vw, 72px);   /* some padding, per brief */
+@media (max-width: 760px) {
+  .banner.banner--split { grid-template-columns: 1fr; grid-template-rows: 52svh 1fr; min-height: 0; }
+  .banner__in { align-items: flex-start; padding-block: clamp(28px, 6vh, 52px); }
 }
-.endmark__word {
-  position: absolute;
-  left: 0; right: 0;                 /* side padding comes from .endmark */
-  bottom: -0.16em;
-  margin: 0;
-  display: block;
-  pointer-events: auto;                     /* the word itself is clickable */
-  font-family: "Inter Tight", system-ui, sans-serif;
-  font-weight: 900; font-size: 14vw;        /* JS fits to width */
-  line-height: 0.8; letter-spacing: -0.03em;
-  text-align: center; white-space: nowrap;
-  color: var(--band-ink); text-decoration: none;
-  -webkit-user-select: none; user-select: none;
-  transition: opacity 180ms ease;
-}
-.endmark__word:hover { opacity: 0.72; }
-.endmark__word:focus-visible { outline: 3px solid var(--band-ink); outline-offset: 6px; }
 
-/* --- Layer B: the black stage --------------------------------------------- */
+/* --- Layer B: the stage --------------------------------------------------- */
 .stage {
   position: relative; z-index: 2;
-  background: var(--stage-bg);
-  color: #fff;
+  background: var(--stage-bg); color: #fff;
   margin-bottom: var(--endmark-h);
   padding-block: clamp(80px, 12vh, 180px) 0;
   padding-inline: clamp(16px, 3vw, 40px);
 }
 .stage__in { max-width: 1120px; margin-inline: auto; }
-
 .stage__lead {
-  margin: 0 0 clamp(56px, 9vh, 120px);
-  max-width: 24ch;
-  font-size: clamp(24px, 3vw, 40px);
-  font-weight: 400;                 /* lighter */
-  line-height: 1.22; letter-spacing: -0.02em;
-  color: #fff;
+  margin: 0 0 clamp(56px, 9vh, 120px); max-width: 22ch;
+  font-size: clamp(24px, 3vw, 42px); font-weight: 400;
+  line-height: 1.2; letter-spacing: -0.02em; color: #fff;
 }
-.stage__lead span { color: #7E7E86; }
-
 .stage .idx__head {
   display: flex; align-items: baseline; justify-content: space-between;
   padding-bottom: clamp(22px, 3.5vh, 40px);
   border-bottom: 1px solid rgba(255,255,255,.14);
-  margin-bottom: clamp(44px, 7vh, 80px);
+  margin-bottom: clamp(56px, 9vh, 110px);
 }
 .stage .idx__head .label, .stage .idx__count { color: rgba(255,255,255,.6) !important; font-size: 12px; }
-.idx__head--sub { margin-top: clamp(96px, 15vh, 190px); }
+.idx__head--sub { margin-top: 0; margin-bottom: clamp(32px, 5vh, 56px); border: 0; padding: 0; }
 .stage__seeall { color: rgba(255,255,255,.6) !important; text-decoration: none; }
 .stage__seeall:hover { color: #fff !important; }
 
-/* --- The mosaic: smaller images, aligned (no stagger), more air ----------- */
-.mosaic {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: clamp(28px, 4vw, 72px);
-  row-gap: clamp(64px, 9vw, 128px);
-  align-items: start;
+/* --- Four full-width feature rows: photo left, details right, centred, with
+       heavy side margins from the capped width ----------------------------- */
+.feats { display: flex; flex-direction: column; gap: clamp(90px, 15vh, 210px); }
+.feat {
+  display: grid; grid-template-columns: 1.25fr 1fr;
+  gap: clamp(32px, 5vw, 84px); align-items: center;
+  max-width: 1040px; margin-inline: auto;
 }
-.mcard { display: block; color: #fff; text-decoration: none; }
-.mcard__shot { margin: 0; overflow: hidden; background: #141414; aspect-ratio: 16 / 10; }
-.mcard__shot img {
-  display: block; width: 100%; height: 100%;
-  object-fit: cover; border-radius: 0;
-  transition: transform 640ms cubic-bezier(.22,1,.36,1);
-}
-.mcard:hover .mcard__shot img, .mcard:focus-visible .mcard__shot img { transform: scale(1.025); }
-.mcard__shot--contain { display: grid; place-items: center; }
-.mcard__shot--contain img { width: auto; height: 80%; object-fit: contain; transform: none; }
-.mcard:hover .mcard__shot--contain img { transform: scale(1.03); }
+.feat__shot { display: block; overflow: hidden; background: #141414; aspect-ratio: 16 / 10; }
+.feat__shot img { width: 100%; height: 100%; object-fit: cover; transition: transform 700ms cubic-bezier(.22,1,.36,1); }
+.feat:hover .feat__shot img, .feat__shot:focus-visible img { transform: scale(1.03); }
+.feat__no { margin: 0 0 14px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: rgba(255,255,255,.5); font-variant-numeric: tabular-nums; }
+.feat__name { margin: 0 0 16px; }
+.feat__name a { color: #fff; text-decoration: none; font-size: clamp(26px, 3vw, 40px); font-weight: 500; letter-spacing: -0.02em; }
+.feat__name a:hover { opacity: .8; }
+.feat__problem { margin: 0 0 20px; max-width: 34ch; color: #CDCDD2; font-size: clamp(15px, 1vw + 9px, 18px); line-height: 1.5; }
+.feat__role { margin: 0 0 22px; color: #8A8A8A; font-size: 13px; letter-spacing: 0.03em; }
+.feat__go { color: #fff; text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; border-bottom: 1px solid rgba(255,255,255,.3); padding-bottom: 3px; }
+.feat__go span { display: inline-block; transition: transform .2s; }
+.feat:hover .feat__go span { transform: translateX(4px); }
 
-/* The Desserts pair reads as a pair: both tiles a taller 4/5 so Lurch fills it
-   and Ezra's cutout no longer floats small in a wide slab. */
-.mosaic--dess .mcard__shot { aspect-ratio: 4 / 5; }
-.mosaic--dess .mcard__shot--contain img { height: 92%; }
-
-.mcard__cap {
-  display: flex; flex-wrap: wrap; align-items: baseline;
-  justify-content: space-between; gap: 4px 20px; margin-top: 15px;
+@media (max-width: 760px) {
+  .feat { grid-template-columns: 1fr; gap: 22px; }
 }
-.mcard__name { margin: 0; font-size: clamp(16px, 0.5vw + 13px, 19px); font-weight: 600; letter-spacing: -0.01em; color: #fff; }
-.mcard__no { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: rgba(255,255,255,.55); font-variant-numeric: tabular-nums; }
-.mcard__svc { margin: 0; font-size: clamp(12px, 0.3vw + 11px, 13px); line-height: 1.4; color: #8A8A8A; text-align: right; max-width: 52%; }
-.mcard__tag {
-  display: inline-block; margin-left: 8px; padding: 2px 9px;
-  border: 1px solid rgba(255,255,255,.26); border-radius: 999px;
-  font-size: 10px; font-weight: 600; letter-spacing: 0.05em; color: #9A9AA2; vertical-align: middle;
+
+/* --- The compact fifth ---------------------------------------------------- */
+.feat-sm {
+  display: flex; align-items: baseline; gap: 18px;
+  max-width: 1040px; margin: clamp(70px, 11vh, 140px) auto 0;
+  padding-top: 26px; border-top: 1px solid rgba(255,255,255,.14);
+  color: #fff; text-decoration: none;
+}
+.feat-sm__no { color: rgba(255,255,255,.5); font-size: 12px; font-weight: 600; letter-spacing: 0.1em; }
+.feat-sm__name { font-size: clamp(20px, 2vw, 28px); font-weight: 500; letter-spacing: -0.01em; }
+.feat-sm__role { margin-left: auto; color: #8A8A8A; font-size: 13px; }
+.feat-sm__go { color: #fff; transition: transform .2s; display: inline-block; }
+.feat-sm:hover .feat-sm__go { transform: translateX(4px); }
+@media (max-width: 560px) { .feat-sm__role { display: none; } }
+
+/* --- Desserts: a composed pair, not a grid -------------------------------- */
+.dess2 { margin-top: clamp(110px, 18vh, 240px); }
+.dess2__row {
+  position: relative; overflow: hidden;         /* clips Ezra's tail at the edge */
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 4vw, 60px); align-items: center;
+  min-height: clamp(300px, 42vh, 460px);
+}
+/* Ezra: enters from the left edge, tail clipped, standing OVER a small box. */
+.dess2__ezra { position: relative; display: block; min-height: inherit; color: #fff; text-decoration: none; }
+.dess2__box {
+  position: absolute; left: 28%; bottom: 20%; width: 50%; height: 54%;
+  border: 1px solid rgba(255,255,255,.3); background: rgba(255,255,255,.03);
+}
+.dess2__cat {
+  position: absolute; left: -9%; bottom: 16%; z-index: 2;
+  height: 94%; width: auto;
+  filter: drop-shadow(0 22px 28px rgba(0,0,0,.5));
+  transition: transform .45s cubic-bezier(.22,1,.36,1);
+}
+.dess2__ezra:hover .dess2__cat { transform: translate(-8px, -4px); }
+.dess2__ezra .dess2__cap { position: absolute; left: 28%; bottom: 0; }
+/* Lurch: shown whole. */
+.dess2__lurch { position: relative; display: flex; flex-direction: column; justify-content: center; }
+.dess2__phones { width: 100%; height: auto; max-height: clamp(240px, 32vh, 380px); object-fit: contain; display: block; }
+.dess2__lurch:hover .dess2__phones { transform: none; }
+.dess2__lurch .dess2__cap { margin-top: 16px; }
+.dess2__cap { display: flex; flex-direction: column; gap: 3px; }
+.dess2__name { font-size: clamp(16px, 0.5vw + 13px, 19px); font-weight: 600; color: #fff; }
+.dess2__line { font-size: 13px; color: #8A8A8A; }
+.mcard__tag { display: inline-block; margin-left: 8px; padding: 2px 9px; border: 1px solid rgba(255,255,255,.26); border-radius: 999px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; color: #9A9AA2; vertical-align: middle; }
+
+@media (max-width: 760px) {
+  .dess2__row { grid-template-columns: 1fr; gap: clamp(48px, 10vw, 80px); }
+  .dess2__ezra { min-height: 340px; }
 }
 
 /* --- Contact / colophon --------------------------------------------------- */
-.stage__end { margin-top: clamp(96px, 16vh, 220px); padding-top: clamp(32px, 5vh, 56px); border-top: 1px solid rgba(255,255,255,.14); }
+.stage__end { margin-top: clamp(110px, 18vh, 240px); padding-top: clamp(32px, 5vh, 56px); border-top: 1px solid rgba(255,255,255,.14); }
 .stage__end h2 { margin: 0 0 clamp(24px, 4vh, 40px); max-width: 20ch; font-size: clamp(28px, 4vw, 54px); font-weight: 500; line-height: 1.08; letter-spacing: -0.03em; color: #fff; }
 .stage__acts { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; }
 .stage__mail { font-size: clamp(18px, 2vw, 26px); font-weight: 600; letter-spacing: -0.02em; color: #fff; text-decoration: none; border-bottom: 2px solid rgba(255,255,255,.3); padding-bottom: 2px; transition: border-color 200ms ease; }
@@ -259,15 +227,52 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 .stage__acts a.stage__link:hover { color: #fff; }
 .stage__colophon { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: clamp(48px, 8vh, 96px); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,.62); }
 
-/* Room above the DESSERTS reveal — the page scrolls further; space to grow. */
-.stage__space { height: clamp(180px, 46vh, 560px); }
+/* The black runs well above DESSERTS; lots of room for elements to come. */
+.stage__space { height: clamp(220px, 55vh, 680px); }
 
 .stage a:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 
-@media (max-width: 720px) {
-  .mosaic { grid-template-columns: minmax(0,1fr); row-gap: clamp(40px, 11vw, 64px); }
-  .mcard__svc { max-width: 62%; }
+@media (max-width: 720px) { .feat__problem { max-width: none; } }
+
+
+/* --- Layer C: the pixel scenery + DESSERTS link --------------------------- */
+.endmark {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 0;
+  height: var(--endmark-h); overflow: hidden; pointer-events: none;
+  background: #CFE8F2;
 }
+.scene { position: absolute; inset: 0; z-index: 1; }
+.scene__sky { position: absolute; inset: 0; background: linear-gradient(#AFD8EC 0%, #CFE8F2 46%, #E7F3DE 70%, #E7F3DE 100%); }
+.scene__sun { position: absolute; top: 14%; right: 15%; width: 46px; height: 46px; background: #FFE07A; box-shadow: 0 0 0 10px rgba(255,224,122,.28); }
+/* Mountains: hard-edged peaks (pixel vibe). */
+.scene__range {
+  position: absolute; left: 0; right: 0; bottom: 30%; height: 42%;
+  background: linear-gradient(#9FB2C2, #7E94A6);
+  clip-path: polygon(0 100%, 8% 52%, 16% 72%, 28% 22%, 40% 66%, 52% 38%, 63% 70%, 74% 30%, 86% 64%, 95% 44%, 100% 70%, 100% 100%);
+}
+/* Green land. */
+.scene__hills { position: absolute; left: 0; right: 0; bottom: 0; height: 34%; background: linear-gradient(#76B24A, #5E9A3C); }
+.scene__hills::before { content: ""; position: absolute; left: 0; right: 0; top: -14px; height: 16px; background: #76B24A; clip-path: polygon(0 100%,10% 20%,22% 100%,34% 10%,46% 100%,58% 30%,70% 100%,82% 15%,94% 100%,100% 40%,100% 100%); }
+/* Blocky drifting clouds. */
+.scene__clouds { position: absolute; inset: 0; }
+.cloud { position: absolute; width: 34px; height: 14px; background: #fff; box-shadow: 14px -7px 0 0 #fff, 28px 0 0 0 #fff, -12px 0 0 0 #fff; opacity: .95; will-change: transform; }
+.cloud--a { top: 20%; animation: redo-drift 40s linear infinite; }
+.cloud--b { top: 32%; transform: scale(1.5); animation: redo-drift 58s linear infinite; animation-delay: -12s; }
+.cloud--c { top: 13%; transform: scale(.8); animation: redo-drift 48s linear infinite; animation-delay: -28s; }
+@keyframes redo-drift { from { left: -80px; } to { left: 106%; } }
+
+.endmark__word {
+  position: absolute; z-index: 2; left: 0; right: 0; bottom: -0.14em; margin: 0;
+  display: block; pointer-events: auto;
+  font-family: "Inter Tight", system-ui, sans-serif; font-weight: 900; font-size: 13vw;
+  line-height: 0.8; letter-spacing: -0.03em; text-align: center; white-space: nowrap;
+  color: #182914; text-decoration: none;
+  text-shadow: 0 2px 0 rgba(255,255,255,.28);
+  -webkit-user-select: none; user-select: none; transition: opacity 180ms ease;
+}
+.endmark__chev { display: inline-block; margin-left: 0.12em; font-size: 0.62em; vertical-align: 0.08em; }
+.endmark__word:hover { opacity: 0.82; }
+.endmark__word:focus-visible { outline: 3px solid #182914; outline-offset: 6px; }
 
 
 /* ---------------------------------------------------------------------------
@@ -284,43 +289,25 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 /* ---------------------------------------------------------------------------
    5. CUSTOM CURSOR
    --------------------------------------------------------------------------- */
-.has-cursor, .has-cursor a, .has-cursor button,
-.has-cursor .mcard, .has-cursor [role="button"] { cursor: none; }
-
+.has-cursor, .has-cursor a, .has-cursor button, .has-cursor .mcard,
+.has-cursor .feat__shot, .has-cursor .dess2__ezra, .has-cursor .dess2__lurch,
+.has-cursor [role="button"] { cursor: none; }
 .cursor { position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none; opacity: 0; transition: opacity 200ms ease; --cur-accent: #fff; --cur-ink: #111; }
 .cursor.is-on { opacity: 1; }
-.cursor__dot {
-  position: absolute; top: 0; left: 0;
-  width: 10px; height: 10px; margin: -5px 0 0 -5px;
-  border-radius: 50%; display: grid; place-items: center;
-  background: var(--ink, #111); color: transparent;
-  font-size: 15px; line-height: 1; font-weight: 700;
-  transition: width 220ms cubic-bezier(.22,1,.36,1), height 220ms cubic-bezier(.22,1,.36,1),
-              margin 220ms cubic-bezier(.22,1,.36,1), background-color 200ms ease, color 160ms ease;
-}
+.cursor__dot { position: absolute; top: 0; left: 0; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; display: grid; place-items: center; background: var(--ink, #111); color: transparent; font-size: 15px; line-height: 1; font-weight: 700; transition: width 220ms cubic-bezier(.22,1,.36,1), height 220ms cubic-bezier(.22,1,.36,1), margin 220ms cubic-bezier(.22,1,.36,1), background-color 200ms ease, color 160ms ease; }
 .cursor.on-dark .cursor__dot { background: #fff; }
 .cursor.is-link .cursor__dot { width: 26px; height: 26px; margin: -13px 0 0 -13px; }
 .cursor.is-card .cursor__dot { width: 56px; height: 56px; margin: -28px 0 0 -28px; background: var(--cur-accent); color: var(--cur-ink); }
 .cursor.is-card .cursor__dot::after { content: "\2192"; }
-.cursor__pill {
-  position: absolute; top: 0; left: 0;
-  transform: translate(34px, -13px) scale(0.7); transform-origin: left center;
-  padding: 6px 12px; border-radius: 5px; background: var(--cur-accent); color: var(--cur-ink);
-  font-size: 11px; font-weight: 700; letter-spacing: 0.04em; white-space: nowrap; opacity: 0;
-  transition: opacity 180ms ease, transform 220ms cubic-bezier(.22,1,.36,1);
-}
+.cursor__pill { position: absolute; top: 0; left: 0; transform: translate(34px, -13px) scale(0.7); transform-origin: left center; padding: 6px 12px; border-radius: 5px; background: var(--cur-accent); color: var(--cur-ink); font-size: 11px; font-weight: 700; letter-spacing: 0.04em; white-space: nowrap; opacity: 0; transition: opacity 180ms ease, transform 220ms cubic-bezier(.22,1,.36,1); }
 .cursor.is-card .cursor__pill { opacity: 1; transform: translate(40px, -13px) scale(1); }
 
 
 /* ---------------------------------------------------------------------------
-   6. CASE PAGES — images/videos get margins, not full bleed
-   The case layout already pads via .wrap; .bleed and .d-split widen media PAST
-   the text column. Pull them back so every plate sits inside the column with
-   the page gutter around it.
+   6. CASE PAGES — media gets margins (off the full bleed)
    --------------------------------------------------------------------------- */
 :root[data-case] figure.bleed { width: 100% !important; }
 :root[data-case] .d-split { width: 100% !important; }
-/* A touch of breathing room so a plate never kisses the column edges. */
 :root[data-case] .media, :root[data-case] .phone { margin-inline: auto; }
 
 
@@ -328,16 +315,11 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
    7. REDUCED MOTION / SMALL
    --------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .mcard:hover .mcard__shot img, .mcard:focus-visible .mcard__shot img,
-  .mcard:hover .mcard__shot--contain img { transform: none; }
+  .feat:hover .feat__shot img { transform: none; }
+  .cloud { animation: none !important; }
 }
-
-/* style.css sets body{overflow-x:hidden} under 768px; an overflow:hidden
-   ancestor breaks the sticky banner. `clip` prevents the scrollbar without
-   becoming a scroll container, so the pin survives. */
 @media (max-width: 768px) { body { overflow-x: clip; } }
-
 @media (max-width: 480px) {
   .stage { padding-inline: 16px; }
-  :root { --endmark-h: clamp(100px, 32vw, 170px); }
+  :root { --endmark-h: clamp(220px, 46vh, 380px); }
 }

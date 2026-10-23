@@ -21,7 +21,6 @@
 </head>
 <body>
 
-<!-- Floating white pill nav; redo.js reveals it on scroll. -->
 <header class="fnav" data-fnav>
   <nav class="fnav__in" aria-label="Site">
     <a href="#work">Work</a>
@@ -33,15 +32,14 @@
   </nav>
 </header>
 
-<!-- LAYER A — the banner, pinned and covered. Zoomed out (object-fit:contain)
-     over a gradient so the whole frame, including "WHOA.", stays in view. -->
-<section class="banner" aria-labelledby="bannerTitle">
+<!-- LAYER A — the banner: image fills the LEFT half, copy on the right. -->
+<section class="banner banner--split" aria-labelledby="bannerTitle">
   <div class="banner__media">
     <img class="banner__img" src="/assets/hero.jpg" width="1200" height="1600" fetchpriority="high"
-         alt="Rishabh sits with his back to the camera at a weathered white picnic table in the Himalayas, bare winter trees and a snow ridge behind him. Two of his own drawn characters are sitting at the table with him, one in a green jumper holding a book and striped socks, one in a mustard jacket, and the word WHOA. is written in the air above them.">
+         alt="Rishabh sits with his back to the camera at a weathered white picnic table in the Himalayas, bare winter trees and a snow ridge behind him. Two of his own drawn characters sit at the table with him and the word WHOA. is written in the air above them.">
   </div>
   <div class="banner__in">
-    <div class="wrap">
+    <div class="banner__copy">
       <p class="banner__hi">I'm Rishabh,</p>
       <h1 class="banner__h1" id="bannerTitle">Product Designer and AI-native builder.</h1>
       <p class="label banner__cue" aria-hidden="true">Scroll &darr;</p>
@@ -51,107 +49,119 @@
 
 <main>
 
-  <!-- LAYER B — the stage that rises over the banner. -->
+  <!-- LAYER B — the stage. -->
   <section class="stage" id="work" aria-labelledby="workLabel">
     <div class="stage__in">
 
-      <p class="stage__lead">I bring storytelling and social psychology into how products think, behave, and feel. <span>Story and meaning first, screens second.</span></p>
+      <p class="stage__lead">I bring storytelling and social psychology into how products think, behave, and feel.</p>
 
       <div class="idx__head">
         <p class="label" id="workLabel">Selected work</p>
         <p class="label idx__count">05</p>
       </div>
 
-      <div class="mosaic">
+      <!-- Top four: a full-width feature row each, centred, image left,
+           the important details on the right. -->
+      <div class="feats">
 
-        <a class="mcard" href="/produsa.html" data-accent="#0050FF" data-cursor-label="Produsa">
-          <figure class="mcard__shot">
+        <article class="feat" data-accent="#0050FF">
+          <a class="feat__shot" href="/produsa.html" aria-label="Produsa case study">
             <img src="/assets/media/produsa-band.webp" width="1200" height="900" loading="lazy" decoding="async"
-                 alt="The Produsa studio. An owner asks the chat on the left for a header, a footer and a logo, and the finished Hornexa Technology site stands in the preview on the right.">
-          </figure>
-          <div class="mcard__cap">
-            <p class="mcard__name"><span class="mcard__no" aria-hidden="true">01</span> Produsa</p>
-            <p class="mcard__svc">Product Designer &amp; Builder &middot; 2026</p>
+                 alt="The Produsa studio: an owner asks the chat for a header, footer and logo, and the finished site stands in the preview.">
+          </a>
+          <div class="feat__meta">
+            <p class="feat__no">01</p>
+            <h3 class="feat__name"><a href="/produsa.html">Produsa</a></h3>
+            <p class="feat__problem">Small businesses can't get a real website without an agency or a dead-end template.</p>
+            <p class="feat__role">Product Designer &amp; Builder &middot; 2026</p>
+            <a class="feat__go" href="/produsa.html">Read the case study <span aria-hidden="true">&rarr;</span></a>
           </div>
-        </a>
+        </article>
 
-        <a class="mcard" href="/supaca.html" data-accent="#FF1100" data-cursor-label="Supaca">
-          <figure class="mcard__shot">
+        <article class="feat" data-accent="#FF1100">
+          <a class="feat__shot" href="/supaca.html" aria-label="Supaca case study">
             <img src="/assets/media/supaca-hero.webp" width="1700" height="1294" loading="lazy" decoding="async"
-                 alt="The Supaca beta landing page. Make the drive, in large type over a near-black ground, with the line India&#39;s supercar owners&#39; network and cards for Boit Club, Club Octane and Sunrise drives floating around the headline.">
-          </figure>
-          <div class="mcard__cap">
-            <p class="mcard__name"><span class="mcard__no" aria-hidden="true">02</span> Supaca</p>
-            <p class="mcard__svc">Lead UI/UX Designer &middot; 2024&ndash;2025</p>
+                 alt="The Supaca beta landing page: Make the drive, over a near-black ground, with cards for Boit Club, Club Octane and Sunrise drives.">
+          </a>
+          <div class="feat__meta">
+            <p class="feat__no">02</p>
+            <h3 class="feat__name"><a href="/supaca.html">Supaca</a></h3>
+            <p class="feat__problem">A private network for supercar owners had to feel exclusive, and earn trust before anyone paid.</p>
+            <p class="feat__role">Lead UI/UX Designer &middot; 2024&ndash;2025</p>
+            <a class="feat__go" href="/supaca.html">Read the case study <span aria-hidden="true">&rarr;</span></a>
           </div>
-        </a>
+        </article>
 
-        <a class="mcard" href="/hasta.html" data-accent="#FFA81A" data-cursor-label="Hasta">
-          <figure class="mcard__shot">
+        <article class="feat" data-accent="#FFA81A">
+          <a class="feat__shot" href="/hasta.html" aria-label="Hasta case study">
             <img src="/assets/media/hasta-lead-4x3.webp" width="1200" height="900" loading="lazy" decoding="async"
-                 alt="The Hasta landing page. A drawn hand mark over the word HASTA, the line Palm reading from a photo, then What is written in your hand? in large cream serif capitals across a candlelit photograph of an open palm.">
-          </figure>
-          <div class="mcard__cap">
-            <p class="mcard__name"><span class="mcard__no" aria-hidden="true">03</span> Hasta</p>
-            <p class="mcard__svc">Lead Designer, UI/UX &amp; AI &middot; 2026</p>
+                 alt="The Hasta landing page: a drawn hand over the word HASTA and What is written in your hand? over a candlelit open palm.">
+          </a>
+          <div class="feat__meta">
+            <p class="feat__no">03</p>
+            <h3 class="feat__name"><a href="/hasta.html">Hasta</a></h3>
+            <p class="feat__problem">Online palm reading was generic AI slop, with nothing real to stand behind a claim.</p>
+            <p class="feat__role">Lead Designer, UI/UX &amp; AI &middot; 2026</p>
+            <a class="feat__go" href="/hasta.html">Read the case study <span aria-hidden="true">&rarr;</span></a>
           </div>
-        </a>
+        </article>
 
-        <a class="mcard" href="/vistlabs.html" data-accent="#9ACD20" data-cursor-label="VIST Labs">
-          <figure class="mcard__shot">
+        <article class="feat" data-accent="#9ACD20">
+          <a class="feat__shot" href="/vistlabs.html" aria-label="VIST Labs case study">
             <img src="/assets/media/vist-band-16x10.webp" width="1600" height="1000" loading="lazy" decoding="async"
-                 alt="The redesigned VIST Labs homepage hero. Diagnose, Decontaminate, Protect. in large white type over a dark teal photograph of pasteurisation equipment.">
-          </figure>
-          <div class="mcard__cap">
-            <p class="mcard__name"><span class="mcard__no" aria-hidden="true">04</span> VIST Labs</p>
-            <p class="mcard__svc">Product Designer, solo &middot; 2025</p>
+                 alt="The redesigned VIST Labs hero: Diagnose, Decontaminate, Protect. over a dark teal photo of pasteurisation equipment.">
+          </a>
+          <div class="feat__meta">
+            <p class="feat__no">04</p>
+            <h3 class="feat__name"><a href="/vistlabs.html">VIST Labs</a></h3>
+            <p class="feat__problem">A post-harvest tech company couldn't explain itself to the banks and growers it needed.</p>
+            <p class="feat__role">Product Designer, solo &middot; 2025</p>
+            <a class="feat__go" href="/vistlabs.html">Read the case study <span aria-hidden="true">&rarr;</span></a>
           </div>
-        </a>
-
-        <a class="mcard" href="/bizotico.html" data-accent="#B8A07C" data-cursor-label="Bizotico">
-          <figure class="mcard__shot">
-            <img src="/assets/media/bizo-band-16x10.webp" width="1600" height="1000" loading="lazy" decoding="async"
-                 alt="The Bizotico storefront on a laptop and a phone. The laptop shows the hero, Upto 80% Off, Between Sea and Space, over a diver surfacing with a watch on his wrist.">
-          </figure>
-          <div class="mcard__cap">
-            <p class="mcard__name"><span class="mcard__no" aria-hidden="true">05</span> Bizotico</p>
-            <p class="mcard__svc">E-commerce Designer &middot; 2023&ndash;2024</p>
-          </div>
-        </a>
+        </article>
 
       </div>
 
-      <!-- Desserts: the two that should not exist but do. -->
-      <div class="idx__head idx__head--sub">
-        <p class="label">Desserts</p>
-        <a class="label stage__seeall" href="/desserts.html">See all &rarr;</a>
-      </div>
+      <!-- The fifth, compact. -->
+      <a class="feat-sm" href="/bizotico.html" data-accent="#B8A07C">
+        <span class="feat-sm__no">05</span>
+        <span class="feat-sm__name">Bizotico</span>
+        <span class="feat-sm__role">E-commerce Designer &middot; 2023&ndash;2024</span>
+        <span class="feat-sm__go" aria-hidden="true">&rarr;</span>
+      </a>
 
-      <div class="mosaic mosaic--dess">
-        <a class="mcard" href="https://lurchout.vercel.app/" target="_blank" rel="noopener" data-accent="#FF1100" data-cursor-label="Open">
-          <figure class="mcard__shot">
-            <img src="/assets/media/lurch-phones.webp" width="880" height="831" loading="lazy" decoding="async"
+      <!-- DESSERTS, the off-brief things. A composed pair, not a grid. -->
+      <section class="dess2" aria-labelledby="dess2Label">
+        <div class="idx__head idx__head--sub">
+          <p class="label" id="dess2Label">Desserts</p>
+          <a class="label stage__seeall" href="/desserts.html">See all &rarr;</a>
+        </div>
+
+        <div class="dess2__row">
+          <!-- Ezra: out of the box, entering from the left edge, tail off-screen. -->
+          <a class="dess2__ezra" href="https://the-ardent-guy.github.io/ezraapp/" target="_blank" rel="noopener" data-accent="#FFA81A" data-cursor-label="Open">
+            <span class="dess2__box" aria-hidden="true"></span>
+            <img class="dess2__cat" src="/assets/media/ezra-cat.webp" width="760" height="861" loading="lazy" decoding="async"
+                 alt="Ezra, a ginger tabby drawn in flat paper shapes, stepping out of a frame with her tail up.">
+            <span class="dess2__cap">
+              <span class="dess2__name">Ezra</span>
+              <span class="dess2__line">A desktop app for my (ex) cat &#8599;</span>
+            </span>
+          </a>
+
+          <!-- Lurch: shown whole. -->
+          <a class="dess2__lurch" href="https://lurchout.vercel.app/" target="_blank" rel="noopener" data-accent="#FF1100" data-cursor-label="Open">
+            <img class="dess2__phones" src="/assets/media/lurch-phones.webp" width="880" height="831" loading="lazy" decoding="async"
                  alt="Three phone screens from Lurch, the dating app, showing profile cards laid out for swiping.">
-          </figure>
-          <div class="mcard__cap">
-            <p class="mcard__name">Lurch <span class="mcard__tag">Satire</span></p>
-            <p class="mcard__svc">A dating app that matches on trauma &#8599;</p>
-          </div>
-        </a>
+            <span class="dess2__cap">
+              <span class="dess2__name">Lurch <span class="mcard__tag">Satire</span></span>
+              <span class="dess2__line">A dating app that matches on trauma &#8599;</span>
+            </span>
+          </a>
+        </div>
+      </section>
 
-        <a class="mcard" href="https://the-ardent-guy.github.io/ezraapp/" target="_blank" rel="noopener" data-accent="#FFA81A" data-cursor-label="Open">
-          <figure class="mcard__shot mcard__shot--contain">
-            <img src="/assets/media/ezra-cat.webp" width="760" height="861" loading="lazy" decoding="async"
-                 alt="Ezra, a ginger tabby drawn in flat paper shapes, standing with her tail up and a red collar with a silver bell.">
-          </figure>
-          <div class="mcard__cap">
-            <p class="mcard__name">Ezra</p>
-            <p class="mcard__svc">A desktop app for my (ex) cat &#8599;</p>
-          </div>
-        </a>
-      </div>
-
-      <!-- Contact + colophon. -->
+      <!-- Contact. -->
       <div class="stage__end" id="contact">
         <h2>Available for product design and consulting work.</h2>
         <div class="stage__acts">
@@ -166,7 +176,7 @@
         </div>
       </div>
 
-      <!-- Room above the DESSERTS reveal, for elements to come. -->
+      <!-- The black runs on well above DESSERTS; room for elements to come. -->
       <div class="stage__space" aria-hidden="true"></div>
 
     </div>
@@ -174,10 +184,21 @@
 
 </main>
 
-<!-- LAYER C — the giant, bottom-clipped DESSERTS wordmark, now a padded LINK
-     to the desserts page. Fitted to width by redo.js. -->
+<!-- LAYER C — the creative reveal: a pixel scenery (hills, mountains, drifting
+     clouds) behind a giant, bottom-clipped DESSERTS link. ~half the screen. -->
 <section class="endmark">
-  <a class="endmark__word" href="/desserts.html" aria-label="Desserts">DESSERTS</a>
+  <div class="scene" aria-hidden="true">
+    <div class="scene__sky"></div>
+    <div class="scene__sun"></div>
+    <div class="scene__clouds">
+      <span class="cloud cloud--a"></span>
+      <span class="cloud cloud--b"></span>
+      <span class="cloud cloud--c"></span>
+    </div>
+    <div class="scene__range"></div>
+    <div class="scene__hills"></div>
+  </div>
+  <a class="endmark__word" href="/desserts.html" aria-label="Desserts">DESSERTS<span class="endmark__chev" aria-hidden="true">&rsaquo;</span></a>
 </section>
 
 <script src="/assets/swiss.js"></script>
