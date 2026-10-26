@@ -1,0 +1,79 @@
+/* ===========================================================================
+   CASE EXTRAS. Loaded by every case study, AFTER every shared stylesheet,
+   because both things in here have to beat swiss.css: the icon list turns
+   off a dash that swiss sets with one type selector more than this file
+   uses, and it reads --mark-top, which swiss declares.
+
+   Written for Hasta on 2026-10-27 and moved here the same day, when he
+   asked for the icons and the layouts on the other case studies too.
+   Nothing in it fires unless a page opts in by putting .ico-list on a list
+   or <strong> in a sentence, so linking it costs a page nothing.
+
+   Hasta keeps its own file for the one thing that is page-specific: the
+   size of its pictures.
+   =========================================================================== */
+
+
+/* ---------------------------------------------------------------------------
+   1. NAMED TERMS
+
+   The page already has two inline weights: .principles li b, which leads a
+   list row, and .why b, which is the mono "TRADE-OFF:" marker. A named law,
+   a model name or a term of art inside a sentence is a third thing, and the
+   browser default for <strong> is 700 against a 400 body, which reads as a
+   shout two words wide. 600 is one step up from the 500 the list leads use,
+   which is what tells a term apart from a whole bold sentence.
+   --------------------------------------------------------------------------- */
+
+[data-case] .col p strong,
+[data-case] .col li strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+
+/* ---------------------------------------------------------------------------
+   2. THE ICON LIST
+
+   ul.plain.ico-list is ul.plain with its 6px dash swapped for a 16px line
+   icon. Everything else - the hairline between rows, the 34px indent, the
+   24px padding block - is inherited untouched, so an icon row sits on the
+   same grid as a dashed one.
+
+   The icon is placed by the SAME formula the dash uses (swiss.css 1220):
+   the li's own top padding, plus half a line box, less half the icon. It
+   therefore sits on the middle of the first line at any body size, and it
+   follows --mark-top when section 17 changes the row padding.
+
+   left: 3px, not the dash's 8px. The icons' own paths start about 2.6 units
+   into a 16 unit box, so a 3px left puts their drawn edge within a hair of
+   where the dash starts and keeps a clear 13px channel before the text.
+   --------------------------------------------------------------------------- */
+
+/* A list of named things is a block, not three more sentences: without this
+   the paragraph after the Outcome rows sat on the last row's padding alone
+   and read as a fourth item with its icon missing. .why keeps its own s5. */
+[data-case] .col .ico-list + p:not(.why) { margin-top: var(--s3); }
+
+/* ul.plain.ico-list, not .ico-list: swiss.css sets the dash with
+   `ul.plain li::before`, one type selector more than a bare class, and it
+   loads before this file. Written as `.ico-list li::before` the dash kept
+   painting - 6x1px of ink-40 at left: 8px, inside the icon's own box, which
+   is why it was invisible in a screenshot and obvious in a probe. */
+ul.plain.ico-list li::before { content: none; }
+
+.ico-list .ico {
+  position: absolute;
+  left: 3px;
+  top: calc(var(--mark-top, 0px) + var(--lh-body) * 0.5em - 8px);
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  /* The dash's colour. An icon at full ink would outweigh the sentence it
+     is pointing at; this is a marker, not an illustration. */
+  color: var(--ink-40);
+}
