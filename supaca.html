@@ -48,7 +48,7 @@
   <header class="head">
     <p class="eyebrow">Supaca</p>
     <h1>Designing trust for a private network of supercar owners</h1>
-    <p class="standfirst">Supaca is a members-only app for verified supercar owners in India, where clubs run their drives and members RSVP with the car they're bringing. The beta is live, with real owners on the waitlist. This case study covers the v1 design, which I led end to end.</p>
+    <p class="standfirst">Supaca is a members-only app for verified supercar owners in India, where clubs run their drives and members RSVP with the car they're bringing. The beta is live, with real owners on the waitlist. This case study covers the design, which I led end to end.</p>
   </header>
 
     <dl class="mstrip">
@@ -62,7 +62,7 @@
       </div>
       <div class="mstrip__i">
         <dt>Timeline</dt>
-        <dd>November 2024 to November 2025 (v1 design), beta now live</dd>
+        <dd>November 2024 to November 2025, beta now live</dd>
       </div>
       <div class="mstrip__i">
         <dt>Platform</dt>
@@ -70,7 +70,7 @@
       </div>
       <div class="mstrip__i mstrip__i--wide">
         <dt>My work</dt>
-        <dd>User research, information architecture, the access model, onboarding and verification, visual design, and every screen in v1</dd>
+        <dd>User research, information architecture, the access model, onboarding and verification, visual design, and every screen</dd>
       </div>
     </dl>
 
@@ -83,7 +83,6 @@
         <img src="/assets/media/supaca-hero.webp" width="1700" height="1294" decoding="async"
          alt="The Supaca beta landing page. Make the drive, in large type over a near-black ground, with the line India&#39;s supercar owners&#39; network, a join the waitlist button beside member login, and cards for Boit Club, Club Octane and Sunrise drives floating around the headline.">
       </div>
-      <figcaption data-fig="01">The live beta. Clubs are named on the front page, members never are.</figcaption>
         </figure>
 
   <div class="layout">
@@ -94,9 +93,9 @@
 
       <section id="problem">
         <h2>The problem</h2>
-        <p>Supercar owners in India already had clubs, but no product built for them. As creative director at one of those clubs, I saw how they actually ran: on scattered WhatsApp groups. There was no way to verify who owned a car, drives were organised through forwarded messages, high-value sales ran on trust, and expensive cars sat parked for weeks with nowhere to go.</p>
+        <p>Supercar owners in India already had clubs, but no product built for them. As a product designer at one of those clubs, I saw how they actually ran: on scattered WhatsApp groups. There was no way to verify who owned a car, drives were organised through forwarded messages, high-value sales ran on trust, and expensive cars sat parked for weeks with nowhere to go.</p>
 
-        <p class="hmw">How might we give verified owners a private place to belong, where the main reason to open the app is the next drive?</p>
+        <p class="hmw">How might we give verified owners a private place to belong, where the next drive is one of the main reasons to open the app?</p>
       </section>
 
       <section id="users">
@@ -135,7 +134,7 @@
         <p>Through my club, I had direct access to owners and organisers, and tested ideas with them throughout. I mapped real clubs and their access rules (open, private, referral-only, women-only). Three findings shaped the design:</p>
         <ol class="steps">
           <li>Owners would only join a network where every member was verified.</li>
-          <li>Owners wanted somewhere to drive. The event was the reason to come back.</li>
+          <li>Owners wanted somewhere to drive. The event was one of the main reasons to come back.</li>
           <li>Clubs already existed. The product had to bring them in instead of replacing them.</li>
         </ol>
         <p style="margin-top:24px;">I also flagged the cold-start risk early, and we agreed on one rule: never fake a member, an attendee or a listing.</p>
@@ -143,7 +142,7 @@
 
       <section id="process">
         <h2>Process</h2>
-        <p>I set four principles before any screen: every member is verified by a human, members never pay, nothing is shared without consent, and every path leads to the next drive. I then fixed the information architecture, so every screen had a defined slot and new features could be added without restructuring navigation. I wireframed the core flows and tested them with owners before visual design.</p>
+        <p>I set four principles before any screen: every member is verified by a human, members never pay, nothing is shared without consent, and the next drive is always easy to find. I then fixed the information architecture, so every screen had a defined slot and new features could be added without restructuring navigation. I wireframed the core flows and tested them with owners before visual design.</p>
         <figure class="bleed nb-pile" data-pile style="--nbp-ar: 1280 / 976; --nbp-depth: 3">
           <ul class="nb-pile__stack" data-pile-stack>
             <li class="nb-pile__sheet">
@@ -168,7 +167,7 @@
             <button class="nb-pile__step" type="button" data-pile-next aria-label="Next sheet"><svg viewBox="0 0 16 12" aria-hidden="true"><path d="M9.5 1 L15 6 L9.5 11 M15 6 H1"/></svg></button>
             <p class="nb-pile__count"><span data-pile-at>1</span> / 4</p>
           </div>
-          <figcaption data-fig="02">Flows and wireframes on paper, before any screen was drawn.</figcaption>
+          <figcaption data-fig="01">Flows and wireframes on paper, before any screen was drawn.</figcaption>
         </figure>
       </section>
 
@@ -178,8 +177,7 @@
         <article class="decision" id="d1">
           <span class="decision__n">01</span>
           <h3>Five ways in cut to three</h3>
-          <p>We started with five: explorer, enthusiast, owner, club owner and partner. The social wall was the reason. Spotters and enthusiasts would have filled it quickly, and an audience is easy to grow. It would also have undone the point, because owners don't want an audience. We cut it to three entry points, owner, club owner and vendor, with one rule behind the gate: you're verified, or you're waiting. Everyone inside either owns the car or serves someone who does, and what sits behind the gate stays theirs. Luxury partners, offers and experiences.</p>
-          <p class="why"><b>Why:</b> Five ways in meant five sets of rules about who could see what, scattered across every screen. Following Tesler's law, the complexity moved into the gate, where nobody has to reason about it.</p>
+          <p>We started with five: explorer, enthusiast, owner, club owner and partner. The social wall was the reason, and spotters and enthusiasts would have filled it quickly. It would also have undone the point, because owners don't want an audience. We cut it to three entry points, owner, club owner and vendor, with one rule behind the gate: you're verified, or you're waiting. Everyone inside either owns the car or serves someone who does.</p>
           <p class="why"><b>Trade-off:</b> We gave up the audience the social wall would have pulled in, which was the fastest way to look busy before the network was real.</p>
         </article>
 
@@ -187,7 +185,6 @@
           <span class="decision__n">02</span>
           <h3>Verification through the garage</h3>
           <p>A member proves who they are by verifying their car. One registration document proves both identity and ownership, an admin approves it, and until then the app stays locked.</p>
-          <p class="why"><b>Why:</b> One document covered both checks, so members went through a single step. Because the gate does the work, members never pay.</p>
           <p class="why"><b>Trade-off:</b> Verification adds friction at signup, and for an exclusive network that friction is what makes membership worth having.</p>
         </article>
 
@@ -195,51 +192,25 @@
           <span class="decision__n">03</span>
           <h3>Nobody lands in a club they didn't pick</h3>
           <p>We had a way to make the app look full on day one: drop every Porsche owner into the Porsche club in their city, and everyone else into one generic supercar club. We didn't do it. It would have added strangers to each other's clubs with nobody agreeing to it, and the clubs that already exist here are drawn by area and by who knows whom, not by badge. Members join by choosing to, or by an owner's approval. Where verified and unverified people meet, nobody is named until they choose to be, and avatars are initials.</p>
-          <p class="why"><b>Why:</b> A club is a set of people who already know each other. Matching on the car would have produced a list of owners and called it a club.</p>
         </article>
 
         <article class="decision" id="d4">
           <span class="decision__n">04</span>
           <h3>RSVP with your car</h3>
-          <p>Every part of the app leads to the event page. When members RSVP, they choose which car they're bringing, and "Who's coming" shows each attendee with a verified badge and a colour-coded pill for their car's make.</p>
-          <p class="why"><b>Why:</b> This one screen delivers both findings from research: belonging, through seeing who's coming, and exclusivity, through the verification behind every name.</p>
+          <p>Much of the app leads to the event page. When members RSVP, they choose which car they're bringing, and "Who's coming" shows each attendee with a verified badge and a colour-coded pill for their car's make.</p>
           <figure class="bleed">
             <div class="shot shot--tall">[ IMAGE: event page, "Who's coming" with car pills ]</div>
           </figure>
         </article>
-
-        <article class="decision" id="d5">
-          <span class="decision__n">05</span>
-          <h3>Clubs that exist before their owners arrive</h3>
-          <p>Real clubs are pre-seeded. A club owner claims theirs or creates one, then invites members, so the invite does the vetting and members never land in an empty room.</p>
-          <p class="why"><b>Trade-off:</b> Club data has to be curated and maintained before anyone asks for it.</p>
-        </article>
-
-        <article class="decision" id="d6">
-          <span class="decision__n">06</span>
-          <h3>Keeping money out of the member experience</h3>
-          <p>Members never pay. Club owners pay for their tools, and if a plan lapses, only the owner's dashboard locks while the club stays live. A member-fee toggle exists for owners, off by default.</p>
-          <p class="why"><b>Why:</b> Charging members to join would have put a price on the one thing that made membership valuable.</p>
-        </article>
-      </section>
-
-      <section id="supporting">
-        <h2>Supporting decisions</h2>
-        <ul class="plain">
-          <li>Filters in bottom sheets instead of a Vendors tab, keeping each page to one job through progressive disclosure.</li>
-          <li>Familiar patterns like a five-tab bottom nav and story-style carousels carry new ideas such as verification, following Jakob's law.</li>
-          <li>One meaning per colour: one brand accent, and green means only "verified".</li>
-          <li>Plain language: "You approve every request" replaces a settings matrix.</li>
-        </ul>
       </section>
 
       <section id="outcome">
         <h2>Outcome</h2>
         <ul class="results">
-          <li>v1 designed end to end over a year, from research to every screen</li>
+          <li>Designed end to end over a year, from research to every screen</li>
           <li>The beta is live, with real owners joining through the waitlist</li>
           <li>Five ways in cut to three, with one verification rule behind the gate</li>
-          <li>The v1 structure held, and the team rebuilt it into today's beta</li>
+          <li>The structure I designed held, and the team rebuilt it into today's beta</li>
         </ul>
         <figure class="bleed">
           <div class="shot shot--wide">[ IMAGE: the live beta, the gate, the waitlist and the invite-only login ]</div>
