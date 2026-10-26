@@ -168,7 +168,9 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 .feat__shot { display: block; overflow: hidden; background: #141414; aspect-ratio: 16 / 10; }
 .feat__shot img { width: 100%; height: 100%; object-fit: cover; transition: transform 700ms cubic-bezier(.22,1,.36,1); }
 .feat:hover .feat__shot img, .feat__shot:focus-visible img { transform: scale(1.03); }
-.feat__no { margin: 0 0 14px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: rgba(255,255,255,.5); font-variant-numeric: tabular-nums; }
+/* What the thing IS, where the 01-04 used to be. 2026-10-27: he asked for
+   the numbering out, and for Produsa and Supaca to say what they are. */
+.feat__kind { margin: 0 0 14px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,.5); }
 .feat__name { margin: 0 0 16px; }
 .feat__name a { color: #fff; text-decoration: none; font-size: clamp(26px, 3vw, 40px); font-weight: 500; letter-spacing: -0.02em; }
 .feat__name a:hover { opacity: .8; }
@@ -191,7 +193,6 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
   padding-top: 26px; border-top: 1px solid rgba(255,255,255,.14);
   color: #fff; text-decoration: none;
 }
-.feat-sm__no { color: rgba(255,255,255,.5); font-size: 12px; font-weight: 600; letter-spacing: 0.1em; }
 .feat-sm__name { font-size: clamp(20px, 2vw, 28px); font-weight: 500; letter-spacing: -0.01em; }
 .feat-sm__role { margin-left: auto; color: #8A8A8A; font-size: 13px; }
 .feat-sm__go { color: #fff; transition: transform .2s; display: inline-block; }
@@ -486,60 +487,3 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 
 @media (prefers-reduced-motion: reduce) { .ball-bonk { animation: none; } }
 
-
-/* ---------------------------------------------------------------------------
-   8. ROTATING MUSIC DISC
-   A little record spins in the bottom-left. Hover (or focus, or press play)
-   and a bar swipes out from under it with the track. Click the record to
-   play or pause. The audio file is the one thing not in the repo — drop it
-   at /assets/audio/november-rain.mp3 and it plays; until then the disc spins
-   and the bar still swipes, the click just finds nothing to play.
-   --------------------------------------------------------------------------- */
-.disc {
-  position: fixed; right: clamp(14px, 2vw, 26px); top: clamp(14px, 2vh, 22px);
-  z-index: 80; display: flex; flex-direction: row-reverse; align-items: center;
-}
-.disc[hidden] { display: none; }
-.disc__rec {
-  position: relative; z-index: 2; flex: none; width: 56px; height: 56px;
-  padding: 0; border: 0; border-radius: 50%; cursor: pointer;
-  background:
-    radial-gradient(circle at 50% 50%, #c9304a 0 15%, #0d0d0f 15.5% 20%, transparent 20.5%),
-    repeating-radial-gradient(circle at 50% 50%, #17171a 0 1.4px, #2b2b30 1.4px 3px),
-    #111;
-  box-shadow: 0 6px 18px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.08) inset;
-  animation: disc-rpm 3.6s linear infinite;
-}
-.disc__rec::after {                 /* the spindle hole */
-  content: ""; position: absolute; left: 50%; top: 50%; width: 5px; height: 5px;
-  transform: translate(-50%, -50%); border-radius: 50%; background: #0b0b0c;
-  box-shadow: 0 0 0 2px #e9e4d8;
-}
-.disc__rec:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
-@keyframes disc-rpm { to { transform: rotate(360deg); } }
-
-.disc__bar {
-  display: flex; align-items: center; gap: 10px;
-  margin-right: -30px; padding: 8px 42px 8px 18px; height: 40px;
-  border-radius: 999px 0 0 999px; background: #0d0d0f; color: #fff; white-space: nowrap;
-  max-width: 0; opacity: 0; overflow: hidden;
-  box-shadow: 0 6px 18px rgba(0,0,0,.4);
-  transition: max-width .42s cubic-bezier(.22,1,.36,1), opacity .3s ease, padding .42s ease;
-}
-.disc:hover .disc__bar, .disc:focus-within .disc__bar, .disc.is-playing .disc__bar {
-  max-width: 320px; opacity: 1;
-}
-.disc__meta { display: flex; flex-direction: column; line-height: 1.12; }
-.disc__title { font-weight: 700; font-size: 13px; letter-spacing: .01em; }
-.disc__artist { font-size: 11px; color: #a8a8ad; }
-.disc__eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 14px; }
-.disc__eq i { width: 3px; height: 4px; background: #c9304a; border-radius: 1px; }
-.disc.is-playing .disc__eq i { animation: disc-eq .9s ease-in-out infinite; }
-.disc.is-playing .disc__eq i:nth-child(2) { animation-delay: .25s; }
-.disc.is-playing .disc__eq i:nth-child(3) { animation-delay: .5s; }
-@keyframes disc-eq { 0%, 100% { height: 4px; } 50% { height: 14px; } }
-.has-cursor .disc__rec { cursor: none; }
-@media (prefers-reduced-motion: reduce) {
-  .disc__rec { animation: none; }
-  .disc.is-playing .disc__eq i { animation: none; }
-}

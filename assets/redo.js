@@ -1,11 +1,12 @@
 /* ===========================================================================
    REDO — homepage behaviour
-   2026-10-23 (r4). Five jobs, each a no-op where its hooks are absent:
+   2026-10-23 (r4), music disc removed 2026-10-27. Five jobs, each a no-op
+   where its hooks are absent:
      1  the floating pill nav arrives once the black stage covers the banner
      2  the DESSERTS wordmark is fitted to the viewport width
      3  the custom cursor (desktop pointers only)
      4  the toy pile — draggable software logos with gravity (desktop only)
-     5  the music disc — click to play/pause (all devices)
+     5  Ezra's pupils follow the cursor
    The scroll overlay and the end-reveal are pure CSS (sticky banner + fixed
    wordmark + stage bottom-margin); nothing here drives them.
    =========================================================================== */
@@ -149,7 +150,9 @@
          landing BOUNCES (keeps ~3/4 of its speed, loses a little sideways); a
          slow one comes to REST and ROLLS with friction until it stops or rolls
          off the edge and falls on.
-       WALLS — the sides of the column — bounce it back.
+       WALLS — the sides of the WINDOW — bounce it back. The column's own
+         edge is not a wall: a ball rolls off the end of the rule and falls
+         down the gutter, which is what he asked for on 2026-10-27.
        BALL-TO-BALL: they push apart and trade the speed along the line between
          them, so a thrown ball scatters the pile and a dropped one knocks its
          neighbours awake.
@@ -186,9 +189,20 @@
     var noteBtn = note.querySelector(".toy-note__put");
     var noteOn = false;
 
-    var stageRect = null, W = 0;
+    var stageRect = null, W = 0, wallL = 0, wallR = 0;
     var surfaces = [], footZ = null, dessZ = null, lineTop = 0, lineX0 = 0, lineX1 = 0;
     var balls = [], topZ = 10, raf = 0, lastT = 0, held = null;
+
+    /* The walls are the WINDOW, not the column. They used to sit on the edge
+       of .stage__in, which is also where the rule ends, so a ball could never
+       roll off the end of the line - it bounced back a pixel before it got
+       there. Now it rolls off, falls down the gutter beside the text, and the
+       full-width floor at the foot catches it. Clamped to the viewport, so
+       nothing can push a horizontal scrollbar onto the page. */
+    function walls() {
+      wallL = -stageRect.left + R;
+      wallR = (document.documentElement.clientWidth - stageRect.left) - R;
+    }
 
     function rel(el) {
       var r = el.getBoundingClientRect();
@@ -199,6 +213,7 @@
     function layout() {
       stageRect = stageIn.getBoundingClientRect(); W = stageRect.width;
       R = W < 760 ? 13 : 15;
+      walls();
       var hr = rel(head);
       lineTop = hr.y + hr.h; lineX0 = hr.x; lineX1 = hr.x + hr.w;
 
@@ -222,7 +237,7 @@
     function homeSlot(i) {
       var n = TOOLS.length, step = R * 2 + 3;
       var cx0 = lineX0 + (lineX1 - lineX0) * 0.76 - ((n - 1) * step) / 2;
-      return { cx: clamp(cx0 + i * step, R, W - R), cy: lineTop - R };
+      return { cx: clamp(cx0 + i * step, wallL, wallR), cy: lineTop - R };
     }
 
     function place(b) {
@@ -254,7 +269,7 @@
 
     function grab(b, e) {
       e.preventDefault();
-      stageRect = stageIn.getBoundingClientRect(); W = stageRect.width;
+      stageRect = stageIn.getBoundingClientRect(); W = stageRect.width; walls();
       try { b.el.setPointerCapture(e.pointerId); } catch (err) {}
       var p = ptr(e);
       b.held = true; b.settled = false; b.restOn = null; b.home = false;
@@ -268,9 +283,9 @@
 
     function onMove(e) {
       if (!held) return;
-      stageRect = stageIn.getBoundingClientRect(); W = stageRect.width;
+      stageRect = stageIn.getBoundingClientRect(); W = stageRect.width; walls();
       var p = ptr(e), b = held;
-      var ncx = clamp(p.x - b.gdx, R, W - R);
+      var ncx = clamp(p.x - b.gdx, wallL, wallR);
       var ncy = p.y - b.gdy;
       var now = performance.now(), dtf = (now - b._lt) / 16.667 || 1;
       b.vx = 0.5 * b.vx + 0.5 * (ncx - b._lx) / dtf;
@@ -358,8 +373,8 @@
     function moveBall(b, dt) {
       if (b.restOn) {
         b.vx *= Math.pow(ROLL, dt);
-        var ncx = clamp(b.cx + b.vx * dt, R, W - R);
-        if (ncx <= R || ncx >= W - R) b.vx = -b.vx * WALL;
+        var ncx = clamp(b.cx + b.vx * dt, wallL, wallR);
+        if (ncx <= wallL || ncx >= wallR) b.vx = -b.vx * WALL;
         if (ncx < b.restOn.x0 || ncx > b.restOn.x1) { b.restOn = null; b.vy = 0.5; }   /* rolled off the edge */
         else {
           b.cx = ncx; b.cy = b.restOn.top - R; b.ang += (b.vx / R) * 10 * dt;
@@ -370,8 +385,8 @@
       b.vy += G * dt; b.vx *= Math.pow(AIR, dt);
       var prevBottom = b.cy + R;
       var ncx2 = b.cx + b.vx * dt, ncy2 = b.cy + b.vy * dt;
-      if (ncx2 < R) { ncx2 = R; b.vx = -b.vx * WALL; }
-      else if (ncx2 > W - R) { ncx2 = W - R; b.vx = -b.vx * WALL; }
+      if (ncx2 < wallL) { ncx2 = wallL; b.vx = -b.vx * WALL; }
+      else if (ncx2 > wallR) { ncx2 = wallR; b.vx = -b.vx * WALL; }
       var hit = landFor(b, prevBottom, ncx2, ncy2);
       if (hit) {
         ncy2 = hit.top - R;
@@ -454,38 +469,6 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(onResize);
     window.addEventListener("load", onResize);
     document.addEventListener("visibilitychange", function () { if (!document.hidden) kick(); });
-  }
-
-
-  /* 5. MUSIC DISC — click the record to play/pause; hover swipes out the bar.
-     Works on touch too (a tap plays), so it is not gated like the cursor or
-     the toys. The audio element is the only thing that needs a real file. --- */
-  function disc() {
-    var el = document.querySelector("[data-disc]");
-    if (!el) return;
-    var btn = el.querySelector(".disc__rec");
-    var audio = el.querySelector(".disc__audio");
-    if (!btn || !audio) return;
-    el.hidden = false;
-
-    function sync() {
-      var playing = !audio.paused && !audio.ended;
-      el.classList.toggle("is-playing", playing);
-      btn.setAttribute("aria-pressed", playing ? "true" : "false");
-      btn.setAttribute("aria-label", playing ? "Pause music" : "Play music");
-    }
-    btn.addEventListener("click", function () {
-      if (audio.paused) {
-        var p = audio.play();
-        if (p && p.catch) p.catch(function () {});   // missing file or autoplay block: no-op
-      } else {
-        audio.pause();
-      }
-    });
-    audio.addEventListener("play", sync);
-    audio.addEventListener("pause", sync);
-    audio.addEventListener("ended", sync);
-    sync();
   }
 
 
@@ -573,7 +556,7 @@
   }
 
 
-  function boot() { nav(); fit(); cursor(); toys(); disc(); eyes(); }
+  function boot() { nav(); fit(); cursor(); toys(); eyes(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();
 }());
