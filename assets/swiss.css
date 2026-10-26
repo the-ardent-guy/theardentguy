@@ -1197,40 +1197,51 @@ p a:focus-visible { text-decoration-color: var(--accent); }
 /* Lists. Hairlines between rows, nothing else. */
 ul.plain, ol.steps, .results { margin: 0; padding: 0; list-style: none; }
 
+/* --mark-top is the li's OWN top padding, and the markers below are placed
+   from it. They used to carry hard-coded tops (11px and 25px) that assumed
+   this padding and nothing else, so section 17's padding-block on a case
+   page pushed every line down and left the dashes 24px high (measured on
+   five case studies, 2026-10-27). Anything that changes the padding must
+   change --mark-top with it. */
 ul.plain li, ol.steps li {
   position: relative;
-  padding: 14px 0 14px 34px;
+  --mark-top: 14px;
+  padding: var(--mark-top) 0 14px 34px;
   border-top: 1px solid var(--rule);
   font-size: var(--t-body);
   line-height: var(--lh-body);
   color: var(--ink);
 }
 
-ul.plain li:first-child, ol.steps li:first-child { border-top: 0; padding-top: 0; }
+ul.plain li:first-child, ol.steps li:first-child { border-top: 0; --mark-top: 0px; }
 
+/* The dash sits on the middle of the FIRST line: the top padding, plus half
+   a line box. em here is the li's font size, so it follows --t-body. */
 ul.plain li::before {
   content: "";
   position: absolute;
   left: 8px;
-  top: 25px;
+  top: calc(var(--mark-top) + var(--lh-body) * 0.5em - 0.5px);
   width: 6px;
   height: 1px;
   background: var(--ink-40);
 }
-ul.plain li:first-child::before { top: 11px; }
 
+/* Same line, but the number has a line box of its own - about 1.2 label
+   sizes - so half of that comes back off. em here is the LABEL size, which
+   is why the body half is written out in full. */
 ol.steps li::before {
   content: counter(s);
   position: absolute;
   left: 0;
-  top: 14px;
+  top: calc(var(--mark-top) + var(--lh-body) * 0.5 * var(--t-body) - 0.6em);
+  top: calc(var(--mark-top) + var(--lh-body) * 0.5 * var(--t-body) - 0.5lh);  /* exact where lh is supported */
   font-family: var(--mono);
   font-size: var(--t-label);
   letter-spacing: var(--tr-label);
   color: var(--ink-40);
   font-variant-numeric: tabular-nums;
 }
-ol.steps li:first-child::before { top: 0; }
 
 .principles li b { color: var(--ink); font-weight: 500; }
 
@@ -2214,9 +2225,11 @@ body::before {
 [data-case] .col .hmw { margin-block: var(--s8); }
 [data-case] .col .why { margin-top: var(--s5); }
 
+/* Section 17's air for list rows. --mark-top moves with the padding, or the
+   dash and the number go back to floating above the line they belong to. */
 [data-case] ul.plain li,
 [data-case] ol.steps li,
-[data-case] .results li { padding-block: var(--s3); }
+[data-case] .results li { --mark-top: var(--s3); padding-block: var(--s3); }
 
 /* --- Everything that is a picture --- */
 [data-case] .grid:has(> .lead-note) { margin-block: clamp(80px, 9vw, 150px); }

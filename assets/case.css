@@ -204,22 +204,23 @@ ul.plain, ol.steps { margin: 0; padding: 0; list-style: none; }
 
 ul.plain li, ol.steps li {
   position: relative;
-  padding: 16px 0 16px 34px;
+  --mark-top: 16px;                 /* the markers below are placed from this */
+  padding: var(--mark-top) 0 16px 34px;
   border-top: 1px solid var(--rule-soft);
 }
 
-ul.plain li:first-child, ol.steps li:first-child { border-top: 0; padding-top: 0; }
+ul.plain li:first-child, ol.steps li:first-child { border-top: 0; --mark-top: 0px; }
 
+/* On the middle of the first line: top padding plus half a line box. */
 ul.plain li::before {
   content: "";
   position: absolute;
   left: 8px;
-  top: 27px;
+  top: calc(var(--mark-top) + var(--lh-body, 1.6) * 0.5em - 0.5px);
   width: 6px;
   height: 1px;
   background: var(--label);
 }
-ul.plain li:first-child::before { top: 11px; }
 
 ol.steps { counter-reset: s; }
 ol.steps li { counter-increment: s; }
@@ -227,13 +228,13 @@ ol.steps li::before {
   content: counter(s);
   position: absolute;
   left: 0;
-  top: 16px;
+  top: calc(var(--mark-top) + var(--lh-body, 1.6) * 0.5 * var(--t-body, 16px) - 7.2px);
+  top: calc(var(--mark-top) + var(--lh-body, 1.6) * 0.5 * var(--t-body, 16px) - 0.5lh);
   font-size: 12px;
   font-weight: 600;
   color: var(--accent);
   font-variant-numeric: tabular-nums;
 }
-ol.steps li:first-child::before { top: 0; }
 
 .principles li b { color: var(--ink); font-weight: 600; }
 
