@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="/assets/notebook.css">
 <link rel="stylesheet" href="/assets/redo.css">
 <link rel="stylesheet" href="/assets/case-extras.css">
+<link rel="stylesheet" href="/assets/supaca.css">
 <script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
 </head>
 <body style="--dot: var(--dot-supaca)">
@@ -177,6 +178,14 @@
           </div>
           <figcaption data-fig="01">Flows and wireframes on paper, before any screen was drawn.</figcaption>
         </figure>
+
+        <figure class="bleed">
+          <div class="media">
+            <img src="/assets/media/supaca-wireframes.webp" width="1113" height="949" loading="lazy" decoding="async"
+                 alt="A Figma canvas of grey wireframes: a club page, the explore-clubs list, home, the owner profile with a fleet and an add-your-car form, a car listing, an accessories listing, an event page, the marketplace, events and chats.">
+          </div>
+          <figcaption data-fig="02">The same flows in Figma, still grey, before the visual design.</figcaption>
+        </figure>
       </section>
 
       <section id="decisions">
@@ -185,32 +194,107 @@
         <article class="decision" id="d1">
           <span class="decision__n">01</span>
           <h3>Five ways in cut to three</h3>
-          <p>We started with five: explorer, enthusiast, owner, club owner and partner. The social wall was the reason, and spotters and enthusiasts would have filled it quickly. It would also have undone the point, because owners don't want an audience.</p>
-          <p>We cut it to three entry points, owner, club owner and vendor, with one rule behind the gate: you're verified, or you're waiting. Everyone inside either owns the car or serves someone who does.</p>
-          <p class="why"><b>Trade-off:</b> We gave up the audience the social wall would have pulled in, which was the fastest way to look busy before the network was real.</p>
+          <div class="d-body">
+            <div class="d-shots">
+              <figure class="d-shot">
+                <div class="d-frame">
+                  <img src="/assets/media/supaca-d1-join.webp" width="840" height="1800" loading="lazy" decoding="async"
+                       alt="The Join Supaca screen: three doors, Supercar Owner, Club Owner and Vendor, each with what it unlocks, and an invite-code link underneath.">
+                </div>
+                <figcaption>One question at the door &mdash; three doors, not five.</figcaption>
+              </figure>
+            </div>
+            <div class="d-words">
+              <p>We started with five: explorer, enthusiast, owner, club owner and partner. The social wall was the reason, and spotters and enthusiasts would have filled it quickly. It would also have undone the point, because owners don't want an audience.</p>
+              <p>We cut it to three entry points, owner, club owner and vendor, with one rule behind the gate: you're verified, or you're waiting. Everyone inside either owns the car or serves someone who does.</p>
+              <p class="why"><b>Trade-off:</b> We gave up the audience the social wall would have pulled in, which was the fastest way to look busy before the network was real.</p>
+            </div>
+          </div>
+
+          <!-- The design that had five ways in, before the cut. His own
+               working file, shown whole: the five packages are the thing. -->
+          <figure class="bleed">
+            <div class="media">
+              <img src="/assets/media/supaca-five-entry-points.webp" width="1071" height="922" loading="lazy" decoding="async"
+                   alt="A Figma canvas of the older design: a home screen, a login, password recovery, five onboarding screens, and the five packages that were cut - Explorer free, Enthusiast, Owner, Club Owner and Partner, each with its own monthly price.">
+            </div>
+            <figcaption data-fig="03">The older design, with five entry points.</figcaption>
+          </figure>
         </article>
 
         <article class="decision" id="d2">
           <span class="decision__n">02</span>
           <h3>Verification through the garage</h3>
-          <p>A member proves who they are by verifying their car. One <strong>registration document</strong> proves both identity and ownership, an admin approves it, and until then the app stays locked.</p>
-          <p class="why"><b>Trade-off:</b> Verification adds friction at signup, and for an exclusive network that friction is what makes membership worth having.</p>
+          <div class="d-body">
+            <div class="d-shots">
+              <figure class="d-shot">
+                <div class="d-frame" tabindex="0" role="group" aria-label="Apply with your car: make, model, RC front and back. "Your RC is private - used only to verify ownership." Scroll inside the frame to see the whole screen.">
+                  <img src="/assets/media/supaca-d2-apply.webp" width="840" height="3818" loading="lazy" decoding="async"
+                       alt="The application form: profile photo, name, email, password, mobile, city and date of birth, then the car's make, model and year, a photo of it, the registration certificate front and back, and insurance, with a note that the RC is private and used only to verify ownership.">
+                </div>
+                <figcaption>Apply with your car: make, model, RC front &amp; back. &ldquo;Your RC is private &mdash; used only to verify ownership.&rdquo;</figcaption>
+                <p class="d-scroll">Scroll inside the frame</p>
+              </figure>
+            </div>
+            <div class="d-words">
+              <p>A member proves who they are by verifying their car. One <strong>registration document</strong> proves both identity and ownership, an admin approves it, and until then the app stays locked.</p>
+              <p class="why"><b>Trade-off:</b> Verification adds friction at signup, and for an exclusive network that friction is what makes membership worth having.</p>
+            </div>
+          </div>
         </article>
 
         <article class="decision" id="d3">
           <span class="decision__n">03</span>
           <h3>Nobody lands in a club they didn't pick</h3>
-          <p>We had a way to make the app look full on day one: drop every Porsche owner into the Porsche club in their city, and everyone else into one generic supercar club. We didn't do it. It would have added strangers to each other's clubs with nobody agreeing to it, and the clubs that already exist here are drawn by area and by who knows whom, not by badge.</p>
-          <p>Members join by choosing to, or by an owner's approval. Where verified and unverified people meet, nobody is named until they choose to be, and avatars are initials.</p>
+          <div class="d-body">
+            <div class="d-shots">
+              <figure class="d-shot">
+                <div class="d-frame">
+                  <img src="/assets/media/supaca-d3-clubs.webp" width="840" height="1918" loading="lazy" decoding="async"
+                       alt="The clubs grid: Mumbai Supercar Club, joined, and Bangalore Exotic Owners, private, each with its city, member count and a verified-only badge, over a search field and public, private and my-clubs filters.">
+                </div>
+                <figcaption>Clubs grid &mdash; drawn by area and by who knows whom.</figcaption>
+              </figure>
+              <figure class="d-shot">
+                <div class="d-frame">
+                  <img src="/assets/media/supaca-d3-private.webp" width="840" height="1862" loading="lazy" decoding="async"
+                       alt="A private club page for Bangalore Exotic Owners: a Request to join button where a joined club shows chat, a verified-only badge, no member named, and tabs for about, events, members and feed.">
+                </div>
+                <figcaption>A private club: &ldquo;Request to join&rdquo;, verified-only, nobody named.</figcaption>
+              </figure>
+            </div>
+            <div class="d-words">
+              <p>We had a way to make the app look full on day one: drop every Porsche owner into the Porsche club in their city, and everyone else into one generic supercar club. We didn't do it. It would have added strangers to each other's clubs with nobody agreeing to it, and the clubs that already exist here are drawn by area and by who knows whom, not by badge.</p>
+              <p>Members join by choosing to, or by an owner's approval. Where verified and unverified people meet, nobody is named until they choose to be, and avatars are initials.</p>
+            </div>
+          </div>
         </article>
 
         <article class="decision" id="d4">
           <span class="decision__n">04</span>
           <h3>RSVP with your car</h3>
-          <p>Much of the app leads to the event page. When members RSVP, they choose which car they're bringing, and "Who's coming" shows each attendee with a verified badge and a colour-coded pill for their car's make.</p>
-          <figure class="bleed">
-            <div class="shot shot--tall">[ IMAGE: event page, "Who's coming" with car pills ]</div>
-          </figure>
+          <div class="d-body">
+            <div class="d-shots">
+              <figure class="d-shot">
+                <div class="d-frame">
+                  <img src="/assets/media/supaca-d4-rsvp.webp" width="840" height="1800" loading="lazy" decoding="async"
+                       alt="The RSVP sheet over an event: Bring which car?, with a Lamborghini Urus selected beside a McLaren 720S, and a Confirm, I'm going button.">
+                </div>
+                <figcaption>RSVP asks the only question that matters here: bring which car?</figcaption>
+              </figure>
+              <figure class="d-shot">
+                <div class="d-frame" tabindex="0" role="group" aria-label=""Who's coming (9)" - verified badges, initials, a colour pill per car make. Scroll inside the frame to see the whole screen.">
+                  <img src="/assets/media/supaca-d4-event.webp" width="840" height="4476" loading="lazy" decoding="async"
+                       alt="The event page for Mumbai Supercar Sunday: date, time, venue and a map, then Who's coming, nine attendees, each an initial with a verified dot and a colour pill naming the car they are bringing.">
+                </div>
+                <figcaption>&ldquo;Who&rsquo;s coming (9)&rdquo; &mdash; verified badges, initials, a colour pill per car make.</figcaption>
+                <p class="d-scroll">Scroll inside the frame</p>
+              </figure>
+            </div>
+            <div class="d-words">
+              <p>Much of the app leads to the event page. When members RSVP, they choose which car they're bringing, and "Who's coming" shows each attendee with a verified badge and a colour-coded pill for their car's make.</p>
+            </div>
+          </div>
         </article>
       </section>
 
@@ -222,9 +306,23 @@
           <li><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.8 3.4h10.4L9.2 8.5v4.9L6.8 11.8V8.5z"/></svg>Five ways in cut to three, with one verification rule behind the gate</li>
           <li><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.6 2.6h10.8v10.8H2.6z"/><path d="M2.6 8h10.8M8 2.6v10.8"/></svg>The structure I designed held, and the team rebuilt it into today's beta</li>
         </ul>
-        <figure class="bleed">
-          <div class="shot shot--wide">[ IMAGE: the live beta, the gate, the waitlist and the invite-only login ]</div>
-        </figure>
+        <div class="d-pair">
+          <figure class="d-shot">
+            <div class="d-frame">
+              <img src="/assets/media/supaca-beta-login.webp" width="840" height="1800" loading="lazy" decoding="async"
+                   alt="The live beta's member login, invite only.">
+            </div>
+            <figcaption>Invite-only member login.</figcaption>
+          </figure>
+          <figure class="d-shot">
+            <div class="d-frame" tabindex="0" role="group" aria-label="The waitlist - real owners, in. Scroll inside the frame to see the whole screen.">
+              <img src="/assets/media/supaca-beta-waitlist.webp" width="840" height="2870" loading="lazy" decoding="async"
+                   alt="The live beta's waitlist page, where real owners join.">
+            </div>
+            <figcaption>The waitlist &mdash; real owners, in.</figcaption>
+            <p class="d-scroll">Scroll inside the frame</p>
+          </figure>
+        </div>
       </section>
 
       <section id="reflection">

@@ -1,0 +1,195 @@
+/* ===========================================================================
+   SUPACA ONLY. Loaded last, from supaca.html alone.
+
+   The Key decisions section, 2026-10-27. His brief: "screen and the decision
+   on the right on desktop, and maybe swipe screens on mobile", and, for the
+   screens that are longer than a phone: "if its necessary to show the whole
+   screen, we can keep it scrollable in one mobile frame, users can scroll."
+
+   So: every screen sits in a frame of one phone's proportion, and a capture
+   longer than that scrolls inside it. Nothing is cropped and nothing is
+   re-cut - the frame is a window, the whole picture is behind it.
+
+   Three things the art direction settled, all of them measured:
+
+   1. THE HEADING STAYS ON THE SPINE. Every h2, h3, p and figure on this page
+      starts at the same x. Moving the decision's h3 into the right-hand
+      column put it 107px right of "Key decisions" directly above it, which
+      reads as a bug. The number and the heading keep the full row; the split
+      happens below them.
+
+   2. THE WORDS STICK, NOT THE PICTURE. The decision text measures 188-342px;
+      a column of screens is 643-1600px. You pin the shorter one, so the
+      claim rides down beside the evidence it is making. Pinning the picture
+      would only push its top off the screen.
+
+   3. ONE WIDTH FOR EVERY SCREEN, 300px. Same frame, every decision, so the
+      section reads as designed rather than assembled.
+   =========================================================================== */
+
+
+:root[data-case] {
+  --shot: 300px;            /* every screen, every decision */
+  --shot-ar: 840 / 1800;    /* one phone. Longer captures scroll inside it. */
+}
+
+
+/* ---------------------------------------------------------------------------
+   1. THE FRAME
+
+   aspect-ratio rather than a max-height, so the frame keeps a phone's
+   proportion at any width - 300px on the desktop split, 78vw in the mobile
+   strip - without a second number to maintain.
+
+   A capture that is exactly 840x1800 fills it and does not scroll. The apply
+   form (840x3818) and the event page (840x4476) scroll. The scrollbar is left
+   visible on purpose: it is the affordance, and the mono line under the frame
+   says so for anyone who misses it.
+   --------------------------------------------------------------------------- */
+
+.d-frame {
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--shot-ar);
+  overflow-y: auto;
+  overscroll-behavior: contain;      /* scrolling the screen never scrolls the page */
+  border: 1px solid var(--rule);
+  background: #fff;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink-40) transparent;
+}
+
+/* The screenshots' own ground is rgb(252,250,248) against the page's
+   rgb(247,246,243) - five units apart. Without this hairline they dissolve
+   into the paper, and the join screen's empty lower third disappears. */
+.d-frame:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.d-frame img { display: block; width: 100%; height: auto; }
+
+/* swiss.css section 17 gives every figure inside .col a margin-top of
+   clamp(56px, 6vw, 96px) - correct for a figure in the flow of an essay,
+   wrong for a screen that is supposed to start level with the words beside
+   it. Measured: it pushed the frame 86px below the top of the text at 1440. */
+[data-case] .col .d-shot { margin: 0; }
+
+.d-shot figcaption {
+  margin-top: var(--s2);
+  max-width: 42ch;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ink-60);
+}
+
+/* Only on the frames that actually scroll. */
+.d-scroll {
+  margin: var(--s2) 0 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-40);
+}
+
+
+/* ---------------------------------------------------------------------------
+   2. THE DESKTOP SPLIT, 1280px and up
+
+   1280 and not 1024: below this the words column falls under 43ch, and at
+   1025 it would be 32ch, which is a column of soup. Between 1025 and 1279 the
+   page is still two-column but a decision is heading, words, then the strip.
+   --------------------------------------------------------------------------- */
+
+@media (min-width: 1280px) {
+
+  /* The row takes the page's unused twelfth column. .col is grid-column 5/12;
+     this is the old .bleed formula, which redo.css only kills on figure.bleed,
+     so an #decisions rule is untouched by that !important. 655.89 -> 754.16px
+     at 1440, left edge unchanged. */
+  [data-case] #decisions { width: calc(100% + ((100% + var(--gutter)) / 7)); }
+
+  /* The number hangs in the gutter at the same pixel as before, but the row
+     is eight columns now, not seven, so the denominator changes with it. */
+  [data-case] #decisions .decision__n { left: calc(-1 * ((100% + var(--gutter)) / 8)); }
+
+  .d-body {
+    display: grid;
+    grid-template-columns: var(--shot) minmax(0, 1fr);
+    column-gap: var(--s4);
+    align-items: start;
+    margin-top: var(--s5);
+  }
+
+  .d-shots { display: grid; gap: var(--s6); }
+
+  /* align-self is load-bearing: a stretched grid item is as tall as its row,
+     and sticky on a full-height item does nothing at all. */
+  .d-words {
+    position: sticky;
+    top: var(--s12);
+    align-self: start;
+  }
+
+  .d-words > :first-child { margin-top: 0; }
+}
+
+
+/* ---------------------------------------------------------------------------
+   3. THE MOBILE STRIP, below 1280px
+
+   A CSS scroll-snap strip. No JavaScript, no dots: one card is 78% of the
+   column, so 22% of the next one is always showing, and a sliver of the next
+   screen says "swipe" better than a row of dots. A static count under it is
+   true at every width; the word "swipe" would be a lie at 1279 where two
+   cards are already side by side.
+   --------------------------------------------------------------------------- */
+
+@media (max-width: 1279px) {
+
+  .d-body { margin-top: var(--s3); display: flex; flex-direction: column; }
+
+  /* Words first on a phone: the claim, then the evidence you swipe. */
+  .d-words { order: -1; margin-bottom: var(--s6); }
+
+  .d-shots {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min(78%, 340px);
+    gap: var(--s3);
+    align-items: start;
+    margin-inline: calc(-1 * var(--margin));   /* bleeds to the screen edge */
+    padding-inline: var(--margin);             /* first card on the text edge */
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline-start: var(--margin);
+    overscroll-behavior-x: contain;            /* no browser back-swipe */
+    scrollbar-width: none;
+  }
+
+  .d-shots::-webkit-scrollbar { display: none; }
+  .d-shots > .d-shot { scroll-snap-align: start; }
+
+  /* One screen on its own is not a carousel: give it the whole column rather
+     than a 78% card with unexplained paper beside it. */
+  .d-shots:not(:has(> .d-shot:nth-child(2))) { grid-auto-columns: 100%; }
+}
+
+
+/* ---------------------------------------------------------------------------
+   4. THE OUTCOME PAIR
+
+   Two screens of the live beta, side by side at the same 300px. No decision
+   text to sit beside, so this is a pair, not a split. One is white and one is
+   near-black, so the height difference reads as deliberate.
+   --------------------------------------------------------------------------- */
+
+.d-pair {
+  display: grid;
+  grid-template-columns: repeat(2, var(--shot));
+  gap: var(--s4);
+  justify-content: start;
+  margin-top: var(--s6);
+}
+
+@media (max-width: 680px) {
+  .d-pair { grid-template-columns: minmax(0, 1fr); gap: var(--s6); }
+}
