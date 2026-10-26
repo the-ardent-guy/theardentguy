@@ -208,15 +208,42 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 }
 .dz { display: block; color: #fff; text-decoration: none; }
 
-/* Ezra: just the cat (no box). Two pupils ride over her eyes and follow the
-   cursor — positioned and driven from redo.js. */
-.dz__cat2 { position: relative; display: block; }
-.dz__cat2 img {
-  display: block; width: 100%; height: auto;
-  filter: drop-shadow(0 18px 26px rgba(0,0,0,.45));
-  transition: transform .45s cubic-bezier(.22,1,.36,1);
+/* Both desserts sit in a plain box, 2026-10-26, his call. It is the panel
+   this page already puts a case-study shot in, at 4:3 rather than 16:10,
+   because a square cat and a near-square phone shot come out tiny in a wide
+   box. The picture is padded and shown whole - the box sets the height and
+   the picture keeps its own ratio inside it, so nothing is cropped.
+
+   Each wrapper has to hug its picture exactly: Ezra's pupils are placed as a
+   percentage of .dz__cat2 and Lurch's labels as a percentage of .dz__stage,
+   so a wrapper any wider than the image it holds puts both in the wrong
+   place. height:100% on the image, width:auto, and the wrapper shrinks to
+   fit it. */
+.dz__box {
+  display: grid;
+  /* One row and one column, both sized from the box rather than from what
+     is in them. An auto row would take its height FROM the picture, the
+     picture's height:100% would then have nothing to resolve against, and
+     the image would fall back to its natural size and overflow the box
+     (measured: a 344px cat in a 247px box). minmax(0, 1fr) against the
+     definite height aspect-ratio gives the box is what makes it fit. */
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+  justify-items: center;
+  aspect-ratio: 4 / 3;
+  padding: clamp(12px, 2vw, 26px);
+  background: #141414;
+  border: 1px solid rgba(255,255,255,.12);
+  overflow: hidden;
 }
-.dz--ezra:hover .dz__cat2 img { transform: translateY(-8px); }
+
+.dz__cat2,
+.dz__stage { position: relative; display: block; height: 100%; }
+
+.dz__cat2 img,
+.dz__phones { display: block; height: 100%; width: auto; max-width: 100%; }
+
 .dz__eye {
   position: absolute; width: 2.5%; aspect-ratio: 1; border-radius: 50%;
   background: #141210; left: 50%; top: 50%;     /* real % set from the image in redo.js */
@@ -225,12 +252,7 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
   box-shadow: 0 0 1px rgba(0,0,0,.4);
 }
 
-/* Lurch: just the phones, no box. Labels float over the screens. */
-.dz__stage { position: relative; display: block; }
-.dz__phones {
-  display: block; width: 100%; height: auto;
-  filter: drop-shadow(0 22px 30px rgba(0,0,0,.5));
-}
+/* Lurch keeps its labels over the screens, placed off .dz__stage. */
 .dz__hlabel {
   position: absolute; top: 6%; left: 2%; z-index: 2;
   font-weight: 800; letter-spacing: 0.06em; font-size: clamp(18px, 2.2vw, 30px); color: #fff;

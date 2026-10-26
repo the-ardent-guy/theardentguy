@@ -203,7 +203,7 @@
       lineTop = hr.y + hr.h; lineX0 = hr.x; lineX1 = hr.x + hr.w;
 
       surfaces = [{ top: lineTop, x0: lineX0, x1: lineX1, el: null }];
-      Array.prototype.forEach.call(document.querySelectorAll(".feat, .feat-sm, .dz__cat2, .dz__stage"), function (el) {
+      Array.prototype.forEach.call(document.querySelectorAll(".feat, .feat-sm, .dz__box"), function (el) {
         var r = rel(el);
         surfaces.push({ top: r.y, x0: r.x, x1: r.x + r.w, el: el.querySelector(".feat__shot") || el });
       });
