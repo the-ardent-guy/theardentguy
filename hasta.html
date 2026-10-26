@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="/assets/swiss.css">
 <link rel="stylesheet" href="/assets/notebook.css">
 <link rel="stylesheet" href="/assets/redo.css">
+<link rel="stylesheet" href="/assets/hasta.css">
 <script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
 </head>
 <body style="--dot: var(--dot-hasta)">
@@ -89,9 +90,9 @@
 
       <section id="problem">
         <h2>The problem</h2>
-        <p>Open any palm app and the reading fits anybody. Bertram Forer showed why in 1948: he handed his students a personality profile he had assembled out of a newspaper astrology column, and they rated it as an accurate description of themselves. Statements that are favourable and flexible read as personal.</p>
+        <p>Open any palm app and the reading fits anybody. <strong>Bertram Forer</strong> showed why in 1948: he handed his students a personality profile he had assembled out of a newspaper astrology column, and they rated it as an accurate description of themselves. Statements that are favourable and flexible read as personal.</p>
 
-        <p>Language models made that cheap. They write fluent prose that sounds like a reading and is tied to nothing on the hand in the photo. My notebook calls the two of them together Barnum slop, and it is the whole category.</p>
+        <p>Language models made that cheap. They write fluent prose that sounds like a reading and is tied to nothing on the hand in the photo. My notebook calls the two of them together <strong>Barnum slop</strong>, and it is the whole category.</p>
 
         <p>The second failure is quieter. After one of those readings there is nothing you can tell a friend in five words. No identity, just a paragraph you read once. People put INFJ in their dating profile because a label about yourself is social currency, and palm reading, which is about you more directly than any personality test, was handing out nothing to carry.</p>
 
@@ -134,9 +135,11 @@
         <article class="decision" id="d1">
           <span class="decision__n">01</span>
           <h3>More sources, one canon</h3>
-          <p>I directed a study of six palmistry traditions and supplied the source material: deep research, transcripts of classical books and lectures, and recordings of practising pandits. Three traditions made it into the product, and ten sources were merged into one rulebook: the Garuda Purana and K.C. Sen's Hast Samudrika Shastra at about 116 entries, W.G. Benham's The Laws of Scientific Hand Reading from 1900 at about 185 entries, and the Chinese five-element school.</p>
-          <p>A sign earned its place on three counts, and I wrote them at the top of the page: reliability, specificity and differentiation. It had to come from a source I could name, say something precise, and tell one hand apart from another.</p>
-          <p>They merge into one canon rather than sitting side by side, because the same hand must not get a different reading depending on which book the model happened to reach for. The rulebook loads as cached ground truth and the model may only read in its vocabulary of lines, mounts and classical signs. That fixed vocabulary is what makes citing a source possible at all.</p>
+          <p>I directed a study of six palmistry traditions and supplied the source material: deep research, transcripts of classical books and lectures, and recordings of practising pandits.</p>
+          <p>Three traditions made it into the product, and ten sources were merged into one rulebook: the Garuda Purana and K.C. Sen's Hast Samudrika Shastra at about 116 entries, W.G. Benham's The Laws of Scientific Hand Reading from 1900 at about 185 entries, and the Chinese five-element school.</p>
+          <p>A sign earned its place on three counts, and I wrote them at the top of the page: <strong>reliability</strong>, <strong>specificity</strong> and <strong>differentiation</strong>. It had to come from a source I could name, say something precise, and tell one hand apart from another.</p>
+          <p>They merge into one canon rather than sitting side by side, because the same hand must not get a different reading depending on which book the model happened to reach for.</p>
+          <p>The rulebook loads as cached ground truth and the model may only read in its vocabulary of lines, mounts and classical signs. That fixed vocabulary is what makes citing a source possible at all.</p>
           <p class="why"><b>Trade-off:</b> The reading cannot say anything the canon doesn't carry. That is the point, and it also caps how surprising a reading is allowed to be.</p>
           <figure class="bleed">
             <div class="media">
@@ -150,8 +153,14 @@
         <article class="decision" id="d2">
           <span class="decision__n">02</span>
           <h3>Measured the genericness instead of trusting my ear</h3>
-          <p>One layer of the prompt, "read this hand, not a hand", bans the cold-reading phrases by name. Then a weekly eval harness runs an independent model across readings and scores each one for faithfulness, distinctiveness and genericness, tracked release over release.</p>
-          <p>Underneath that sit the four levers I had sketched for why one reading feels tailored and another doesn't. Perceived tailoring: the sentence points at a mark that is on your hand. Source detachment: the claim belongs to a book, not to us. Fluency: editorial prose rather than horoscope rhythm. Secure language: it commits, instead of hedging its way to safety.</p>
+          <p>One layer of the prompt, "read this hand, not a hand", bans the cold-reading phrases by name. Then a weekly eval harness runs an independent model across readings and scores each one for <strong>faithfulness</strong>, <strong>distinctiveness</strong> and <strong>genericness</strong>, tracked release over release.</p>
+          <p>Underneath that sit the four levers I had sketched for why one reading feels tailored and another doesn't.</p>
+          <ul class="plain principles ico-list">
+            <li><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.6"/><circle cx="8" cy="8" r="1.3"/></svg><b>Perceived tailoring:</b> the sentence points at a mark that is on your hand.</li>
+            <li><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 4.6v8"/><path d="M8 4.6C6.8 3.7 5.3 3.3 2.8 3.3v8c2.5 0 4 .4 5.2 1.3 1.2-.9 2.7-1.3 5.2-1.3v-8c-2.5 0-4 .4-5.2 1.3z"/></svg><b>Source detachment:</b> the claim belongs to a book, not to us.</li>
+            <li><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.6 4.4h10.8M2.6 8h10.8M2.6 11.6h6.8"/></svg><b>Fluency:</b> editorial prose rather than horoscope rhythm.</li>
+            <li><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.6 8.4 6.2 12l7.2-8"/></svg><b>Secure language:</b> it commits, instead of hedging its way to safety.</li>
+          </ul>
           <p class="why"><b>Trade-off:</b> Every release costs extra eval runs. Genericness is the category's defining failure, so it's the thing I was willing to pay to watch.</p>
         </article>
 
@@ -159,22 +168,23 @@
           <span class="decision__n">03</span>
           <h3>Asked one question about them, not about their hand</h3>
           <p>At about 72% the reading stops and asks one thing. When a group settles on a plan, would you still rather go your own way? The answers are "That is me" and "I like to fit in", and the skip is written so it costs nothing: leave this one to our eye.</p>
-          <p>Two reasons. The answer gives the reading a self-report to weigh against a sign it only saw faintly. And a person who has put one hand on the thing values what comes out of it more than a person who waited for it, which is the IKEA effect doing work a loading spinner cannot.</p>
+          <p>Two reasons. The answer gives the reading a self-report to weigh against a sign it only saw faintly. And a person who has put one hand on the thing values what comes out of it more than a person who waited for it, which is the <strong>IKEA effect</strong> doing work a loading spinner cannot.</p>
           <p>The question is deliberately about the person, never about their hand. Asking whether their heart line forks would hand the reader our job and break the promise in the same sentence.</p>
         </article>
 
         <article class="decision" id="d4">
           <span class="decision__n">04</span>
           <h3>The hand holds the authority, and the product says so out loud</h3>
-          <p>"The lines are yours, we just read them." Hasta never speaks as a seer. The anthropologist Pascal Boyer calls this ostensive detachment: a divination reads as true when the answer appears to arrive from the object rather than from the person holding it, and the reader's own stake in it disappears.</p>
-          <p>That one idea settles arguments further down. The reading is decision support, so it describes tendencies and never dates. There is no score, no forecast, nothing about marriage or children, and no gemstone to buy at the end. A mirror, not a verdict.</p>
+          <p>"The lines are yours, we just read them." Hasta never speaks as a seer. The anthropologist Pascal Boyer calls this <strong>ostensive detachment</strong>: a divination reads as true when the answer appears to arrive from the object rather than from the person holding it, and the reader's own stake in it disappears.</p>
+          <p>That one idea settles arguments further down. The reading is <strong>decision support</strong>, so it describes tendencies and never dates. There is no score, no forecast, nothing about marriage or children, and no gemstone to buy at the end. A mirror, not a verdict.</p>
         </article>
 
         <article class="decision" id="d5">
           <span class="decision__n">05</span>
           <h3>A card that names your hand</h3>
           <p>Every reading produces a card: an archetype name, a drawn glyph, the person's own lined palm photo, and a single epithet line.</p>
-          <p>The card is free and it arrives before the paywall, so nobody leaves empty-handed and every share is an advertisement that isn't selling fear. It is the identity layer the category never had, except the label is drawn from the person's actual hand rather than from a quiz. The privacy promise rides on the card too, which means every share repeats it to somebody new.</p>
+          <p>The card is free and it arrives before the paywall, so nobody leaves empty-handed and every share is an advertisement that isn't selling fear.</p>
+          <p>It is the <strong>identity layer</strong> the category never had, except the label is drawn from the person's actual hand rather than from a quiz. The privacy promise rides on the card too, which means every share repeats it to somebody new.</p>
           <p class="why"><b>Trade-off:</b> A card compresses a whole reading into a few lines and risks flattening it into a horoscope label. Carrying only the dominant readings, from the real photo, is what keeps it specific.</p>
           <figure class="bleed">
             <div class="media media--light">
@@ -188,8 +198,9 @@
         <article class="decision" id="d6">
           <span class="decision__n">06</span>
           <h3>Verdict first, evidence last</h3>
-          <p>The reading is ordered the way the notebook has it: verdict, then themes, then appendix. The card, the portrait, the pages, the evidence, and then the chat for whatever is still unanswered. Progressive disclosure, so the person meets the conclusion before the apparatus.</p>
-          <p>The evidence is there for anyone who opens it. Each claim names the line or mount it was read from and the book that says so, and the output schema makes the model declare for every line whether it saw it clearly, faintly or not at all, so it cannot describe a line that wasn't there. Where the three schools disagree, the reading says which school says what. Nine conflicts are on the register so far: five carry a ruling, three a recorded lean, and the serpent mark is still open.</p>
+          <p>The reading is ordered the way the notebook has it: verdict, then themes, then appendix. The card, the portrait, the pages, the evidence, and then the chat for whatever is still unanswered. <strong>Progressive disclosure</strong>, so the person meets the conclusion before the apparatus.</p>
+          <p>The evidence is there for anyone who opens it. Each claim names the line or mount it was read from and the book that says so, and the output schema makes the model declare for every line whether it saw it clearly, faintly or not at all, so it cannot describe a line that wasn't there.</p>
+          <p>Where the three schools disagree, the reading says which school says what. Nine conflicts are on the register so far: five carry a ruling, three a recorded lean, and the serpent mark is still open.</p>
           <p class="why"><b>Trade-off:</b> Showing the working makes a reading less magical. Being checkable mattered more.</p>
           <figure>
             <div class="media media--light">
@@ -203,10 +214,10 @@
 
       <section id="outcome">
         <h2>Outcome</h2>
-        <ul class="plain principles">
-          <li><b>850 readings</b> in the first two months.</li>
-          <li><b>4.7% of free readings</b> convert to the &#8377;99 manuscript, with no subscription, no countdown, no expiring credits and no fear-selling.</li>
-          <li><b>Built in one month</b>, launched August 2026, live at hasta.produsa.app.</li>
+        <ul class="plain principles ico-list">
+          <li><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.4 2.4h6l3.2 3.2v8h-9.2z"/><path d="M9.4 2.4v3.2h3.2"/><path d="M5.6 10.4h4.8"/></svg><b>850 readings</b> in the first two months.</li>
+          <li><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.2 12.4 12.6 3"/><path d="M6.6 3h6v6"/></svg><b>4.7% of free readings</b> convert to the &#8377;99 manuscript, with no subscription, no countdown, no expiring credits and no fear-selling.</li>
+          <li><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.6 4.2h10.8v9.2H2.6z"/><path d="M2.6 7.2h10.8M5.6 2.6v3M10.4 2.6v3"/></svg><b>Built in one month</b>, launched August 2026, live at hasta.produsa.app.</li>
         </ul>
         <p>The price sits on the landing page before anything is asked of anyone. &#8377;99, once, for that reading.</p>
         <p>One number I don't have: how many readings begin from a shared card. The identity layer is the reach bet of the whole product and it is still unmeasured.</p>

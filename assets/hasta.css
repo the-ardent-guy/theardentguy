@@ -1,0 +1,115 @@
+/* ===========================================================================
+   HASTA ONLY. Loaded after every shared stylesheet, from hasta.html alone.
+
+   Three jobs, all typographic:
+     1. an inline weight for the named terms in the body copy
+     2. an icon-led variant of ul.plain, for the two lists that are a set of
+        parallel named things rather than a run of argument
+     3. a tad off the in-column pictures and the sketch pile
+
+   Nothing here is global: every selector is anchored on .ico-list, on a
+   class this page owns, or on [data-case] .col, and hasta.html is the only
+   page that links this file.
+   =========================================================================== */
+
+
+/* ---------------------------------------------------------------------------
+   1. NAMED TERMS
+
+   The page already has two inline weights: .principles li b, which leads a
+   list row, and .why b, which is the mono "TRADE-OFF:" marker. A named law,
+   a model name or a term of art inside a sentence is a third thing, and the
+   browser default for <strong> is 700 against a 400 body, which reads as a
+   shout two words wide. 600 is one step up from the 500 the list leads use,
+   which is what tells a term apart from a whole bold sentence.
+   --------------------------------------------------------------------------- */
+
+[data-case] .col p strong,
+[data-case] .col li strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+
+/* ---------------------------------------------------------------------------
+   2. THE ICON LIST
+
+   ul.plain.ico-list is ul.plain with its 6px dash swapped for a 16px line
+   icon. Everything else - the hairline between rows, the 34px indent, the
+   24px padding block - is inherited untouched, so an icon row sits on the
+   same grid as a dashed one.
+
+   The icon is placed by the SAME formula the dash uses (swiss.css 1220):
+   the li's own top padding, plus half a line box, less half the icon. It
+   therefore sits on the middle of the first line at any body size, and it
+   follows --mark-top when section 17 changes the row padding.
+
+   left: 3px, not the dash's 8px. The icons' own paths start about 2.6 units
+   into a 16 unit box, so a 3px left puts their drawn edge within a hair of
+   where the dash starts and keeps a clear 13px channel before the text.
+   --------------------------------------------------------------------------- */
+
+/* A list of named things is a block, not three more sentences: without this
+   the paragraph after the Outcome rows sat on the last row's padding alone
+   and read as a fourth item with its icon missing. .why keeps its own s5. */
+[data-case] .col .ico-list + p:not(.why) { margin-top: var(--s3); }
+
+.ico-list li::before { content: none; }
+
+.ico-list .ico {
+  position: absolute;
+  left: 3px;
+  top: calc(var(--mark-top, 0px) + var(--lh-body) * 0.5em - 8px);
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  /* The dash's colour. An icon at full ink would outweigh the sentence it
+     is pointing at; this is a marker, not an illustration. */
+  color: var(--ink-40);
+}
+
+
+/* ---------------------------------------------------------------------------
+   3. A TAD OFF THE PICTURES
+
+   The in-column figures render 657px wide at 1440 against a 517px text
+   measure. 86% puts them at 565, still wider than the measure - the figure
+   still breaks out of the column, it just stops shouting over it.
+
+   NOTHING IS CROPPED. This is max-width on the mat with the image's own
+   width: 100%; height: auto underneath it, so the picture scales whole. No
+   aspect-ratio, no object-fit.
+
+   Over 720px only. On a phone the column is already about 358px wide and
+   taking another 14% off a screenshot would make the UI in it unreadable.
+   .fullbleed is deliberately edge to edge and is left alone.
+   --------------------------------------------------------------------------- */
+
+@media (min-width: 720px) {
+  :root[data-case] .col figure .media,
+  :root[data-case] .col figure .media--light,
+  :root[data-case] .col figure .media--bare {
+    max-width: 86%;
+    margin-inline: auto;
+  }
+
+  /* The sketch pile is sized by its stack, which carries the aspect-ratio;
+     take the width and the height follows, and the sheets inside it keep
+     their own proportions through max-width/max-height. */
+  :root[data-case] .col .nb-pile__stack {
+    max-width: 86%;
+    margin-inline: auto;
+  }
+
+  /* The caption and the pile's arrows belong to the picture, so they move
+     in with it rather than hanging off the old edge. */
+  :root[data-case] .col .nb-pile .nb-pile__bar,
+  :root[data-case] .col figure figcaption {
+    max-width: 86%;
+    margin-inline: auto;
+  }
+}
