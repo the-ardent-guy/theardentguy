@@ -214,9 +214,12 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 .dz__cat2 img {
   display: block; width: 100%; height: auto;
   filter: drop-shadow(0 18px 26px rgba(0,0,0,.45));
-  transition: transform .45s cubic-bezier(.22,1,.36,1);
 }
-.dz--ezra:hover .dz__cat2 img { transform: translateY(-8px); }
+
+/* No lift on hover, 2026-10-27 his call. It moved the picture 8px up and
+   left the pupils where they were, since they are siblings of the image and
+   not children of it, so on every hover the eyes appeared to drop out of her
+   face. The travel the pupils have is correct; this was the bug. */
 
 /* The pupils. Where they sit is in the markup: --ex / --ey place them,
    data-l / data-r / data-u / data-d say how far each may slide. 1.87% is the
