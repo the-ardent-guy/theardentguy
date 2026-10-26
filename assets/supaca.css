@@ -193,3 +193,98 @@
 @media (max-width: 680px) {
   .d-pair { grid-template-columns: minmax(0, 1fr); gap: var(--s6); }
 }
+
+
+/* ---------------------------------------------------------------------------
+   5. THE SCREEN WALL
+
+   The case-study opener, 2026-10-27, to his reference: screens laid over each
+   other on the tilt, running off every edge, so the app reads as a whole
+   product before a word of the case study is read.
+
+   The cards are not cropped. Every screen in this wall is one of the twelve
+   captures that is phone-shaped already (1:2.12 to 1:2.27), shown whole at
+   its own height, which is also why the columns do not line up - a wall of
+   identical rectangles would read as a contact sheet, not a pile. The long
+   captures - the apply form, the event page - stay out of here and keep
+   their scrollable frames further down the page, where their length is the
+   point.
+
+   Geometry: the stage is far bigger than the band it sits in and is rotated
+   inside it, so the tilt never shows a bare corner; the band clips it. Each
+   column is pushed up by a different amount, which is what stops the rows
+   from reading as a grid.
+   --------------------------------------------------------------------------- */
+
+.mock {
+  --mock-w: clamp(118px, 12.5vw, 196px);   /* one card */
+  --mock-gap: clamp(10px, 1.2vw, 22px);
+  position: relative;
+  overflow: hidden;
+  height: clamp(320px, 42vw, 580px);
+  /* NO `margin: 0` here. .fullbleed centres itself with
+     margin-inline: calc(50% - (var(--vw) / 2)), and this file loads after
+     swiss.css, so a shorthand reset at equal specificity wiped those
+     negative margins and hung the band 139px off the right of the page. */
+  background:
+    radial-gradient(130% 100% at 50% -10%, color-mix(in srgb, var(--ink) 2%, transparent), transparent 72%),
+    color-mix(in srgb, var(--ink) 6%, transparent);
+  border-block: 1px solid var(--rule);
+}
+
+.mock__stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150%;
+  display: flex;
+  align-items: flex-start;          /* never stretch a column to the stage */
+  justify-content: center;
+  gap: var(--mock-gap);
+  transform: translate(-50%, -50%) rotate(-13deg);
+}
+
+/* Flex rather than grid: a flex column lets each picture keep its own
+   height, with no row track to share out. */
+.mock__col {
+  width: var(--mock-w);
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mock-gap);
+}
+
+/* Each column rides at its own height. The numbers are not a sequence on
+   purpose: a regular step reads as a staircase. */
+.mock__col:nth-child(1) { transform: translateY(-14%); }
+.mock__col:nth-child(2) { transform: translateY(-32%); }
+.mock__col:nth-child(3) { transform: translateY(-6%); }
+.mock__col:nth-child(4) { transform: translateY(-26%); }
+.mock__col:nth-child(5) { transform: translateY(-16%); }
+.mock__col:nth-child(6) { transform: translateY(-36%); }
+
+/* .mock .mock__s, not .mock__s: this figure is a .fullbleed, and swiss.css
+   1111 sets `.fullbleed img { border-radius: 0 }` while 1707 caps the same
+   selector at max-height: 60vh on a narrow screen. Both are one class plus a
+   type selector, so a bare .mock__s loses to them - the cards came out
+   square-cornered, and would have been cropped short on a laptop. Two
+   classes wins, and the 60vh cap has to be turned off by name.
+
+   MEASURING THIS: the stage is rotated, so getBoundingClientRect returns the
+   axis-aligned box of a tilted card - a 180x386 card at 13 degrees reads
+   back as 262x414 and looks like a squash that is not there. Read
+   getComputedStyle().width / .height instead. */
+.mock .mock__s {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  flex: none;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  background: #fff;
+  /* The one place on this site with a shadow. A tilted pile without depth
+     reads as a flat pattern, and the screens' own white would otherwise run
+     into the card beside it. */
+  box-shadow: 0 14px 30px color-mix(in srgb, var(--ink) 14%, transparent);
+}
