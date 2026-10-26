@@ -177,14 +177,15 @@
 /* ---------------------------------------------------------------------------
    4. THE OUTCOME PAIR
 
-   Two screens of the live beta, side by side at the same 300px. No decision
-   text to sit beside, so this is a pair, not a split. One is white and one is
-   near-black, so the height difference reads as deliberate.
+   The live beta, at the same 300px as every screen above it. No decision text
+   to sit beside, so this is a figure, not a split. It took two screens until
+   2026-10-27, when he cut the waitlist; auto-fit means it reads correctly
+   whether there is one left or two.
    --------------------------------------------------------------------------- */
 
 .d-pair {
   display: grid;
-  grid-template-columns: repeat(2, var(--shot));
+  grid-template-columns: repeat(auto-fit, var(--shot));   /* one or two */
   gap: var(--s4);
   justify-content: start;
   margin-top: var(--s6);
