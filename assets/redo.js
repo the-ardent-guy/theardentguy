@@ -489,19 +489,39 @@
   }
 
 
-  /* 6. EZRA'S EYES — two pupils that follow the cursor while she is on screen,
-     and now and then look away and ignore it. Off under reduced motion. The
-     eye centres come from the markup as a percent of the image. ------------ */
+  /* 6. EZRA'S EYES - two pupils that slide sideways in their sockets as the
+     cursor moves, and now and then look away and ignore it.
+
+     They move on the x axis only, a little. The socket is an almond: there is
+     room along the eye and effectively none across it, and the old version
+     aimed each pupil freely in 2D, which walked them out of the cat.
+
+     Four numbers per pupil, all in the markup and all measured off the
+     artwork he supplied on 2026-10-27 (a sheet of just the pupils over the
+     pupil-less cat): --ex / --ey are where he drew that pupil, data-l and
+     data-r are how far it may travel left and right as a percent of the
+     picture's width. The travel was measured column by column across the
+     green of the socket, keeping only the columns at least a pupil tall,
+     less the pupil's own radius, less 15% held back. Hence the asymmetry:
+     he did not draw either pupil in the middle of its eye.
+
+     The rest position is CSS, so JS off or reduced motion on still leaves the
+     cat with its eyes in the right place. ---------------------------------- */
   function eyes() {
-    if (reduce) return;
     var host = document.querySelector("[data-eyes]");
     if (!host) return;
-    var pupils = host.querySelectorAll(".dz__eye");
-    if (!pupils.length) return;
+    var pupils = Array.prototype.slice.call(host.querySelectorAll(".dz__eye"));
+    if (!pupils.length || reduce) return;
 
-    Array.prototype.forEach.call(pupils, function (p) {
-      p.style.left = (parseFloat(p.getAttribute("data-cx")) || 50) + "%";
-      p.style.top = (parseFloat(p.getAttribute("data-cy")) || 50) + "%";
+    var specs = pupils.map(function (p) {
+      var cs = getComputedStyle(p);
+      return {
+        el: p,
+        ex: parseFloat(cs.getPropertyValue("--ex")) || 50,
+        ey: parseFloat(cs.getPropertyValue("--ey")) || 50,
+        l: parseFloat(p.getAttribute("data-l")) || 0,
+        r: parseFloat(p.getAttribute("data-r")) || 0
+      };
     });
 
     var inView = true, ignoring = false;
@@ -510,23 +530,23 @@
       new IntersectionObserver(function (es) { inView = es[0].isIntersecting; }, { threshold: 0.25 }).observe(host);
     }
 
-    function maxOff() { return Math.max(3, (host.clientWidth || 300) * 0.016); }
-
-    function aim(px, py) {                         // each pupil from its own socket
-      var r = host.getBoundingClientRect(), max = maxOff();
-      Array.prototype.forEach.call(pupils, function (p) {
-        var ex = r.left + r.width * (parseFloat(p.getAttribute("data-cx")) / 100);
-        var ey = r.top + r.height * (parseFloat(p.getAttribute("data-cy")) / 100);
-        var dx = px - ex, dy = py - ey, len = Math.sqrt(dx * dx + dy * dy) || 1;
-        p.style.setProperty("--ox", ((dx / len) * max).toFixed(1) + "px");
-        p.style.setProperty("--oy", ((dy / len) * max).toFixed(1) + "px");
+    /* t is -1 for hard left, 0 for straight up or down, 1 for hard right. */
+    function slide(t, width) {
+      specs.forEach(function (s) {
+        var room = t < 0 ? s.l : s.r;
+        s.el.style.setProperty("--ox", (t * room / 100 * width).toFixed(2) + "px");
       });
     }
-    function glance(dx, dy) {                       // both pupils the same way
-      var max = maxOff(), len = Math.sqrt(dx * dx + dy * dy) || 1;
-      Array.prototype.forEach.call(pupils, function (p) {
-        p.style.setProperty("--ox", ((dx / len) * max).toFixed(1) + "px");
-        p.style.setProperty("--oy", ((dy / len) * max).toFixed(1) + "px");
+
+    function aim(px, py) {                       // each pupil from its own socket
+      var r = host.getBoundingClientRect();
+      specs.forEach(function (s) {
+        var dx = px - (r.left + r.width * s.ex / 100);
+        var dy = py - (r.top + r.height * s.ey / 100);
+        var len = Math.sqrt(dx * dx + dy * dy) || 1;
+        var t = dx / len;
+        var room = t < 0 ? s.l : s.r;
+        s.el.style.setProperty("--ox", (t * room / 100 * r.width).toFixed(2) + "px");
       });
     }
 
@@ -535,12 +555,11 @@
       aim(e.clientX, e.clientY);
     }, { passive: true });
 
-    setInterval(function () {                        // now and then, ignore the cursor
+    setInterval(function () {                    // now and then, ignore the cursor
       if (!inView || ignoring) return;
       if (Math.random() < 0.3) {
         ignoring = true;
-        var a = Math.random() * Math.PI * 2;
-        glance(Math.cos(a), Math.sin(a));
+        slide(Math.random() < 0.5 ? -1 : 1, host.getBoundingClientRect().width);
         setTimeout(function () { ignoring = false; }, 800 + Math.random() * 1400);
       }
     }, 3200);

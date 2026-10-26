@@ -244,12 +244,20 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 .dz__cat2 img,
 .dz__phones { display: block; height: 100%; width: auto; max-width: 100%; }
 
+/* The pupils. Where they sit is in the markup: --ex / --ey place them,
+   data-l / data-r say how far each may slide. 1.87% is the diameter he drew
+   them at, as a percent of the picture. They move on the x axis only - the
+   socket is an almond, with room along the eye and none across it. */
 .dz__eye {
-  position: absolute; width: 2.5%; aspect-ratio: 1; border-radius: 50%;
-  background: #141210; left: 50%; top: 50%;     /* real % set from the image in redo.js */
-  transform: translate(-50%, -50%) translate(var(--ox, 0px), var(--oy, 0px));
-  transition: transform .16s ease-out;
-  box-shadow: 0 0 1px rgba(0,0,0,.4);
+  position: absolute;
+  left: var(--ex, 50%);
+  top: var(--ey, 50%);
+  width: 1.87%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #47281D;                          /* his pupil brown, sampled */
+  transform: translate(-50%, -50%) translateX(var(--ox, 0px));
+  transition: transform .18s ease-out;
 }
 
 /* Lurch keeps its labels over the screens, placed off .dz__stage. */
