@@ -203,7 +203,7 @@
       lineTop = hr.y + hr.h; lineX0 = hr.x; lineX1 = hr.x + hr.w;
 
       surfaces = [{ top: lineTop, x0: lineX0, x1: lineX1, el: null }];
-      Array.prototype.forEach.call(document.querySelectorAll(".feat, .feat-sm, .dz__box"), function (el) {
+      Array.prototype.forEach.call(document.querySelectorAll(".feat, .feat-sm, .dz__cat2, .dz__stage"), function (el) {
         var r = rel(el);
         surfaces.push({ top: r.y, x0: r.x, x1: r.x + r.w, el: el.querySelector(".feat__shot") || el });
       });
@@ -492,18 +492,19 @@
   /* 6. EZRA'S EYES - two pupils that slide sideways in their sockets as the
      cursor moves, and now and then look away and ignore it.
 
-     They move on the x axis only, a little. The socket is an almond: there is
-     room along the eye and effectively none across it, and the old version
-     aimed each pupil freely in 2D, which walked them out of the cat.
+     They move a little along the eye and a very little across it. The socket
+     is an almond, and the first version of this aimed each pupil freely in
+     2D with one distance for both, which walked them out of the cat.
 
-     Four numbers per pupil, all in the markup and all measured off the
-     artwork he supplied on 2026-10-27 (a sheet of just the pupils over the
-     pupil-less cat): --ex / --ey are where he drew that pupil, data-l and
-     data-r are how far it may travel left and right as a percent of the
-     picture's width. The travel was measured column by column across the
-     green of the socket, keeping only the columns at least a pupil tall,
-     less the pupil's own radius, less 15% held back. Hence the asymmetry:
-     he did not draw either pupil in the middle of its eye.
+     Six numbers per pupil, all in the markup and all measured off the artwork
+     he supplied on 2026-10-27 (a sheet of just the pupils over the pupil-less
+     cat): --ex / --ey are where he drew that pupil, and data-l / data-r /
+     data-u / data-d are how far it may go left, right, up and down, as a
+     percent of the picture. Each was found by walking the pupil's own disc
+     out of its socket half a pixel at a time until it left; the four are the
+     semi-axes of an ellipse, which was then checked at 72 angles. They are
+     asymmetric because he drew neither pupil in the middle of its eye, and
+     both of them high, which is why up is the smallest of the four.
 
      The rest position is CSS, so JS off or reduced motion on still leaves the
      cat with its eyes in the right place. ---------------------------------- */
@@ -520,7 +521,9 @@
         ex: parseFloat(cs.getPropertyValue("--ex")) || 50,
         ey: parseFloat(cs.getPropertyValue("--ey")) || 50,
         l: parseFloat(p.getAttribute("data-l")) || 0,
-        r: parseFloat(p.getAttribute("data-r")) || 0
+        r: parseFloat(p.getAttribute("data-r")) || 0,
+        u: parseFloat(p.getAttribute("data-u")) || 0,
+        d: parseFloat(p.getAttribute("data-d")) || 0
       };
     });
 
@@ -530,12 +533,17 @@
       new IntersectionObserver(function (es) { inView = es[0].isIntersecting; }, { threshold: 0.25 }).observe(host);
     }
 
-    /* t is -1 for hard left, 0 for straight up or down, 1 for hard right. */
-    function slide(t, width) {
-      specs.forEach(function (s) {
-        var room = t < 0 ? s.l : s.r;
-        s.el.style.setProperty("--ox", (t * room / 100 * width).toFixed(2) + "px");
-      });
+    /* tx, ty is a unit direction. Each pupil takes its own room in that
+       direction, so the offsets trace the ellipse its socket allows rather
+       than a circle. */
+    function put(s, tx, ty, w, h) {
+      s.el.style.setProperty("--ox", (tx * (tx < 0 ? s.l : s.r) / 100 * w).toFixed(2) + "px");
+      s.el.style.setProperty("--oy", (ty * (ty < 0 ? s.u : s.d) / 100 * h).toFixed(2) + "px");
+    }
+
+    function slide(tx, ty) {
+      var r = host.getBoundingClientRect();
+      specs.forEach(function (s) { put(s, tx, ty, r.width, r.height); });
     }
 
     function aim(px, py) {                       // each pupil from its own socket
@@ -544,9 +552,7 @@
         var dx = px - (r.left + r.width * s.ex / 100);
         var dy = py - (r.top + r.height * s.ey / 100);
         var len = Math.sqrt(dx * dx + dy * dy) || 1;
-        var t = dx / len;
-        var room = t < 0 ? s.l : s.r;
-        s.el.style.setProperty("--ox", (t * room / 100 * r.width).toFixed(2) + "px");
+        put(s, dx / len, dy / len, r.width, r.height);
       });
     }
 
@@ -559,7 +565,8 @@
       if (!inView || ignoring) return;
       if (Math.random() < 0.3) {
         ignoring = true;
-        slide(Math.random() < 0.5 ? -1 : 1, host.getBoundingClientRect().width);
+        var a = Math.random() * Math.PI * 2;
+        slide(Math.cos(a), Math.sin(a));
         setTimeout(function () { ignoring = false; }, 800 + Math.random() * 1400);
       }
     }, 3200);

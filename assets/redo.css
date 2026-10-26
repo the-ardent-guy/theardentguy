@@ -208,46 +208,21 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 }
 .dz { display: block; color: #fff; text-decoration: none; }
 
-/* Both desserts sit in a plain box, 2026-10-26, his call. It is the panel
-   this page already puts a case-study shot in, at 4:3 rather than 16:10,
-   because a square cat and a near-square phone shot come out tiny in a wide
-   box. The picture is padded and shown whole - the box sets the height and
-   the picture keeps its own ratio inside it, so nothing is cropped.
-
-   Each wrapper has to hug its picture exactly: Ezra's pupils are placed as a
-   percentage of .dz__cat2 and Lurch's labels as a percentage of .dz__stage,
-   so a wrapper any wider than the image it holds puts both in the wrong
-   place. height:100% on the image, width:auto, and the wrapper shrinks to
-   fit it. */
-.dz__box {
-  display: grid;
-  /* One row and one column, both sized from the box rather than from what
-     is in them. An auto row would take its height FROM the picture, the
-     picture's height:100% would then have nothing to resolve against, and
-     the image would fall back to its natural size and overflow the box
-     (measured: a 344px cat in a 247px box). minmax(0, 1fr) against the
-     definite height aspect-ratio gives the box is what makes it fit. */
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: minmax(0, 1fr);
-  align-items: stretch;
-  justify-items: center;
-  aspect-ratio: 4 / 3;
-  padding: clamp(12px, 2vw, 26px);
-  background: #141414;
-  border: 1px solid rgba(255,255,255,.12);
-  overflow: hidden;
+/* Ezra: just the cat, no box, 2026-10-27 his call. The pupils ride over her
+   eyes, driven from redo.js. */
+.dz__cat2 { position: relative; display: block; }
+.dz__cat2 img {
+  display: block; width: 100%; height: auto;
+  filter: drop-shadow(0 18px 26px rgba(0,0,0,.45));
+  transition: transform .45s cubic-bezier(.22,1,.36,1);
 }
-
-.dz__cat2,
-.dz__stage { position: relative; display: block; height: 100%; }
-
-.dz__cat2 img,
-.dz__phones { display: block; height: 100%; width: auto; max-width: 100%; }
+.dz--ezra:hover .dz__cat2 img { transform: translateY(-8px); }
 
 /* The pupils. Where they sit is in the markup: --ex / --ey place them,
-   data-l / data-r say how far each may slide. 1.87% is the diameter he drew
-   them at, as a percent of the picture. They move on the x axis only - the
-   socket is an almond, with room along the eye and none across it. */
+   data-l / data-r / data-u / data-d say how far each may slide. 1.87% is the
+   diameter he drew them at, as a percent of the picture. The socket is an
+   almond, so they move a little along the eye and barely at all across it:
+   --oy is a fraction of --ox. */
 .dz__eye {
   position: absolute;
   left: var(--ex, 50%);
@@ -256,11 +231,19 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
   aspect-ratio: 1;
   border-radius: 50%;
   background: #47281D;                          /* his pupil brown, sampled */
-  transform: translate(-50%, -50%) translateX(var(--ox, 0px));
+  transform: translate(-50%, -50%) translate(var(--ox, 0px), var(--oy, 0px));
   transition: transform .18s ease-out;
 }
 
-/* Lurch keeps its labels over the screens, placed off .dz__stage. */
+/* Lurch: the phones as they were, with no box around them - but the panel
+   they stand on is filled with his red, #FF1100, the accent this tile already
+   hands the cursor. The artwork is a cut-out, so the red is what shows behind
+   the two screens. The labels sit over them, placed off .dz__stage. */
+.dz__stage { position: relative; display: block; background: #FF1100; }
+.dz__phones {
+  display: block; width: 100%; height: auto;
+  filter: drop-shadow(0 22px 30px rgba(0,0,0,.5));
+}
 .dz__hlabel {
   position: absolute; top: 6%; left: 2%; z-index: 2;
   font-weight: 800; letter-spacing: 0.06em; font-size: clamp(18px, 2.2vw, 30px); color: #fff;
