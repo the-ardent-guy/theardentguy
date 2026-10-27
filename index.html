@@ -17,17 +17,15 @@
 <link rel="stylesheet" href="/assets/notebook.css">
 <link rel="stylesheet" href="/assets/home.css">
 <link rel="stylesheet" href="/assets/redo.css">
-<script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
+<script>document.documentElement.setAttribute("data-theme","light");document.documentElement.classList.add("js");</script>
 </head>
 <body>
 
 <header class="fnav" data-fnav>
   <nav class="fnav__in" aria-label="Site">
     <a href="#work">Work</a>
-    <a href="/studio.html">Studio</a>
     <a href="/desserts.html">Desserts</a>
     <span class="fnav__sep" aria-hidden="true"></span>
-    <button class="fnav__tool" type="button" data-theme-switch aria-pressed="false" aria-label="Colour theme">light</button>
     <a class="fnav__cta" href="#contact">Get in touch <span aria-hidden="true">&rarr;</span></a>
   </nav>
 </header>
@@ -73,8 +71,20 @@
                  alt="The Produsa studio: an owner asks the chat for a header, footer and logo, and the finished site stands in the preview.">
           </a>
           <div class="feat__meta">
-            <p class="feat__kind">AI product</p>
             <h3 class="feat__name"><a href="/produsa.html">Produsa</a></h3>
+            <!-- 2026-10-27, his call: the generic "AI product" kind label is out.
+                 What he actually built goes under the name instead, as two
+                 disciplines, stacked. Stacked and not inline because the second
+                 one carries an ampersand: "A · B & C" on one line reads as three
+                 items with the last two joined, which is the wrong relationship.
+                 The & sits in its own span so it can drop a weight and take a
+                 hair more air than a word space, which is what a busy glyph
+                 needs in a tracked, uppercased line. Sentence case in the
+                 source; the capitals are presentation. See home.css sec 9. -->
+            <ul class="feat__disc">
+              <li>Agent orchestration</li>
+              <li>Chat behaviour <span class="feat__amp">&amp;</span> perception</li>
+            </ul>
             <p class="feat__problem">Small businesses can't get a real website without an agency or a dead-end template. Produsa runs a crew of agents that asks, researches, then builds one.</p>
             <p class="feat__role">Product Designer &amp; Builder &middot; 2026</p>
             <a class="feat__go" href="/produsa.html">Read the case study <span aria-hidden="true">&rarr;</span></a>
@@ -87,9 +97,8 @@
                  alt="The Supaca beta landing page: Make the drive, over a near-black ground, with cards for Boit Club, Club Octane and Sunrise drives.">
           </a>
           <div class="feat__meta">
-            <p class="feat__kind">Mobile app</p>
             <h3 class="feat__name"><a href="/supaca.html">Supaca</a></h3>
-            <p class="feat__problem">A private network for supercar owners had to feel exclusive, and earn trust before anyone paid.</p>
+            <p class="feat__problem">A members-only app for verified supercar owners in India, where clubs run their drives and members RSVP with the car they're bringing. It had to feel exclusive, and earn trust before anyone paid.</p>
             <p class="feat__role">Lead UI/UX Designer &middot; 2024&ndash;2025</p>
             <a class="feat__go" href="/supaca.html">Read the case study <span aria-hidden="true">&rarr;</span></a>
           </div>

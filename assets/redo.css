@@ -171,19 +171,88 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 /* What the thing IS, where the 01-04 used to be. 2026-10-27: he asked for
    the numbering out, and for Produsa and Supaca to say what they are. */
 .feat__kind { margin: 0 0 14px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,.5); }
-.feat__name { margin: 0 0 16px; }
+
+/* 2026-10-28, his note on the description line: "the size of these can be
+   small, font. likewise for all. with padding, and breathing space, well
+   aligned." Four things, and the last one is the real job.
+
+   SIZE. clamp(15px…18px) -> clamp(14px…16px): one clear step down at both
+   ends, and the same step at every width, so all five cards move together.
+   Not smaller than 14px on a phone: this sentence is the only thing on the
+   card that says what the project WAS, so it has to stay body copy, not a
+   caption. Line-height goes the other way, 1.5 -> 1.6, because a smaller
+   face across the same measure needs more room between lines, not less.
+
+   MEASURE. 34ch of 18px measured 354px. 34ch of 16px measures 315px — the
+   same characters per line, but the block would pull 39px in from where it
+   has been sitting and leave the right of the card slack. 38ch holds it at
+   ~352px: the optical column stays put while the type shrinks. Below 760px
+   the column is the screen, so the cap relaxes rather than disappearing —
+   see the media query; an unbounded line at 700px wide runs past 100
+   characters, which is the one thing worse than a line that is too short.
+
+   RHYTHM. The six lines carried 16 / 22 / 20 / 22 / -14 / 22, each decided
+   on its own day. That is a list, not a scale. One scale now, multiples of
+   4, and read as air ABOVE each line:
+     4px   bound       the location is an attribute of the role above it
+     12px  one unit    the disciplines belong to the name (see home.css 9)
+     24px  new unit    name/disciplines -> description -> role
+     32px  the action  the link, which gets more air than anything else
+   Air above and not below, because then every gap is declared once, by the
+   thing underneath it, instead of twice from both sides.
+
+   .feat__meta is a flex column so those numbers ARE the numbers. In normal
+   flow two things lied: adjacent margins collapsed to the larger of the
+   pair instead of adding (which is why the location needed -14px to sit
+   under the role at all), and the link is an inline box that carried ~5px
+   of line leading no margin accounted for. Measured: every gap now lands
+   on its declared value at 390 / 768 / 1440.
+
+   ALIGNMENT. The children also inherited stray max-widths from style.css —
+   369px on the h3, 451px on the role — which are three different right
+   edges in one block. Reset to one block, one measure, one ragged edge.
+   The "padding" he asked for goes between the photo and its text, not
+   inside the text block: a left pad on .feat__meta would knock the column
+   out of line with the image it sits under on a phone, and those two left
+   edges staying flush is what "well aligned" has to mean here.
+   --------------------------------------------------------------------- */
+/* The one alignment the grid could not do by itself. align-items: start puts
+   the text BOX level with the top of the photo, but a 40px name carries ~12px
+   of half-leading above its capitals, so the column read as starting late
+   against a hard photo edge. The pull is the name's own leading, so it tracks
+   the name's clamp: -11px where the name is 40px, -8px where it has bottomed
+   out at 26px. Measured against the photo's top edge, not guessed from the
+   font tables. Reset below 760px, where the photo is above the text and the
+   gap, not the top edge, is the relationship. 2026-10-28. */
+.feat__meta { display: flex; flex-direction: column; align-items: flex-start; margin-top: clamp(-11px, -0.88vw, -8px); }
+.feat__meta > * { max-width: none; }
+.feat__name { margin: 0; }
 .feat__name a { color: #fff; text-decoration: none; font-size: clamp(26px, 3vw, 40px); font-weight: 500; letter-spacing: -0.02em; }
 .feat__name a:hover { opacity: .8; }
-.feat__problem { margin: 0 0 20px; max-width: 34ch; color: #CDCDD2; font-size: clamp(15px, 1vw + 9px, 18px); line-height: 1.5; }
-.feat__role { margin: 0 0 22px; color: #8A8A8A; font-size: 13px; letter-spacing: 0.03em; }
-/* Quiet location line — e.g. VIST Labs, Illinois. Not loud. */
-.feat__loc { margin: -14px 0 22px; color: #6E6E72; font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; }
-.feat__go { color: #fff; text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; border-bottom: 1px solid rgba(255,255,255,.3); padding-bottom: 3px; }
+.feat__problem { margin: 24px 0 0; max-width: 38ch; color: #CDCDD2; font-size: clamp(14px, 0.25vw + 13px, 16px); line-height: 1.6; }
+.feat__role { margin: 24px 0 0; color: #8A8A8A; font-size: 13px; letter-spacing: 0.03em; }
+/* Quiet location line — e.g. VIST Labs, Illinois. Not loud. Bound to the
+   role above it at the tightest step in the scale; it used to reach up with
+   a -14px margin to beat margin collapsing, which the flex column retires. */
+.feat__loc { margin: 4px 0 0; color: #6E6E72; font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; }
+/* line-height 1.25 because the link is a flex item now, not an inline box:
+   left at the inherited 1.6 its own box grew 4.8px taller and dragged the
+   underline that far off the word. 1.25 puts the rule back where it was. */
+.feat__go { margin-top: 32px; line-height: 1.25; color: #fff; text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; border-bottom: 1px solid rgba(255,255,255,.3); padding-bottom: 3px; }
 .feat__go span { display: inline-block; transition: transform .2s; }
 .feat:hover .feat__go span { transform: translateX(4px); }
 
 @media (max-width: 760px) {
-  .feat { grid-template-columns: 1fr; gap: 22px; }
+  /* One column: the gap is now the photo-to-text gap and nothing else, so
+     it takes the 28px that the text block's own rhythm no longer needs to
+     borrow. 22px read as the text being stuck to the bottom of the image. */
+  .feat { grid-template-columns: 1fr; gap: 28px; }
+  .feat__meta { margin-top: 0; }
+  /* 46ch, not none: at phone widths this is wider than the column, so the
+     line still runs the full width exactly as before — it only bites in the
+     500-760px band, where one column is 700px wide and 38ch would look
+     stranded while no cap at all reads as a paragraph of fine print. */
+  .feat__problem { max-width: 46ch; }
 }
 
 /* --- The compact fifth ---------------------------------------------------- */
@@ -282,7 +351,11 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 
 .stage a:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 
-@media (max-width: 720px) { .feat__problem { max-width: none; } }
+/* 2026-10-28: the stray `.feat__problem { max-width: none }` that used to
+   live here at 720px is gone. It dropped the measure 40px AFTER the layout
+   went single-column at 760px, so there was a 40-pixel band where the text
+   column sat at 34ch beside a full-width image. The relaxed cap now lives in
+   the 760px block with the layout flip it belongs to. */
 
 
 /* --- Layer C: the pixel scenery + DESSERTS link --------------------------- */
