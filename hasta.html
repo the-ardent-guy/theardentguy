@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="/assets/redo.css">
 <link rel="stylesheet" href="/assets/hasta.css">
 <link rel="stylesheet" href="/assets/case-extras.css">
-<script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
+<script>document.documentElement.setAttribute("data-theme","light");document.documentElement.classList.add("js");</script>
 </head>
 <body style="--dot: var(--dot-hasta)">
 
@@ -26,10 +26,8 @@
     <a class="snav__mark" href="/">Rishabh Jain</a>
     <nav class="snav__links" aria-label="Site">
       <a href="/#work">Work</a>
-      <a href="/studio.html">Studio</a>
       <a href="/desserts.html">Desserts</a>
       <a href="/#contact">Contact</a>
-          <button class="snav__tool" type="button" data-theme-switch aria-pressed="false" aria-label="Colour theme">light</button>
     </nav>
     <button class="snav__tool snav__menu" type="button" data-menu aria-expanded="false" aria-controls="sheet">Menu</button>
   </header>
@@ -37,14 +35,13 @@
   <div class="sheet" id="sheet">
     <button class="snav__tool sheet__close" type="button" data-menu-close>Close</button>
     <a href="/#work">Work</a>
-    <a href="/studio.html">Studio</a>
     <a href="/desserts.html">Desserts</a>
     <a href="/#contact">Contact</a>
   </div>
 
-  <a class="back" href="/#work">
+  <a class="back" href="/">
     <svg viewBox="0 0 16 12" aria-hidden="true"><path d="M6.5 1 L1 6 L6.5 11 M1 6 H15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    All work
+    Home
   </a>
 
   <header class="head">
@@ -91,11 +88,15 @@
 
       <section id="problem">
         <h2>The problem</h2>
-        <p>Open any palm app and the reading fits anybody. <strong>Bertram Forer</strong> showed why in 1948: he handed his students a personality profile he had assembled out of a newspaper astrology column, and they rated it as an accurate description of themselves. Statements that are favourable and flexible read as personal.</p>
+        <p class="lede">Open any palm app and the reading fits anybody.</p>
+
+        <p><strong>Bertram Forer</strong> showed why in 1948: he handed his students a personality profile he had assembled out of a newspaper astrology column, and they rated it as an accurate description of themselves. Statements that are favourable and flexible read as personal.</p>
 
         <p>Language models made that cheap. They write fluent prose that sounds like a reading and is tied to nothing on the hand in the photo. My notebook calls the two of them together <strong>Barnum slop</strong>, and it is the whole category.</p>
 
-        <p>The second failure is quieter. After one of those readings there is nothing you can tell a friend in five words. No identity, just a paragraph you read once. People put INFJ in their dating profile because a label about yourself is social currency, and palm reading, which is about you more directly than any personality test, was handing out nothing to carry.</p>
+        <p class="lede">The second failure is quieter.</p>
+
+        <p>After one of those readings there is nothing you can tell a friend in five words. No identity, just a paragraph you read once. People put INFJ in their dating profile because a label about yourself is social currency, and palm reading, which is about you more directly than any personality test, was handing out nothing to carry.</p>
 
         <p class="hmw">How might we make a palm reading specific enough that a person can check it against their own hand, and leave them with something from it worth passing on?</p>
       </section>
@@ -136,9 +137,11 @@
         <article class="decision" id="d1">
           <span class="decision__n">01</span>
           <h3>More sources, one canon</h3>
-          <p>I directed a study of six palmistry traditions and supplied the source material: deep research, transcripts of classical books and lectures, and recordings of practising pandits.</p>
+          <p class="lede">I directed a study of six palmistry traditions and supplied the source material: deep research, transcripts of classical books and lectures, and recordings of practising pandits.</p>
           <p>Three traditions made it into the product, and ten sources were merged into one rulebook: the Garuda Purana and K.C. Sen's Hast Samudrika Shastra at about 116 entries, W.G. Benham's The Laws of Scientific Hand Reading from 1900 at about 185 entries, and the Chinese five-element school.</p>
-          <p>A sign earned its place on three counts, and I wrote them at the top of the page: <strong>reliability</strong>, <strong>specificity</strong> and <strong>differentiation</strong>. It had to come from a source I could name, say something precise, and tell one hand apart from another.</p>
+          <p class="lede">A sign earned its place on three counts, and I wrote them at the top of the page: <strong>reliability</strong>, <strong>specificity</strong> and <strong>differentiation</strong>.</p>
+
+          <p>It had to come from a source I could name, say something precise, and tell one hand apart from another.</p>
           <p>They merge into one canon rather than sitting side by side, because the same hand must not get a different reading depending on which book the model happened to reach for.</p>
           <p>The rulebook loads as cached ground truth and the model may only read in its vocabulary of lines, mounts and classical signs. That fixed vocabulary is what makes citing a source possible at all.</p>
           <p class="why"><b>Trade-off:</b> The reading cannot say anything the canon doesn't carry. That is the point, and it also caps how surprising a reading is allowed to be.</p>
@@ -154,7 +157,9 @@
         <article class="decision" id="d2">
           <span class="decision__n">02</span>
           <h3>Measured the genericness instead of trusting my ear</h3>
-          <p>One layer of the prompt, "read this hand, not a hand", bans the cold-reading phrases by name. Then a weekly eval harness runs an independent model across readings and scores each one for <strong>faithfulness</strong>, <strong>distinctiveness</strong> and <strong>genericness</strong>, tracked release over release.</p>
+          <p class="lede">One layer of the prompt, "read this hand, not a hand", bans the cold-reading phrases by name.</p>
+
+          <p>Then a weekly eval harness runs an independent model across readings and scores each one for <strong>faithfulness</strong>, <strong>distinctiveness</strong> and <strong>genericness</strong>, tracked release over release.</p>
           <p>Underneath that sit the four levers I had sketched for why one reading feels tailored and another doesn't.</p>
           <ul class="plain principles ico-list">
             <li><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.6"/><circle cx="8" cy="8" r="1.3"/></svg><b>Perceived tailoring:</b> the sentence points at a mark that is on your hand.</li>
@@ -168,22 +173,28 @@
         <article class="decision" id="d3">
           <span class="decision__n">03</span>
           <h3>Asked one question about them, not about their hand</h3>
-          <p>At about 72% the reading stops and asks one thing. When a group settles on a plan, would you still rather go your own way? The answers are "That is me" and "I like to fit in", and the skip is written so it costs nothing: leave this one to our eye.</p>
+          <p class="lede">At about 72% the reading stops and asks one thing.</p>
+
+          <p>When a group settles on a plan, would you still rather go your own way? The answers are "That is me" and "I like to fit in", and the skip is written so it costs nothing: leave this one to our eye.</p>
           <p>Two reasons. The answer gives the reading a self-report to weigh against a sign it only saw faintly. And a person who has put one hand on the thing values what comes out of it more than a person who waited for it, which is the <strong>IKEA effect</strong> doing work a loading spinner cannot.</p>
-          <p>The question is deliberately about the person, never about their hand. Asking whether their heart line forks would hand the reader our job and break the promise in the same sentence.</p>
+          <p class="lede">The question is deliberately about the person, never about their hand.</p>
+
+          <p>Asking whether their heart line forks would hand the reader our job and break the promise in the same sentence.</p>
         </article>
 
         <article class="decision" id="d4">
           <span class="decision__n">04</span>
           <h3>The hand holds the authority, and the product says so out loud</h3>
-          <p>"The lines are yours, we just read them." Hasta never speaks as a seer. The anthropologist Pascal Boyer calls this <strong>ostensive detachment</strong>: a divination reads as true when the answer appears to arrive from the object rather than from the person holding it, and the reader's own stake in it disappears.</p>
+          <p class="lede">"The lines are yours, we just read them."</p>
+
+          <p>Hasta never speaks as a seer. The anthropologist Pascal Boyer calls this <strong>ostensive detachment</strong>: a divination reads as true when the answer appears to arrive from the object rather than from the person holding it, and the reader's own stake in it disappears.</p>
           <p>That one idea settles arguments further down. The reading is <strong>decision support</strong>, so it describes tendencies and never dates. There is no score, no forecast, nothing about marriage or children, and no gemstone to buy at the end. A mirror, not a verdict.</p>
         </article>
 
         <article class="decision" id="d5">
           <span class="decision__n">05</span>
           <h3>A card that names your hand</h3>
-          <p>Every reading produces a card: an archetype name, a drawn glyph, the person's own lined palm photo, and a single epithet line.</p>
+          <p class="lede">Every reading produces a card: an archetype name, a drawn glyph, the person's own lined palm photo, and a single epithet line.</p>
           <p>The card is free and it arrives before the paywall, so nobody leaves empty-handed and every share is an advertisement that isn't selling fear.</p>
           <p>It is the <strong>identity layer</strong> the category never had, except the label is drawn from the person's actual hand rather than from a quiz. The privacy promise rides on the card too, which means every share repeats it to somebody new.</p>
           <p class="why"><b>Trade-off:</b> A card compresses a whole reading into a few lines and risks flattening it into a horoscope label. Carrying only the dominant readings, from the real photo, is what keeps it specific.</p>
@@ -199,9 +210,13 @@
         <article class="decision" id="d6">
           <span class="decision__n">06</span>
           <h3>Verdict first, evidence last</h3>
-          <p>The reading is ordered the way the notebook has it: verdict, then themes, then appendix. The card, the portrait, the pages, the evidence, and then the chat for whatever is still unanswered. <strong>Progressive disclosure</strong>, so the person meets the conclusion before the apparatus.</p>
+          <p class="lede">The reading is ordered the way the notebook has it: verdict, then themes, then appendix.</p>
+
+          <p>The card, the portrait, the pages, the evidence, and then the chat for whatever is still unanswered. <strong>Progressive disclosure</strong>, so the person meets the conclusion before the apparatus.</p>
           <p>The evidence is there for anyone who opens it. Each claim names the line or mount it was read from and the book that says so, and the output schema makes the model declare for every line whether it saw it clearly, faintly or not at all, so it cannot describe a line that wasn't there.</p>
-          <p>Where the three schools disagree, the reading says which school says what. Nine conflicts are on the register so far: five carry a ruling, three a recorded lean, and the serpent mark is still open.</p>
+          <p class="lede">Where the three schools disagree, the reading says which school says what.</p>
+
+          <p>Nine conflicts are on the register so far: five carry a ruling, three a recorded lean, and the serpent mark is still open.</p>
           <p class="why"><b>Trade-off:</b> Showing the working makes a reading less magical. Being checkable mattered more.</p>
           <figure>
             <div class="media media--light">
@@ -224,14 +239,6 @@
         <p>One number I don't have: how many readings begin from a shared card. The identity layer is the reach bet of the whole product and it is still unmeasured.</p>
       </section>
 
-      <section id="reflection">
-        <h2>Reflection</h2>
-        <ul class="plain principles">
-          <li><b>Instrument the card before shipping it, not after.</b> I can show that people pay without being frightened into it. I can't yet show that a label travels, which is the claim I most want to make.</li>
-          <li><b>Make the privacy page match the tags.</b> It says "no account and no tracking" while the site loads Google Analytics and Microsoft Clarity behind a consent banner. On a product whose argument is that you can check it, the page about trust is the worst one to be caught out on. Either the line reads "no tracking without consent" or the tags go.</li>
-          <li><b>Say the wait once.</b> The analysis screen carries two different promises in two places, two to three minutes and two to four. It is the one number a reader can time, one screen before the reveal.</li>
-        </ul>
-      </section>
 
     </main>
 

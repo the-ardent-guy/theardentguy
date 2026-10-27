@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="/assets/notebook.css">
 <link rel="stylesheet" href="/assets/redo.css">
 <link rel="stylesheet" href="/assets/case-extras.css">
-<script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
+<script>document.documentElement.setAttribute("data-theme","light");document.documentElement.classList.add("js");</script>
 </head>
 <body style="--dot: var(--dot-produsa)">
 
@@ -25,10 +25,8 @@
     <a class="snav__mark" href="/">Rishabh Jain</a>
     <nav class="snav__links" aria-label="Site">
       <a href="/#work">Work</a>
-      <a href="/studio.html">Studio</a>
       <a href="/desserts.html">Desserts</a>
       <a href="/#contact">Contact</a>
-          <button class="snav__tool" type="button" data-theme-switch aria-pressed="false" aria-label="Colour theme">light</button>
     </nav>
     <button class="snav__tool snav__menu" type="button" data-menu aria-expanded="false" aria-controls="sheet">Menu</button>
   </header>
@@ -36,14 +34,13 @@
   <div class="sheet" id="sheet">
     <button class="snav__tool sheet__close" type="button" data-menu-close>Close</button>
     <a href="/#work">Work</a>
-    <a href="/studio.html">Studio</a>
     <a href="/desserts.html">Desserts</a>
     <a href="/#contact">Contact</a>
   </div>
 
-  <a class="back" href="/#work">
+  <a class="back" href="/">
     <svg viewBox="0 0 16 12" aria-hidden="true"><path d="M6.5 1 L1 6 L6.5 11 M1 6 H15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    All work
+    Home
   </a>
 
   <header class="head">
@@ -96,12 +93,16 @@
 
       <section id="context">
         <h2>Context</h2>
-        <p>At Produsa Labs, we set out to run an agency's whole process with AI agents. A website project at an agency follows the same steps every time: research, niche, brand, prototype, build. We turned each step into an agent. Websites came first because that was the process I knew best.</p>
+        <p class="lede">At Produsa Labs, we set out to run an agency's whole process with AI agents.</p>
+
+        <p>A website project at an agency follows the same steps every time: research, niche, brand, prototype, build. We turned each step into an agent, and the agents into one multi-agent system. Websites came first because that was the process I knew best.</p>
       </section>
 
       <section id="problem">
         <h2>The problem</h2>
-        <p>A good website still costs too much for many small businesses in India, especially outside the big cities. Owners have two options, and neither works for them.</p>
+        <p class="lede">A good website still costs too much for many small businesses in India, especially outside the big cities.</p>
+
+        <p>Owners have two options, and neither works for them.</p>
 
         <table class="compare">
           <thead>
@@ -128,7 +129,9 @@
 
       <section id="users">
         <h2>Users</h2>
-        <p>Owners of small and mid-sized businesses: a bakery, a bearings distributor, a cafe, a steel trader. They run their business on WhatsApp, and many don't work in English. They can describe their business, but they can't describe a website.</p>
+        <p class="lede">They can describe their business, but they can't describe a website.</p>
+
+        <p>Owners of small and mid-sized businesses: a bakery, a bearings distributor, a cafe, a steel trader. They run their business on WhatsApp, and many don't work in English.</p>
         <ul class="plain">
           <li>What they can answer: who their customers are, what they sell, and sites they like.</li>
           <li>What they can't: layouts, typography, colour systems and information architecture.</li>
@@ -138,7 +141,9 @@
 
       <section id="research">
         <h2>Research: the alpha test</h2>
-        <p>We onboarded 55 to 60 test users from different trades and let them build on the platform for real. I ran <strong>clarity sessions</strong> to watch how they worked, and we put a <strong>feedback board</strong> inside the product so anyone could log a bug or ask for something. Two problems came back more than the rest.</p>
+        <p class="lede">We onboarded 55 to 60 test users from different trades and let them build on the platform for real.</p>
+
+        <p>I ran <strong>clarity sessions</strong> to watch how they worked, and we put a <strong>feedback board</strong> inside the product so anyone could log a bug or ask for something. Two problems came back more than the rest.</p>
 
         <ol class="steps">
           <li>The <strong>build meter</strong> sat at 92%. We had built it to hold attention and it did the opposite, so it now moves with the real build and names what it is doing when a step runs long.</li>
@@ -174,7 +179,7 @@
           <span>Prototype</span><i>then</i>
           <span>Website</span>
         </div>
-        <p>An art director agent, a content agent and an SEO agent work on each build. Each agent checks its output against written standards and fixes it before handing it on. Owners can share their old website as a reference.</p>
+        <p>An art director agent, a content agent and an SEO agent work on each build. Each agent checks its output against written standards, fixes what fails, then hands off to the next. Owners can share their old website as a reference.</p>
       </section>
 
       <section id="decisions">
@@ -184,7 +189,9 @@
           <div class="d-split__text">
           <span class="decision__n">01</span>
           <h3>WhatsApp onboarding with no sign-up</h3>
-          <p>The owner messages a number, answers a few questions about their business, and gets a designed prototype back in the chat. Their phone number creates the account automatically, and they're asked for an email later. The first prototype comes out of the 15 free <strong>tokens</strong>.</p>
+          <p class="lede">The owner messages a number, answers a few questions about their business, and gets a designed prototype back in the chat.</p>
+
+          <p>Their phone number creates the account automatically, and they're asked for an email later. The first prototype comes out of the 15 free <strong>tokens</strong>.</p>
           <p class="why"><b>Why:</b> We considered a sign-up step before the first build and dropped it. Every extra step added friction between the owner and seeing their site appear, and that first prototype is what wins them over. Collecting details after the first build kept time to value as short as possible.</p>
           </div>
           <figure class="d-split__media">
@@ -200,14 +207,18 @@
         <article class="decision" id="d2">
           <span class="decision__n">02</span>
           <h3>Questions about the business only</h3>
-          <p>On the web, the owner types what they want to build. The agent asks specific follow-up questions about the business, then asks for the logo and the feel they want. The build starts once it has enough to work with.</p>
+          <p class="lede">On the web, the owner types what they want to build.</p>
+
+          <p>The agent asks specific follow-up questions about the business, then asks for the logo and the feel they want. The build starts once it has enough to work with.</p>
           <p class="why"><b>Why:</b> The owner knows their business, and we know design. The questions cover what only the owner can tell us, which keeps cognitive load low, and the agents handle every design decision.</p>
         </article>
 
         <article class="decision" id="d3">
           <span class="decision__n">03</span>
           <h3>A studio where the site builds in front of the owner</h3>
-          <p>The chat sits on the left, and the site builds live in the centre and stays clickable throughout. An active agent panel shows which agent is working (research, art direction, content, SEO or build), and a version history below the preview lists every earlier version of the site.</p>
+          <p class="lede">The chat sits on the left, and the site builds live in the centre and stays clickable throughout.</p>
+
+          <p>An active agent panel shows which agent is working (research, art direction, content, SEO or build), and a version history below the preview lists every earlier version of the site.</p>
           <p class="why"><b>Why:</b> Watching the site take shape builds trust. Owners see a team of agents working for them, and that's a feeling we designed for on purpose.</p>
           <figure>
             <div class="media">
@@ -241,7 +252,9 @@
         <article class="decision" id="d5">
           <span class="decision__n">05</span>
           <h3>Tokens as the one unit of cost</h3>
-          <p>Building, editing and hosting are all paid in tokens. The first site is free to build and publish with 15 tokens. After that, a build costs 10 tokens, and keeping a site live costs 10 tokens a month.</p>
+          <p class="lede">Building, editing and hosting are all paid in tokens.</p>
+
+          <p>The first site is free to build and publish with 15 tokens. After that, a build costs 10 tokens, and keeping a site live costs 10 tokens a month.</p>
           <p>The monthly plans are bundles of tokens with extras such as a custom domain. The owner sees their balance in the chat as they work, so they know what an action costs before they take it.</p>
           <p class="why"><b>Why:</b> Owners edit in bursts, not on a schedule, and a fixed monthly plan charged them the same whether they edited or not. With tokens, they pay for building, editing and hosting as they use them.</p>
         </article>
@@ -262,7 +275,9 @@
 
       <section id="myrole">
         <h2>My role</h2>
-        <p>I set the product direction and designed the UX and UI, the studio layout and the whole conversational experience. Our developer led development, and the two of us designers worked alongside him on the build. I built and debugged the agent orchestration, including the self-correcting and standards loops.</p>
+        <p class="lede">I set the product direction and designed the UX and UI, the studio layout and the whole conversational experience.</p>
+
+        <p>Our developer led development, and the two of us designers worked alongside him on the build. I helped build the multi-agent system and the handoffs between agents. I built and debugged the orchestration, including the self-correcting and standards loops.</p>
       </section>
 
       <section id="reflection">

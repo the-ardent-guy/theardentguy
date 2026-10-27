@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Supaca, designing trust for a private network of supercar owners</title>
+<meta name="robots" content="noindex, nofollow">
+<title>Designing trust for a private supercar owners’ network</title>
 <meta name="description" content="A members-only app for verified supercar owners in India, where clubs run their drives and members RSVP with the car they're bringing. Case study by Rishabh Jain.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +17,7 @@
 <link rel="stylesheet" href="/assets/redo.css">
 <link rel="stylesheet" href="/assets/case-extras.css">
 <link rel="stylesheet" href="/assets/supaca.css">
-<script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
+<script>document.documentElement.setAttribute("data-theme","light");document.documentElement.classList.add("js");</script>
 </head>
 <body style="--dot: var(--dot-supaca)">
 
@@ -26,10 +27,8 @@
     <a class="snav__mark" href="/">Rishabh Jain</a>
     <nav class="snav__links" aria-label="Site">
       <a href="/#work">Work</a>
-      <a href="/studio.html">Studio</a>
       <a href="/desserts.html">Desserts</a>
       <a href="/#contact">Contact</a>
-          <button class="snav__tool" type="button" data-theme-switch aria-pressed="false" aria-label="Colour theme">light</button>
     </nav>
     <button class="snav__tool snav__menu" type="button" data-menu aria-expanded="false" aria-controls="sheet">Menu</button>
   </header>
@@ -37,14 +36,13 @@
   <div class="sheet" id="sheet">
     <button class="snav__tool sheet__close" type="button" data-menu-close>Close</button>
     <a href="/#work">Work</a>
-    <a href="/studio.html">Studio</a>
     <a href="/desserts.html">Desserts</a>
     <a href="/#contact">Contact</a>
   </div>
 
-  <a class="back" href="/#work">
+  <a class="back" href="/">
     <svg viewBox="0 0 16 12" aria-hidden="true"><path d="M6.5 1 L1 6 L6.5 11 M1 6 H15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    All work
+    Home
   </a>
 
   <header class="head">
@@ -121,7 +119,9 @@
 
       <section id="problem">
         <h2>The problem</h2>
-        <p>Supercar owners in India already had clubs, but no product built for them. As a product designer at one of those clubs, I saw how they actually ran: on scattered WhatsApp groups. There was no way to verify who owned a car, drives were organised through forwarded messages, high-value sales ran on trust, and expensive cars sat parked for weeks with nowhere to go.</p>
+        <p class="lede">Supercar owners in India already had clubs, but no product built for them.</p>
+
+        <p>As a product designer at one of those clubs, I saw how they actually ran: on scattered WhatsApp groups. There was no way to verify who owned a car, drives were organised through forwarded messages, high-value sales ran on trust, and expensive cars sat parked for weeks with nowhere to go.</p>
 
         <p class="hmw">How might we give verified owners a private place to belong, where the next drive is one of the main reasons to open the app?</p>
       </section>
@@ -159,7 +159,9 @@
 
       <section id="research">
         <h2>Research</h2>
-        <p>Through my club, I had direct access to owners and organisers, and tested ideas with them throughout. I mapped real clubs and their access rules (<strong>open</strong>, <strong>private</strong>, <strong>referral-only</strong>, <strong>women-only</strong>). Three findings shaped the design:</p>
+        <p class="lede">Through my club, I had direct access to owners and organisers, and tested ideas with them throughout.</p>
+
+        <p>I mapped real clubs and their access rules (<strong>open</strong>, <strong>private</strong>, <strong>referral-only</strong>, <strong>women-only</strong>). Three findings shaped the design:</p>
         <ol class="steps">
           <li>Owners would only join a network where every member was verified.</li>
           <li>Owners wanted somewhere to drive. The event was one of the main reasons to come back.</li>
@@ -231,7 +233,9 @@
               </figure>
             </div>
             <div class="d-words">
-              <p>We started with five: explorer, enthusiast, owner, club owner and partner. The social wall was the reason, and spotters and enthusiasts would have filled it quickly. It would also have undone the point, because owners don't want an audience.</p>
+              <p class="lede">We started with five: explorer, enthusiast, owner, club owner and partner.</p>
+
+              <p>The social wall was the reason, and spotters and enthusiasts would have filled it quickly. It would also have undone the point, because owners don't want an audience.</p>
               <p>We cut it to three entry points, owner, club owner and vendor, with one rule behind the gate: you're verified, or you're waiting. Everyone inside either owns the car or serves someone who does.</p>
               <p class="why"><b>Trade-off:</b> We gave up the audience the social wall would have pulled in, which was the fastest way to look busy before the network was real.</p>
             </div>
@@ -263,7 +267,9 @@
               </figure>
             </div>
             <div class="d-words">
-              <p>A member proves who they are by verifying their car. One <strong>registration document</strong> proves both identity and ownership, an admin approves it, and until then the app stays locked.</p>
+              <p class="lede">A member proves who they are by verifying their car.</p>
+
+              <p>One <strong>registration document</strong> proves both identity and ownership, an admin approves it, and until then the app stays locked.</p>
               <p class="why"><b>Trade-off:</b> Verification adds friction at signup, and for an exclusive network that friction is what makes membership worth having.</p>
             </div>
           </div>
@@ -290,7 +296,9 @@
               </figure>
             </div>
             <div class="d-words">
-              <p>We had a way to make the app look full on day one: drop every Porsche owner into the Porsche club in their city, and everyone else into one generic supercar club. We didn't do it. It would have added strangers to each other's clubs with nobody agreeing to it, and the clubs that already exist here are drawn by area and by who knows whom, not by badge.</p>
+              <p class="lede">We had a way to make the app look full on day one: drop every Porsche owner into the Porsche club in their city, and everyone else into one generic supercar club.</p>
+
+              <p>We didn't do it. It would have added strangers to each other's clubs with nobody agreeing to it, and the clubs that already exist here are drawn by area and by who knows whom, not by badge.</p>
               <p>Members join by choosing to, or by an owner's approval. Where verified and unverified people meet, nobody is named until they choose to be, and avatars are initials.</p>
             </div>
           </div>
@@ -318,7 +326,9 @@
               </figure>
             </div>
             <div class="d-words">
-              <p>Much of the app leads to the event page. When members RSVP, they choose which car they're bringing, and "Who's coming" shows each attendee with a verified badge and a colour-coded pill for their car's make.</p>
+              <p class="lede">Much of the app leads to the event page.</p>
+
+              <p>When members RSVP, they choose which car they're bringing, and "Who's coming" shows each attendee with a verified badge and a colour-coded pill for their car's make.</p>
             </div>
           </div>
         </article>

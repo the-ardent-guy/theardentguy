@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="/assets/notebook.css">
 <link rel="stylesheet" href="/assets/redo.css">
 <link rel="stylesheet" href="/assets/case-extras.css">
-<script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
+<script>document.documentElement.setAttribute("data-theme","light");document.documentElement.classList.add("js");</script>
 </head>
 <body style="--dot: var(--dot-bizotico)">
 
@@ -25,10 +25,8 @@
     <a class="snav__mark" href="/">Rishabh Jain</a>
     <nav class="snav__links" aria-label="Site">
       <a href="/#work">Work</a>
-      <a href="/studio.html">Studio</a>
       <a href="/desserts.html">Desserts</a>
       <a href="/#contact">Contact</a>
-          <button class="snav__tool" type="button" data-theme-switch aria-pressed="false" aria-label="Colour theme">light</button>
     </nav>
     <button class="snav__tool snav__menu" type="button" data-menu aria-expanded="false" aria-controls="sheet">Menu</button>
   </header>
@@ -36,14 +34,13 @@
   <div class="sheet" id="sheet">
     <button class="snav__tool sheet__close" type="button" data-menu-close>Close</button>
     <a href="/#work">Work</a>
-    <a href="/studio.html">Studio</a>
     <a href="/desserts.html">Desserts</a>
     <a href="/#contact">Contact</a>
   </div>
 
-  <a class="back" href="/#work">
+  <a class="back" href="/">
     <svg viewBox="0 0 16 12" aria-hidden="true"><path d="M6.5 1 L1 6 L6.5 11 M1 6 H15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    All work
+    Home
   </a>
 
   <header class="head">
@@ -91,7 +88,7 @@
 
       <section id="problem">
         <h2>The problem</h2>
-        <p>Every watch sold through a marketplace cost Bizotico margin, and an earlier direct store had never become a real sales channel.</p>
+        <p class="lede">Every watch sold through a marketplace cost Bizotico margin, and an earlier direct store had never become a real sales channel.</p>
 
         <p>The new one had to hold 25+ brands, priced from under &#8377;5,000 to above &#8377;60,000, in a single catalogue without the premium lines looking like the cheap ones. Most buyers would arrive on a phone and want to pay <strong>cash on delivery</strong>.</p>
       </section>
@@ -102,7 +99,9 @@
         <article class="decision" id="d1">
           <span class="decision__n">01</span>
           <h3>Categories came from what people search for</h3>
-          <p>I ran a basic keyword pass on what watch buyers in India actually type. <strong>Swiss made</strong>, <strong>automatic</strong>, <strong>mechanical</strong> and <strong>quartz</strong> came back highest, so those four became the categories on the homepage. Movement, strap and price sit under a Shop by menu for anyone who wants to narrow further.</p>
+          <p class="lede">I ran a basic keyword pass on what watch buyers in India actually type.</p>
+
+          <p><strong>Swiss made</strong>, <strong>automatic</strong>, <strong>mechanical</strong> and <strong>quartz</strong> came back highest, so those four became the categories on the homepage. Movement, strap and price sit under a Shop by menu for anyone who wants to narrow further.</p>
           <figure class="bleed">
             <div class="media media--light">
               <img src="/assets/media/bizo-categories.webp" width="1700" height="733" loading="lazy" decoding="async"
@@ -115,7 +114,9 @@
         <article class="decision" id="d2">
           <span class="decision__n">02</span>
           <h3>Put the partner brands on the top shelf</h3>
-          <p>The partnerships are the reason to trust a distributor, so they go first. Earnshaw, Scuderia Ferrari, Nubeo and Roamer take the row directly under the hero, each sitting on its own logo rather than a product name, because the brand is what a buyer recognises from across the page.</p>
+          <p class="lede">The partnerships are the reason to trust a distributor, so they go first.</p>
+
+          <p>Earnshaw, Scuderia Ferrari, Nubeo and Roamer take the row directly under the hero, each sitting on its own logo rather than a product name, because the brand is what a buyer recognises from across the page.</p>
           <figure class="bleed">
             <div class="media media--light">
               <img src="/assets/media/bizo-bestsellers.webp" width="1700" height="736" loading="lazy" decoding="async"
@@ -128,7 +129,9 @@
         <article class="decision" id="d3">
           <span class="decision__n">03</span>
           <h3>Two years of warranty, five on Obaku</h3>
-          <p>A marketplace listing cannot offer a warranty from the distributor who imported the watch. We took the call to put 2 years on everything bought on the site, and Bizotico backed a bonus five-year warranty on Obaku Ceramic.</p>
+          <p class="lede">A marketplace listing cannot offer a warranty from the distributor who imported the watch.</p>
+
+          <p>We took the call to put 2 years on everything bought on the site, and Bizotico backed a bonus five-year warranty on Obaku Ceramic.</p>
           <p>I built the flow for that one, from the homepage block through the registration a buyer completes once the watch arrives.</p>
           <figure class="bleed">
             <div class="media media--light">
@@ -142,7 +145,9 @@
         <article class="decision" id="d4">
           <span class="decision__n">04</span>
           <h3>Borrowed the trust the shop already had</h3>
-          <p>A new store has no reviews. The Bengaluru shop had years of them on Google, so those went on the homepage with the reviewer's name and photo left intact.</p>
+          <p class="lede">A new store has no reviews.</p>
+
+          <p>The Bengaluru shop had years of them on Google, so those went on the homepage with the reviewer's name and photo left intact.</p>
           <p>Under them, a <strong>Partners block</strong> names Amazon, Flipkart, Myntra, Tata Cliq, Helios and Just In Time as places Bizotico already supplies, which is the shortest proof that the stock is authentic.</p>
           <p class="why"><b>Trade-off:</b> Naming the marketplaces reminds buyers they exist. Proving the watches are genuine was worth more.</p>
           <figure class="bleed">
@@ -157,7 +162,9 @@
         <article class="decision" id="d5">
           <span class="decision__n">05</span>
           <h3>Curated the sale</h3>
-          <p>I picked the watches, then set the discount brand by brand. Fashion labels went deep, premium lines held between 5% and 20% so they never read as clearance. One fixed template meant a single designer could produce a creative for every brand, and each ad links straight to the watch in it.</p>
+          <p class="lede">I picked the watches, then set the discount brand by brand.</p>
+
+          <p>Fashion labels went deep, premium lines held between 5% and 20% so they never read as clearance. One fixed template meant a single designer could produce a creative for every brand, and each ad links straight to the watch in it.</p>
           <figure class="bleed">
             <div class="media media--light">
               <img src="/assets/media/bizo-sale.webp" width="1102" height="733" loading="lazy" decoding="async"

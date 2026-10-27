@@ -77,3 +77,78 @@ ul.plain.ico-list li::before { content: none; }
      is pointing at; this is a marker, not an illustration. */
   color: var(--ink-40);
 }
+
+
+/* ---------------------------------------------------------------------------
+   3. THE LEAD LINE  —  p.lede
+
+   The reading problem on these pages was never the amount of copy, it was
+   that every sentence had the same rank, so a skimmer had nothing to land
+   on between one h3 and the next and the column read as a wall.
+
+   The fix reuses a rank the page already owns. swiss.css has exactly one
+   promoted-sentence device, --t-quote (clamp 20->24px, 1.3, -0.01em, 400),
+   and two things wear it: .lead-note above the hero and .hmw at the end of
+   The problem. One per page. p.lede is the same declaration applied once
+   per argument instead of once per page: the sentence that carries a
+   decision, promoted verbatim out of its own paragraph.
+
+   SIZE ALONE, and the measure. Weight stays 400 and colour stays --ink,
+   which is what body copy already is. Going bold and large and coloured at
+   the same time would read as a different website; one axis is enough when
+   the ratio is 1.5x (24/16 desktop) and the leading drops from 1.6 to 1.3
+   at the same time, which makes the block visibly denser as well as bigger.
+   The 38ch cap is a ceiling, not a visible step: body copy runs 60ch (555px
+   at 1280+) and a 38ch lede caps at 527px, so the cap is doing one job only,
+   which is stopping a long promoted sentence from filling the whole measure
+   and reading as a big paragraph instead of a line. Up to about ten words
+   still holds a single line. It is deliberately tighter than .hmw's 40ch
+   and .lead-note's 44ch, because those two sit alone and a lede has body
+   copy immediately under it.
+
+   HOW THE THREE PROSE RANKS RELATE. Body copy is the middle of three, and
+   the other two leave it in opposite directions on different axes:
+     .lede   16 -> 24px, colour unchanged   (bigger, same ink)
+     p       16px, --ink                    (the baseline)
+     .why    16px unchanged, ink at 68%     (same size, less ink)
+   Nothing is added to .why and nothing is taken off it. The two can never
+   be confused because they do not compete on the same property, and they
+   never meet: a .lede opens a decision and a .why closes it.
+
+   AGAINST THE HEADINGS. h3 on these pages is 18px/500, 1.125x body - a
+   bookmark, not a headline - so a 24px lead line under it is larger than
+   its own heading. That is deliberate. The number and the h3 together are
+   a title block that says what the decision is about; the lead line says
+   what the decision WAS. The skimmer should be caught by the argument, not
+   by the label. h2 keeps the top of the ladder at 28px/700, and weight is
+   what keeps 28/700 clearly above 24/400.
+   --------------------------------------------------------------------------- */
+
+[data-case] .col p.lede {
+  max-width: 38ch;
+  font-size: var(--t-quote);
+  line-height: var(--lh-quote);
+  letter-spacing: var(--tr-quote);
+  font-weight: var(--w-quote);
+  color: var(--ink);
+  /* Two or three lines of near-equal length, rather than a short orphan on
+     the last line. At this size an orphan is the thing you notice. */
+  text-wrap: balance;
+}
+
+/* The gap below is bigger than the gap above. h3 keeps its own 24px bottom
+   margin, so a lead line sits 24px under its heading and 32px above its
+   body copy, and the heading and the lead line group as one unit while the
+   body reads as the detail hanging off it. Every gap in this column was
+   24px before, which is a large part of why it read as a wall: nothing in
+   the spacing told you where one thought ended.
+
+   .col p and .col p:last-child are both (0,2,0) in swiss.css and would
+   otherwise flatten this - the same trap the .hmw comment at swiss.css 1068
+   records. (0,3,1) here clears both. */
+[data-case] .col p.lede { margin: 0 0 var(--s4); }
+
+/* Supaca nests its decision copy in .d-words beside a screen column, and
+   that column is ~420px at 1280+. The cap above is a max-width, so it does
+   nothing there and the lead line simply takes the column. No page-specific
+   size: one pattern. */
