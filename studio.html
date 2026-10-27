@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="/assets/swiss.css">
 <link rel="stylesheet" href="/assets/notebook.css">
 <link rel="stylesheet" href="/assets/redo.css">
-<script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
+<script>document.documentElement.setAttribute("data-theme","light");document.documentElement.classList.add("js");</script>
 </head>
 <body>
 
@@ -23,10 +23,8 @@
     <a class="snav__mark" href="/">Rishabh Jain</a>
     <nav class="snav__links" aria-label="Site">
       <a href="/#work">Work</a>
-      <a href="/studio.html" aria-current="page">Studio</a>
       <a href="/desserts.html">Desserts</a>
       <a href="/#contact">Contact</a>
-      <button class="snav__tool" type="button" data-theme-switch aria-pressed="false" aria-label="Colour theme">light</button>
     </nav>
     <button class="snav__tool snav__menu" type="button" data-menu aria-expanded="false" aria-controls="sheet">Menu</button>
   </header>
@@ -34,12 +32,14 @@
   <div class="sheet" id="sheet">
     <button class="snav__tool sheet__close" type="button" data-menu-close>Close</button>
     <a href="/#work">Work</a>
-    <a href="/studio.html">Studio</a>
     <a href="/desserts.html">Desserts</a>
     <a href="/#contact">Contact</a>
   </div>
 
-  <a class="back" href="/#work">Work</a>
+  <a class="back" href="/">
+    <svg viewBox="0 0 16 12" aria-hidden="true"><path d="M6.5 1 L1 6 L6.5 11 M1 6 H15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Home
+  </a>
 
   <main>
     <header class="phead">

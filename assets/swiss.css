@@ -904,8 +904,20 @@ p a:focus-visible { text-decoration-color: var(--accent); }
 }
 
 .back:hover, .back:focus-visible { color: var(--ink); }
-.back svg { display: none; }
-.back::before { content: "\2190"; }
+
+/* One back control sitewide: the drawn arrow, not a glyph, so the stroke
+   weight matches the hairlines rather than whatever the font ships. The
+   arrow leads and is deliberately larger than its label, so the control
+   reads as a way out at a glance instead of as one more small-caps line. */
+.back { gap: 12px; }
+.back svg { display: block; width: 24px; height: 18px; flex: none; stroke-width: 1.25; }
+.back:hover svg, .back:focus-visible svg { transform: translateX(-3px); }
+.back svg { transition: transform var(--dur) var(--ease); }
+
+@media (max-width: 700px) {
+  .back { gap: 10px; }
+  .back svg { width: 20px; height: 15px; }
+}
 
 /* Title block. The project name carries the dot; the intro sits alongside
    the h1 rather than under it. */

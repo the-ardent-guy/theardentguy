@@ -7,15 +7,14 @@
    the window chrome, the nav sheet, the decision rail). Relinking one is
    the way back, not an edit here.
 
-   Everything below is one of eight things:
+   Everything below is one of seven things:
      1  the scrolled hairline under the nav
-     2  the theme switch
-     3  the fun switch
-     4  reveal
-     5  the cursor thumbnail
-     6  the chapter rail
-     7  the phone menu sheet
-     8  video autoplay, wide screens only
+     2  the fun switch
+     3  reveal
+     4  the cursor thumbnail
+     5  the chapter rail
+     6  the phone menu sheet
+     7  video autoplay, wide screens only
    =========================================================================== */
 (function () {
   "use strict";
@@ -59,40 +58,7 @@
     check();
   }
 
-  /* ---- 2. The theme switch ---------------------------------------------
-     A text toggle. The brackets are drawn by CSS; the word inside is
-     swapped here, and the pressed state is what the mono ink hangs off.
-     The pre-paint script in each page head has already written data-theme,
-     so this never causes a flash. */
-  function themeSwitch() {
-    var btn = document.querySelector("[data-theme-switch]");
-    if (!btn) return;
-
-    function now() {
-      return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
-    }
-
-    function paint() {
-      var dark = now() === "dark";
-      btn.setAttribute("aria-pressed", dark ? "true" : "false");
-      /* The word names the mode you are in, not the one you would get:
-         a switch that reads "light" while the page is light is a label,
-         and a switch that reads "light" while the page is dark is a lie
-         for the half second before you work out which it meant. */
-      btn.textContent = dark ? "dark" : "light";
-    }
-
-    btn.addEventListener("click", function () {
-      var next = now() === "dark" ? "light" : "dark";
-      root.setAttribute("data-theme", next);
-      try { localStorage.setItem("theme", next); } catch (e) {}
-      paint();
-    });
-
-    paint();
-  }
-
-  /* ---- 3. The fun switch ------------------------------------------------
+  /* ---- 2. The fun switch ------------------------------------------------
      data-fun on <html>, and the CSS does the rest. sessionStorage rather
      than localStorage: a fresh visit opens on the work, but clicking out
      to Lurch and back does not reset it. #fun in the URL opens it.
@@ -133,7 +99,7 @@
     paint(start);
   }
 
-  /* ---- 4. Reveal -------------------------------------------------------
+  /* ---- 3. Reveal -------------------------------------------------------
      The page's only entrance. Once per element, 15% visibility, and index
      rows inside one list stagger 40ms up to five so a long list arrives
      as a list rather than as one block. */
@@ -169,7 +135,7 @@
     Array.prototype.forEach.call(els, function (el) { io.observe(el); });
   }
 
-  /* ---- 5. The cursor thumbnail -----------------------------------------
+  /* ---- 4. The cursor thumbnail -----------------------------------------
      The page's one piece of continuous motion. Only on a fine pointer,
      only for a row that carries a real picture, and never a placeholder
      box for a row that does not: an unarmed row simply has no thumbnail,
@@ -233,7 +199,7 @@
     });
   }
 
-  /* ---- 6. The chapter rail ---------------------------------------------
+  /* ---- 5. The chapter rail ---------------------------------------------
      Built from the page's own H2s rather than written out per page, so a
      new section cannot fall out of the index. A section is skipped if its
      heading is screen-reader-only or if it is marked data-nochapter.
@@ -283,7 +249,7 @@
     secs.forEach(function (s) { io.observe(s.el); });
   }
 
-  /* ---- 7. The phone menu sheet -----------------------------------------
+  /* ---- 6. The phone menu sheet -----------------------------------------
      Full screen, links set left on the page's own ground, no card. Only
      reachable under 640px, where the nav's link row is display:none. */
   function sheet() {
@@ -313,7 +279,7 @@
     });
   }
 
-  /* ---- 8. Video autoplay -----------------------------------------------
+  /* ---- 7. Video autoplay -----------------------------------------------
      Ported from case.js unchanged in spirit: no autoplay attribute in the
      markup, so a phone neither burns data on a 2MB file nor plays
      something nobody asked for. Everywhere else the poster stands and the
@@ -338,7 +304,6 @@
   function boot() {
     scrollbar();
     scrolledRule();
-    themeSwitch();
     funSwitch();
     chapters();
     reveal();
