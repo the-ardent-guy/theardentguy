@@ -14,7 +14,8 @@
 <link rel="stylesheet" href="/assets/swiss.css">
 <link rel="stylesheet" href="/assets/notebook.css">
 <link rel="stylesheet" href="/assets/redo.css">
-<script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
+<link rel="stylesheet" href="/assets/desserts.css">
+<script>document.documentElement.setAttribute("data-theme","light");document.documentElement.classList.add("js");</script>
 </head>
 <body>
 
@@ -23,10 +24,8 @@
     <a class="snav__mark" href="/">Rishabh Jain</a>
     <nav class="snav__links" aria-label="Site">
       <a href="/#work">Work</a>
-      <a href="/studio.html">Studio</a>
       <a href="/desserts.html" aria-current="page">Desserts</a>
       <a href="/#contact">Contact</a>
-      <button class="snav__tool" type="button" data-theme-switch aria-pressed="false" aria-label="Colour theme">light</button>
     </nav>
     <button class="snav__tool snav__menu" type="button" data-menu aria-expanded="false" aria-controls="sheet">Menu</button>
   </header>
@@ -34,12 +33,14 @@
   <div class="sheet" id="sheet">
     <button class="snav__tool sheet__close" type="button" data-menu-close>Close</button>
     <a href="/#work">Work</a>
-    <a href="/studio.html">Studio</a>
     <a href="/desserts.html">Desserts</a>
     <a href="/#contact">Contact</a>
   </div>
 
-  <a class="back" href="/">Home</a>
+  <a class="back" href="/">
+    <svg viewBox="0 0 16 12" aria-hidden="true"><path d="M6.5 1 L1 6 L6.5 11 M1 6 H15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Home
+  </a>
 
   <main>
     <header class="phead">
@@ -48,36 +49,227 @@
       <p class="phead__say phead__say--under sub">Political satire. Illustrations. Posters. An animated show in progress. Apps that should not exist but do.</p>
     </header>
 
-    <!-- THE ART IS NOT EXPORTED YET.
-         This page is supposed to be a salon grid: nine pictures on spans
-         that never line up, each with its own top offset so the white
-         space flows instead of pooling into rows. Not one of the nine
-         files exists in assets/, and the spec's own rule is that a
-         placeholder renders nothing.
+    <!-- PLATES. One work per band, native ratio, never cropped, each on the
+         same mat. Three groups: paper, walls, and the work out in the world.
+         Every .plate__s--todo is a PLACEHOLDER awaiting his line and must not
+         ship. See assets/desserts.css. 2026-10-28. -->
 
-         So what ships is the fallback: the captions alone, numbered, as a
-         table of contents for a collection that is coming. It is the one
-         honest version of this page, it is readable, and it tells you
-         exactly how many things there are. The salon spans are written and
-         waiting in swiss.css section 12; replacing this list with nine
-         <figure>s inside .salon is the whole job once there are files.
+    <section class="plates" aria-labelledby="paper">
+      <div class="plates__head reveal">
+        <h2 id="paper">On paper</h2>
+        <p>Ink, mostly. The titles are lettered into the drawings.</p>
+      </div>
 
-         The portal banner placeholder is dropped, and the three
-         [ SVG: hand-drawn mark ] slots are dropped with it: those were the
-         page's two art objects, and an art object with no drawing is a
-         rotated empty box. -->
-    <div class="grid">
-    <ol class="toc">
-      <li>Political satire. Pen on paper.</li>
-      <li>Hand-drawn characters. They show up uninvited.</li>
-      <li>Poster work. Various causes.</li>
-      <li>Ezra. A desktop app for my cat. He passed.</li>
-      <li>Lurch. A dating app that matches you based on your trauma.</li>
-      <li>Places I've been. Things I noticed.</li>
-      <li>An animated satire show. In progress.</li>
-      <li>Four years of open mics across Bengaluru.</li>
-    </ol>
-    </div>
+      <figure class="plate plate--tall reveal">
+        <div class="plate__art"><span class="plate__frame" style="--pad:#E9E5DB"><img src="/assets/media/desserts/dessert-garden.webp" width="1468" height="1800" loading="lazy" decoding="async" alt="A print: three potted plants and a hanging bulb drawn in loose ink and wash, over the hand-lettered title Home is where the garden is."></span></div>
+        <figcaption class="plate__say">
+          <p class="plate__n">01</p>
+          <h3 class="plate__t">Home is where the garden is.</h3>
+          <p class="plate__m">Ink and wash on paper</p>
+          <p class="plate__s plate__s--todo">Your line goes here. What it is, roughly when, and why you drew it. Two or three sentences is plenty.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="plate plate--tall plate--flip reveal">
+        <div class="plate__art"><span class="plate__frame" style="--pad:#E9E5DB"><img src="/assets/media/desserts/dessert-happy.webp" width="1482" height="1800" loading="lazy" decoding="async" alt="A print: a bearded figure dissolving downward into a mass of black ink, under the hand-lettered title Don't worry. Bi. Happy."></span></div>
+        <figcaption class="plate__say">
+          <p class="plate__n">02</p>
+          <h3 class="plate__t">Don&rsquo;t worry. Bi. Happy.</h3>
+          <p class="plate__m">Ink on paper</p>
+          <p class="plate__s plate__s--todo">This one needs you most &mdash; the title is doing something the picture isn&rsquo;t, and only you can say what.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="plate plate--wide plate--pair reveal">
+        <div class="plate__art" style="--a:0.697fr;--b:1.013fr">
+          <div><span class="plate__frame" style="--pad:#E9E5DB"><img src="/assets/media/desserts/dessert-chichmati.webp" width="1254" height="1800" loading="lazy" decoding="async" alt="A print: a black cat-like creature lying down, with flowers, a cross and a small skull growing out of its back."></span><p class="plate__half">Drawn</p></div>
+          <div><span class="plate__frame"><img src="/assets/media/desserts/dessert-chichmati-wall.webp" width="1080" height="1066" loading="lazy" decoding="async" alt="The same creature painted at full size on a textured wall, with Rishabh standing beside it holding a brush and palette."></span><p class="plate__half">Painted</p></div>
+        </div>
+        <figcaption class="plate__say">
+          <p class="plate__n">03</p>
+          <h3 class="plate__t">The same drawing, twice</h3>
+          <p class="plate__m">Print, then a wall</p>
+          <p class="plate__s plate__s--todo">Confirm the title &mdash; I can&rsquo;t read the lettering cleanly at this size. And say what made you take this one off the page and onto a wall.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="plate plate--tall plate--flip reveal">
+        <div class="plate__art"><span class="plate__frame" style="--pad:#E9E5DB"><img src="/assets/media/desserts/dessert-brijnaari.webp" width="1412" height="1800" loading="lazy" decoding="async" alt="A print: a woman seated with a child and a clay pot, drawn in dense hatching with patches of colour."></span></div>
+        <figcaption class="plate__say">
+          <p class="plate__n">04</p>
+          <h3 class="plate__t">Title to confirm</h3>
+          <p class="plate__m">Ink and colour on paper</p>
+          <p class="plate__s plate__s--todo">The lettered title reads as something like &ldquo;Brijnaari&rdquo; &mdash; tell me what it actually says, then your line about it.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="plate plate--tall reveal">
+        <div class="plate__art"><span class="plate__frame" style="--pad:#E9E5DB"><img src="/assets/media/desserts/dessert-shoes.webp" width="1279" height="1800" loading="lazy" decoding="async" alt="A print: lettering tangled into a dense ink creature, with a pair of legs and shoes emerging at the base."></span></div>
+        <figcaption class="plate__say">
+          <p class="plate__n">05</p>
+          <h3 class="plate__t">Title to confirm</h3>
+          <p class="plate__m">Ink on paper</p>
+          <p class="plate__s plate__s--todo">Same here &mdash; the title is drawn into the artwork and I can&rsquo;t read it reliably. Yours to fill.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="plate plate--wide plate--flip reveal">
+        <div class="plate__art"><span class="plate__frame" style="--pad:#E9E5DB"><img src="/assets/media/desserts/dessert-forest-hands.webp" width="1300" height="1226" loading="lazy" decoding="async" alt="A dense pen drawing: two cupped hands holding a forest, with deer, birds, trees and roots packed into the space above the fingers."></span></div>
+        <figcaption class="plate__say">
+          <p class="plate__n">06</p>
+          <h3 class="plate__t">Hands holding a forest</h3>
+          <p class="plate__m">Pen on paper</p>
+          <p class="plate__s plate__s--todo">Working title, mine not yours. Replace it, and say how long this one took &mdash; the density is the story.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="plate plate--tall reveal">
+        <div class="plate__art"><span class="plate__frame" style="--pad:#E9E5DB"><img src="/assets/media/desserts/dessert-mountains.webp" width="894" height="1300" loading="lazy" decoding="async" alt="A pen drawing of a Himalayan valley: ridgelines, tents, a stupa, pack animals, and Devanagari lettering worked into the foreground."></span></div>
+        <figcaption class="plate__say">
+          <p class="plate__n">07</p>
+          <h3 class="plate__t">Working title</h3>
+          <p class="plate__m">Pen on paper</p>
+          <p class="plate__s plate__s--todo">Where was this, and were you drawing it there or afterwards from memory? That difference is worth a sentence.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="plate plate--flip reveal">
+        <div class="plate__art"><span class="plate__frame" style="--pad:#E9E5DB"><img src="/assets/media/desserts/dessert-mushrooms.webp" width="1024" height="1024" loading="lazy" decoding="async" alt="A square black and white drawing: a seated figure with a radiating sun behind the head, ringed by mushrooms and foliage."></span></div>
+        <figcaption class="plate__say">
+          <p class="plate__n">08</p>
+          <h3 class="plate__t">Working title</h3>
+          <p class="plate__m">Ink on paper</p>
+          <p class="plate__s plate__s--todo">Your line here.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="plate plate--tall reveal">
+        <div class="plate__art"><span class="plate__frame" style="--pad:#E9E5DB"><img src="/assets/media/desserts/dessert-headscape.webp" width="1197" height="1600" loading="lazy" decoding="async" alt="A face in ink and colour with a whole landscape growing out of the head: trees, a figure, water, and handwritten notes down the left margin."></span></div>
+        <figcaption class="plate__say">
+          <p class="plate__n">09</p>
+          <h3 class="plate__t">Working title</h3>
+          <p class="plate__m">Ink and marker on paper</p>
+          <p class="plate__s plate__s--todo">There is handwriting down the left edge of this one. If it says something worth reading, say so here.</p>
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="plates" aria-labelledby="walls">
+      <div class="plates__head reveal">
+        <h2 id="walls">On walls</h2>
+        <p>Bigger, slower, and not removable.</p>
+      </div>
+
+      <figure class="plate plate--wide plate--pair reveal">
+        <div class="plate__art" style="--a:1.020fr;--b:0.841fr">
+          <div><span class="plate__frame"><img src="/assets/media/desserts/dessert-sabmaya-making.webp" width="720" height="706" loading="lazy" decoding="async" alt="Rishabh painting a large black figure on a white wall, Devanagari lettering filling the figure's body."></span><p class="plate__half">Making</p></div>
+          <div><span class="plate__frame"><img src="/assets/media/desserts/dessert-sabmaya-wall.webp" width="1080" height="1285" loading="lazy" decoding="async" alt="The finished mural on the wall, with a ginger cat walking past the base of it."></span><p class="plate__half">Finished</p></div>
+        </div>
+        <figcaption class="plate__say">
+          <p class="plate__n">10</p>
+          <h3 class="plate__t">Sab maya hai</h3>
+          <p class="plate__m">Paint on wall</p>
+          <p class="plate__s plate__s--todo">Confirm the lettering inside the figure and where this wall is. The cat was not art direction and should probably be mentioned.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="plate plate--wide plate--flip reveal">
+        <div class="plate__art"><span class="plate__frame"><img src="/assets/media/desserts/dessert-mandala-wall.webp" width="1080" height="856" loading="lazy" decoding="async" alt="A large black and white radiating pattern painted across a white wall beside a green door, with Rishabh standing against it for scale."></span></div>
+        <figcaption class="plate__say">
+          <p class="plate__n">11</p>
+          <h3 class="plate__t">Working title</h3>
+          <p class="plate__m">Paint on wall</p>
+          <p class="plate__s plate__s--todo">How long, and freehand or set out first? That is the question people ask about this kind of thing.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="plate plate--tall reveal">
+        <div class="plate__art"><span class="plate__frame"><img src="/assets/media/desserts/dessert-shopfront.webp" width="975" height="1300" loading="lazy" decoding="async" alt="A shopfront painted with dense pattern work, the words Open Sesame lettered above the entrance behind metal railings."></span></div>
+        <figcaption class="plate__say">
+          <p class="plate__n">12</p>
+          <h3 class="plate__t">Open Sesame</h3>
+          <p class="plate__m">Paint on a shopfront</p>
+          <p class="plate__s plate__s--todo">Whose shop, and did they ask for this or did you? Commissioned work changes how this plate reads.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="plate plate--flip reveal">
+        <div class="plate__art"><span class="plate__frame"><img src="/assets/media/desserts/dessert-rick.webp" width="720" height="722" loading="lazy" decoding="async" alt="A painting of Rick from Rick and Morty with a banner reading Existence is pain, mounted on a wall above a red draped table."></span></div>
+        <figcaption class="plate__say">
+          <p class="plate__n">13</p>
+          <h3 class="plate__t">Existence is pain</h3>
+          <p class="plate__m">Paint on board</p>
+          <p class="plate__s plate__s--todo">Your line here.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="plate reveal">
+        <div class="plate__art"><span class="plate__frame"><img src="/assets/media/desserts/dessert-easel.webp" width="768" height="784" loading="lazy" decoding="async" alt="Rishabh at an easel, palette in hand, painting a black and white angular portrait on canvas in a room hung with framed work."></span></div>
+        <figcaption class="plate__say">
+          <p class="plate__n">14</p>
+          <h3 class="plate__t">Working title</h3>
+          <p class="plate__m">Acrylic on canvas</p>
+          <p class="plate__s plate__s--todo">Your line here.</p>
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="plates" aria-labelledby="out">
+      <div class="plates__head reveal">
+        <h2 id="out">Out there</h2>
+        <p>Characters, printed things, and a table at a market.</p>
+      </div>
+
+      <figure class="plate plate--flip reveal">
+        <div class="plate__art"><span class="plate__frame"><img src="/assets/media/desserts/dessert-characters.webp" width="960" height="1200" loading="lazy" decoding="async" alt="Two bald cartoon characters drawn sitting at a table on the tiered roof of a Newari temple, one feeding the other."></span></div>
+        <figcaption class="plate__say">
+          <p class="plate__n">15</p>
+          <h3 class="plate__t">The pals</h3>
+          <p class="plate__m">Characters for the show</p>
+          <p class="plate__s plate__s--todo">These two are the thing the animated show is built on. Name them and say what they are for.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="plate reveal">
+        <div class="plate__art"><span class="plate__frame"><img src="/assets/media/desserts/dessert-road.webp" width="1080" height="1350" loading="lazy" decoding="async" alt="A photograph of a mountain road with people walking, one drawn character standing among them at four times human height."></span></div>
+        <figcaption class="plate__say">
+          <p class="plate__n">16</p>
+          <h3 class="plate__t">Working title</h3>
+          <p class="plate__m">Drawing over photograph</p>
+          <p class="plate__s plate__s--todo">The trick of putting him into a real photograph at the wrong scale is the best idea in this folder. Say where it came from.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="plate plate--tall plate--flip reveal">
+        <div class="plate__art"><span class="plate__frame"><img src="/assets/media/desserts/dessert-pile.webp" width="1040" height="1300" loading="lazy" decoding="async" alt="A heap of printed posters and zines overlapping each other, including a red poster reading Stop hoping for art."></span></div>
+        <figcaption class="plate__say">
+          <p class="plate__n">17</p>
+          <h3 class="plate__t">The printed pile</h3>
+          <p class="plate__m">Printed matter</p>
+          <p class="plate__s plate__s--todo">How were these printed, and what are they? &ldquo;Stop hoping for art&rdquo; deserves its own sentence.</p>
+        </figcaption>
+      </figure>
+
+      <figure class="plate plate--tall reveal">
+        <div class="plate__art"><span class="plate__frame"><img src="/assets/media/desserts/dessert-stall.webp" width="906" height="1600" loading="lazy" decoding="async" alt="Rishabh standing behind a market table covered with his prints, zines and stickers, holding a drink."></span></div>
+        <figcaption class="plate__say">
+          <p class="plate__n">18</p>
+          <h3 class="plate__t">A table at a market</h3>
+          <p class="plate__m">Selling the work in person</p>
+          <p class="plate__s plate__s--todo">Which market and when. This is the only picture that proves anybody paid for any of it, so it is worth being specific.</p>
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="still">
+      <h2>Still to come</h2>
+      <ul>
+        <li>Ezra. A desktop app for my cat. He passed.</li>
+        <li>Lurch. A dating app that matches you based on your trauma.</li>
+        <li>An animated satire show. In progress.</li>
+        <li>Four years of open mics across Bengaluru.</li>
+      </ul>
+    </section>
   </main>
 
   <footer class="sfoot">

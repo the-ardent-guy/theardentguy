@@ -1,0 +1,226 @@
+/* ===========================================================================
+   DESSERTS — PLATES
+   2026-10-28. Built as "Option A" for review. Replaces the fallback table of
+   contents that stood in while there were no files.
+
+   The argument for plates over a gallery grid: this work is dense ink. A
+   3535x5000 line drawing in a 400px grid tile is a grey smudge, and the
+   titles are lettered INTO the artwork, so a thumbnail throws away the one
+   thing that names the piece. One work per band, at a size you can actually
+   read, is the only format the work survives.
+
+   Three rules hold the page together:
+   1. NOTHING IS CROPPED. Every image is width:100%, height:auto, in its
+      native ratio. The frame pads around it. Ratios here run from 0.57 to
+      1.26 and the page absorbs that instead of forcing a common shape.
+   2. ONE MOUNT. Every plate sits on the same paper tone with the same
+      inset, so twenty different objects read as one collection. This is the
+      "single format frames" idea, done with a mat rather than a crop.
+   3. THE PAIR IS THE POINT. Several pieces exist twice — the drawing, and
+      the drawing painted on a wall. .plate--pair sets those side by side.
+      That diptych tells the story with no copy at all, and it is the one
+      move a normal gallery cannot make.
+   =========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   1. THE BAND
+   Each plate is its own 12-column grid rather than a child of one long grid,
+   so a plate can be reordered or removed without renumbering anything.
+   --------------------------------------------------------------------------- */
+
+.plates { margin-top: var(--s12); }
+
+.plate {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: end;          /* caption sits on the baseline of the picture */
+  margin: 0 0 var(--s20);
+}
+
+.plate__art { grid-column: 1 / 8; }
+.plate__say { grid-column: 9 / 13; }
+
+/* Alternating sides. Not decoration: it stops twenty bands reading as a
+   column of identical rows, and it puts the caption on the outside edge
+   where the eye is already travelling. */
+.plate--flip .plate__art { grid-column: 6 / 13; }
+.plate--flip .plate__say { grid-column: 1 / 5; grid-row: 1; }
+
+/* A wide piece earns more columns; a tall one needs fewer or it towers over
+   the fold. Set per plate, not guessed globally. */
+.plate--wide .plate__art { grid-column: 1 / 10; }
+.plate--wide.plate--flip .plate__art { grid-column: 4 / 13; }
+.plate--tall .plate__art { grid-column: 1 / 7; }
+.plate--tall.plate--flip .plate__art { grid-column: 7 / 13; }
+
+/* ---------------------------------------------------------------------------
+   2. THE MOUNT
+   --pad is the mat colour. It defaults to the page's own paper and is
+   overridden per plate where the artwork carries its own ground — a print on
+   cream wants cream round it, not a seam.
+   --------------------------------------------------------------------------- */
+
+.plate__frame {
+  --pad: #F2F0EA;
+  background: var(--pad);
+  padding: clamp(14px, 2.2vw, 36px);
+  display: block;
+}
+
+.plate__frame img {
+  display: block;
+  width: 100%;
+  height: auto;            /* native ratio, always. See rule 1 above. */
+}
+
+/* The pair. Two states of one piece, read across rather than down.
+
+   The columns are NOT 1fr 1fr. Two photographs of the same artwork almost
+   never share a ratio — here a 0.70 print sits beside a 1.01 wall shot — and
+   at equal widths the squarer one renders barely half the height of the
+   other, so one half hangs in a void and the pair reads as a mistake rather
+   than a comparison. Each half therefore gets a column proportional to its
+   own ratio (--a and --b, set per pair in the markup), which lands both
+   images at the same height and both edges flush. */
+.plate--pair .plate__art {
+  display: grid;
+  grid-template-columns: var(--a, 1fr) var(--b, 1fr);
+  column-gap: var(--gutter);
+  align-items: end;
+}
+
+/* And the mat inside a pair is a PERCENTAGE, where every other plate's is a
+   clamp. That is the whole trick. A fixed pad is the same number of pixels
+   in both halves, so it is a different fraction of each column, and the two
+   images come out 6% apart in height however carefully the columns are set.
+   A percentage pad is relative to the column's own inline size, so both
+   images stay a constant fraction of their column and the ratio columns
+   above land exactly — at every width, with no magic numbers to retune.
+   6% matches the clamp's optical weight at the widths a pair actually
+   occupies. Measured after: 0.0px difference between the two halves. */
+.plate--pair .plate__frame { padding: 6%; }
+
+/* A hairline caption under each half of a pair, so "drawn" and "painted"
+   are labelled without a sentence being spent on it. text-align is set
+   rather than inherited: figure descendants pick up a centre from style.css
+   and these have to hang off the left edge of their own picture. */
+.plate__half { font: var(--w-label) var(--t-label)/var(--lh-label) var(--sans);
+  letter-spacing: var(--tr-label); text-transform: uppercase;
+  text-align: left;
+  color: var(--ink-40); margin: var(--s1) 0 0; }
+
+/* ---------------------------------------------------------------------------
+   3. THE CAPTION
+   --------------------------------------------------------------------------- */
+
+.plate__n {
+  font: var(--w-label) var(--t-label)/var(--lh-label) var(--sans);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink-40);
+  margin: 0 0 var(--s2);
+}
+
+.plate__t {
+  font: var(--w-title) var(--t-title)/var(--lh-title) var(--sans);
+  letter-spacing: var(--tr-title);
+  color: var(--ink);
+  margin: 0 0 var(--s1);
+  text-wrap: balance;
+}
+
+.plate__m {
+  font: var(--w-sub) var(--t-sub)/var(--lh-sub) var(--sans);
+  color: var(--ink-60);
+  margin: 0 0 var(--s3);
+}
+
+.plate__s {
+  font: var(--w-body) var(--t-body)/var(--lh-body) var(--sans);
+  color: var(--ink);
+  max-width: 34ch;
+  margin: 0;
+}
+
+/* PLACEHOLDER. Deliberately ugly so it cannot ship by accident: dashed rule,
+   amber ink, and the words say what is missing. Delete this rule and every
+   .plate__s--todo with it once the real lines are written. 2026-10-28. */
+.plate__s--todo {
+  color: #8A5A12;
+  border-left: 2px dashed #C9A227;
+  padding-left: var(--s2);
+  font-style: italic;
+}
+
+/* ---------------------------------------------------------------------------
+   4. SECTION HEADS
+   Three natures in this collection — paper, walls, and the work out in the
+   world. The page says so once per group and then gets out of the way.
+   --------------------------------------------------------------------------- */
+
+.plates__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s3);
+  margin: 0 0 var(--s10);
+  padding-top: var(--s6);
+  border-top: 1px solid var(--rule-strong);
+}
+
+.plates__head h2 {
+  font: var(--w-title) var(--t-title)/var(--lh-title) var(--sans);
+  letter-spacing: var(--tr-title);
+  margin: 0;
+}
+
+.plates__head p {
+  font: var(--w-sub) var(--t-sub)/var(--lh-sub) var(--sans);
+  color: var(--ink-60);
+  margin: 0;
+}
+
+/* The pieces with no files yet. Kept rather than dropped: the old table of
+   contents promised these, and silently removing them would be the page
+   telling a smaller truth than it used to. */
+.still {
+  border-top: 1px solid var(--rule);
+  padding-top: var(--s4);
+  margin-top: var(--s8);
+}
+.still h2 { font: var(--w-sub) var(--t-sub)/var(--lh-sub) var(--sans);
+  letter-spacing: var(--tr-label); text-transform: uppercase;
+  color: var(--ink-40); margin: 0 0 var(--s3); }
+.still ul { list-style: none; margin: 0; padding: 0; max-width: 60ch; }
+.still li { font: var(--w-body) var(--t-body)/var(--lh-body) var(--sans);
+  color: var(--ink-60); padding: var(--s1) 0;
+  border-bottom: 1px solid var(--rule); }
+
+/* ---------------------------------------------------------------------------
+   5. NARROW
+   Below 860px the two columns become one. The caption goes UNDER its picture
+   — never above — because at this width the picture is the thing that has to
+   land first. Alternation is meaningless in one column, so it is switched
+   off rather than left to produce a random-looking order.
+   --------------------------------------------------------------------------- */
+
+@media (max-width: 860px) {
+  .plate { margin-bottom: var(--s12); }
+  .plate__art,
+  .plate--flip .plate__art,
+  .plate--wide .plate__art,
+  .plate--wide.plate--flip .plate__art,
+  .plate--tall .plate__art,
+  .plate--tall.plate--flip .plate__art { grid-column: 1 / 13; }
+  .plate__say,
+  .plate--flip .plate__say { grid-column: 1 / 13; grid-row: auto; margin-top: var(--s3); }
+  .plates__head { margin-bottom: var(--s6); }
+  .plate__s { max-width: none; }
+}
+
+/* A pair at phone width would be two 150px thumbnails, which defeats the
+   comparison it exists to make. Stack them instead and keep the labels. */
+@media (max-width: 560px) {
+  .plate--pair .plate__art { grid-template-columns: 1fr; row-gap: var(--s3); }
+  .plate__frame { padding: 12px; }
+}
