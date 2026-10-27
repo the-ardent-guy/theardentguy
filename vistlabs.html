@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VIST Labs, repositioning a post-harvest technology company for banks and growers</title>
-<meta name="description" content="Repositioning VIST Labs, Illinois, so banks would see a regulated technology company and growers would still see the fix for failed microbial tests. Case study by Rishabh Jain.">
+<meta name="robots" content="noindex, nofollow">
+<title>Repositioning a post-harvest packaging technology firm</title>
+<meta name="description" content="A website redesign for a post-harvest packaging technology company in Illinois, repositioned for banks and growers. Case study by Rishabh Jain.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet"
@@ -15,7 +16,7 @@
 <link rel="stylesheet" href="/assets/notebook.css">
 <link rel="stylesheet" href="/assets/redo.css">
 <link rel="stylesheet" href="/assets/case-extras.css">
-<script>(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t="light";document.documentElement.setAttribute("data-theme",t);}catch(e){}document.documentElement.classList.add("js");})();</script>
+<script>document.documentElement.setAttribute("data-theme","light");document.documentElement.classList.add("js");</script>
 </head>
 <body style="--dot: var(--dot-vistlabs)">
 
@@ -25,10 +26,8 @@
     <a class="snav__mark" href="/">Rishabh Jain</a>
     <nav class="snav__links" aria-label="Site">
       <a href="/#work">Work</a>
-      <a href="/studio.html">Studio</a>
       <a href="/desserts.html">Desserts</a>
       <a href="/#contact">Contact</a>
-          <button class="snav__tool" type="button" data-theme-switch aria-pressed="false" aria-label="Colour theme">light</button>
     </nav>
     <button class="snav__tool snav__menu" type="button" data-menu aria-expanded="false" aria-controls="sheet">Menu</button>
   </header>
@@ -36,20 +35,19 @@
   <div class="sheet" id="sheet">
     <button class="snav__tool sheet__close" type="button" data-menu-close>Close</button>
     <a href="/#work">Work</a>
-    <a href="/studio.html">Studio</a>
     <a href="/desserts.html">Desserts</a>
     <a href="/#contact">Contact</a>
   </div>
 
-  <a class="back" href="/#work">
+  <a class="back" href="/">
     <svg viewBox="0 0 16 12" aria-hidden="true"><path d="M6.5 1 L1 6 L6.5 11 M1 6 H15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    All work
+    Home
   </a>
 
   <header class="head">
     <p class="eyebrow">VIST Labs</p>
     <h1>Repositioning a post-harvest technology company for banks and growers</h1>
-    <p class="standfirst">VIST Labs, based in Illinois, makes patented post-harvest technology for cannabis growers. I redesigned its website so banks would see a regulated technology company, and growers would still see the fix for failed microbial tests.</p>
+    <p class="standfirst">VIST Labs, based in Illinois, makes patented post-harvest technology for cannabis growers. I redesigned its website so banks would see a regulated packaging technology company, and growers would still see the fix for failed microbial tests.</p>
   </header>
 
     <dl class="mstrip">
@@ -63,11 +61,11 @@
       </div>
       <div class="mstrip__i">
         <dt>Platform</dt>
-        <dd>Website, built on Shopify</dd>
+        <dd>Website</dd>
       </div>
       <div class="mstrip__i mstrip__i--wide">
         <dt>My work</dt>
-        <dd>Stakeholder research, positioning, information architecture, wireframes, visual design, Shopify build and handover</dd>
+        <dd>Stakeholder research, positioning, information architecture, wireframes, visual design, build and handover</dd>
       </div>
     </dl>
 
@@ -91,16 +89,28 @@
 
       <section id="problem">
         <h2>The problem</h2>
-        <p>Cannabis is legal in Illinois but still federally illegal, and 89% of community banks have no plans to serve the industry (RMA, 2024). VIST's banks needed to see a technology company.</p>
+        <p class="lede">VIST's banks needed to see a technology company.</p>
+
+        <p>Cannabis is legal in Illinois but still federally illegal, and 89% of community banks have no plans to serve the industry (RMA, 2024).</p>
 
         <p>The old site opened with "Cannabis Remediation", sold through fear imagery like mould close-ups and "Would you inhale that?", and buried five patented processes in one long scroll.</p>
+
+        <figure class="bleed">
+          <div class="media media--light">
+            <img src="/assets/media/vist-old-site.webp" width="1700" height="726" loading="lazy" decoding="async"
+                 alt="The old vistlabs.com homepage: the word VIST set enormous in black over a pale blue laboratory photograph, the line VIST NATURALLY DECONTAMINATES AND PRESERVES CANNABIS IN MODIFIED ATMOSPHERE PACKAGING running down the left edge, and a black pop-up panel reading VIST TECHNOLOGY CAN HELP with a Get started button.">
+          </div>
+          <figcaption data-fig="02">CANNABIS, in capitals, in the first line a banker would read. The brief was really about that one word.</figcaption>
+        </figure>
 
         <p class="hmw">How might we present VIST as a regulated technology company to banks, while keeping it the obvious choice for growers?</p>
       </section>
 
       <section id="research">
         <h2>Research</h2>
-        <p>I ran sessions with the founders, researched federal and <strong>FinCEN</strong> banking rules, audited the old site's content, and reviewed competitors. Rad Source, Willow Industries and Ziel all market openly to cannabis, which VIST's banks couldn't accept. That left three audiences:</p>
+        <p class="lede">Rad Source, Willow Industries and Ziel all market openly to cannabis, which VIST's banks couldn't accept.</p>
+
+        <p>I ran sessions with the founders, researched federal and <strong>FinCEN</strong> banking rules, audited the old site's content, and reviewed competitors. That left three audiences:</p>
 
         <table class="compare">
           <thead>
@@ -132,15 +142,35 @@
         <article class="decision" id="d1">
           <span class="decision__n">01</span>
           <h3>Two-tier messaging</h3>
-          <p>The homepage speaks to the most conservative reader, with phrases like "plant-based industries" and "pharmaceutical-grade standards". Cannabis appears one level down, on a <strong>Markets Served</strong> page.</p>
+          <p class="lede">The homepage speaks to the most conservative reader, with phrases like "plant-based industries" and "pharmaceutical-grade standards".</p>
+
+          <p>Cannabis appears one level down, on a <strong>Markets Served</strong> page.</p>
+          <p>On that page cannabis sits third, behind Food and Pharma and in the same card as both. The ordering is the argument. It makes cannabis one market VIST sells into instead of the business it is in, and a grower who lands there still finds their own industry written down.</p>
           <p>A <strong>vocabulary map</strong> gave each service a bank-safe name and a grower-facing meaning: <strong>CryoPasteurization</strong> is "natural microbial load reduction" on the homepage and "decontamination for cannabis" for growers.</p>
           <p class="why"><b>Trade-off:</b> The homepage gives up search traffic for "cannabis decontamination", which the blog and solution pages pick up instead.</p>
+          <figure class="bleed">
+            <div class="media media--light">
+              <img src="/assets/media/vist-industries.webp" width="1700" height="574" loading="lazy" decoding="async"
+                   alt="Three industry cards on the Markets Served page, each with a coloured header over product photography and a Representative packages label: Food in teal, Pharma in blue, and Healthcare / Medical Cannabis in purple.">
+            </div>
+            <figcaption data-fig="03">Food, Pharma, then Healthcare / Medical Cannabis. Same card, same weight, third in line.</figcaption>
+          </figure>
         </article>
 
         <article class="decision" id="d2">
           <span class="decision__n">02</span>
           <h3>Structure built on problem, solution, then buying</h3>
-          <p>The homepage moves from the problem, to what VIST does, to how to buy. Each of the five services got its own product page from one template: proof points, how it works, before and after, and a consultation call to action.</p>
+          <p class="lede">The homepage moves from the problem, to what VIST does, to how to buy.</p>
+
+          <p>Each of the five services got its own product page from one template: proof points, how it works, before and after, and a consultation call to action.</p>
+          <p>On the old site you met one process at a time down a long scroll. Bringing the whole set up onto the homepage as one block puts the size of the patent portfolio in a single screen. Flavor Injection keeps its "Coming soon" tag there, because an unreleased patent still reads as research capability to a bank.</p>
+          <figure class="bleed">
+            <div class="media media--light">
+              <img src="/assets/media/vist-technologies.webp" width="1700" height="632" loading="lazy" decoding="async"
+                   alt="Four numbered cards in a row on the redesigned homepage: 01 CryoPasteurization, 02 AMAPS, 03 Flavor Injection carrying a Coming soon tag, and 04 Ultra High Barrier Materials. Each card pairs a small photograph of the machine or the packaging with a short plain-language description.">
+            </div>
+            <figcaption data-fig="04">The set as it sits on the homepage. Flavor Injection is the one that was not built, and says so.</figcaption>
+          </figure>
           <p>The testing kits page was built to switch from enquiry to add-to-cart without a redesign, and buying options moved to their own Opportunities section.</p>
           <p class="why"><b>Trade-off:</b> One template gives less room to tailor each page to its technology.</p>
           <figure class="bleed nb-pile" data-pile style="--nbp-ar: 6 / 5; --nbp-depth: 2">
@@ -163,53 +193,43 @@
               <button class="nb-pile__step" type="button" data-pile-next aria-label="Next sheet"><svg viewBox="0 0 16 12" aria-hidden="true"><path d="M9.5 1 L15 6 L9.5 11 M15 6 H1"/></svg></button>
               <p class="nb-pile__count"><span data-pile-at>1</span> / 3</p>
             </div>
-            <figcaption data-fig="02">Two services and the homepage, worked out on paper before the template was set.</figcaption>
+            <figcaption data-fig="05">Two services and the homepage, worked out on paper before the template was set.</figcaption>
           </figure>
         </article>
 
         <article class="decision" id="d3">
           <span class="decision__n">03</span>
-          <h3>Evidence in place of fear</h3>
-          <p>I replaced the fear imagery with claims a lender can check: <strong>99.9% microbial reduction</strong>, no chemicals or radiation, and terpene preservation. A social proof block added certifications, awards, client logos and team credentials, and the photography moved to the equipment and the process.</p>
-          <p class="why"><b>Trade-off:</b> The emotional pull on growers was lost, so a before and after section on each product page keeps a controlled version of it.</p>
+          <h3>Built one proof section for two readers</h3>
+          <p class="lede">The petri dish rows are for the grower.</p>
+
+          <p>Yeast and mould, aerobic bacteria and aspergillus, each shown contaminated and then clean. A failed state test is what costs a grower a harvest, so this is the part they stop on.</p>
+          <p>A lender walks straight past the dishes to the <strong>Regulatory and Compliance</strong> panel beside them: EU GMP compliant with validation documentation available for review, CE rated, EPA registered. Neither reader needs the other's half, and neither has to open a second page to find their own.</p>
+          <p>The old site did this job with mould close-ups. Those came out, and claims a lender can check took their place: 99.9% microbial reduction, no chemicals or radiation, and terpenes preserved.</p>
           <figure class="bleed">
             <div class="media media--light">
-              <img src="/assets/media/vist-certifications.webp" width="1700" height="456" loading="lazy" decoding="async"
-                   alt="The certifications block on the redesigned homepage: CE-Certified, HACCP and GMP-Aligned, and Third-Party Validated, each with one line of evidence under it.">
+              <img src="/assets/media/vist-proof.webp" width="1700" height="630" loading="lazy" decoding="async"
+                   alt="The proof section of a solution page. On the left, rows of petri dish photographs pair a contaminated sample with a clean one for yeast and mould, aerobic bacteria and aspergillus. On the right, a Regulatory and Compliance panel lists EU GMP compliant with validation documentation available for review, CE rated and EPA registered.">
             </div>
-            <figcaption data-fig="03">The certifications block. Third-party validation is stated as a 6-log reduction.</figcaption>
+            <figcaption data-fig="06">The dishes and the compliance panel, side by side. This is a scroll crop, and the dish rows carry on below the cut.</figcaption>
           </figure>
-        </article>
-
-        <article class="decision" id="d4">
-          <span class="decision__n">04</span>
-          <h3>Shopify over WordPress</h3>
-          <p>Shopify won on three counts: a native checkout ready for the testing kits, solid SEO defaults, and content the client could edit without a developer.</p>
         </article>
       </section>
 
       <section id="outcome">
         <h2>Outcome</h2>
-        <p>The site launched on vistlabs.com as the client's primary site, and the founders used it with their customers. VIST later changed direction and went back to its old site.</p>
+        <p class="lede">The site launched on vistlabs.com as the client's primary site, the founders used it with their customers, and it is the site live there now.</p>
 
-        <p>I delivered the positioning framework, a sitemap of 6 sections and 12 sub-pages, wireframes, a design language, the live Shopify build and the handover.</p>
+        <p>I delivered the positioning framework, a sitemap of 6 sections and 12 sub-pages, wireframes, a design language, the live build and the handover. What the repositioning did for lead quality I can't show, because nothing was measured before it went up.</p>
 
         <figure class="bleed">
           <div class="media media--bare">
             <img src="/assets/media/vist-pages.webp" width="1552" height="970" loading="lazy" decoding="async"
                  alt="Three pages of the delivered site shown at an angle: the homepage, the certifications block, and the mobile van services page with its three-step How It Works row.">
           </div>
-          <figcaption data-fig="04">Homepage, certifications and How It Works, as handed over.</figcaption>
+          <figcaption data-fig="07">Homepage, certifications and How It Works, as handed over.</figcaption>
         </figure>
       </section>
 
-      <section id="reflection">
-        <h2>Reflection</h2>
-        <ul class="plain principles">
-          <li><b>Set up analytics before launch.</b> Without a baseline, I can't show whether the repositioning improved lead quality.</li>
-          <li><b>Test the language with real readers.</b> I validated the two-tier messaging only with the founders. Ten minutes each with a banker and a grower would have tested it directly.</li>
-        </ul>
-      </section>
 
     </main>
 
