@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Desserts, things made outside the brief</title>
-<meta name="description" content="Political satire, illustrations, posters, an animated show in progress, and apps that should not exist but do. The other things Rishabh Jain makes.">
+<meta name="description" content="Walls, murals, political satire, illustrations, posters, an animated show in progress, and apps that should not exist but do. The other things Rishabh Jain makes.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet"
@@ -17,12 +17,20 @@
 <link rel="stylesheet" href="/assets/desserts.css">
 <script>document.documentElement.setAttribute("data-theme","light");document.documentElement.classList.add("js");</script>
 </head>
-<body>
+<body class="dsrt">
 
 <div class="wrap">
   <header class="snav">
-    <a class="snav__mark" href="/">Rishabh Jain</a>
+    <!-- Back sits where the name used to. It is a real link to the home
+         page, so it works with no JS; desserts.js upgrades it to a step
+         back through history when there is a history to step back into.
+         HOME is a separate tab in the nav, and always goes home. -->
+    <a class="snav__back" href="/" data-back>
+      <svg viewBox="0 0 16 12" aria-hidden="true"><path d="M6.5 1 L1 6 L6.5 11 M1 6 H15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back
+    </a>
     <nav class="snav__links" aria-label="Site">
+      <a href="/">Home</a>
       <a href="/#work">Work</a>
       <a href="/desserts.html" aria-current="page">Desserts</a>
       <a href="/#contact">Contact</a>
@@ -32,244 +40,234 @@
 
   <div class="sheet" id="sheet">
     <button class="snav__tool sheet__close" type="button" data-menu-close>Close</button>
+    <a href="/">Home</a>
     <a href="/#work">Work</a>
     <a href="/desserts.html">Desserts</a>
     <a href="/#contact">Contact</a>
   </div>
 
-  <a class="back" href="/">
-    <svg viewBox="0 0 16 12" aria-hidden="true"><path d="M6.5 1 L1 6 L6.5 11 M1 6 H15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    Home
-  </a>
-
   <main>
-    <header class="phead">
-      <p class="label nb-note">Desserts</p>
-      <h1>Things made outside the brief.</h1>
-      <p class="phead__say phead__say--under sub">Political satire. Illustrations. Posters. An animated show in progress. Apps that should not exist but do.</p>
-    </header>
 
-    <!-- PLATES. One work per band, native ratio, never cropped, each on the
-         same mat. Three groups: paper, walls, and the work out in the world.
-         Every .plate__s--todo is a PLACEHOLDER awaiting his line and must not
-         ship. See assets/desserts.css. 2026-10-28. -->
+    <div class="dwall-wrap" data-dwall>
 
-    <section class="plates" aria-labelledby="paper">
-      <div class="plates__head reveal">
-        <h2 id="paper">On paper</h2>
-        <p>Ink, mostly. The titles are lettered into the drawings.</p>
-      </div>
+      <section class="dhero" aria-label="Black and white">
+        <div class="dcols dcols--hero">
 
-      <figure class="plate plate--tall reveal">
-        <div class="plate__art"><span class="plate__frame" style="--pad:#E9E5DB"><img src="/assets/media/desserts/dessert-garden.webp" width="1468" height="1800" loading="lazy" decoding="async" alt="A print: three potted plants and a hanging bulb drawn in loose ink and wash, over the hand-lettered title Home is where the garden is."></span></div>
-        <figcaption class="plate__say">
-          <p class="plate__n">01</p>
-          <h3 class="plate__t">Home is where the garden is.</h3>
-          <p class="plate__m">Ink and wash on paper</p>
-          <p class="plate__s plate__s--todo">Your line goes here. What it is, roughly when, and why you drew it. Two or three sentences is plenty.</p>
-        </figcaption>
-      </figure>
-
-      <figure class="plate plate--tall plate--flip reveal">
-        <div class="plate__art"><span class="plate__frame" style="--pad:#E9E5DB"><img src="/assets/media/desserts/dessert-happy.webp" width="1482" height="1800" loading="lazy" decoding="async" alt="A print: a bearded figure dissolving downward into a mass of black ink, under the hand-lettered title Don't worry. Bi. Happy."></span></div>
-        <figcaption class="plate__say">
-          <p class="plate__n">02</p>
-          <h3 class="plate__t">Don&rsquo;t worry. Bi. Happy.</h3>
-          <p class="plate__m">Ink on paper</p>
-          <p class="plate__s plate__s--todo">This one needs you most &mdash; the title is doing something the picture isn&rsquo;t, and only you can say what.</p>
-        </figcaption>
-      </figure>
-
-      <figure class="plate plate--wide plate--pair reveal">
-        <div class="plate__art" style="--a:0.697fr;--b:1.013fr">
-          <div><span class="plate__frame" style="--pad:#E9E5DB"><img src="/assets/media/desserts/dessert-chichmati.webp" width="1254" height="1800" loading="lazy" decoding="async" alt="A print: a black cat-like creature lying down, with flowers, a cross and a small skull growing out of its back."></span><p class="plate__half">Drawn</p></div>
-          <div><span class="plate__frame"><img src="/assets/media/desserts/dessert-chichmati-wall.webp" width="1080" height="1066" loading="lazy" decoding="async" alt="The same creature painted at full size on a textured wall, with Rishabh standing beside it holding a brush and palette."></span><p class="plate__half">Painted</p></div>
+        <div class="dcol" style="--w:1.38;--drop:10%">
+          <div class="dhero__say">
+            <h1>Desserts.<br>Outside the brief.</h1>
+            <p>Black and white first. Then everything else.</p>
+          </div>
+          <figure class="bt">
+            <img class="bt__art" src="/assets/media/desserts/wall/bw-brijnaari-1000.webp" srcset="/assets/media/desserts/wall/bw-brijnaari-560.webp 517w, /assets/media/desserts/wall/bw-brijnaari-1000.webp 923w" sizes="(max-width: 620px) 90vw, (max-width: 1080px) 46vw, 30vw" width="1569" height="1700" data-full="/assets/media/desserts/wall/bw-brijnaari.webp" decoding="async" alt="A drawing of a seated musician playing an instrument beside a woman holding a clay pot, in dense pen hatching with washes of colour.">
+            <figcaption class="bt__say">
+              <p class="bt__n">01<span class="bt__m">Ink and colour on paper</span></p>
+              <h3 class="bt__t">Brijnaari</h3>
+              <p class="bt__d">A seated musician and a woman holding a clay pot, drawn in dense hatching with patches of colour.</p>
+            </figcaption>
+            <button class="bt__hit" type="button" aria-haspopup="dialog"><span class="u-sr">Brijnaari &mdash; open</span></button>
+          </figure>
+          <figure class="bt">
+            <img class="bt__art" src="/assets/media/desserts/wall/bw-garden.webp" srcset="/assets/media/desserts/wall/bw-garden-560.webp 560w, /assets/media/desserts/wall/bw-garden.webp 990w" sizes="(max-width: 620px) 90vw, (max-width: 1080px) 46vw, 30vw" width="990" height="795" data-full="/assets/media/desserts/wall/bw-garden.webp" decoding="async" alt="A drawing of three potted plants and a hanging bulb in loose ink and wash on a pale ground.">
+            <figcaption class="bt__say">
+              <p class="bt__n">02<span class="bt__m">Ink and wash on paper</span></p>
+              <h3 class="bt__t">Home is where the garden is</h3>
+              <p class="bt__d">Three potted plants and a hanging bulb, in loose ink and wash.</p>
+            </figcaption>
+            <button class="bt__hit" type="button" aria-haspopup="dialog"><span class="u-sr">Home is where the garden is &mdash; open</span></button>
+          </figure>
         </div>
-        <figcaption class="plate__say">
-          <p class="plate__n">03</p>
-          <h3 class="plate__t">The same drawing, twice</h3>
-          <p class="plate__m">Print, then a wall</p>
-          <p class="plate__s plate__s--todo">Confirm the title &mdash; I can&rsquo;t read the lettering cleanly at this size. And say what made you take this one off the page and onto a wall.</p>
-        </figcaption>
-      </figure>
 
-      <figure class="plate plate--tall plate--flip reveal">
-        <div class="plate__art"><span class="plate__frame" style="--pad:#E9E5DB"><img src="/assets/media/desserts/dessert-brijnaari.webp" width="1412" height="1800" loading="lazy" decoding="async" alt="A print: a woman seated with a child and a clay pot, drawn in dense hatching with patches of colour."></span></div>
-        <figcaption class="plate__say">
-          <p class="plate__n">04</p>
-          <h3 class="plate__t">Title to confirm</h3>
-          <p class="plate__m">Ink and colour on paper</p>
-          <p class="plate__s plate__s--todo">The lettered title reads as something like &ldquo;Brijnaari&rdquo; &mdash; tell me what it actually says, then your line about it.</p>
-        </figcaption>
-      </figure>
-
-      <figure class="plate plate--tall reveal">
-        <div class="plate__art"><span class="plate__frame" style="--pad:#E9E5DB"><img src="/assets/media/desserts/dessert-shoes.webp" width="1279" height="1800" loading="lazy" decoding="async" alt="A print: lettering tangled into a dense ink creature, with a pair of legs and shoes emerging at the base."></span></div>
-        <figcaption class="plate__say">
-          <p class="plate__n">05</p>
-          <h3 class="plate__t">Title to confirm</h3>
-          <p class="plate__m">Ink on paper</p>
-          <p class="plate__s plate__s--todo">Same here &mdash; the title is drawn into the artwork and I can&rsquo;t read it reliably. Yours to fill.</p>
-        </figcaption>
-      </figure>
-
-      <figure class="plate plate--wide plate--flip reveal">
-        <div class="plate__art"><span class="plate__frame" style="--pad:#E9E5DB"><img src="/assets/media/desserts/dessert-forest-hands.webp" width="1300" height="1226" loading="lazy" decoding="async" alt="A dense pen drawing: two cupped hands holding a forest, with deer, birds, trees and roots packed into the space above the fingers."></span></div>
-        <figcaption class="plate__say">
-          <p class="plate__n">06</p>
-          <h3 class="plate__t">Hands holding a forest</h3>
-          <p class="plate__m">Pen on paper</p>
-          <p class="plate__s plate__s--todo">Working title, mine not yours. Replace it, and say how long this one took &mdash; the density is the story.</p>
-        </figcaption>
-      </figure>
-
-      <figure class="plate plate--tall reveal">
-        <div class="plate__art"><span class="plate__frame" style="--pad:#E9E5DB"><img src="/assets/media/desserts/dessert-mountains.webp" width="894" height="1300" loading="lazy" decoding="async" alt="A pen drawing of a Himalayan valley: ridgelines, tents, a stupa, pack animals, and Devanagari lettering worked into the foreground."></span></div>
-        <figcaption class="plate__say">
-          <p class="plate__n">07</p>
-          <h3 class="plate__t">Working title</h3>
-          <p class="plate__m">Pen on paper</p>
-          <p class="plate__s plate__s--todo">Where was this, and were you drawing it there or afterwards from memory? That difference is worth a sentence.</p>
-        </figcaption>
-      </figure>
-
-      <figure class="plate plate--flip reveal">
-        <div class="plate__art"><span class="plate__frame" style="--pad:#E9E5DB"><img src="/assets/media/desserts/dessert-mushrooms.webp" width="1024" height="1024" loading="lazy" decoding="async" alt="A square black and white drawing: a seated figure with a radiating sun behind the head, ringed by mushrooms and foliage."></span></div>
-        <figcaption class="plate__say">
-          <p class="plate__n">08</p>
-          <h3 class="plate__t">Working title</h3>
-          <p class="plate__m">Ink on paper</p>
-          <p class="plate__s plate__s--todo">Your line here.</p>
-        </figcaption>
-      </figure>
-
-      <figure class="plate plate--tall reveal">
-        <div class="plate__art"><span class="plate__frame" style="--pad:#E9E5DB"><img src="/assets/media/desserts/dessert-headscape.webp" width="1197" height="1600" loading="lazy" decoding="async" alt="A face in ink and colour with a whole landscape growing out of the head: trees, a figure, water, and handwritten notes down the left margin."></span></div>
-        <figcaption class="plate__say">
-          <p class="plate__n">09</p>
-          <h3 class="plate__t">Working title</h3>
-          <p class="plate__m">Ink and marker on paper</p>
-          <p class="plate__s plate__s--todo">There is handwriting down the left edge of this one. If it says something worth reading, say so here.</p>
-        </figcaption>
-      </figure>
-    </section>
-
-    <section class="plates" aria-labelledby="walls">
-      <div class="plates__head reveal">
-        <h2 id="walls">On walls</h2>
-        <p>Bigger, slower, and not removable.</p>
-      </div>
-
-      <figure class="plate plate--wide plate--pair reveal">
-        <div class="plate__art" style="--a:1.020fr;--b:0.841fr">
-          <div><span class="plate__frame"><img src="/assets/media/desserts/dessert-sabmaya-making.webp" width="720" height="706" loading="lazy" decoding="async" alt="Rishabh painting a large black figure on a white wall, Devanagari lettering filling the figure's body."></span><p class="plate__half">Making</p></div>
-          <div><span class="plate__frame"><img src="/assets/media/desserts/dessert-sabmaya-wall.webp" width="1080" height="1285" loading="lazy" decoding="async" alt="The finished mural on the wall, with a ginger cat walking past the base of it."></span><p class="plate__half">Finished</p></div>
+        <div class="dcol" style="--w:1.05;--drop:36%">
+          <figure class="bt">
+            <img class="bt__art" src="/assets/media/desserts/wall/bw-valley-1000.webp" srcset="/assets/media/desserts/wall/bw-valley-560.webp 393w, /assets/media/desserts/wall/bw-valley-1000.webp 702w" sizes="(max-width: 620px) 90vw, (max-width: 1080px) 46vw, 30vw" width="1193" height="1700" data-full="/assets/media/desserts/wall/bw-valley.webp" decoding="async" alt="A pen drawing of a Himalayan valley with ridgelines, tents, a stupa, pack animals and Devanagari lettering in the foreground.">
+            <figcaption class="bt__say">
+              <p class="bt__n">03<span class="bt__m">Pen on paper</span></p>
+              <p class="bt__d">A Himalayan valley: ridgelines, tents, a stupa, pack animals, and Devanagari worked into the foreground.</p>
+            </figcaption>
+            <button class="bt__hit" type="button" aria-haspopup="dialog"><span class="u-sr">Pen on paper &mdash; open</span></button>
+          </figure>
+          <figure class="bt">
+            <img class="bt__art" src="/assets/media/desserts/wall/bw-forest-hands-1000.webp" srcset="/assets/media/desserts/wall/bw-forest-hands-560.webp 560w, /assets/media/desserts/wall/bw-forest-hands-1000.webp 1000w" sizes="(max-width: 620px) 90vw, (max-width: 1080px) 46vw, 30vw" width="1700" height="1605" data-full="/assets/media/desserts/wall/bw-forest-hands.webp" decoding="async" alt="A dense pen drawing of two cupped hands holding a forest, with deer, birds, trees and roots packed above the fingers.">
+            <figcaption class="bt__say">
+              <p class="bt__n">04<span class="bt__m">Pen on paper</span></p>
+              <p class="bt__d">Two cupped hands holding a forest. Deer, birds, trees and roots packed into the space above the fingers.</p>
+            </figcaption>
+            <button class="bt__hit" type="button" aria-haspopup="dialog"><span class="u-sr">Pen on paper &mdash; open</span></button>
+          </figure>
         </div>
-        <figcaption class="plate__say">
-          <p class="plate__n">10</p>
-          <h3 class="plate__t">Sab maya hai</h3>
-          <p class="plate__m">Paint on wall</p>
-          <p class="plate__s plate__s--todo">Confirm the lettering inside the figure and where this wall is. The cat was not art direction and should probably be mentioned.</p>
-        </figcaption>
-      </figure>
 
-      <figure class="plate plate--wide plate--flip reveal">
-        <div class="plate__art"><span class="plate__frame"><img src="/assets/media/desserts/dessert-mandala-wall.webp" width="1080" height="856" loading="lazy" decoding="async" alt="A large black and white radiating pattern painted across a white wall beside a green door, with Rishabh standing against it for scale."></span></div>
-        <figcaption class="plate__say">
-          <p class="plate__n">11</p>
-          <h3 class="plate__t">Working title</h3>
-          <p class="plate__m">Paint on wall</p>
-          <p class="plate__s plate__s--todo">How long, and freehand or set out first? That is the question people ask about this kind of thing.</p>
-        </figcaption>
-      </figure>
+        <div class="dcol" style="--w:0.80;--drop:30%">
+          <figure class="bt">
+            <img class="bt__art" src="/assets/media/desserts/wall/bw-mushrooms.webp" srcset="/assets/media/desserts/wall/bw-mushrooms-560.webp 560w, /assets/media/desserts/wall/bw-mushrooms-1000.webp 1000w, /assets/media/desserts/wall/bw-mushrooms.webp 1024w" sizes="(max-width: 620px) 90vw, (max-width: 1080px) 46vw, 30vw" width="1024" height="1024" data-full="/assets/media/desserts/wall/bw-mushrooms.webp" decoding="async" alt="A square black and white drawing of a seated figure with a radiating sun behind the head, surrounded by mushrooms and foliage.">
+            <figcaption class="bt__say">
+              <p class="bt__n">05<span class="bt__m">Ink on paper</span></p>
+              <p class="bt__d">A seated figure with a sun radiating behind the head, ringed by mushrooms and foliage.</p>
+            </figcaption>
+            <button class="bt__hit" type="button" aria-haspopup="dialog"><span class="u-sr">Ink on paper &mdash; open</span></button>
+          </figure>
+          <figure class="bt">
+            <img class="bt__art" src="/assets/media/desserts/wall/bw-yin69.webp" srcset="/assets/media/desserts/wall/bw-yin69-560.webp 560w, /assets/media/desserts/wall/bw-yin69.webp 766w" sizes="(max-width: 620px) 90vw, (max-width: 1080px) 46vw, 30vw" width="766" height="544" data-full="/assets/media/desserts/wall/bw-yin69.webp" decoding="async" alt="A cartoon of two creatures lying in a bed curled around each other as a yin and yang, one saying sixty-nine.">
+            <figcaption class="bt__say">
+              <p class="bt__n">06<span class="bt__m">Ink and colour on paper</span></p>
+              <p class="bt__d">Two creatures in a bed, arranged as a yin and a yang. One of them makes an offer.</p>
+            </figcaption>
+            <button class="bt__hit" type="button" aria-haspopup="dialog"><span class="u-sr">Ink and colour on paper &mdash; open</span></button>
+          </figure>
+          <figure class="bt">
+            <img class="bt__art" src="/assets/media/desserts/wall/bw-pleasure-1000.webp" srcset="/assets/media/desserts/wall/bw-pleasure-560.webp 395w, /assets/media/desserts/wall/bw-pleasure-1000.webp 705w" sizes="(max-width: 620px) 90vw, (max-width: 1080px) 46vw, 30vw" width="1198" height="1700" data-full="/assets/media/desserts/wall/bw-pleasure.webp" decoding="async" alt="Hand lettering reading take your pleasure seriously, set inside a field of repeating drawn curves.">
+            <figcaption class="bt__say">
+              <p class="bt__n">07<span class="bt__m">Hand lettering, ink on paper</span></p>
+              <h3 class="bt__t">Take your pleasure seriously</h3>
+              <p class="bt__d">The line hand-lettered into a field of drawn curves.</p>
+            </figcaption>
+            <button class="bt__hit" type="button" aria-haspopup="dialog"><span class="u-sr">Take your pleasure seriously &mdash; open</span></button>
+          </figure>
+        </div>
 
-      <figure class="plate plate--tall reveal">
-        <div class="plate__art"><span class="plate__frame"><img src="/assets/media/desserts/dessert-shopfront.webp" width="975" height="1300" loading="lazy" decoding="async" alt="A shopfront painted with dense pattern work, the words Open Sesame lettered above the entrance behind metal railings."></span></div>
-        <figcaption class="plate__say">
-          <p class="plate__n">12</p>
-          <h3 class="plate__t">Open Sesame</h3>
-          <p class="plate__m">Paint on a shopfront</p>
-          <p class="plate__s plate__s--todo">Whose shop, and did they ask for this or did you? Commissioned work changes how this plate reads.</p>
-        </figcaption>
-      </figure>
+        <div class="dcol" style="--w:1.38;--drop:6%">
+          <figure class="bt">
+            <img class="bt__art" src="/assets/media/desserts/wall/bw-flagbearer.webp" srcset="/assets/media/desserts/wall/bw-flagbearer-560.webp 448w, /assets/media/desserts/wall/bw-flagbearer.webp 537w" sizes="(max-width: 620px) 90vw, (max-width: 1080px) 46vw, 30vw" width="537" height="672" data-full="/assets/media/desserts/wall/bw-flagbearer.webp" decoding="async" alt="An ink drawing of a figure raising a sword above a flag, flanked by a horned beast and a bearded face, a big cat standing below.">
+            <figcaption class="bt__say">
+              <p class="bt__n">08<span class="bt__m">Ink on paper</span></p>
+              <p class="bt__d">A figure raising a sword over a flag, flanked by a horned beast and a watching face, with a big cat below.</p>
+            </figcaption>
+            <button class="bt__hit" type="button" aria-haspopup="dialog"><span class="u-sr">Ink on paper &mdash; open</span></button>
+          </figure>
+          <figure class="bt">
+            <img class="bt__art" src="/assets/media/desserts/wall/bw-shoes-1000.webp" srcset="/assets/media/desserts/wall/bw-shoes-560.webp 452w, /assets/media/desserts/wall/bw-shoes-1000.webp 808w" sizes="(max-width: 620px) 90vw, (max-width: 1080px) 46vw, 30vw" width="1373" height="1700" data-full="/assets/media/desserts/wall/bw-shoes.webp" decoding="async" alt="A print of lettering tangled into a dense ink creature, with legs and shoes emerging at the base.">
+            <figcaption class="bt__say">
+              <p class="bt__n">09<span class="bt__m">Ink on paper</span></p>
+              <h3 class="bt__t">Lets trade shoes</h3>
+              <p class="bt__d">Lettering tangled into an ink creature, with a pair of legs and shoes emerging at the base.</p>
+            </figcaption>
+            <button class="bt__hit" type="button" aria-haspopup="dialog"><span class="u-sr">Lets trade shoes &mdash; open</span></button>
+          </figure>
+        </div>
+        </div>
+      </section>
 
-      <figure class="plate plate--flip reveal">
-        <div class="plate__art"><span class="plate__frame"><img src="/assets/media/desserts/dessert-rick.webp" width="720" height="722" loading="lazy" decoding="async" alt="A painting of Rick from Rick and Morty with a banner reading Existence is pain, mounted on a wall above a red draped table."></span></div>
-        <figcaption class="plate__say">
-          <p class="plate__n">13</p>
-          <h3 class="plate__t">Existence is pain</h3>
-          <p class="plate__m">Paint on board</p>
-          <p class="plate__s plate__s--todo">Your line here.</p>
-        </figcaption>
-      </figure>
+      <h2 class="bhead" id="rest">The rest</h2>
 
-      <figure class="plate reveal">
-        <div class="plate__art"><span class="plate__frame"><img src="/assets/media/desserts/dessert-easel.webp" width="768" height="784" loading="lazy" decoding="async" alt="Rishabh at an easel, palette in hand, painting a black and white angular portrait on canvas in a room hung with framed work."></span></div>
-        <figcaption class="plate__say">
-          <p class="plate__n">14</p>
-          <h3 class="plate__t">Working title</h3>
-          <p class="plate__m">Acrylic on canvas</p>
-          <p class="plate__s plate__s--todo">Your line here.</p>
-        </figcaption>
-      </figure>
-    </section>
+      <section class="dset" aria-labelledby="rest">
+        <div class="dcols">
 
-    <section class="plates" aria-labelledby="out">
-      <div class="plates__head reveal">
-        <h2 id="out">Out there</h2>
-        <p>Characters, printed things, and a table at a market.</p>
-      </div>
+        <div class="dcol" style="--w:0.92;--drop:5%">
+          <figure class="bt">
+            <img class="bt__art" src="/assets/media/desserts/wall/w-chichmati-wall.webp" srcset="/assets/media/desserts/wall/w-chichmati-wall-560.webp 374w, /assets/media/desserts/wall/w-chichmati-wall-1000.webp 668w, /assets/media/desserts/wall/w-chichmati-wall.webp 712w" sizes="(max-width: 620px) 90vw, (max-width: 1080px) 46vw, 30vw" width="712" height="1066" data-full="/assets/media/desserts/wall/w-chichmati-wall.webp" loading="lazy" decoding="async" alt="The Chichmati creature painted at full size on a textured wall, with Rishabh standing beside it holding a brush and palette.">
+            <figcaption class="bt__say">
+              <p class="bt__n">10<span class="bt__m">Paint on wall</span></p>
+              <h3 class="bt__t">Chichmati</h3>
+              <p class="bt__d">The same creature as the drawing further down, taken off the page and painted at full size.</p>
+            </figcaption>
+            <button class="bt__hit" type="button" aria-haspopup="dialog"><span class="u-sr">Chichmati &mdash; open</span></button>
+          </figure>
+          <figure class="bt">
+            <img class="bt__art" src="/assets/media/desserts/wall/w-shopfront-1000.webp" srcset="/assets/media/desserts/wall/w-shopfront-560.webp 420w, /assets/media/desserts/wall/w-shopfront-1000.webp 750w" sizes="(max-width: 620px) 90vw, (max-width: 1080px) 46vw, 30vw" width="1275" height="1700" data-full="/assets/media/desserts/wall/w-shopfront.webp" loading="lazy" decoding="async" alt="A shopfront painted with dense pattern work, the words Open Sesame lettered above the entrance behind metal railings.">
+            <figcaption class="bt__say">
+              <p class="bt__n">11<span class="bt__m">Paint on a shopfront</span></p>
+              <h3 class="bt__t">Open Sesame</h3>
+              <p class="bt__d">A shopfront painted end to end in pattern work, lettered above the entrance.</p>
+            </figcaption>
+            <button class="bt__hit" type="button" aria-haspopup="dialog"><span class="u-sr">Open Sesame &mdash; open</span></button>
+          </figure>
+          <figure class="bt">
+            <img class="bt__art" src="/assets/media/desserts/wall/w-happy-1000.webp" srcset="/assets/media/desserts/wall/w-happy-560.webp 547w, /assets/media/desserts/wall/w-happy-1000.webp 976w" sizes="(max-width: 620px) 90vw, (max-width: 1080px) 46vw, 30vw" width="1660" height="1700" data-full="/assets/media/desserts/wall/w-happy.webp" loading="lazy" decoding="async" alt="A print of a bearded figure dissolving downward into a mass of black ink.">
+            <figcaption class="bt__say">
+              <p class="bt__n">12<span class="bt__m">Ink on paper</span></p>
+              <h3 class="bt__t">Don&rsquo;t worry. Bi. Happy.</h3>
+              <p class="bt__d">A bearded figure dissolving downward into a mass of black ink.</p>
+            </figcaption>
+            <button class="bt__hit" type="button" aria-haspopup="dialog"><span class="u-sr">Don&rsquo;t worry. Bi. Happy. &mdash; open</span></button>
+          </figure>
+          <figure class="bt">
+            <img class="bt__art" src="/assets/media/desserts/wall/w-theone.webp" srcset="/assets/media/desserts/wall/w-theone-560.webp 391w, /assets/media/desserts/wall/w-theone-1000.webp 699w, /assets/media/desserts/wall/w-theone.webp 1082w" sizes="(max-width: 620px) 90vw, (max-width: 1080px) 46vw, 30vw" width="1082" height="1549" data-full="/assets/media/desserts/wall/w-theone.webp" loading="lazy" decoding="async" alt="A drawing of a field of identical sperm all swimming the same way, one of them carrying a bunch of red flowers.">
+            <figcaption class="bt__say">
+              <p class="bt__n">13<span class="bt__m">Ink and colour on paper</span></p>
+              <h3 class="bt__t">The one</h3>
+              <p class="bt__d">A field of identical swimmers all heading the same way. One of them is carrying flowers.</p>
+            </figcaption>
+            <button class="bt__hit" type="button" aria-haspopup="dialog"><span class="u-sr">The one &mdash; open</span></button>
+          </figure>
+        </div>
 
-      <figure class="plate plate--flip reveal">
-        <div class="plate__art"><span class="plate__frame"><img src="/assets/media/desserts/dessert-characters.webp" width="960" height="1200" loading="lazy" decoding="async" alt="Two bald cartoon characters drawn sitting at a table on the tiered roof of a Newari temple, one feeding the other."></span></div>
-        <figcaption class="plate__say">
-          <p class="plate__n">15</p>
-          <h3 class="plate__t">The pals</h3>
-          <p class="plate__m">Characters for the show</p>
-          <p class="plate__s plate__s--todo">These two are the thing the animated show is built on. Name them and say what they are for.</p>
-        </figcaption>
-      </figure>
+        <div class="dcol" style="--w:1.38;--drop:0%">
+          <figure class="bt">
+            <img class="bt__art" src="/assets/media/desserts/wall/w-sabmaya-wall.webp" srcset="/assets/media/desserts/wall/w-sabmaya-wall-560.webp 471w, /assets/media/desserts/wall/w-sabmaya-wall-1000.webp 840w, /assets/media/desserts/wall/w-sabmaya-wall.webp 1080w" sizes="(max-width: 620px) 90vw, (max-width: 1080px) 46vw, 30vw" width="1080" height="1285" data-full="/assets/media/desserts/wall/w-sabmaya-wall.webp" loading="lazy" decoding="async" alt="The finished Sab Maya Hai mural: a standing figure filled with Devanagari lettering, with a ginger cat walking past the base.">
+            <figcaption class="bt__say">
+              <p class="bt__n">14<span class="bt__m">Paint on wall</span></p>
+              <h3 class="bt__t">Sab maya hai</h3>
+              <p class="bt__d">The same wall finished. A cat walks past the base of it.</p>
+            </figcaption>
+            <button class="bt__hit" type="button" aria-haspopup="dialog"><span class="u-sr">Sab maya hai &mdash; open</span></button>
+          </figure>
+          <figure class="bt">
+            <img class="bt__art" src="/assets/media/desserts/wall/w-pile-1000.webp" srcset="/assets/media/desserts/wall/w-pile-560.webp 448w, /assets/media/desserts/wall/w-pile-1000.webp 800w" sizes="(max-width: 620px) 90vw, (max-width: 1080px) 46vw, 30vw" width="1360" height="1700" data-full="/assets/media/desserts/wall/w-pile.webp" loading="lazy" decoding="async" alt="A heap of printed posters and zines overlapping each other, including a red poster reading Stop hoping for art.">
+            <figcaption class="bt__say">
+              <p class="bt__n">15<span class="bt__m">Printed matter</span></p>
+              <p class="bt__d">Printed posters and zines, overlapping. One of them reads Stop hoping for art.</p>
+            </figcaption>
+            <button class="bt__hit" type="button" aria-haspopup="dialog"><span class="u-sr">Printed matter &mdash; open</span></button>
+          </figure>
+          <figure class="bt">
+            <img class="bt__art" src="/assets/media/desserts/wall/w-pals.webp" srcset="/assets/media/desserts/wall/w-pals-560.webp 459w, /assets/media/desserts/wall/w-pals-1000.webp 820w, /assets/media/desserts/wall/w-pals.webp 1080w" sizes="(max-width: 620px) 90vw, (max-width: 1080px) 46vw, 30vw" width="1080" height="1317" data-full="/assets/media/desserts/wall/w-pals.webp" loading="lazy" decoding="async" alt="Two drawn characters sitting at a table on the tiered roof of a Newari temple, one feeding the other.">
+            <figcaption class="bt__say">
+              <p class="bt__n">16<span class="bt__m">Characters for the show</span></p>
+              <p class="bt__d">Two characters sitting at a table on the tiered roof of a Newari temple, one feeding the other.</p>
+            </figcaption>
+            <button class="bt__hit" type="button" aria-haspopup="dialog"><span class="u-sr">Characters for the show &mdash; open</span></button>
+          </figure>
+        </div>
 
-      <figure class="plate reveal">
-        <div class="plate__art"><span class="plate__frame"><img src="/assets/media/desserts/dessert-road.webp" width="1080" height="1350" loading="lazy" decoding="async" alt="A photograph of a mountain road with people walking, one drawn character standing among them at four times human height."></span></div>
-        <figcaption class="plate__say">
-          <p class="plate__n">16</p>
-          <h3 class="plate__t">Working title</h3>
-          <p class="plate__m">Drawing over photograph</p>
-          <p class="plate__s plate__s--todo">The trick of putting him into a real photograph at the wrong scale is the best idea in this folder. Say where it came from.</p>
-        </figcaption>
-      </figure>
+        <div class="dcol" style="--w:1.02;--drop:9%">
+          <figure class="bt">
+            <img class="bt__art" src="/assets/media/desserts/wall/w-mandala-wall.webp" srcset="/assets/media/desserts/wall/w-mandala-wall-560.webp 560w, /assets/media/desserts/wall/w-mandala-wall-1000.webp 1000w, /assets/media/desserts/wall/w-mandala-wall.webp 1080w" sizes="(max-width: 620px) 90vw, (max-width: 1080px) 46vw, 30vw" width="1080" height="856" data-full="/assets/media/desserts/wall/w-mandala-wall.webp" loading="lazy" decoding="async" alt="A large radiating black and white pattern painted across a white wall beside a green door, a person standing against it for scale.">
+            <figcaption class="bt__say">
+              <p class="bt__n">17<span class="bt__m">Paint on wall</span></p>
+              <p class="bt__d">A radiating black and white pattern painted across a wall beside a green door. The figure standing against it is there for scale.</p>
+            </figcaption>
+            <button class="bt__hit" type="button" aria-haspopup="dialog"><span class="u-sr">Paint on wall &mdash; open</span></button>
+          </figure>
+          <figure class="bt">
+            <img class="bt__art" src="/assets/media/desserts/wall/banner-sabmaya.webp" srcset="/assets/media/desserts/wall/banner-sabmaya-560.webp 389w, /assets/media/desserts/wall/banner-sabmaya.webp 491w" sizes="(max-width: 620px) 90vw, (max-width: 1080px) 46vw, 30vw" width="491" height="706" data-full="/assets/media/desserts/wall/banner-sabmaya.webp" loading="lazy" decoding="async" alt="Rishabh painting the Sab Maya Hai mural on a white wall, Devanagari lettering filling the figure.">
+            <figcaption class="bt__say">
+              <p class="bt__n">18<span class="bt__m">Paint on wall</span></p>
+              <h3 class="bt__t">Sab maya hai</h3>
+              <p class="bt__d">The mural going up: the figure filled in with Devanagari, one letter at a time.</p>
+            </figcaption>
+            <button class="bt__hit" type="button" aria-haspopup="dialog"><span class="u-sr">Sab maya hai &mdash; open</span></button>
+          </figure>
+          <figure class="bt">
+            <img class="bt__art" src="/assets/media/desserts/wall/w-rick.webp" srcset="/assets/media/desserts/wall/w-rick-560.webp 476w, /assets/media/desserts/wall/w-rick.webp 614w" sizes="(max-width: 620px) 90vw, (max-width: 1080px) 46vw, 30vw" width="614" height="722" data-full="/assets/media/desserts/wall/w-rick.webp" loading="lazy" decoding="async" alt="A painted panel of a cartoon character with a banner reading Existence is pain, mounted above a red draped table.">
+            <figcaption class="bt__say">
+              <p class="bt__n">19<span class="bt__m">Paint on board</span></p>
+              <h3 class="bt__t">Existence is pain</h3>
+              <p class="bt__d">A painted panel with a banner reading Existence is pain, hung above a draped table.</p>
+            </figcaption>
+            <button class="bt__hit" type="button" aria-haspopup="dialog"><span class="u-sr">Existence is pain &mdash; open</span></button>
+          </figure>
+          <figure class="bt">
+            <img class="bt__art" src="/assets/media/desserts/wall/w-chichmati-1000.webp" srcset="/assets/media/desserts/wall/w-chichmati-560.webp 444w, /assets/media/desserts/wall/w-chichmati-1000.webp 794w" sizes="(max-width: 620px) 90vw, (max-width: 1080px) 46vw, 30vw" width="1349" height="1700" data-full="/assets/media/desserts/wall/w-chichmati.webp" loading="lazy" decoding="async" alt="A print of a black cat-like creature lying down, with flowers, a cross and a small skull growing out of its back.">
+            <figcaption class="bt__say">
+              <p class="bt__n">20<span class="bt__m">Ink and colour on paper</span></p>
+              <h3 class="bt__t">Chichmati</h3>
+              <p class="bt__d">A black cat-like creature lying down, with flowers, a cross and a small skull growing out of its back.</p>
+            </figcaption>
+            <button class="bt__hit" type="button" aria-haspopup="dialog"><span class="u-sr">Chichmati &mdash; open</span></button>
+          </figure>
+          <figure class="bt">
+            <img class="bt__art" src="/assets/media/desserts/wall/w-road.webp" srcset="/assets/media/desserts/wall/w-road-560.webp 459w, /assets/media/desserts/wall/w-road-1000.webp 820w, /assets/media/desserts/wall/w-road.webp 1080w" sizes="(max-width: 620px) 90vw, (max-width: 1080px) 46vw, 30vw" width="1080" height="1317" data-full="/assets/media/desserts/wall/w-road.webp" loading="lazy" decoding="async" alt="A photograph of a mountain road with people walking, one drawn character standing among them at four times human height.">
+            <figcaption class="bt__say">
+              <p class="bt__n">21<span class="bt__m">Drawing over photograph</span></p>
+              <p class="bt__d">A mountain road, with one drawn character standing among the walkers at four times human height.</p>
+            </figcaption>
+            <button class="bt__hit" type="button" aria-haspopup="dialog"><span class="u-sr">Drawing over photograph &mdash; open</span></button>
+          </figure>
+        </div>
+        </div>
+      </section>
+    </div>
 
-      <figure class="plate plate--tall plate--flip reveal">
-        <div class="plate__art"><span class="plate__frame"><img src="/assets/media/desserts/dessert-pile.webp" width="1040" height="1300" loading="lazy" decoding="async" alt="A heap of printed posters and zines overlapping each other, including a red poster reading Stop hoping for art."></span></div>
-        <figcaption class="plate__say">
-          <p class="plate__n">17</p>
-          <h3 class="plate__t">The printed pile</h3>
-          <p class="plate__m">Printed matter</p>
-          <p class="plate__s plate__s--todo">How were these printed, and what are they? &ldquo;Stop hoping for art&rdquo; deserves its own sentence.</p>
-        </figcaption>
-      </figure>
-
-      <figure class="plate plate--tall reveal">
-        <div class="plate__art"><span class="plate__frame"><img src="/assets/media/desserts/dessert-stall.webp" width="906" height="1600" loading="lazy" decoding="async" alt="Rishabh standing behind a market table covered with his prints, zines and stickers, holding a drink."></span></div>
-        <figcaption class="plate__say">
-          <p class="plate__n">18</p>
-          <h3 class="plate__t">A table at a market</h3>
-          <p class="plate__m">Selling the work in person</p>
-          <p class="plate__s plate__s--todo">Which market and when. This is the only picture that proves anybody paid for any of it, so it is worth being specific.</p>
-        </figcaption>
-      </figure>
-    </section>
-
-    <section class="still">
-      <h2>Still to come</h2>
-      <ul>
-        <li>Ezra. A desktop app for my cat. He passed.</li>
-        <li>Lurch. A dating app that matches you based on your trauma.</li>
-        <li>An animated satire show. In progress.</li>
-        <li>Four years of open mics across Bengaluru.</li>
-      </ul>
-    </section>
   </main>
 
   <footer class="sfoot">
@@ -290,5 +288,6 @@
 <script src="/assets/swiss.js"></script>
 <script src="/assets/notebook.js"></script>
 <script src="/assets/redo.js"></script>
+<script src="/assets/desserts.js"></script>
 </body>
 </html>

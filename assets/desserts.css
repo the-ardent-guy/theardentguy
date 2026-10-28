@@ -1,226 +1,545 @@
 /* ===========================================================================
-   DESSERTS — PLATES
-   2026-10-28. Built as "Option A" for review. Replaces the fallback table of
-   contents that stood in while there were no files.
+   DESSERTS — THE WALL
+   2026-10-28, rebuilt to his reference. Loads last, so it wins over
+   swiss.css and redo.css.
 
-   The argument for plates over a gallery grid: this work is dense ink. A
-   3535x5000 line drawing in a 400px grid tile is a grey smudge, and the
-   titles are lettered INTO the artwork, so a thumbnail throws away the one
-   thing that names the piece. One work per band, at a size you can actually
-   read, is the only format the work survives.
+   FOUR RULES, and everything here follows from them.
 
-   Three rules hold the page together:
-   1. NOTHING IS CROPPED. Every image is width:100%, height:auto, in its
-      native ratio. The frame pads around it. Ratios here run from 0.57 to
-      1.26 and the page absorbs that instead of forcing a common shape.
-   2. ONE MOUNT. Every plate sits on the same paper tone with the same
-      inset, so twenty different objects read as one collection. This is the
-      "single format frames" idea, done with a mat rather than a crop.
-   3. THE PAIR IS THE POINT. Several pieces exist twice — the drawing, and
-      the drawing painted on a wall. .plate--pair sets those side by side.
-      That diptych tells the story with no copy at all, and it is the one
-      move a normal gallery cannot make.
+   1. NOTHING IS CROPPED. Every picture is shown whole, at its own ratio,
+      at every width. This is why there are no fixed cells: a fixed cell
+      either cuts a picture or pads it, and padding is the mat he threw
+      out, only grey instead of clay.
+
+   2. THE COMPOSITION IS COLUMNS WITH DIFFERENT HEAD STARTS. The page
+      opens on five of them, as his reference does, and the headline block
+      is not a layer floating over the pictures — it is the first item in
+      column one, exactly as the reference's headline sits above the one
+      picture in its left column. The short list is the first item in
+      column four. That is the whole trick of the reference, and it is
+      why the arrangement holds together instead of looking scattered.
+
+      Head starts are percentages. A percentage top margin resolves
+      against the container's WIDTH, so the entire composition scales
+      with the page rather than drifting apart as the window changes.
+
+   3. THERE IS NO FIELD AND NO MAT. A card is the artwork, a hairline,
+      and a shadow. Nothing sits behind a picture except the page.
+
+   4. THE NOTE NEVER TOUCHES THE ART. It opens in a panel below the card,
+      over whatever is beneath it. The card lifts; the picture does not
+      move, scale, dim, or get written on.
    =========================================================================== */
 
-/* ---------------------------------------------------------------------------
-   1. THE BAND
-   Each plate is its own 12-column grid rather than a child of one long grid,
-   so a plate can be reordered or removed without renumbering anything.
-   --------------------------------------------------------------------------- */
-
-.plates { margin-top: var(--s12); }
-
-.plate {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: var(--gutter);
-  align-items: end;          /* caption sits on the baseline of the picture */
-  margin: 0 0 var(--s20);
-}
-
-.plate__art { grid-column: 1 / 8; }
-.plate__say { grid-column: 9 / 13; }
-
-/* Alternating sides. Not decoration: it stops twenty bands reading as a
-   column of identical rows, and it puts the caption on the outside edge
-   where the eye is already travelling. */
-.plate--flip .plate__art { grid-column: 6 / 13; }
-.plate--flip .plate__say { grid-column: 1 / 5; grid-row: 1; }
-
-/* A wide piece earns more columns; a tall one needs fewer or it towers over
-   the fold. Set per plate, not guessed globally. */
-.plate--wide .plate__art { grid-column: 1 / 10; }
-.plate--wide.plate--flip .plate__art { grid-column: 4 / 13; }
-.plate--tall .plate__art { grid-column: 1 / 7; }
-.plate--tall.plate--flip .plate__art { grid-column: 7 / 13; }
 
 /* ---------------------------------------------------------------------------
-   2. THE MOUNT
-   --pad is the mat colour. It defaults to the page's own paper and is
-   overridden per plate where the artwork carries its own ground — a print on
-   cream wants cream round it, not a seam.
+   1. THE GROUND
+
+   style.css shipped a paper grain and redo.css killed it sitewide
+   ("texture belongs to artwork, not to chrome"). That is still right for
+   the case studies. It is wrong here, where the whole page IS artwork, so
+   the grain comes back for this page only.
+
+   It goes on <body>'s own background, BEHIND the cards, never over them.
+   A fixed overlay on top would lay noise across twenty drawings and
+   dirty every one of them. Behind, it is paper; in front, it is a filter.
+
+   The noise is encoded in the ALPHA channel, not as grey pixels: the
+   colour matrix throws away the turbulence's own colour, paints a flat
+   warm ink, and sets alpha from the red channel. So the grain only ever
+   darkens, in specks, and can never tint the page.
+
+   STRENGTH KNOB: the 0.40 in the alpha row. 0.25 is barely there, 0.40 is
+   this, past 0.6 it stops being paper and starts being a photocopy.
    --------------------------------------------------------------------------- */
 
-.plate__frame {
-  --pad: #F2F0EA;
-  background: var(--pad);
-  padding: clamp(14px, 2.2vw, 36px);
-  display: block;
+body.dsrt {
+  --page: #EFEDE8;
+
+  background-color: var(--page);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch' seed='7'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.082 0 0 0 0 0.075 0 0 0 0 0.059 0.40 0 0 0 -0.16'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+  background-blend-mode: normal;   /* style.css leaves soft-light on body for
+                                      its own mottle. Soft-light against an
+                                      almost-transparent layer is almost
+                                      nothing: with this line missing the
+                                      grain measured sd 0.35, i.e. absent. */
+  background-attachment: scroll;   /* paper moves with the page. Fixed grain
+                                      slides under the work as you scroll and
+                                      reads as a screen effect. */
 }
 
-.plate__frame img {
-  display: block;
-  width: 100%;
-  height: auto;            /* native ratio, always. See rule 1 above. */
+body.dsrt::after { display: none !important; }   /* the old sitewide overlay */
+
+.dsrt {
+  /* The hairline. Not pure black: at 1px against a white scan, #000 snaps
+     like a table border. 22% reads as black and still breathes. Set
+     --edge to transparent and every outline on the page goes. */
+  --edge: rgba(20, 19, 15, 0.22);
+
+  /* His reference rounds its corners. 8px, which is what the reference
+     uses at this tile size — enough to soften, not enough to turn the
+     work into app furniture. Set to 0 for square. */
+  --radius: 8px;
+
+  /* Two shadows, always. A tight one that sets the sheet down on the
+     paper, and a wide soft one that lifts it off. One alone reads as a
+     2010 card component; two read as an object with a weight. */
+  --cast:      0 1px 2px rgba(20, 19, 15, 0.06), 0 8px 18px -10px rgba(20, 19, 15, 0.18);
+  --cast-open: 0 2px 4px rgba(20, 19, 15, 0.07), 0 22px 38px -14px rgba(20, 19, 15, 0.26);
+
+  --lift: -6px;
+  --swift: cubic-bezier(.2, .7, .3, 1);
 }
 
-/* The pair. Two states of one piece, read across rather than down.
-
-   The columns are NOT 1fr 1fr. Two photographs of the same artwork almost
-   never share a ratio — here a 0.70 print sits beside a 1.01 wall shot — and
-   at equal widths the squarer one renders barely half the height of the
-   other, so one half hangs in a void and the pair reads as a mistake rather
-   than a comparison. Each half therefore gets a column proportional to its
-   own ratio (--a and --b, set per pair in the markup), which lands both
-   images at the same height and both edges flush. */
-.plate--pair .plate__art {
-  display: grid;
-  grid-template-columns: var(--a, 1fr) var(--b, 1fr);
-  column-gap: var(--gutter);
-  align-items: end;
-}
-
-/* And the mat inside a pair is a PERCENTAGE, where every other plate's is a
-   clamp. That is the whole trick. A fixed pad is the same number of pixels
-   in both halves, so it is a different fraction of each column, and the two
-   images come out 6% apart in height however carefully the columns are set.
-   A percentage pad is relative to the column's own inline size, so both
-   images stay a constant fraction of their column and the ratio columns
-   above land exactly — at every width, with no magic numbers to retune.
-   6% matches the clamp's optical weight at the widths a pair actually
-   occupies. Measured after: 0.0px difference between the two halves. */
-.plate--pair .plate__frame { padding: 6%; }
-
-/* A hairline caption under each half of a pair, so "drawn" and "painted"
-   are labelled without a sentence being spent on it. text-align is set
-   rather than inherited: figure descendants pick up a centre from style.css
-   and these have to hang off the left edge of their own picture. */
-.plate__half { font: var(--w-label) var(--t-label)/var(--lh-label) var(--sans);
-  letter-spacing: var(--tr-label); text-transform: uppercase;
-  text-align: left;
-  color: var(--ink-40); margin: var(--s1) 0 0; }
 
 /* ---------------------------------------------------------------------------
-   3. THE CAPTION
+   2. BACK, AND HOME
+
+   Back sits top left, where the name used to. It is the way out of this
+   page. HOME is a tab in the nav beside Work and Contact, and always goes
+   to the index. They were one control doing two jobs; they are two
+   controls doing one each.
    --------------------------------------------------------------------------- */
 
-.plate__n {
-  font: var(--w-label) var(--t-label)/var(--lh-label) var(--sans);
+.snav__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono, var(--sans));
+  font-size: var(--t-label);
+  line-height: var(--lh-label);
   letter-spacing: var(--tr-label);
   text-transform: uppercase;
-  color: var(--ink-40);
-  margin: 0 0 var(--s2);
+  color: var(--ink-60);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--dur) var(--ease);
 }
 
-.plate__t {
-  font: var(--w-title) var(--t-title)/var(--lh-title) var(--sans);
-  letter-spacing: var(--tr-title);
+.snav__back svg {
+  display: block;
+  width: 20px;
+  height: 15px;
+  flex: none;
+  stroke-width: 1.25;
+  transition: transform var(--dur) var(--ease);
+}
+
+.snav__back:hover, .snav__back:focus-visible { color: var(--ink); }
+.snav__back:hover svg, .snav__back:focus-visible svg { transform: translateX(-3px); }
+
+
+/* ---------------------------------------------------------------------------
+   3. COLUMNS
+
+   One mechanism for the whole page. --w is a flex-grow weight scaled by
+   100 (so the weights always sum well above 1 and the row is fully
+   distributed) against a flex-basis of 0, which makes the widths exactly
+   proportional to the weights at every viewport. --drop is the column's
+   head start.
+
+   A work the Drive folder named `big` is placed in a wide column. That is
+   the only thing that makes it bigger — nothing is scaled, and nothing is
+   cropped to fit.
+   --------------------------------------------------------------------------- */
+
+.dcols {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s2);
+}
+
+.dcol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  flex: calc(var(--w, 1) * 100) 1 0%;
+  min-width: 0;
+  margin-top: var(--drop, 0);
+}
+
+
+/* ---------------------------------------------------------------------------
+   4. THE HERO
+
+   Full width of the window, not of the text column, because the
+   reference's mosaic runs the width of the browser. The page margin is
+   re-applied here as padding, since this element has stepped outside the
+   wrapper that was carrying it.
+   --------------------------------------------------------------------------- */
+
+.dhero {
+  --vw: calc(100vw - var(--sbw, 0px));
+  box-sizing: border-box;
+  width: var(--vw);
+  max-width: var(--vw);
+  margin-inline: calc(50% - (var(--vw) / 2));
+  margin-block: 0 var(--s12);
+  padding-inline: var(--margin);
+}
+
+/* The headline block is wider than the column it sits in, exactly as the
+   reference's is — its headline runs about 30% of the page across while
+   its left column is only 18%. It can do that because the column beside
+   it has a 34% head start, so there is nothing there to collide with.
+   That overlap is what stops the headline setting at four words a line. */
+.dhero__say {
+  margin: 0;
+  width: 178%;
+  max-width: none;
+}
+
+.dhero__say h1 {
+  margin: 0;
+  max-width: none;
+  font-size: clamp(30px, 3.4vw, 54px);
+  line-height: 1.03;
+  letter-spacing: -0.035em;
+  font-weight: 600;
   color: var(--ink);
-  margin: 0 0 var(--s1);
   text-wrap: balance;
 }
 
-.plate__m {
-  font: var(--w-sub) var(--t-sub)/var(--lh-sub) var(--sans);
+.dhero__say p {
+  margin: var(--s3) 0 0;
+  max-width: 30ch;
+  font-size: 15px;
+  line-height: 1.45;
   color: var(--ink-60);
-  margin: 0 0 var(--s3);
-}
-
-.plate__s {
-  font: var(--w-body) var(--t-body)/var(--lh-body) var(--sans);
-  color: var(--ink);
-  max-width: 34ch;
-  margin: 0;
-}
-
-/* PLACEHOLDER. Deliberately ugly so it cannot ship by accident: dashed rule,
-   amber ink, and the words say what is missing. Delete this rule and every
-   .plate__s--todo with it once the real lines are written. 2026-10-28. */
-.plate__s--todo {
-  color: #8A5A12;
-  border-left: 2px dashed #C9A227;
-  padding-left: var(--s2);
-  font-style: italic;
 }
 
 /* ---------------------------------------------------------------------------
-   4. SECTION HEADS
-   Three natures in this collection — paper, walls, and the work out in the
-   world. The page says so once per group and then gets out of the way.
+   5. THE SECOND GROUP
    --------------------------------------------------------------------------- */
 
-.plates__head {
+.bhead {
+  margin: 0 0 var(--s5);
+  padding-bottom: var(--s2);
+  border-bottom: 1px solid var(--edge);
+  font-size: var(--t-sub);
+  line-height: var(--lh-sub);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  max-width: none;
+}
+
+.dset { margin: 0 0 var(--s10); }
+
+
+/* ---------------------------------------------------------------------------
+   6. THE CARD
+
+   The card is the picture. The hairline and both shadows ride on the
+   image's own box-shadow, so they hug the artwork exactly and cost no
+   layout — there is no wrapper to leave a seam.
+
+   The shadows are deliberately NOT all identical. Twenty rectangles with
+   one shadow value is the 2010 template look; a little unevenness across
+   the wall is what a set of real objects does. Three weights, dealt out
+   by position, nothing you would notice one card at a time.
+   --------------------------------------------------------------------------- */
+
+.bt {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  transform: translateY(0);
+  transition: transform 160ms var(--swift);
+}
+
+.bt__art {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  box-shadow: 0 0 0 1px var(--edge), var(--cast);
+  transition: box-shadow 160ms var(--swift);
+  backface-visibility: hidden;      /* keeps the hairline from shimmering
+                                       while the card is in motion */
+}
+
+.dcol .bt:nth-child(3n+2) .bt__art {
+  box-shadow: 0 0 0 1px var(--edge), 0 1px 2px rgba(20, 19, 15, 0.05),
+              0 6px 14px -9px rgba(20, 19, 15, 0.15);
+}
+.dcol .bt:nth-child(3n+3) .bt__art {
+  box-shadow: 0 0 0 1px var(--edge), 0 1px 3px rgba(20, 19, 15, 0.07),
+              0 11px 22px -11px rgba(20, 19, 15, 0.21);
+}
+
+/* Hovering no longer reveals anything — it only says the work is a thing
+   you can press. A lift and a deeper shadow, nothing that reads as
+   content arriving. Delete this block for no hover response at all. */
+@media (hover: hover) and (pointer: fine) {
+  .bt:hover { transform: translateY(var(--lift)); }
+  .bt:hover .bt__art { box-shadow: 0 0 0 1px var(--edge), var(--cast-open); }
+}
+
+.bt:focus-within .bt__art { box-shadow: 0 0 0 1px var(--edge), var(--cast-open); }
+
+.bt__hit {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  appearance: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: zoom-in;
+  font: inherit;
+  color: inherit;
+}
+
+.bt__hit:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+
+/* ---------------------------------------------------------------------------
+   7. THE NOTE
+
+   The note lives in the markup as the figure's own caption and is lifted
+   into the zoom when a work is opened. With JavaScript running it is
+   hidden in the grid, because the grid is now pictures only. With
+   JavaScript off there is no zoom to put it in, so it stays where it is
+   and reads as a caption under the work — which is why it is hidden by
+   `html.js` rather than by a plain rule.
+   --------------------------------------------------------------------------- */
+
+.bt__say {
+  box-sizing: border-box;
+  max-width: none;                  /* swiss.css clamps every figcaption to
+                                       48ch and pushes it down 12px */
+  margin: 10px 0 0;
+  color: var(--ink);
+}
+
+html.js .bt__say { display: none; }
+
+.bt__n {
   display: flex;
   align-items: baseline;
-  gap: var(--s3);
-  margin: 0 0 var(--s10);
-  padding-top: var(--s6);
-  border-top: 1px solid var(--rule-strong);
-}
-
-.plates__head h2 {
-  font: var(--w-title) var(--t-title)/var(--lh-title) var(--sans);
-  letter-spacing: var(--tr-title);
+  gap: var(--s2);
   margin: 0;
+  font-family: var(--mono, var(--sans));
+  font-size: var(--t-label);
+  line-height: var(--lh-label);
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink-40);
 }
 
-.plates__head p {
-  font: var(--w-sub) var(--t-sub)/var(--lh-sub) var(--sans);
+.bt__m { color: var(--ink-60); }
+
+.bt__t {
+  margin: 8px 0 0;
+  font-size: var(--t-sub);
+  line-height: var(--lh-sub);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  max-width: none;
+}
+
+.bt__d {
+  margin: 8px 0 0;
+  font-size: var(--t-body);
+  line-height: 1.5;
   color: var(--ink-60);
-  margin: 0;
+  max-width: 46ch;
+  text-wrap: pretty;
 }
 
-/* The pieces with no files yet. Kept rather than dropped: the old table of
-   contents promised these, and silently removing them would be the page
-   telling a smaller truth than it used to. */
-.still {
-  border-top: 1px solid var(--rule);
-  padding-top: var(--s4);
-  margin-top: var(--s8);
-}
-.still h2 { font: var(--w-sub) var(--t-sub)/var(--lh-sub) var(--sans);
-  letter-spacing: var(--tr-label); text-transform: uppercase;
-  color: var(--ink-40); margin: 0 0 var(--s3); }
-.still ul { list-style: none; margin: 0; padding: 0; max-width: 60ch; }
-.still li { font: var(--w-body) var(--t-body)/var(--lh-body) var(--sans);
-  color: var(--ink-60); padding: var(--s1) 0;
-  border-bottom: 1px solid var(--rule); }
 
 /* ---------------------------------------------------------------------------
-   5. NARROW
-   Below 860px the two columns become one. The caption goes UNDER its picture
-   — never above — because at this width the picture is the thing that has to
-   land first. Alternation is meaningless in one column, so it is switched
-   off rather than left to produce a random-looking order.
+   8. THE ZOOM
+
+   Built by desserts.js, which is also what animates it — everything here
+   is the resting layout plus the veil and chrome fade. The artwork's own
+   transform is left alone by this file, because the script owns it for
+   the length of the flight.
+
+   The image is capped in both directions and never stretched, so a work
+   smaller than the cap is shown at its own size rather than blown up.
    --------------------------------------------------------------------------- */
 
-@media (max-width: 860px) {
-  .plate { margin-bottom: var(--s12); }
-  .plate__art,
-  .plate--flip .plate__art,
-  .plate--wide .plate__art,
-  .plate--wide.plate--flip .plate__art,
-  .plate--tall .plate__art,
-  .plate--tall.plate--flip .plate__art { grid-column: 1 / 13; }
-  .plate__say,
-  .plate--flip .plate__say { grid-column: 1 / 13; grid-row: auto; margin-top: var(--s3); }
-  .plates__head { margin-bottom: var(--s6); }
-  .plate__s { max-width: none; }
+html.lb-on { overflow: hidden; padding-right: var(--sbw, 0px); }
+
+.lb {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 4vw, 56px);
 }
 
-/* A pair at phone width would be two 150px thumbnails, which defeats the
-   comparison it exists to make. Stack them instead and keep the labels. */
-@media (max-width: 560px) {
-  .plate--pair .plate__art { grid-template-columns: 1fr; row-gap: var(--s3); }
-  .plate__frame { padding: 12px; }
+.lb[hidden] { display: none; }
+
+.lb__veil {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--page) 88%, transparent);
+  backdrop-filter: blur(3px);
+  opacity: 0;
+  transition: opacity 240ms var(--ease);
+}
+
+.lb.is-on .lb__veil { opacity: 1; }
+
+.lb__fig {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(16px, 2.5vw, 36px);
+  margin: 0;
+  max-width: 100%;
+}
+
+/* The shell is what gets sized, and desserts.js sizes it: both numbers
+   computed from the artwork's true ratio so it cannot be distorted. It
+   has to be done in script rather than here because max-width and
+   max-height on a replaced element with a stated width do NOT keep the
+   ratio — max-height clamps the height and leaves the width alone, which
+   squashed every tall drawing into the same box. Measured: 79% on the
+   valley drawing before this changed.
+
+   The frame the artwork is fitted into is this element's padding, so
+   that stays the one number in the stylesheet. */
+.lb__shell {
+  position: relative;
+  flex: none;
+  max-width: 100%;
+  will-change: transform;
+}
+
+.lb__art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius);
+  box-shadow: 0 0 0 1px var(--edge), 0 30px 70px -24px rgba(20, 19, 15, 0.42);
+}
+
+.lb__say {
+  flex: 0 0 clamp(200px, 20vw, 300px);
+  max-width: none;
+  margin: 0 0 4px;
+  color: var(--ink);
+  opacity: 0;
+  transition: opacity 200ms var(--ease) 120ms;
+}
+
+.lb.is-on .lb__say { opacity: 1; }
+.lb.is-swapping .lb__say,
+.lb.is-swapping .lb__shell { opacity: 0; transition: opacity 110ms var(--ease); }
+
+.lb__x,
+.lb__nav {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+  color: var(--ink);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 200ms var(--ease) 100ms, background-color var(--dur) var(--ease);
+}
+
+.lb.is-on .lb__x,
+.lb.is-on .lb__nav { opacity: 1; }
+
+.lb__x:hover, .lb__nav:hover,
+.lb__x:focus-visible, .lb__nav:focus-visible {
+  background: color-mix(in srgb, var(--ink) 16%, transparent);
+}
+
+.lb__x svg { width: 16px; height: 16px; }
+.lb__nav svg { width: 18px; height: 18px; }
+
+.lb__x { top: clamp(12px, 2vw, 24px); right: clamp(12px, 2vw, 24px); }
+.lb__nav--prev { left: clamp(8px, 1.5vw, 20px); top: 50%; margin-top: -22px; }
+.lb__nav--next { right: clamp(8px, 1.5vw, 20px); top: 50%; margin-top: -22px; }
+
+
+/* ---------------------------------------------------------------------------
+   9. NARROWER
+
+   Four staggered columns stop being a composition below about 1080 — they
+   become four 160px thumbnails. So the columns wrap and give up their
+   head starts, which only mean anything when every column is visible at
+   once. Below 620 it is one column.
+   --------------------------------------------------------------------------- */
+
+@media (max-width: 1080px) {
+  .dcols { flex-wrap: wrap; }
+
+  /* Fixed fractions, not grow weights: with grow still on, a line that
+     ends up holding fewer columns than the one above shares the whole
+     width between them and they come out twice the size. */
+  .dhero .dcol { flex: 0 0 calc((100% - var(--s2)) / 2); margin-top: 0; }
+  .dset  .dcol { flex: 0 0 calc((100% - 2 * var(--s2)) / 3); margin-top: 0; }
+
+  .dhero__say { width: 100%; }
+  .dhero__say h1 { font-size: clamp(28px, 4.6vw, 40px); }
+  .bt__d { font-size: 14px; }
+
+  /* The note goes under the picture rather than beside it: a 20vw column
+     of type next to the artwork is four words a line at this size. */
+  .lb__fig { flex-direction: column; align-items: flex-start; gap: var(--s3); }
+  .lb__say { flex: none; max-width: 56ch; margin: 0; }
+}
+
+@media (max-width: 860px) {
+  .dset .dcol { flex: 0 0 calc((100% - var(--s2)) / 2); }
+}
+
+@media (max-width: 620px) {
+  .dcols { display: block; }
+  .dcol { display: block; margin-top: 0; }
+  .bt { margin: 0 0 var(--s6); }
+  .dhero { margin-block: 0 var(--s8); }
+  .dhero__say { margin-bottom: var(--s6); }
+
+  .lb { padding: 14px; }
+  .lb__nav { width: 40px; height: 40px; }
+  .lb__nav--prev { left: 6px; }
+  .lb__nav--next { right: 6px; }
+}
+
+
+/* ---------------------------------------------------------------------------
+   10. MOTION, AND THE ABSENCE OF IT
+
+   The zoom's flight is driven from JavaScript, which checks
+   prefers-reduced-motion itself and skips the transform entirely. What is
+   left here is the fading, which is safe to keep but is cut short.
+   --------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .bt, .bt__art,
+  .lb__veil, .lb__say, .lb__x, .lb__nav { transition-duration: 1ms !important; }
+  .lb__shell { will-change: auto; }
+  .bt:hover { transform: none; }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .bt:hover { transform: none; }
+}
+
+@media print {
+  .lb { display: none !important; }
+  html.js .bt__say { display: block; }
+  .bt__art { box-shadow: 0 0 0 1px #000; }
 }
