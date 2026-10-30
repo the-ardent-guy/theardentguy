@@ -600,6 +600,29 @@
       for (i = 0; i < balls.length; i++) {
         b = balls[i];
         if (b.held || b.wait > 0) continue;
+        /* THE ENTRANCE BACKSTOP. During the drop a ball is going to exactly
+           one place and nowhere else, and landFor only catches a surface the
+           ball crosses downward inside one frame: it never looks backwards.
+           So if the page reflows while a ball is in the air, and fonts
+           landing under a three line headline is the usual way, the rule
+           moves out from under something already past it and the ball falls
+           straight through the line onto the first case study. It is the
+           bottom row that shows this, because the rows above it land on
+           shelves of their own and the bottom four are the only ones that
+           need the real rule to be where it was.
+
+           Caught a radius past its slot and put where it was going. Entrance
+           only, and home balls only, so nothing a hand has touched is ever
+           teleported out from under it. */
+        if (arriving && b.home && !b.settled) {
+          var sl2 = homeSlot(b.i);
+          if (b.cy > sl2.cy + R) {
+            b.cx = sl2.cx; b.cy = sl2.cy;
+            b.vx = 0; b.vy = 0; b.restOn = null; b.still = STILL;
+            settle(b);
+            continue;
+          }
+        }
         if (b.settled) {
           /* Asleep with no floor under it and no two shoulders holding it:
              the heap has moved out from under this one and it has to fall. */
@@ -702,6 +725,18 @@
              eat the fall, so it is handed to the loop like any other. Fonts
              landing can fire this in the middle of the entrance. */
           if (b.home && b.settled) { var s = homeSlot(b.i); b.cx = s.cx; b.cy = s.cy; place(b); }
+          else if (arriving && b.home && !b.settled) {
+            /* Mid-entrance, and the ground just moved under it. Put it back
+               at the top of its own fall rather than hand it to the loop in
+               free fall against geometry it was never aimed at, which is the
+               other half of how a ball ends up under the rule. It re-falls
+               its 40px, and at this point in a page load nobody sees that. */
+            var s2 = homeSlot(b.i);
+            b.cx = s2.cx; b.cy = s2.cy - DROP;
+            b.vx = 0; b.vy = 0; b.restOn = null; b.still = 0;
+            b.px = b.cx; b.py = b.cy;
+            place(b);
+          }
           else { b.settled = false; b.restOn = null; if (b.vy === 0) b.vy = 0.5; }
         });
         checkNote(); kick();
