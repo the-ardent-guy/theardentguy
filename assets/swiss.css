@@ -1069,14 +1069,14 @@ p a:focus-visible { text-decoration-color: var(--accent); }
 /* The paragraphs that are not body copy. `.col p` and `.col p:last-child`
    are both (0,2,0) and they were quietly flattening every one of these to
    zero, which is why the How-might-we line sat on the table above it. */
-.col .hmw        { margin: var(--s5) 0; }
+.col .hmw, .col .claim { margin: var(--s5) 0; }
 .col .why        { margin: var(--s3) 0 0; }
 .col .quote__text { margin: 0; }
 .col .quote__who  { margin: var(--s2) 0 0; }
 
 /* "How might we" is a size step and nothing else: no rule, no label, so it
    never competes with the page's one pull quote. */
-.hmw {
+.hmw, .claim {
   margin: var(--s5) 0;
   padding: 0;
   border: 0;
@@ -2234,7 +2234,7 @@ body::before {
 [data-case] .col h3 { margin-bottom: var(--s3); }
 [data-case] .col p  { margin-bottom: var(--s3); }
 [data-case] .col p:last-child { margin-bottom: 0; }
-[data-case] .col .hmw { margin-block: var(--s8); }
+[data-case] .col .hmw, [data-case] .col .claim { margin-block: var(--s8); }
 [data-case] .col .why { margin-top: var(--s5); }
 
 /* Section 17's air for list rows. --mark-top moves with the padding, or the

@@ -142,7 +142,14 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 }
 .stage__in { max-width: 1120px; margin-inline: auto; position: relative; }
 .stage__lead {
-  margin: 0 0 clamp(56px, 9vh, 120px); max-width: 22ch;
+  /* 2026-10-31, his note: let it breathe. This gap carries the pile as well
+     as the air. The heap stands 82px off the rule, so at the old 9vh there
+     were only 48px between the foot of this sentence and the top ball, and
+     the two read as one crowded block. 14.5vh puts about 100px of clear
+     black above the pile. Held to the old value below 760px, where there is
+     no pile (toys() is desktop-pointer only) and he has just had the page
+     shortened. */
+  margin: 0 0 clamp(56px, 14.5vh, 180px); max-width: 22ch;
   font-size: clamp(24px, 3vw, 42px); font-weight: 400;
   line-height: 1.2; letter-spacing: -0.02em; color: #fff;
 }
@@ -150,12 +157,26 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
   display: flex; align-items: baseline; justify-content: space-between;
   padding-bottom: clamp(22px, 3.5vh, 40px);
   border-bottom: 1px solid rgba(255,255,255,.14);
-  margin-bottom: clamp(56px, 9vh, 110px);
+  /* 81px to the first case study was tight for a rule that now has nine
+     objects resting on it. 13vh gives about 117px. Same story below 760px:
+     restored there, because the pile is not on it and the page is long
+     enough on a phone already. */
+  margin-bottom: clamp(56px, 13vh, 150px);
 }
 .stage .idx__head .label, .stage .idx__count { color: rgba(255,255,255,.6) !important; font-size: 12px; }
+/* 2026-10-31: "See all" is out of this sub-head, his call, so the two rules
+   that styled it go with it. The Desserts page is still reached from the nav
+   and from the DESSERTS endmark at the foot. */
 .idx__head--sub { margin-top: 0; margin-bottom: clamp(32px, 5vh, 56px); border: 0; padding: 0; }
-.stage__seeall { color: rgba(255,255,255,.6) !important; text-decoration: none; }
-.stage__seeall:hover { color: #fff !important; }
+/* Removing it exposed a hang that "See all" had been hiding. This head is a
+   child of .stage__in, so it runs the full 1120px, while the row underneath
+   it is 880 centred: with something pinned to the right end of a
+   space-between flex you could not see that the left end was 120px outside
+   Ezra. Pulled in to the row it heads, and centred, because this is the only
+   centred symmetric block on the page and a left-flush label over it would
+   just be a different arbitrary edge. Three classes deep on purpose:
+   .stage .idx__head sets space-between at equal specificity. */
+.stage .dess2 .idx__head--sub { max-width: 880px; margin-inline: auto; justify-content: center; }
 
 /* --- Four full-width feature rows: photo left, details right, centred, with
        heavy side margins from the capped width ----------------------------- */
@@ -165,8 +186,18 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
   gap: clamp(32px, 5vw, 84px); align-items: start;
   max-width: 1040px; margin-inline: auto;
 }
-.feat__shot { display: block; overflow: hidden; background: #141414; aspect-ratio: 16 / 10; }
-.feat__shot img { width: 100%; height: 100%; object-fit: cover; transition: transform 700ms cubic-bezier(.22,1,.36,1); }
+/* 2026-10-31: the slot no longer holds a ratio of its own. It was 16/10 with
+   object-fit: cover, which meant every cover that was not exactly 1.600 lost
+   height off the top and bottom with no say from him — 16.7% on the two 4:3
+   crops, and on Hasta that took the "Free reading, full manuscript" line out
+   of the frame. The purpose-made covers he supplied are 1165x900 (1.294), so
+   the slot takes its height from the image instead and crops nothing. Each
+   .feat is its own grid row with align-items: start, so a row is free to be
+   as tall as its picture; no card is waiting on another's height. The img
+   keeps its width/height attributes, so the box is still reserved before the
+   lazy load and nothing reflows. overflow: hidden stays for the hover zoom. */
+.feat__shot { display: block; overflow: hidden; background: #141414; }
+.feat__shot img { display: block; width: 100%; height: auto; transition: transform 700ms cubic-bezier(.22,1,.36,1); }
 .feat:hover .feat__shot img, .feat__shot:focus-visible img { transform: scale(1.03); }
 /* What the thing IS, where the 01-04 used to be. 2026-10-27: he asked for
    the numbering out, and for Produsa and Supaca to say what they are. */
@@ -243,6 +274,11 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 .feat:hover .feat__go span { transform: translateX(4px); }
 
 @media (max-width: 760px) {
+  /* The two gaps around the rule were opened up for the pile that rests on
+     it, and there is no pile at this width. Back to what they were, so the
+     phone does not pay for a desktop interaction in scroll length. */
+  .stage__lead { margin-bottom: clamp(56px, 9vh, 120px); }
+  .stage .idx__head { margin-bottom: clamp(56px, 9vh, 110px); }
   /* One column: the gap is now the photo-to-text gap and nothing else, so
      it takes the 28px that the text block's own rhythm no longer needs to
      borrow. 22px read as the text being stuck to the bottom of the image. */
@@ -308,25 +344,46 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
   transition: transform .18s ease-out;
 }
 
-/* Lurch: the phones as they were, with no box around them - but the panel
-   they stand on is filled with his red, #FF1100, the accent this tile already
-   hands the cursor. The artwork is a cut-out, so the red is what shows behind
-   the two screens. The labels sit over them, placed off .dz__stage. */
-.dz__stage { position: relative; display: block; background: #FF1100; }
-.dz__phones {
-  display: block; width: 100%; height: auto;
-  filter: drop-shadow(0 22px 30px rgba(0,0,0,.5));
-}
-.dz__hlabel {
-  position: absolute; top: 6%; left: 2%; z-index: 2;
-  font-weight: 800; letter-spacing: 0.06em; font-size: clamp(18px, 2.2vw, 30px); color: #fff;
-}
-.dz__yes {
-  position: absolute; right: 1%; bottom: 14%; z-index: 2;
-  font-weight: 800; font-size: clamp(18px, 2.2vw, 30px); line-height: 1; color: #fff;
-  display: flex; flex-direction: column; align-items: flex-end; gap: 2px;
-}
-.dz__yes span { font-size: .8em; }
+/* Lurch: the screen and nothing else, 2026-10-31 his call. The red panel went
+   first, along with the two labels that were set over it, LURCH and YES!, and
+   then he supplied this mockup to stand in their place. It is a finished
+   picture rather than a cut-out: the two phones are lit and shadowed inside
+   it, on its own black ground that falls to #000 at the corners against the
+   stage's #0B0B0C, which is near enough that no rectangle shows. So no
+   drop-shadow here - the artwork already casts one, and a second cast off
+   the bounding box would print a hard edge where the picture has none.
+   .dz__stage stays as the element: it is one of the surfaces the ball pit
+   lands on, read by name in redo.js. */
+.dz__stage { position: relative; display: block; }
+.dz__phones { display: block; width: 100%; height: auto; }
+
+/* 2026-10-31, art direction. Three complaints of his turned out to be one
+   problem. In the supplied 3:2 mockup the phones fill 59% of the width and
+   93% of the height: a tall picture wearing a wide letterbox. At a 398px
+   column that left 163px of the tile as empty glow and rendered the phones
+   235px wide, against the cat's 295px. So the phones did not read small
+   because the tile was small. They read small because 41% of the tile was
+   glow, and making the tile bigger without killing the glow would only have
+   bought a bigger grey cloud.
+
+   The glow is now alpha, not black. Cropping to the phones and leaving a
+   black ground would have CREATED the rectangle the glow was hiding: a
+   uniform #000 square with a crisp edge against the stage's #0B0B0C, which
+   is visible. Keyed to transparency it reveals --stage-bg instead, and the
+   two halves of this row are finally the same kind of object, since Ezra was
+   always a cut-out. Nothing of the artwork was lost: the crop took the glow
+   falloff and stopped 55px clear of the phones on both sides, and the
+   shipped file gives them more air on every side than the source did.
+
+   87% is set on the SUBJECT, not the box. A saturated orange cat and a dark
+   phone mockup do not weigh the same per pixel. At 87% the phones' tops land
+   58px below the cat's ears, which is what makes "smaller than Ezra" legible
+   at a glance; at 95% that step is 28px and they read as a matched pair, at
+   100% it is 10px and they read the same size, which he ruled out. justify-self
+   is not optional: a block with an explicit width in a grid area falls back
+   to start. And it is a percentage rather than a pixel width so the 0.82
+   subject ratio holds as the gap closes and the columns widen. */
+.dz--lurch { width: 87%; justify-self: center; }
 
 .dz__cap { display: block; margin-top: 18px; font-size: clamp(14px, 0.6vw + 11px, 17px); color: #CDCDD2; }
 .dz__wip { color: #8A8A8A; }
@@ -334,6 +391,10 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 
 @media (max-width: 680px) {
   .dess2__row { grid-template-columns: 1fr; gap: clamp(72px, 16vw, 110px); max-width: 420px; align-items: stretch; }
+  /* Stacked 72 to 110px apart, nobody is comparing the two any more, and a
+     13% inset on one of two stacked items reads as a bug rather than as a
+     hierarchy. Full width also gets the phones to 292px on a 390px phone. */
+  .dz--lurch { width: 100%; }
 }
 
 /* --- Contact / colophon --------------------------------------------------- */
@@ -348,6 +409,14 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 
 /* The black runs well above DESSERTS; lots of room for elements to come. */
 .stage__space { height: clamp(220px, 55vh, 680px); }
+/* 2026-10-31: on a phone 55vh of that is most of a screen of nothing sitting
+   between the colophon and the reveal, and he was scrolling the whole of it to
+   reach Desserts. Narrow screens get a short pause instead: enough to part the
+   colophon from the scenery, not enough to be a journey. The room for elements
+   to come is a desktop promise, and there is no room for them here anyway. */
+@media (max-width: 680px) {
+  .stage__space { height: clamp(110px, 18vh, 190px); }
+}
 
 .stage a:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 
@@ -436,6 +505,12 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
   -webkit-user-select: none; user-select: none; transition: opacity 180ms ease;
 }
 .endmark__chev { display: inline-block; margin-left: 0.12em; font-size: 0.62em; vertical-align: 0.08em; }
+/* The three faces of the one link. Above 480px only the first is drawn, so the
+   band looks exactly as it did. The echoes are spans inside the link rather
+   than three links: one thing in the accessibility tree, one touch target, and
+   redo.js still finds the single .endmark__word it fits to the band width. */
+.endmark__rep { display: inline; }
+.endmark__rep--echo { display: none; }
 .endmark__word:hover { opacity: 0.82; }
 .endmark__word:focus-visible { outline: 3px solid #182914; outline-offset: 6px; }
 
@@ -494,6 +569,18 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 @media (max-width: 480px) {
   .stage { padding-inline: 16px; }
   :root { --endmark-h: clamp(220px, 46vh, 380px); }
+
+  /* 2026-10-31, his ask: DESSERTS stacked three times, as a pattern. Lines of
+     the one link, all at the size redo.js fits to the band, so the three read
+     as one repeated mark and not as a heading with two mistakes under it. At
+     0.8 line-height the stack is 2.4em, about 180px on a 412px screen, which
+     is half the band: the sky, clouds and peaks still read above it. */
+  .endmark__rep, .endmark__rep--echo { display: block; }
+
+  /* The cake used to rest on the single word at 15vh. Three lines reach that
+     high now, so it climbs to sit on the top line instead of across the
+     middle one. */
+  .endmark__cake { bottom: clamp(205px, 25vh, 250px); }
 }
 
 
@@ -518,6 +605,9 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
   user-select: none; -webkit-user-select: none; will-change: transform;
 }
 .ball img { width: 54%; height: 54%; pointer-events: none; -webkit-user-drag: none; display: block; }
+/* Before its turn in the drop. Not display:none — it is placed and measured,
+   it simply is not shown until the frame it is let go on. */
+.ball.is-tucked { opacity: 0; }
 .ball.is-held { cursor: grabbing; box-shadow: 0 12px 26px rgba(0,0,0,.45), 0 1px 1px rgba(255,255,255,.85) inset; }
 /* A smooth glide home when "put them back" is used. */
 .ball.is-homing { transition: transform .6s cubic-bezier(.22,1,.36,1); }
