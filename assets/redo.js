@@ -196,7 +196,7 @@
     var noteOn = false;
 
     var stageRect = null, W = 0, wallL = 0, wallR = 0;
-    var surfaces = [], footZ = null, dessZ = null, lineTop = 0, lineX0 = 0, lineX1 = 0;
+    var surfaces = [], footZ = null, dessZ = null, lineTop = 0, lineX0 = 0, lineX1 = 0, slots = [];
     var balls = [], topZ = 10, raf = 0, lastT = 0, held = null;
 
     /* THE DROP, AND WHY IT IS A PILE.
@@ -328,6 +328,38 @@
       var dess = document.querySelector(".dess2");
       if (dess) { var dr = rel(dess); dessZ = { x0: dr.x, y0: dr.y, x1: dr.x + dr.w, y1: dr.y + dr.h }; }
       surfaces.sort(function (a, b) { return a.top - b.top; });
+
+      /* THE RESTING HEAP — an irregular but physically valid pile in the right
+         zone (he asked for a scattered heap, not the tidy triangle). Five balls
+         on the rule, three nestled in chosen notches with one notch left open so
+         it leans instead of forming a clean pyramid, one on top of the right
+         pair. Every raised ball sits in a real notch, touching the two below it
+         at exactly a diameter, so propped() carries it the moment the entrance
+         ends and nothing ever wakes to fall — the same reliability the 4-3-2
+         triangle had, because it is the same shelf-and-rest code path. Rebuilt
+         on every layout(), so it tracks R and the line across a reflow. */
+      var D = R * 2;
+      var baseOff = [-2.25, -1.2, -0.1, 0.95, 1.95];   /* bottom-row centres, in diameters */
+      var cx0 = lineX0 + (lineX1 - lineX0) * 0.76;
+      cx0 = Math.min(cx0, lineX1 - R - 1.95 * D);
+      cx0 = Math.max(cx0, lineX0 + R + 2.25 * D);
+      slots = [];
+      var bx = baseOff.map(function (o) { return clamp(cx0 + o * D, wallL, wallR); });
+      bx.forEach(function (x, k) { slots.push({ cx: x, cy: lineTop - R, row: 0, col: k }); });
+      var r1 = [], notches = [0, 2, 3];   /* notch (1,2) left open -> the lean */
+      notches.forEach(function (k, idx) {
+        var s = bx[k + 1] - bx[k];
+        var h = Math.sqrt(Math.max(D * D - (s / 2) * (s / 2), 0));
+        var o = { cx: (bx[k] + bx[k + 1]) / 2, cy: lineTop - R - h, row: 1, col: idx };
+        slots.push(o); r1.push(o);
+      });
+      var A = r1[1], B = r1[2], s2 = B.cx - A.cx;   /* top ball on the right pair */
+      if (s2 < D * 1.86) {
+        var h2 = Math.sqrt(Math.max(D * D - (s2 / 2) * (s2 / 2), 0));
+        slots.push({ cx: (A.cx + B.cx) / 2, cy: Math.min(A.cy, B.cy) - h2, row: 2, col: 0 });
+      } else {
+        slots.push({ cx: clamp(cx0 + 0.4 * D, wallL, wallR), cy: lineTop - R, row: 0, col: 5 });
+      }
     }
 
     /* The resting arrangement, and the same thing "put them back" aims at.
@@ -338,20 +370,12 @@
        narrow window the clamp at the end would pack the overflow against the
        wall and the heap would stop being a heap. */
     function homeSlot(i) {
-      /* The row stops at the top one even if the balls run out of pile,
-         because a tenth tool added to TOOLS and not to PILE would otherwise
-         walk off the end of it and every slot would come back NaN, which is
-         nine balls gone from the page. A spare lands on the top row, finds
-         nothing under it, and rolls down into the heap. */
-      var row = 0, col = i;
-      while (row < PILE.length - 1 && col >= PILE[row]) { col -= PILE[row]; row++; }
-      var step = R * 2, half = (PILE[0] - 1) * step / 2;
-      var cx = lineX0 + (lineX1 - lineX0) * 0.76;
-      cx = Math.min(cx, lineX1 - R - half);
-      cx = Math.max(cx, lineX0 + R + half);
-      cx += (col - (PILE[row] - 1) / 2) * step;
-      return { cx: clamp(cx, wallL, wallR), cy: lineTop - R - row * step * NEST,
-               row: row, col: col };
+      /* The resting place for ball i — one entry of the irregular heap built in
+         layout(). A tool added to TOOLS without a slot (slots is shorter than
+         TOOLS) lands on the last slot and rolls down into the heap rather than
+         coming back NaN, which would be a ball gone from the page. */
+      var s = slots[i] || slots[slots.length - 1] || { cx: lineX0, cy: lineTop - R, row: 0, col: 0 };
+      return { cx: clamp(s.cx, wallL, wallR), cy: s.cy, row: s.row, col: s.col };
     }
 
     function place(b) {
