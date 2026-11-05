@@ -339,27 +339,24 @@
          triangle had, because it is the same shelf-and-rest code path. Rebuilt
          on every layout(), so it tracks R and the line across a reflow. */
       var D = R * 2;
-      var baseOff = [-2.25, -1.2, -0.1, 0.95, 1.95];   /* bottom-row centres, in diameters */
-      var cx0 = lineX0 + (lineX1 - lineX0) * 0.76;
-      cx0 = Math.min(cx0, lineX1 - R - 1.95 * D);
-      cx0 = Math.max(cx0, lineX0 + R + 2.25 * D);
+      /* Seven on the rule, spread wide with irregular gaps, plus two leaning in
+         notches. Loose, wide, and barely stacked - the balls read as tossed
+         along the line rather than piled. Each gap stays under ~1.3 diameters so
+         the pair can still cradle a leaner where there is one, and most pairs
+         carry nothing. */
+      var baseOff = [-3.6, -2.55, -1.5, -0.35, 0.95, 2.1, 3.3];
+      var cx0 = lineX0 + (lineX1 - lineX0) * 0.74;
+      cx0 = Math.min(cx0, lineX1 - R - 3.3 * D);
+      cx0 = Math.max(cx0, lineX0 + R + 3.6 * D);
       slots = [];
       var bx = baseOff.map(function (o) { return clamp(cx0 + o * D, wallL, wallR); });
       bx.forEach(function (x, k) { slots.push({ cx: x, cy: lineTop - R, row: 0, col: k }); });
-      var r1 = [], notches = [0, 2, 3];   /* notch (1,2) left open -> the lean */
-      notches.forEach(function (k, idx) {
+      var lean = [1, 4];   /* one leaner over the (1,2) pair, one over the (4,5) pair */
+      lean.forEach(function (k, idx) {
         var s = bx[k + 1] - bx[k];
         var h = Math.sqrt(Math.max(D * D - (s / 2) * (s / 2), 0));
-        var o = { cx: (bx[k] + bx[k + 1]) / 2, cy: lineTop - R - h, row: 1, col: idx };
-        slots.push(o); r1.push(o);
+        slots.push({ cx: (bx[k] + bx[k + 1]) / 2, cy: lineTop - R - h, row: 1, col: idx });
       });
-      var A = r1[1], B = r1[2], s2 = B.cx - A.cx;   /* top ball on the right pair */
-      if (s2 < D * 1.86) {
-        var h2 = Math.sqrt(Math.max(D * D - (s2 / 2) * (s2 / 2), 0));
-        slots.push({ cx: (A.cx + B.cx) / 2, cy: Math.min(A.cy, B.cy) - h2, row: 2, col: 0 });
-      } else {
-        slots.push({ cx: clamp(cx0 + 0.4 * D, wallL, wallR), cy: lineTop - R, row: 0, col: 5 });
-      }
     }
 
     /* The resting arrangement, and the same thing "put them back" aims at.
