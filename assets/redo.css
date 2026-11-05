@@ -145,6 +145,16 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
   .hand__apple    { left: 26.68%; top: 47.57%; width: 4.07%; }
   .hand__resume   { left: 90.02%; top: 8.03%; width: 6.92%; }
 }
+/* Mobile: the banner stacks (cream copy 35svh on top, photo 65svh below) and
+   .hand still spans the whole banner (inset:0), so these positions are a % of
+   the full stacked banner, mapped from the 401x800 mobile reference.
+   resume sits top-right in the cream; nilgiris + apple land on the photo. */
+@media (max-width: 760px) {
+  .hand__el { display: block; }
+  .hand__resume   { left: 81%;   top: 2.4%;  width: 12.6%; }
+  .hand__nilgiris { left: 53.3%; top: 32.1%; width: 33%; }
+  .hand__apple    { left: 53%;   top: 58.4%; width: 12%; }
+}
 
 /* The "an" caret is a proof-mark inserted into the headline itself, between
    "and" and "AI-native", so it tracks the text at any viewport instead of
@@ -154,6 +164,12 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 .hand__an { position: absolute; display: none; pointer-events: none; max-width: none; }
 @media (min-width: 1025px) {
   .hand__an { display: block; left: -0.78em; top: -0.62em; width: 1.12em; height: auto; }
+}
+/* Mobile headline is smaller; the caret tracks the text via the em-sized anchor,
+   so the same proportional offsets hold. (max-width:100% gotcha already handled
+   by max-width:none on .hand__an.) */
+@media (max-width: 760px) {
+  .hand__an { display: block; left: -0.80em; top: -0.60em; width: 1.18em; height: auto; }
 }
 
 /* --- Layer B: the stage --------------------------------------------------- */
