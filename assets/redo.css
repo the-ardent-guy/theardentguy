@@ -132,6 +132,21 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
   .banner__cue { display: none; }   /* no room for it between the two rows */
 }
 
+/* --- Hand-drawn annotations on the banner ---------------------------------
+   Four handwritten marks mapped to Rishabh's reference. Each position is a
+   percentage of the banner, taken from the 1893x822 reference, so they track
+   the split layout as it scales. Desktop only; the mobile banner stacks and
+   gets its own placement later. pointer-events:none so links stay clickable. */
+.hand { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
+.hand__el { position: absolute; display: none; height: auto; }
+@media (min-width: 1025px) {
+  .hand__el { display: block; }
+  .hand__nilgiris { left: 43.53%; top: 8.52%; width: 16.64%; }
+  .hand__apple    { left: 26.68%; top: 47.57%; width: 4.07%; }
+  .hand__resume   { left: 90.02%; top: 8.03%; width: 6.92%; }
+  .hand__an       { left: 59.75%; top: 60.34%; width: 3.12%; }
+}
+
 /* --- Layer B: the stage --------------------------------------------------- */
 .stage {
   position: relative; z-index: 2;
