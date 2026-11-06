@@ -135,11 +135,12 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 /* --- Hand-drawn annotations on the banner ---------------------------------
    Four handwritten marks mapped to Rishabh's reference. Each position is a
    percentage of the banner, taken from the 1893x822 reference, so they track
-   the split layout as it scales. Desktop only; the mobile banner stacks and
-   gets its own placement later. pointer-events:none so links stay clickable. */
+   the split layout as it scales. Shown from 761px up (the split layout — desktop
+   and tablet); the mobile banner (<=760px) stacks and has its own placement
+   below. pointer-events:none so links stay clickable. */
 .hand { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
 .hand__el { position: absolute; display: none; height: auto; }
-@media (min-width: 1025px) {
+@media (min-width: 761px) {
   .hand__el { display: block; }
   .hand__nilgiris { left: 43.53%; top: 8.52%; width: 16.64%; }
   .hand__apple    { left: 26.68%; top: 47.57%; width: 4.07%; }
@@ -164,7 +165,7 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
    positioned off a zero-width inline anchor. */
 .an-ins { position: relative; display: inline-block; width: 0; }
 .hand__an { position: absolute; display: none; pointer-events: none; max-width: none; }
-@media (min-width: 1025px) {
+@media (min-width: 761px) {
   .hand__an { display: block; left: -0.60em; top: -0.95em; width: 1.02em; height: auto; }
 }
 /* Mobile headline is smaller; the caret tracks the text via the em-sized anchor,
