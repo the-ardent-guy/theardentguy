@@ -132,6 +132,49 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
   .banner__cue { display: none; }   /* no room for it between the two rows */
 }
 
+/* --- Hand-drawn annotations on the banner ---------------------------------
+   Four handwritten marks mapped to Rishabh's reference. Each position is a
+   percentage of the banner, taken from the 1893x822 reference, so they track
+   the split layout as it scales. Shown from 761px up (the split layout — desktop
+   and tablet); the mobile banner (<=760px) stacks and has its own placement
+   below. pointer-events:none so links stay clickable. */
+.hand { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
+.hand__el { position: absolute; display: none; height: auto; }
+@media (min-width: 761px) {
+  .hand__el { display: block; }
+  .hand__nilgiris { left: 46.17%; top: 10.10%; width: 13.15%; }
+  .hand__apple    { left: 26.68%; top: 47.57%; width: 4.07%; }
+  .hand__resume   { left: 89.80%; top: 8.03%; width: 7.13%; }
+}
+/* Mobile: the banner stacks (cream copy 35svh on top, photo 65svh below) and
+   .hand still spans the whole banner (inset:0), so these positions are a % of
+   the full stacked banner, mapped from the 401x800 mobile reference.
+   resume sits top-right in the cream; nilgiris + apple land on the photo. */
+@media (max-width: 760px) {
+  .hand__el { display: block; }
+  .hand__resume   { left: 77%;   top: 2.0%;  width: 16%; }
+  /* Bigger and straddling the seam: text up in the beige copy band, arrow
+     reaching down across onto the photo toward the snow peak. */
+  .hand__nilgiris { left: 48%;   top: 31%;   width: 40%; }
+  .hand__apple    { left: 53%;   top: 58.4%; width: 12%; }
+}
+
+/* The "an" caret is a proof-mark inserted into the headline itself, between
+   "and" and "AI-native", so it tracks the text at any viewport instead of
+   drifting with the (vertically-centred) headline. Sized in em of the headline,
+   positioned off a zero-width inline anchor. */
+.an-ins { position: relative; display: inline-block; width: 0; }
+.hand__an { position: absolute; display: none; pointer-events: none; max-width: none; }
+@media (min-width: 761px) {
+  .hand__an { display: block; left: -0.60em; top: -0.95em; width: 1.02em; height: auto; }
+}
+/* Mobile headline is smaller; the caret tracks the text via the em-sized anchor,
+   so the same proportional offsets hold. (max-width:100% gotcha already handled
+   by max-width:none on .hand__an.) */
+@media (max-width: 760px) {
+  .hand__an { display: block; left: -0.55em; top: -0.92em; width: 0.98em; height: auto; }
+}
+
 /* --- Layer B: the stage --------------------------------------------------- */
 .stage {
   position: relative; z-index: 2;
@@ -307,12 +350,32 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 /* --- Desserts: two tiles side by side, per the sketch ---------------------- */
 .dess2 { margin-top: clamp(110px, 18vh, 240px); }
 .dess2__row {
+  position: relative;                           /* positioning context for the notes */
   display: grid; grid-template-columns: 1fr 1fr;
   gap: clamp(32px, 6vw, 84px);
   max-width: 880px; margin-inline: auto;
   align-items: end;                             /* captions sit on a shared baseline */
 }
-.dz { display: block; color: #fff; text-decoration: none; }
+
+/* Handwritten notes over the tiles. The row is a fixed 880px centred block, so
+   these percentages hold; the notes spill into the black margins by design. */
+/* The notes sit at z-index 0 and the tiles are lifted above them (.dz below), so
+   where a note overlaps Ezra or the phones the artwork stays on top and the ink
+   passes behind it — while the note still shows against the black stage. */
+.dess2__hand { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.dnote { position: absolute; display: none; height: auto; max-width: none; }
+@media (min-width: 681px) {
+  .dnote { display: block; }
+  .dnote--ezra  { left: -2%;  top: 2%;   width: 22%; }
+  .dnote--lurch { left: calc(66% + 50px);  top: calc(-2% - 10px);  width: 28%; }
+}
+/* On wide screens there is room to let them drift into the black margins, the
+   way the reference does; below this they tuck in so nothing runs off-screen. */
+@media (min-width: 1200px) {
+  .dnote--ezra  { left: -12%; }
+  .dnote--lurch { left: calc(68% + 50px); }
+}
+.dz { display: block; color: #fff; text-decoration: none; position: relative; z-index: 1; }
 
 /* Ezra: just the cat, no box, 2026-10-27 his call. The pupils ride over her
    eyes, driven from redo.js. */
@@ -390,11 +453,21 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 .dz:hover .dz__cap { color: #fff; }
 
 @media (max-width: 680px) {
-  .dess2__row { grid-template-columns: 1fr; gap: clamp(72px, 16vw, 110px); max-width: 420px; align-items: stretch; }
-  /* Stacked 72 to 110px apart, nobody is comparing the two any more, and a
-     13% inset on one of two stacked items reads as a bug rather than as a
-     hierarchy. Full width also gets the phones to 292px on a 390px phone. */
-  .dz--lurch { width: 100%; }
+  .dess2__row {
+    grid-template-columns: 1fr; max-width: 420px; align-items: stretch;
+    /* Lurch first, Ezra second; room above the top tile for its note, and a
+       deep gap so Ezra's note has space above the cat. */
+    padding-top: clamp(96px, 26vw, 130px);
+    gap: clamp(118px, 30vw, 160px);
+  }
+  .dz--lurch { width: 100%; order: 1; }
+  .dz--ezra  { order: 2; }
+
+  /* The two handwritten notes, placed for the stacked layout: Lurch's over the
+     space above the phones, Ezra's up-left of the cat with air around it. */
+  .dnote { display: block; }
+  .dnote--lurch { left: 32%; top: 0.5%; width: 60%; }
+  .dnote--ezra  { left: 4%;  top: 53%;  width: 41%; }
 }
 
 /* --- Contact / colophon --------------------------------------------------- */
@@ -578,9 +651,13 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
   .endmark__rep, .endmark__rep--echo { display: block; }
 
   /* The cake used to rest on the single word at 15vh. Three lines reach that
-     high now, so it climbs to sit on the top line instead of across the
-     middle one. */
-  .endmark__cake { bottom: clamp(205px, 25vh, 250px); }
+     high now; it sits on the MIDDLE of the three stacked DESSERTS lines. The
+     stack grows upward in line-heights that scale with the viewport WIDTH (the
+     wordmark is fitted to the band width), so the offset to the middle line is
+     expressed in vw, which tracks that line-height across phone sizes far more
+     faithfully than vh. ~38.5vw lands the cake's foot on the second line's
+     glyph tops, centred, at 360-480px. */
+  .endmark__cake { bottom: clamp(130px, 38.5vw, 190px); }
 }
 
 
