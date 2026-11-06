@@ -350,10 +350,27 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 /* --- Desserts: two tiles side by side, per the sketch ---------------------- */
 .dess2 { margin-top: clamp(110px, 18vh, 240px); }
 .dess2__row {
+  position: relative;                           /* positioning context for the notes */
   display: grid; grid-template-columns: 1fr 1fr;
   gap: clamp(32px, 6vw, 84px);
   max-width: 880px; margin-inline: auto;
   align-items: end;                             /* captions sit on a shared baseline */
+}
+
+/* Handwritten notes over the tiles. The row is a fixed 880px centred block, so
+   these percentages hold; the notes spill into the black margins by design. */
+.dess2__hand { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+.dnote { position: absolute; display: none; height: auto; max-width: none; }
+@media (min-width: 681px) {
+  .dnote { display: block; }
+  .dnote--ezra  { left: -6%;  top: -4%;  width: 33%; }
+  .dnote--lurch { left: 60%;  top: -7%;  width: 33%; }
+}
+/* On wide screens there is room to let them drift into the black margins, the
+   way the reference does; below this they tuck in so nothing runs off-screen. */
+@media (min-width: 1200px) {
+  .dnote--ezra  { left: -20%; }
+  .dnote--lurch { left: 64%; }
 }
 .dz { display: block; color: #fff; text-decoration: none; }
 
