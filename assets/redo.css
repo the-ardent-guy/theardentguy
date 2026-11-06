@@ -359,7 +359,10 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 
 /* Handwritten notes over the tiles. The row is a fixed 880px centred block, so
    these percentages hold; the notes spill into the black margins by design. */
-.dess2__hand { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+/* The notes sit at z-index 0 and the tiles are lifted above them (.dz below), so
+   where a note overlaps Ezra or the phones the artwork stays on top and the ink
+   passes behind it — while the note still shows against the black stage. */
+.dess2__hand { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
 .dnote { position: absolute; display: none; height: auto; max-width: none; }
 @media (min-width: 681px) {
   .dnote { display: block; }
@@ -372,7 +375,7 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
   .dnote--ezra  { left: -12%; }
   .dnote--lurch { left: calc(68% + 50px); }
 }
-.dz { display: block; color: #fff; text-decoration: none; }
+.dz { display: block; color: #fff; text-decoration: none; position: relative; z-index: 1; }
 
 /* Ezra: just the cat, no box, 2026-10-27 his call. The pupils ride over her
    eyes, driven from redo.js. */
