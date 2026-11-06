@@ -450,11 +450,21 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 .dz:hover .dz__cap { color: #fff; }
 
 @media (max-width: 680px) {
-  .dess2__row { grid-template-columns: 1fr; gap: clamp(72px, 16vw, 110px); max-width: 420px; align-items: stretch; }
-  /* Stacked 72 to 110px apart, nobody is comparing the two any more, and a
-     13% inset on one of two stacked items reads as a bug rather than as a
-     hierarchy. Full width also gets the phones to 292px on a 390px phone. */
-  .dz--lurch { width: 100%; }
+  .dess2__row {
+    grid-template-columns: 1fr; max-width: 420px; align-items: stretch;
+    /* Lurch first, Ezra second; room above the top tile for its note, and a
+       deep gap so Ezra's note has space above the cat. */
+    padding-top: clamp(96px, 26vw, 130px);
+    gap: clamp(118px, 30vw, 160px);
+  }
+  .dz--lurch { width: 100%; order: 1; }
+  .dz--ezra  { order: 2; }
+
+  /* The two handwritten notes, placed for the stacked layout: Lurch's over the
+     space above the phones, Ezra's up-left of the cat with air around it. */
+  .dnote { display: block; }
+  .dnote--lurch { left: 32%; top: 0.5%; width: 60%; }
+  .dnote--ezra  { left: 4%;  top: 53%;  width: 41%; }
 }
 
 /* --- Contact / colophon --------------------------------------------------- */
