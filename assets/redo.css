@@ -638,9 +638,13 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
   .endmark__rep, .endmark__rep--echo { display: block; }
 
   /* The cake used to rest on the single word at 15vh. Three lines reach that
-     high now, so it climbs to sit on the top line instead of across the
-     middle one. */
-  .endmark__cake { bottom: clamp(205px, 25vh, 250px); }
+     high now; it sits on the MIDDLE of the three stacked DESSERTS lines. The
+     stack grows upward in line-heights that scale with the viewport WIDTH (the
+     wordmark is fitted to the band width), so the offset to the middle line is
+     expressed in vw, which tracks that line-height across phone sizes far more
+     faithfully than vh. ~38.5vw lands the cake's foot on the second line's
+     glyph tops, centred, at 360-480px. */
+  .endmark__cake { bottom: clamp(130px, 38.5vw, 190px); }
 }
 
 
