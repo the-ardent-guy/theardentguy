@@ -152,7 +152,9 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 @media (max-width: 760px) {
   .hand__el { display: block; }
   .hand__resume   { left: 81%;   top: 2.4%;  width: 12.6%; }
-  .hand__nilgiris { left: 53.3%; top: 32.1%; width: 33%; }
+  /* Arrow tip aimed at the snow peak (stable at ~54%/38% of the banner across
+     phone widths); narrowed so "Makil" clears the right edge. */
+  .hand__nilgiris { left: 53.3%; top: 35%;   width: 31%; }
   .hand__apple    { left: 53%;   top: 58.4%; width: 12%; }
 }
 
@@ -163,13 +165,13 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 .an-ins { position: relative; display: inline-block; width: 0; }
 .hand__an { position: absolute; display: none; pointer-events: none; max-width: none; }
 @media (min-width: 1025px) {
-  .hand__an { display: block; left: -0.78em; top: -0.62em; width: 1.12em; height: auto; }
+  .hand__an { display: block; left: -0.60em; top: -0.95em; width: 1.02em; height: auto; }
 }
 /* Mobile headline is smaller; the caret tracks the text via the em-sized anchor,
    so the same proportional offsets hold. (max-width:100% gotcha already handled
    by max-width:none on .hand__an.) */
 @media (max-width: 760px) {
-  .hand__an { display: block; left: -0.80em; top: -0.60em; width: 1.18em; height: auto; }
+  .hand__an { display: block; left: -0.55em; top: -0.92em; width: 0.98em; height: auto; }
 }
 
 /* --- Layer B: the stage --------------------------------------------------- */
