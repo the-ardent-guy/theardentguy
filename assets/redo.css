@@ -364,13 +364,13 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
 @media (min-width: 681px) {
   .dnote { display: block; }
   .dnote--ezra  { left: -2%;  top: 2%;   width: 22%; }
-  .dnote--lurch { left: 66%;  top: -2%;  width: 28%; }
+  .dnote--lurch { left: calc(66% + 20px);  top: calc(-2% - 10px);  width: 28%; }
 }
 /* On wide screens there is room to let them drift into the black margins, the
    way the reference does; below this they tuck in so nothing runs off-screen. */
 @media (min-width: 1200px) {
   .dnote--ezra  { left: -12%; }
-  .dnote--lurch { left: 68%; }
+  .dnote--lurch { left: calc(68% + 20px); }
 }
 .dz { display: block; color: #fff; text-decoration: none; }
 
