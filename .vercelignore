@@ -3,6 +3,7 @@ content/
 .cursor/
 *.docx
 *.pdf
+!assets/Rishabh-Kumar-Resume.pdf
 *.md
 ai-design-workflow-system.md
 scratchpad/
