@@ -140,6 +140,12 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
    below. pointer-events:none so links stay clickable. */
 .hand { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
 .hand__el { position: absolute; display: none; height: auto; }
+/* Résumé annotation is a real link: clickable, lifts + tilts a little on hover, opens the résumé. */
+.hand__resume--link { pointer-events: auto; cursor: pointer; transition: transform .2s cubic-bezier(.2,.7,.3,1); transform-origin: 60% 85%; }
+.hand__resume--link img { display: block; width: 100%; height: auto; }
+.hand__resume--link:hover, .hand__resume--link:focus-visible { transform: translateY(-5px) rotate(-3.5deg); }
+.hand__resume--link:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; border-radius: 4px; }
+@media (prefers-reduced-motion: reduce) { .hand__resume--link { transition: none; } }
 @media (min-width: 761px) {
   .hand__el { display: block; }
   .hand__nilgiris { left: 46.17%; top: 10.10%; width: 13.15%; }

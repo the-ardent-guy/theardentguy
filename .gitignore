@@ -18,4 +18,5 @@ build/
 content/
 *.docx
 *.pdf
+!assets/Rishabh-Kumar-Resume.pdf
 ai-design-workflow-system.md
