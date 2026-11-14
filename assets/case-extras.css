@@ -152,3 +152,54 @@ ul.plain.ico-list li::before { content: none; }
    that column is ~420px at 1280+. The cap above is a max-width, so it does
    nothing there and the lead line simply takes the column. No page-specific
    size: one pattern. */
+
+/* ===== Agent pipeline diagram (Produsa #how) =======================
+   Drawn from the page's own tokens — ink on paper, one accent, thin
+   rules. Connected cards with a chevron in each gap; a single branch
+   shows the self-check. No colour or shape outside the system. */
+.amap { margin: var(--s2) 0 var(--s3); }
+.amap__kick {
+  font-family: var(--sans); font-size: 12px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--label);
+  margin: 0 0 var(--s2);
+}
+.amap__pipe {
+  display: flex; align-items: stretch; gap: 22px; list-style: none;
+  margin: 0 0 var(--s5); padding: 0;
+}
+.amap__pipe > li {
+  position: relative; flex: 1 1 0; min-width: 0;
+  display: flex; flex-direction: column; justify-content: center; gap: 3px;
+  border: 1px solid var(--rule); border-radius: 10px; background: var(--surface);
+  padding: 15px 13px; font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.22;
+}
+.amap__n { font-size: 11px; color: var(--accent); letter-spacing: 0.04em; font-variant-numeric: tabular-nums; }
+.amap__cap {
+  flex: 0 0 auto; max-width: 104px; background: var(--bg); color: var(--soft);
+  justify-content: center; text-align: center; font-size: 12.5px; font-weight: 600;
+}
+.amap__pipe > li:not(:last-child)::after {
+  content: ""; position: absolute; right: -16px; top: 50%; width: 9px; height: 9px;
+  border-top: 1.6px solid var(--soft); border-right: 1.6px solid var(--soft);
+  transform: translateY(-50%) rotate(45deg);
+}
+.amap__check { border-top: 1px dashed var(--rule); padding-top: var(--s4); }
+.amap__fork { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 34px; }
+.amap__chip {
+  position: relative; display: inline-block; border: 1.5px solid var(--ink); border-radius: 999px;
+  padding: 10px 18px; font-size: 14px; font-weight: 600; color: var(--ink); background: var(--surface);
+}
+.amap__out { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+.amap__out li { position: relative; padding-left: 28px; font-size: 14px; color: var(--body); line-height: 1.4; }
+.amap__out li::before { position: absolute; left: 1px; top: -1px; font-size: 15px; font-weight: 700; }
+.amap__pass::before { content: "\2713"; color: var(--accent); }
+.amap__fail::before { content: "\21BA"; color: var(--soft); }
+.amap__fork { flex-direction: column; align-items: flex-start; gap: 14px; }
+@media (max-width: 639px) {
+  .amap__pipe { flex-direction: column; gap: 20px; }
+  .amap__cap { max-width: none; }
+  .amap__pipe > li:not(:last-child)::after {
+    right: auto; left: 50%; top: auto; bottom: -15px;
+    transform: translateX(-50%) rotate(135deg);
+  }
+}
