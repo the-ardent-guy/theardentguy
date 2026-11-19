@@ -1,0 +1,155 @@
+/* ===========================================================================
+   "THE STACK" — in-page pinball (mobile only)
+   A toggle turns the real homepage into a pinball table. One ball (a tool logo)
+   at a time: flip it up through your case-study cards to score, hit the metal
+   side bumpers and the jackpot lanes for bonus, don't let it drain. Five balls,
+   then game over. On a desktop visit none of this loads (redo.js keeps its own
+   ball pit). Self-contained, CSP-safe (external script, no inline).
+   =========================================================================== */
+
+/* ---- toggle button ------------------------------------------------------- */
+.playfab{
+  position:fixed; right:16px; bottom:max(16px,env(safe-area-inset-bottom)); z-index:9200;
+  display:none; align-items:center; gap:5px;
+  padding:11px 16px 11px 13px; border-radius:999px;
+  background:#fff; color:#141414; border:0;
+  font:700 13px/1 "Inter Tight",system-ui,sans-serif; letter-spacing:.01em;
+  box-shadow:0 10px 26px rgba(0,0,0,.4); cursor:pointer;
+  -webkit-tap-highlight-color:transparent; touch-action:manipulation;
+  transition:opacity .25s ease, transform .25s ease;
+}
+/* two tiny logo balls as a hint of the game, slightly overlapped like a stack */
+.pin-chip{width:18px; height:18px; border-radius:50%; flex:none;
+  background:radial-gradient(circle at 34% 30%,#fff,#e4e5ea 78%);
+  box-shadow:0 1px 2px rgba(0,0,0,.22) inset, 0 1px 1px rgba(255,255,255,.9), 0 1px 2px rgba(0,0,0,.18);
+  display:grid; place-items:center;}
+.pin-chip + .pin-chip{margin-left:-8px}
+.pin-chip img{width:60%; height:60%; display:block}
+.playfab__t{margin-left:2px}
+.playfab.is-hidden{opacity:0; transform:translateY(12px) scale(.9); pointer-events:none}
+.playfab.is-live{background:#141414; color:#fff;
+  top:max(12px,env(safe-area-inset-top)); bottom:auto;}
+.playfab.is-live .pin-chip{display:none}
+@media (pointer:coarse){ .playfab.is-ready{display:inline-flex} }
+
+/* ---- game-mode backdrop: the page dims and takes an ink/oxblood wash ------ */
+.pin-dim{position:fixed; inset:0; z-index:9040; pointer-events:none;
+  opacity:0; transition:opacity .4s ease;
+  background:
+    radial-gradient(120% 90% at 50% 8%, rgba(122,46,53,.28), transparent 60%),
+    radial-gradient(140% 120% at 50% 112%, rgba(0,0,0,.2), transparent 55%),
+    linear-gradient(rgba(9,8,11,.62), rgba(9,8,11,.72));
+  box-shadow:inset 0 0 180px 40px rgba(0,0,0,.6);   /* vignette */
+}
+.pin-dim.is-on{opacity:1}
+
+/* the ball + chrome layer */
+.pin-layer{position:fixed; inset:0; z-index:9060; pointer-events:none;}
+
+.pin-ball{position:fixed; top:0; left:0; border-radius:50%;
+  background:radial-gradient(circle at 34% 30%,#fff,#e8e9ee 78%);
+  box-shadow:0 3px 9px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.4) inset, 0 1px 1px rgba(255,255,255,.9) inset;
+  display:grid; place-items:center; will-change:transform;}
+.pin-ball img{width:54%; height:54%; -webkit-user-drag:none; pointer-events:none}
+
+/* the metal funnel is an SVG (crisp gradients); this just places it */
+.pin-chrome{position:fixed; inset:0; z-index:9055; pointer-events:none;}
+
+/* flippers — brushed steel */
+.pin-flip{position:fixed; top:0; left:0; height:17px; border-radius:999px;
+  background:linear-gradient(180deg,#f3f4f7 0%,#cbced6 40%,#9aa0ab 56%,#c4c8d0 100%);
+  box-shadow:0 3px 9px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.85), inset 0 -2px 3px rgba(0,0,0,.3);
+  transform-origin:13px 50%; will-change:transform;}
+.pin-flip--r{transform-origin:calc(100% - 13px) 50%;}
+
+/* metal side bumpers */
+.pin-bumper{position:fixed; top:0; left:0; border-radius:50%;
+  background:radial-gradient(circle at 38% 30%, #eef0f4, #b2b7c2 58%, #6c727d 100%);
+  box-shadow:0 7px 18px rgba(0,0,0,.55), inset 0 2px 4px rgba(255,255,255,.65), inset 0 -5px 9px rgba(0,0,0,.4);
+  will-change:transform; transition:transform .08s ease;}
+.pin-bumper::after{content:""; position:absolute; inset:28%; border-radius:50%;
+  background:radial-gradient(circle at 40% 34%, #8b3640, #5e2228 70%);
+  box-shadow:inset 0 1px 2px rgba(255,255,255,.3); transition:background .1s ease, box-shadow .1s ease;}
+.pin-bumper.is-hit{transform:scale(1.08)}
+.pin-bumper.is-hit::after{background:radial-gradient(circle at 40% 34%, #c7ef63, #8fbe1f 70%);
+  box-shadow:0 0 18px rgba(154,205,32,.8), inset 0 1px 2px rgba(255,255,255,.5);}
+
+/* jackpot lanes at the mouth of the funnel */
+.pin-lane{position:fixed; top:0; left:0; border-radius:7px;
+  background:linear-gradient(#262932,#14161c);
+  box-shadow:inset 0 0 0 1.5px rgba(154,205,32,.45), 0 0 14px rgba(154,205,32,.3);
+  display:grid; place-items:center;
+  font:800 11px/1 "Inter Tight",system-ui,sans-serif; letter-spacing:.06em; color:rgba(154,205,32,.9);
+  will-change:transform;}
+.pin-lane.is-hit{background:linear-gradient(#9ACD20,#6f9e14); color:#13240a;
+  box-shadow:0 0 22px rgba(154,205,32,.85);}
+
+/* HUD scoreboard */
+.pin-hud{position:fixed; top:max(10px,env(safe-area-inset-top)); left:14px; z-index:9110;
+  display:flex; gap:16px; align-items:flex-end;
+  padding:8px 14px; border-radius:12px; background:rgba(15,14,17,.86);
+  box-shadow:0 6px 20px rgba(0,0,0,.5), inset 0 0 0 1px rgba(255,255,255,.07);
+  backdrop-filter:blur(6px); pointer-events:none; opacity:0; transition:opacity .3s ease;}
+.pin-hud.is-on{opacity:1}
+.pin-hud__k{font:700 9px/1.4 "Inter Tight",system-ui,sans-serif; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.5)}
+.pin-hud__v{font:800 20px/1 "Inter Tight",system-ui,sans-serif; color:#9ACD20; letter-spacing:.01em}
+/* the stack rack: the nine logo balls lined up; each dims out as it drops into play */
+.pin-hud__rack{display:flex; margin-top:5px}
+.pin-rackball{width:16px; height:16px; border-radius:50%; flex:none;
+  background:radial-gradient(circle at 34% 30%,#fff,#e4e5ea 78%);
+  box-shadow:0 1px 1px rgba(0,0,0,.35), inset 0 1px 1px rgba(255,255,255,.8);
+  display:grid; place-items:center; transition:opacity .35s ease, transform .35s ease;}
+.pin-rackball + .pin-rackball{margin-left:-4px}
+.pin-rackball img{width:62%; height:62%; display:block}
+.pin-rackball.out{opacity:.16; transform:scale(.62)}
+
+/* real page UI that is a live obstacle while the game is on */
+.pin-obstacle{outline:1.5px dashed rgba(154,205,32,.42); outline-offset:3px; border-radius:5px;}
+
+/* floating score pops */
+.pin-pop{position:fixed; z-index:9120; pointer-events:none; transform:translate(-50%,-50%);
+  font:800 17px/1 "Inter Tight",system-ui,sans-serif; color:#9ACD20; letter-spacing:.01em;
+  text-shadow:0 2px 6px rgba(0,0,0,.6); animation:pin-pop .72s cubic-bezier(.2,.8,.3,1) forwards;}
+.pin-pop--big{font-size:26px; color:#fbe36b}
+@keyframes pin-pop{0%{opacity:0; transform:translate(-50%,-30%) scale(.7)} 20%{opacity:1}
+  100%{opacity:0; transform:translate(-50%,-150%) scale(1.05)}}
+
+/* the lit flash on a real card */
+.pin-hit{ animation:pin-hit .5s ease; }
+@keyframes pin-hit{0%{box-shadow:0 0 0 0 rgba(154,205,32,0)}
+  25%{box-shadow:0 0 0 3px rgba(154,205,32,.95), 0 0 26px rgba(154,205,32,.6)}
+  100%{box-shadow:0 0 0 0 rgba(154,205,32,0)}}
+
+/* game-over card */
+.pin-over{position:fixed; inset:0; z-index:9130; display:grid; place-items:center;
+  pointer-events:auto; opacity:0; transition:opacity .3s ease;}
+.pin-over.is-on{opacity:1}
+.pin-over__card{width:min(320px,82vw); padding:28px 26px; border-radius:18px; text-align:center;
+  background:linear-gradient(#1b1a1f,#121116); color:#fff;
+  box-shadow:0 30px 70px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.08);}
+.pin-over__k{font:700 11px/1 "Inter Tight",system-ui; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.5)}
+.pin-over__score{font:800 54px/1 "Inter Tight",system-ui; color:#9ACD20; margin:10px 0 4px; letter-spacing:-.01em}
+.pin-over__sub{font:500 13px/1.5 "Inter Tight",system-ui; color:rgba(255,255,255,.6); margin-bottom:22px}
+.pin-over__btns{display:flex; gap:10px}
+.pin-over__btn{flex:1; appearance:none; border:0; cursor:pointer; padding:13px; border-radius:11px;
+  font:700 14px/1 "Inter Tight",system-ui; letter-spacing:.01em; touch-action:manipulation;}
+.pin-over__btn--go{background:#9ACD20; color:#13240a}
+.pin-over__btn--exit{background:rgba(255,255,255,.1); color:#fff}
+
+/* intro splash: "REMEMBER PINBALL?" in an arcade font, blinking, then the ball drops */
+.pin-intro{position:fixed; inset:0; z-index:9140; display:grid; place-items:center;
+  pointer-events:none; background:rgba(9,8,11,.5); opacity:1; transition:opacity .2s ease;}
+.pin-intro.out{opacity:0}
+.pin-intro span{
+  font-family:"Press Start 2P","Inter Tight",monospace; text-align:center; line-height:1.55;
+  font-size:clamp(19px,6.5vw,32px); letter-spacing:.01em; color:#9ACD20;
+  text-shadow:0 0 18px rgba(154,205,32,.55), 0 3px 0 rgba(0,0,0,.45);
+  animation:pin-blink .4s steps(1,end) infinite;}
+@keyframes pin-blink{0%,49%{opacity:1} 50%,100%{opacity:.1}}
+@media (prefers-reduced-motion:reduce){ .pin-intro span{animation:none} }
+
+/* while a game is live the page is frozen (game.js blocks scroll via touchmove);
+   NOT overflow:hidden, which would reset scrollY and lose the colliders. */
+html.pin-live, html.pin-live body{ overscroll-behavior:none; touch-action:none; }
+
+@media (prefers-reduced-motion:reduce){ .playfab,.pin-dim{transition:none} }
