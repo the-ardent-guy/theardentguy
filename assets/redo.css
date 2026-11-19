@@ -257,7 +257,15 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
    lazy load and nothing reflows. overflow: hidden stays for the hover zoom. */
 .feat__shot { display: block; overflow: hidden; background: #141414; }
 .feat__shot img { display: block; width: 100%; height: auto; transition: transform 700ms cubic-bezier(.22,1,.36,1); }
-.feat:hover .feat__shot img, .feat__shot:focus-visible img { transform: scale(1.03); }
+.feat__shot:focus-visible img { transform: scale(1.03); }
+/* Hover zoom only where a real pointer can hover. On a touch device a :hover
+   transform on the tapped element makes iOS Safari treat the first tap as a
+   hover-reveal and swallow it, so the image case-study link needed two taps
+   while the text link (no self-hover) opened on one. Gating it here fixes the
+   image tap. */
+@media (hover: hover) {
+  .feat:hover .feat__shot img { transform: scale(1.03); }
+}
 /* What the thing IS, where the 01-04 used to be. 2026-10-27: he asked for
    the numbering out, and for Produsa and Supaca to say what they are. */
 .feat__kind { margin: 0 0 14px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,.5); }
@@ -659,12 +667,17 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
   .stage { padding-inline: 16px; }
   :root { --endmark-h: clamp(220px, 46vh, 380px); }
 
-  /* 2026-10-31, his ask: DESSERTS stacked three times, as a pattern. Lines of
-     the one link, all at the size redo.js fits to the band, so the three read
-     as one repeated mark and not as a heading with two mistakes under it. At
-     0.8 line-height the stack is 2.4em, about 180px on a 412px screen, which
-     is half the band: the sky, clouds and peaks still read above it. */
+  /* DESSERTS stacked three times, as a pattern. On a phone the chevron is
+     dropped: in the line it set the word left of centre and hung the > off the
+     right edge. Without it each line is just the word, fitted to the band and
+     centred. The two echoes fade as they drop, so the mark reads as one word
+     echoing down into the hills, not three flat copies. redo.js still fits the
+     first line to the band width, now measuring the word alone. */
   .endmark__rep, .endmark__rep--echo { display: block; }
+  .endmark__word { line-height: 0.84; }
+  .endmark__chev { display: none; }
+  .endmark__rep--echo:nth-of-type(2) { opacity: 0.74; }
+  .endmark__rep--echo:nth-of-type(3) { opacity: 0.5; }
 
   /* The cake used to rest on the single word at 15vh. Three lines reach that
      high now; it sits on the MIDDLE of the three stacked DESSERTS lines. The

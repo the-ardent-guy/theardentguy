@@ -1,0 +1,86 @@
+/* ===========================================================================
+   MOBILE GAME MODE — "The Stack"
+   The nine tool logos become a pinball table you tilt and flip. Desktop has
+   the draggable ball pit (redo.js); the phone had nothing, so this is its
+   version of the same toy. Everything here is mobile-only: game.js never
+   builds any of it unless the pointer is coarse, so none of this loads on a
+   desktop visit. Self-contained; no other sheet depends on it.
+   =========================================================================== */
+
+/* The invite button. A floating pill, bottom-right, that opens the table.
+   game.js hides it when the DESSERTS reveal at the foot comes into view, so
+   it never sits on top of that. Shown only on coarse pointers. */
+.playfab{
+  position:fixed; right:16px; bottom:max(16px,env(safe-area-inset-bottom)); z-index:41;
+  display:none; align-items:center; gap:9px;
+  padding:11px 16px 11px 13px; border-radius:999px;
+  background:#fff; color:#141414; border:0;
+  font:700 13px/1 "Inter Tight",system-ui,sans-serif; letter-spacing:.01em;
+  box-shadow:0 10px 26px rgba(0,0,0,.38); cursor:pointer;
+  -webkit-tap-highlight-color:transparent; touch-action:manipulation;
+  transition:opacity .25s ease, transform .25s ease;
+}
+.playfab__dot{width:16px;height:16px;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%,#fff,#d9d7dd 78%);
+  box-shadow:0 1px 2px rgba(0,0,0,.3) inset, 0 1px 1px #fff}
+.playfab.is-hidden{opacity:0; transform:translateY(12px) scale(.9); pointer-events:none}
+/* shown only on coarse pointers, and only once JS has placed it */
+@media (pointer:coarse){ .playfab.is-ready{display:inline-flex} }
+
+/* ---- the table overlay ---------------------------------------------------- */
+.pin{
+  position:fixed; inset:0; z-index:9000; background:#0c0d11;
+  touch-action:none; overflow:hidden; color:#fff;
+  opacity:0; visibility:hidden; transition:opacity .28s ease, visibility 0s .28s;
+  -webkit-user-select:none; user-select:none;
+}
+.pin.is-on{opacity:1; visibility:visible; transition:opacity .28s ease}
+/* soft table gradient so it reads as a surface, not a void */
+.pin__felt{position:absolute; inset:0;
+  background:
+    radial-gradient(120% 70% at 50% -10%, #1b1d26 0%, #0c0d11 60%),
+    linear-gradient(#0c0d11,#090a0d);}
+
+.pin__bar{position:absolute; top:0; left:0; right:0; z-index:5;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:max(12px,env(safe-area-inset-top)) 16px 12px;
+  font:700 12px/1 "Inter Tight",system-ui,sans-serif; letter-spacing:.06em; text-transform:uppercase;}
+.pin__score{color:#fff}
+.pin__score b{color:#9ACD20; font-size:16px; margin-left:6px; letter-spacing:0}
+.pin__hint{color:rgba(255,255,255,.5); font-weight:600; letter-spacing:.02em; text-transform:none; font-size:11.5px}
+.pin__close{appearance:none; background:rgba(255,255,255,.1); color:#fff; border:0;
+  width:40px; height:40px; border-radius:50%; font-size:20px; line-height:1; cursor:pointer;
+  display:grid; place-items:center; touch-action:manipulation}
+.pin__close:active{background:rgba(255,255,255,.2)}
+
+/* balls reuse the site sphere look; game.js positions them */
+.pin .ball{position:absolute; top:0; left:0; border-radius:50%;
+  background:radial-gradient(circle at 34% 30%,#fff,#ededf0 78%);
+  box-shadow:0 3px 8px rgba(0,0,0,.4), 0 1px 1px rgba(255,255,255,.85) inset;
+  display:grid; place-items:center; will-change:transform; pointer-events:none;}
+.pin .ball img{width:54%; height:54%; -webkit-user-drag:none; pointer-events:none}
+
+/* bumpers */
+.pin__bumper{position:absolute; top:0; left:0; border-radius:50%;
+  background:radial-gradient(circle at 38% 32%, #2b2f3d, #16181f 72%);
+  box-shadow:0 0 0 2px rgba(154,205,32,.25) inset, 0 6px 16px rgba(0,0,0,.5);
+  will-change:transform; transition:box-shadow .08s ease, background .08s ease;}
+.pin__bumper.is-hit{background:radial-gradient(circle at 38% 32%,#b9e05a,#7fae1a 72%);
+  box-shadow:0 0 0 3px rgba(154,205,32,.6) inset, 0 0 22px rgba(154,205,32,.5);}
+
+/* flippers */
+.pin__flip{position:absolute; top:0; left:0; height:16px; border-radius:999px;
+  background:linear-gradient(#f4f4f6,#c7c7cf);
+  box-shadow:0 3px 10px rgba(0,0,0,.5), 0 1px 0 rgba(255,255,255,.7) inset;
+  transform-origin:12px 50%; will-change:transform;}
+.pin__flip--r{transform-origin:calc(100% - 12px) 50%;}
+
+/* tap zones for the two flippers (invisible, bottom half split) */
+.pin__zone{position:absolute; bottom:0; top:40%; width:50%; z-index:4; background:transparent}
+.pin__zone--l{left:0} .pin__zone--r{right:0}
+
+/* drain glow line at the bottom gap */
+.pin__drain{position:absolute; bottom:0; height:4px; z-index:3;
+  background:linear-gradient(90deg,transparent,rgba(255,60,60,.5),transparent)}
+
+@media (prefers-reduced-motion:reduce){ .pin{transition:none} }

@@ -214,13 +214,16 @@
   :root.js .fnav.is-up { transition-duration: 1ms, 1ms, 0s; }
 }
 
-/* Narrow: the two secondary destinations drop. Work, the switch and the
-   action are the smallest set that still does every job. */
+/* Narrow: the pill tightens but keeps its three real destinations. Work,
+   Desserts and the action all fit, and Desserts was the only way the
+   gallery was reachable without scrolling to the foot of the page. */
 @media (max-width: 560px) {
   .fnav { padding-inline: 12px; }
-  .fnav__in a, .fnav__tool { height: 36px; padding: 0 13px; }
-  /* Studio left the nav on 2026-10-27; it lives in the contact block now. */
-  .fnav__in a[href="/desserts.html"] { display: none; }
+  .fnav__in a, .fnav__tool { height: 40px; padding: 0 12px; }
+}
+@media (max-width: 380px) {
+  .fnav__in a, .fnav__tool { padding: 0 10px; }
+  .fnav__in a { font-size: 13px; }
 }
 
 
