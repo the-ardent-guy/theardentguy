@@ -16,8 +16,13 @@
   if (!document.querySelector(".stage")) return;
 
   var TOOLS = ["figma", "cursor", "claude", "make", "n8n", "shopify", "linear", "posthog", "grok"];
-  var BUMPERS = ".feat__shot, .feat-sm, .dz";
-  var WALLS = ".banner__h1, .stage__lead, .stage__about, .stage__dessert, .idx__head, .feat__name, .feat__go, .fnav__in, .stage__end h2, .stage__mail, .feat-sm__name";
+  // The full-width card images score but DON'T block: a ball falling over one
+  // lights it up and scores, then keeps descending. If they were solid they'd
+  // span the whole phone width and trap every ball on the first card. The small
+  // part-width elements (buttons, headings, contact links) stay solid, so you
+  // get real bounces without anything damming the balls.
+  var TRIGGERS = ".feat__shot, .dz, .feat-sm";
+  var BUMPERS = ".feat__go, .feat__name, .stage__mail, .stage__link, .idx__head, .stage__end h2";
 
   /* ---- toggle button ----------------------------------------------------- */
   var fab = document.createElement("button");
@@ -63,13 +68,17 @@
     function blockScroll(e) { e.preventDefault(); }
     window.addEventListener("touchmove", blockScroll, { passive: false });
     window.addEventListener("wheel", blockScroll, { passive: false });
+    // While the game is live, a tap must not open a case study or follow a link.
+    // Swallow clicks on the page in the capture phase (the Exit button is exempt).
+    function blockClick(e) { if (e.target.closest && e.target.closest(".playfab")) return; e.preventDefault(); e.stopPropagation(); }
+    document.addEventListener("click", blockClick, true);
 
     fab.classList.add("is-live");
     fab.querySelector(".playfab__t").textContent = "Exit";
 
     var W = window.innerWidth, H = window.innerHeight;
-    var R = Math.max(16, Math.min(22, Math.round(W / 19)));
-    var G = 2100;
+    var R = Math.max(15, Math.min(21, Math.round(W / 20)));
+    var G = 1300;                 // gentler gravity, so tilt dominates and it's controllable
     var grav = { x: 0, y: G };
     var score = 0;
 
@@ -83,8 +92,8 @@
         rects.push({ x: r.left, y: r.top, w: r.width, h: r.height, kind: kind, el: el, cool: 0 });
       });
     }
+    addRects(TRIGGERS, "trigger");
     addRects(BUMPERS, "bumper");
-    addRects(WALLS, "wall");
 
     // layer + HUD
     var layer = document.createElement("div");
@@ -98,7 +107,7 @@
     var scoreEl = hud.querySelector("b");
 
     // flippers
-    var fy = H - Math.max(78, H * 0.1);
+    var fy = H - Math.max(96, H * 0.12);   // near the foot (Exit now lives at the top, so no clash)
     var flen = Math.min(92, W * 0.30), fthick = 9, gap = Math.min(96, W * 0.26), cx = W / 2;
     var FL = { px: cx - gap / 2 - flen * 0.84, py: fy, rest: 26, up: -26, ang: 26, prev: 26, tgt: 26 };
     var FR = { px: cx + gap / 2 + flen * 0.84, py: fy, rest: 154, up: 206, ang: 154, prev: 154, tgt: 154 };
@@ -182,6 +191,7 @@
       var dx = b.x - cxp, dy = b.y - cyp, d2 = dx * dx + dy * dy;
       var inside = (b.x > r.x && b.x < rx2 && b.y > r.y && b.y < ry2);
       if (!inside && d2 >= b.r * b.r) return;
+      if (r.kind === "trigger") { bump(r); return; }   // score + flash, but pass straight through
       var nx, ny;
       if (inside) {
         var dl = b.x - r.x, dr = rx2 - b.x, dt = b.y - r.y, db = ry2 - b.y, m = Math.min(dl, dr, dt, db);
@@ -216,13 +226,17 @@
           b.x += b.vx * h; b.y += b.vy * h;
           if (b.x < b.r) { b.x = b.r; b.vx = -b.vx * 0.6; }
           if (b.x > W - b.r) { b.x = W - b.r; b.vx = -b.vx * 0.6; }
-          if (b.y < b.r) { b.y = b.r; b.vy = -b.vy * 0.5; }
-          if (b.y > H - b.r) {
-            if (b.x > cx - gap / 2 && b.x < cx + gap / 2) { if (b.y > H + b.r * 2) { b.x = W * (0.25 + 0.5 * Math.random()); b.y = -b.r * 2; b.vx = (Math.random() - 0.5) * 80; b.vy = 0; } }
-            else { b.y = H - b.r; b.vy = -b.vy * 0.5; b.vx *= 0.9; }
-          }
+          // past the flippers at the foot: drain and re-drop from the top, so
+          // nothing pools below the flippers and no ball is ever lost. (No top
+          // wall, so a re-dropped ball can fall back in from above.)
+          if (b.y > H + b.r) { b.x = W * (0.2 + 0.6 * Math.random()); b.y = -b.r * 2.2; b.vx = (Math.random() - 0.5) * 70; b.vy = 0; b.still = 0; }
           for (var k = 0; k < rects.length; k++) collideRect(b, rects[k]);
           collideSeg(b, FL.px, FL.py, segL); collideSeg(b, FR.px, FR.py, segR);
+          // anti-stick: a ball that has sat nearly still for a while (wedged in a
+          // corner) gets a small random pop so it never dies there.
+          var spd = Math.hypot(b.vx, b.vy);
+          if (spd < 16) { b.still = (b.still || 0) + 1; if (b.still > 70) { b.vx += (Math.random() - 0.5) * 220; b.vy -= 120 + Math.random() * 120; b.still = 0; } }
+          else b.still = 0;
         }
         for (var a = 0; a < balls.length; a++) for (var c = a + 1; c < balls.length; c++) {
           var b1 = balls[a], b2 = balls[c]; if (b1.held && b2.held) continue;
@@ -253,6 +267,7 @@
       document.removeEventListener("pointercancel", onUp, true);
       window.removeEventListener("touchmove", blockScroll, { passive: false });
       window.removeEventListener("wheel", blockScroll, { passive: false });
+      document.removeEventListener("click", blockClick, true);
       layer.remove(); hud.remove();
       document.documentElement.classList.remove("pin-live");
       window.scrollTo(0, savedY);

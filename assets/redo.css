@@ -261,7 +261,7 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
    as tall as its picture; no card is waiting on another's height. The img
    keeps its width/height attributes, so the box is still reserved before the
    lazy load and nothing reflows. overflow: hidden stays for the hover zoom. */
-.feat__shot { display: block; overflow: hidden; background: #141414; }
+.feat__shot { display: block; overflow: hidden; background: #141414; border-radius: 14px; }
 .feat__shot img { display: block; width: 100%; height: auto; transition: transform 700ms cubic-bezier(.22,1,.36,1); }
 .feat__shot:focus-visible img { transform: scale(1.03); }
 /* Hover zoom only where a real pointer can hover. On a touch device a :hover
