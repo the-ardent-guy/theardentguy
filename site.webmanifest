@@ -1,0 +1,13 @@
+{
+  "name": "Rishabh Kumar",
+  "short_name": "Rish",
+  "start_url": "/",
+  "display": "browser",
+  "theme_color": "#F5F0E8",
+  "background_color": "#F5F0E8",
+  "icons": [
+    { "src": "/assets/favicon.svg", "type": "image/svg+xml", "sizes": "any" },
+    { "src": "/assets/icon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/assets/icon-512.png", "type": "image/png", "sizes": "512x512" }
+  ]
+}

@@ -190,17 +190,27 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
   padding-inline: clamp(16px, 3vw, 40px);
 }
 .stage__in { max-width: 1120px; margin-inline: auto; position: relative; }
+/* The intro block carries the gap that used to sit on the lead alone. That
+   gap is what the pile rests in: the heap stands 82px off the rule, and
+   14.5vh leaves about 100px of clear black above it, now measured from the
+   foot of the About line below. Held to the old value below 760px, where
+   there is no pile (toys() is desktop-pointer only) and the page has been
+   shortened anyway. */
+.stage__intro { margin: 0 0 clamp(56px, 14.5vh, 180px); max-width: 52ch; }
+.stage__kicker {
+  margin: 0 0 clamp(14px, 1.6vh, 22px) !important;
+  color: rgba(255,255,255,.5) !important;
+}
 .stage__lead {
-  /* 2026-10-31, his note: let it breathe. This gap carries the pile as well
-     as the air. The heap stands 82px off the rule, so at the old 9vh there
-     were only 48px between the foot of this sentence and the top ball, and
-     the two read as one crowded block. 14.5vh puts about 100px of clear
-     black above the pile. Held to the old value below 760px, where there is
-     no pile (toys() is desktop-pointer only) and he has just had the page
-     shortened. */
-  margin: 0 0 clamp(56px, 14.5vh, 180px); max-width: 22ch;
+  margin: 0 0 clamp(16px, 2.2vh, 28px); max-width: 22ch;
   font-size: clamp(24px, 3vw, 42px); font-weight: 400;
   line-height: 1.2; letter-spacing: -0.02em; color: #fff;
+}
+.stage__about {
+  margin: 0; max-width: 46ch;
+  font-size: clamp(15px, 1.15vw, 18px); font-weight: 400;
+  line-height: 1.62; letter-spacing: -0.003em;
+  color: rgba(255,255,255,.72);
 }
 .stage .idx__head {
   display: flex; align-items: baseline; justify-content: space-between;
@@ -326,7 +336,7 @@ h1, h2, .dname { font-weight: 700; letter-spacing: -0.022em; }
   /* The two gaps around the rule were opened up for the pile that rests on
      it, and there is no pile at this width. Back to what they were, so the
      phone does not pay for a desktop interaction in scroll length. */
-  .stage__lead { margin-bottom: clamp(56px, 9vh, 120px); }
+  .stage__intro { margin-bottom: clamp(56px, 9vh, 120px); }
   .stage .idx__head { margin-bottom: clamp(56px, 9vh, 110px); }
   /* One column: the gap is now the photo-to-text gap and nothing else, so
      it takes the 28px that the text block's own rhythm no longer needs to

@@ -177,6 +177,45 @@ body.dsrt::after { display: none !important; }   /* the old sitewide overlay */
   margin-inline: calc(50% - (var(--vw) / 2));
   margin-block: 0 var(--s12);
   padding-inline: var(--margin);
+  position: relative;
+  isolation: isolate;   /* own stacking context, so the ghost art below
+                           cannot slip behind the body paper */
+}
+
+/* A ghost of one of the drawings, bled off the top-right behind the
+   headline. Drawn, not photographed, so the page opens on his own line
+   work instead of a blank field. multiply sinks it into the paper; the
+   radial mask dissolves every edge so it never reads as a pasted image,
+   and the tile sheets (opaque, shadowed) sit over it at z-index 1, so it
+   only ever shows in the gaps. Swap the url for any work in
+   media/desserts/wall/ to change the drawing. */
+.dhero::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: calc(var(--s12) * -1);
+  left: -6%;
+  width: min(760px, 56vw);
+  aspect-ratio: 1 / 1;
+  background: url("/assets/media/desserts/wall/bw-forest-hands-1000.webp") no-repeat center / contain;
+  opacity: 0.16;
+  mix-blend-mode: multiply;
+  -webkit-mask-image: radial-gradient(58% 58% at 46% 40%, #000 36%, transparent 78%);
+          mask-image: radial-gradient(58% 58% at 46% 40%, #000 36%, transparent 78%);
+  pointer-events: none;
+}
+.dhero > .dcols { position: relative; z-index: 1; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .dhero::before { transition: opacity .6s var(--swift); }
+}
+/* On a phone the drawing would crowd the stacked headline, so pull it
+   smaller and fainter and let it sit top-centre. */
+@media (max-width: 620px) {
+  .dhero::before {
+    width: 92vw; left: -10%; top: calc(var(--s10) * -1);
+    opacity: 0.11;
+  }
 }
 
 /* The headline block is wider than the column it sits in, exactly as the
