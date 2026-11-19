@@ -93,9 +93,18 @@
 .pin-hud.is-on{opacity:1}
 .pin-hud__k{font:700 9px/1.4 "Inter Tight",system-ui,sans-serif; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.5)}
 .pin-hud__v{font:800 20px/1 "Inter Tight",system-ui,sans-serif; color:#9ACD20; letter-spacing:.01em}
-.pin-hud__balls{display:flex; gap:4px; margin-top:4px}
-.pin-hud__balls i{width:8px; height:8px; border-radius:50%; background:#9ACD20; box-shadow:0 0 6px rgba(154,205,32,.6)}
-.pin-hud__balls i.spent{background:rgba(255,255,255,.18); box-shadow:none}
+/* the stack rack: the nine logo balls lined up; each dims out as it drops into play */
+.pin-hud__rack{display:flex; margin-top:5px}
+.pin-rackball{width:16px; height:16px; border-radius:50%; flex:none;
+  background:radial-gradient(circle at 34% 30%,#fff,#e4e5ea 78%);
+  box-shadow:0 1px 1px rgba(0,0,0,.35), inset 0 1px 1px rgba(255,255,255,.8);
+  display:grid; place-items:center; transition:opacity .35s ease, transform .35s ease;}
+.pin-rackball + .pin-rackball{margin-left:-4px}
+.pin-rackball img{width:62%; height:62%; display:block}
+.pin-rackball.out{opacity:.16; transform:scale(.62)}
+
+/* real page UI that is a live obstacle while the game is on */
+.pin-obstacle{outline:1.5px dashed rgba(154,205,32,.42); outline-offset:3px; border-radius:5px;}
 
 /* floating score pops */
 .pin-pop{position:fixed; z-index:9120; pointer-events:none; transform:translate(-50%,-50%);

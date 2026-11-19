@@ -15,7 +15,9 @@
   if (!document.querySelector(".stage")) return;
 
   var TOOLS = ["figma", "cursor", "claude", "linear", "make", "n8n", "shopify", "posthog", "grok"];
-  var TRIGGERS = ".feat__shot, .dz, .feat-sm";
+  var TRIGGERS = ".feat__shot, .dz, .feat-sm";   // cards: pass-through scoring zones
+  // Real UI that becomes SOLID obstacles (part-width only, so nothing dams the ball)
+  var UI_BUMPERS = ".feat__go, .feat__name, .feat__role, .feat-sm__name, .stage__mail, .stage__link, .fnav__in a";
   var UNLOCKS = [500, 1200, 2200, 3600, 5500, 8000, 11000, 15000];   // score -> release next logo (balls 2..9)
   function buzz(ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} }
   function ballSvg(name) { return '<span class="pin-chip"><img src="/assets/logos/' + name + '.svg" alt=""></span>'; }
@@ -69,6 +71,15 @@
       if (r.width < 8 || r.height < 8 || r.bottom < 40 || r.top > H - 10) return;
       tris.push({ x: r.left, y: r.top, w: r.width, h: r.height, el: el });
     });
+    // real UI obstacles — only part-width elements, so they deflect without trapping
+    var uiBumps = [];
+    document.querySelectorAll(UI_BUMPERS).forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.width < 22 || r.height < 12 || r.width > W * 0.6) return;
+      if (r.bottom < 40 || r.top > H - 10) return;
+      el.classList.add("pin-obstacle");
+      uiBumps.push({ x: r.left, y: r.top, w: r.width, h: r.height, el: el, cool: 0 });
+    });
 
     // ---- geometry: one straight metal line each side, rail continuing into the
     //      flipper, with a real drain gap between the two flipper tips ----------
@@ -108,15 +119,15 @@
 
     // HUD: score + the stack (9 pips light as logos come into play)
     var hud = document.createElement("div"); hud.className = "pin-hud";
-    var pips = ""; for (var i = 0; i < 9; i++) pips += '<i></i>';
+    var rackHtml = ""; for (var i = 0; i < 9; i++) rackHtml += '<span class="pin-rackball"><img src="/assets/logos/' + TOOLS[i] + '.svg" alt=""></span>';
     hud.innerHTML = '<div><div class="pin-hud__k">Score</div><div class="pin-hud__v" data-score>0</div></div>' +
-      '<div><div class="pin-hud__k">Stack</div><div class="pin-hud__balls" data-pips>' + pips + '</div></div>';
+      '<div><div class="pin-hud__k">Stack</div><div class="pin-hud__rack" data-rack>' + rackHtml + '</div></div>';
     document.body.appendChild(hud); requestAnimationFrame(function () { hud.classList.add("is-on"); });
-    var scoreEl = hud.querySelector("[data-score]"), pipEls = hud.querySelectorAll("[data-pips] i");
+    var scoreEl = hud.querySelector("[data-score]"), rackEls = hud.querySelectorAll("[data-rack] .pin-rackball");
 
     // ---- game state ---------------------------------------------------------
     var balls = [], score = 0, served = 0, nextUnlock = 0, running = true, over = false, cardsEver = {};
-    function renderPips() { for (var i = 0; i < 9; i++) pipEls[i].className = ""; balls.forEach(function (b) { pipEls[b.pip].className = "lit"; }); }
+    function renderRack() { for (var i = 0; i < 9; i++) rackEls[i].classList.toggle("out", i < served); }
     function pop(x, y, text, big) { var e = document.createElement("div"); e.className = "pin-pop" + (big ? " pin-pop--big" : ""); e.style.left = x + "px"; e.style.top = y + "px"; e.textContent = text; layer.appendChild(e); setTimeout(function () { e.remove(); }, 740); }
     function addScore(n, x, y, text, big) {
       score += n; scoreEl.textContent = score; if (text) pop(x, y, text, big);
@@ -129,12 +140,12 @@
       var img = new Image(); img.src = "/assets/logos/" + name + ".svg"; img.alt = ""; e.appendChild(img);
       layer.appendChild(e);
       balls.push({ el: e, r: R, pip: served, x: cx + (Math.random() - 0.5) * 50, y: -R * 2, vx: (Math.random() - 0.5) * 40, vy: 0, still: 0, lit: {}, litN: 0, stack: false });
-      served++; renderPips();
+      served++; renderRack();
       if (unlock) { pop(cx, H * 0.3, "+1 " + name, true); buzz([12, 30]); }
     }
     function drain(b) {
       var i = balls.indexOf(b); if (i < 0) return;
-      balls.splice(i, 1); b.el.remove(); renderPips(); buzz(35);
+      balls.splice(i, 1); b.el.remove(); renderRack(); buzz(35);
       if (balls.length === 0 && !over) gameOver();
     }
     serve(false);   // the first logo
@@ -163,6 +174,19 @@
     }
     function overlapRect(b, r) { var cxp = Math.max(r.x, Math.min(b.x, r.x + r.w)), cyp = Math.max(r.y, Math.min(b.y, r.y + r.h)), dx = b.x - cxp, dy = b.y - cyp; return (b.x > r.x && b.x < r.x + r.w && b.y > r.y && b.y < r.y + r.h) || (dx * dx + dy * dy < b.r * b.r); }
     function flash(el, cls, ms) { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); if (ms) setTimeout(function () { el.classList.remove(cls); }, ms); }
+    // the real UI obstacles — solid: the ball bounces off, they flash and score a little
+    function collideUi(b, r) {
+      var rx2 = r.x + r.w, ry2 = r.y + r.h;
+      var cxp = Math.max(r.x, Math.min(b.x, rx2)), cyp = Math.max(r.y, Math.min(b.y, ry2));
+      var dx = b.x - cxp, dy = b.y - cyp, d2 = dx * dx + dy * dy;
+      var inside = (b.x > r.x && b.x < rx2 && b.y > r.y && b.y < ry2);
+      if (!inside && d2 >= b.r * b.r) return;
+      var nx, ny;
+      if (inside) { var dl = b.x - r.x, dr = rx2 - b.x, dt = b.y - r.y, db = ry2 - b.y, m = Math.min(dl, dr, dt, db); nx = m === dl ? -1 : m === dr ? 1 : 0; ny = m === dt ? -1 : m === db ? 1 : 0; b.x += nx * (b.r + m); b.y += ny * (b.r + m); }
+      else { var d = Math.sqrt(d2) || 0.001; nx = dx / d; ny = dy / d; b.x = cxp + nx * b.r; b.y = cyp + ny * b.r; }
+      var vn = b.vx * nx + b.vy * ny;
+      if (vn < 0) { b.vx -= 1.6 * vn * nx; b.vy -= 1.6 * vn * ny; if (r.cool <= 0) { r.cool = 0.25; flash(r.el, "pin-hit", 0); addScore(25, b.x, r.y + 8, "+25"); buzz(7); } }
+    }
 
     var last = performance.now();
     function frame(now) {
@@ -171,6 +195,7 @@
       var steps = 2, h = dt / steps;
       [FL, FR].forEach(function (F) { F.prev = F.ang; F.ang += (F.tgt - F.ang) * Math.min(1, h * 24 * steps); });
       for (var j = 0; j < lanes.length; j++) if (lanes[j].cool > 0) lanes[j].cool -= dt;
+      for (var ui = 0; ui < uiBumps.length; ui++) if (uiBumps[ui].cool > 0) uiBumps[ui].cool -= dt;
       var aL = FL.ang * Math.PI / 180, aR = FR.ang * Math.PI / 180;
       var FLt = { x: FL.px + Math.cos(aL) * flen, y: FL.py + Math.sin(aL) * flen }, FRt = { x: FR.px + Math.cos(aR) * flen, y: FR.py + Math.sin(aR) * flen };
       var omL = (FL.ang - FL.prev) * Math.PI / 180, omR = (FR.ang - FR.prev) * Math.PI / 180;
@@ -194,6 +219,7 @@
               b.vx += nx * 175; b.vy += ny * 175; flash(bm.el, "is-hit", 140); addScore(150, bm.x, bm.y - bm.r, "+150"); buzz(16);
             }
           }
+          for (var u = 0; u < uiBumps.length; u++) collideUi(b, uiBumps[u]);
         }
         // ball-ball (the stack gets messy)
         for (var a = 0; a < balls.length; a++) for (var c = a + 1; c < balls.length; c++) {
@@ -241,7 +267,7 @@
         '<div class="pin-over__btns"><button class="pin-over__btn pin-over__btn--go" type="button" data-again>Play again</button>' +
         '<button class="pin-over__btn pin-over__btn--exit" type="button" data-exit>Exit</button></div></div>';
       document.body.appendChild(ov); requestAnimationFrame(function () { ov.classList.add("is-on"); });
-      ov.querySelector("[data-again]").addEventListener("click", function () { ov.remove(); score = 0; served = 0; nextUnlock = 0; over = false; cardsEver = {}; scoreEl.textContent = 0; renderPips(); serve(false); });
+      ov.querySelector("[data-again]").addEventListener("click", function () { ov.remove(); score = 0; served = 0; nextUnlock = 0; over = false; cardsEver = {}; scoreEl.textContent = 0; renderRack(); serve(false); });
       ov.querySelector("[data-exit]").addEventListener("click", function () { ov.remove(); self.stop(); });
     }
 
@@ -256,6 +282,8 @@
       window.removeEventListener("wheel", blockScroll, { passive: false });
       document.removeEventListener("click", blockClick, true);
       var ov = document.querySelector(".pin-over"); if (ov) ov.remove();
+      uiBumps.forEach(function (u) { u.el.classList.remove("pin-obstacle", "pin-hit"); });
+      tris.forEach(function (t) { t.el.classList.remove("pin-hit"); });
       dim.classList.remove("is-on"); setTimeout(function () { dim.remove(); }, 400);
       layer.remove(); hud.remove();
       document.documentElement.classList.remove("pin-live");
