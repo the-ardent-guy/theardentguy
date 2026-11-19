@@ -136,6 +136,18 @@
 .pin-over__btn--go{background:#9ACD20; color:#13240a}
 .pin-over__btn--exit{background:rgba(255,255,255,.1); color:#fff}
 
+/* intro splash: "REMEMBER PINBALL?" in an arcade font, blinking, then the ball drops */
+.pin-intro{position:fixed; inset:0; z-index:9140; display:grid; place-items:center;
+  pointer-events:none; background:rgba(9,8,11,.5); opacity:1; transition:opacity .2s ease;}
+.pin-intro.out{opacity:0}
+.pin-intro span{
+  font-family:"Press Start 2P","Inter Tight",monospace; text-align:center; line-height:1.55;
+  font-size:clamp(19px,6.5vw,32px); letter-spacing:.01em; color:#9ACD20;
+  text-shadow:0 0 18px rgba(154,205,32,.55), 0 3px 0 rgba(0,0,0,.45);
+  animation:pin-blink .4s steps(1,end) infinite;}
+@keyframes pin-blink{0%,49%{opacity:1} 50%,100%{opacity:.1}}
+@media (prefers-reduced-motion:reduce){ .pin-intro span{animation:none} }
+
 /* while a game is live the page is frozen (game.js blocks scroll via touchmove);
    NOT overflow:hidden, which would reset scrollY and lose the colliders. */
 html.pin-live, html.pin-live body{ overscroll-behavior:none; touch-action:none; }

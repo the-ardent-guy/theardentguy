@@ -18,7 +18,9 @@
   var TRIGGERS = ".feat__shot, .dz, .feat-sm";   // cards: pass-through scoring zones
   // Real UI that becomes SOLID obstacles (part-width only, so nothing dams the ball)
   var UI_BUMPERS = ".feat__go, .feat__name, .feat__role, .feat-sm__name, .stage__mail, .stage__link, .fnav__in a";
-  var UNLOCKS = [500, 1200, 2200, 3600, 5500, 8000, 11000, 15000];   // score -> release next logo (balls 2..9)
+  // score -> release next logo (balls 2..9). Slow at first (1200, 2000) then the
+  // gaps shrink (800,700,600,500,400,300,200) so the stack floods in faster.
+  var UNLOCKS = [1200, 2000, 2700, 3300, 3800, 4200, 4500, 4700];
   function buzz(ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} }
   function ballSvg(name) { return '<span class="pin-chip"><img src="/assets/logos/' + name + '.svg" alt=""></span>'; }
 
@@ -28,7 +30,14 @@
   fab.innerHTML = ballSvg("figma") + ballSvg("cursor") + '<span class="playfab__t">Stack</span>';
   document.body.appendChild(fab);
   requestAnimationFrame(function () { fab.classList.add("is-ready"); });
-  function setVis() { if (game) return; var nb = (window.scrollY + window.innerHeight) > (document.documentElement.scrollHeight - 220); fab.classList.toggle("is-hidden", nb); }
+  // The pill appears with the floating nav bar — same threshold redo.js uses to
+  // reveal .fnav (scrollY past ~82% of a viewport) — and hides again near the foot.
+  function setVis() {
+    if (game) return;
+    var navUp = window.scrollY > window.innerHeight * 0.82;
+    var nearBottom = (window.scrollY + window.innerHeight) > (document.documentElement.scrollHeight - 220);
+    fab.classList.toggle("is-hidden", !navUp || nearBottom);
+  }
   window.addEventListener("scroll", setVis, { passive: true });
   window.addEventListener("resize", setVis); setVis();
   var game = null;
@@ -148,7 +157,15 @@
       balls.splice(i, 1); b.el.remove(); renderRack(); buzz(35);
       if (balls.length === 0 && !over) gameOver();
     }
-    serve(false);   // the first logo
+    // intro splash, arcade font, blinks, then the first logo drops fast
+    var intro = document.createElement("div"); intro.className = "pin-intro";
+    intro.innerHTML = '<span>REMEMBER<br>PINBALL?</span>';
+    document.body.appendChild(intro);
+    setTimeout(function () {
+      if (!running) return;
+      intro.classList.add("out"); setTimeout(function () { intro.remove(); }, 200);
+      if (!over) serve(false);   // the first logo
+    }, 1150);
 
     // ---- input: tap a side for that flipper ---------------------------------
     var ptr = {};
@@ -282,6 +299,7 @@
       window.removeEventListener("wheel", blockScroll, { passive: false });
       document.removeEventListener("click", blockClick, true);
       var ov = document.querySelector(".pin-over"); if (ov) ov.remove();
+      var iv = document.querySelector(".pin-intro"); if (iv) iv.remove();
       uiBumps.forEach(function (u) { u.el.classList.remove("pin-obstacle", "pin-hit"); });
       tris.forEach(function (t) { t.el.classList.remove("pin-hit"); });
       dim.classList.remove("is-on"); setTimeout(function () { dim.remove(); }, 400);
