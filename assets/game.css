@@ -10,7 +10,7 @@
 /* ---- toggle button ------------------------------------------------------- */
 .playfab{
   position:fixed; right:16px; bottom:max(16px,env(safe-area-inset-bottom)); z-index:9200;
-  display:none; align-items:center; gap:9px;
+  display:none; align-items:center; gap:5px;
   padding:11px 16px 11px 13px; border-radius:999px;
   background:#fff; color:#141414; border:0;
   font:700 13px/1 "Inter Tight",system-ui,sans-serif; letter-spacing:.01em;
@@ -18,13 +18,18 @@
   -webkit-tap-highlight-color:transparent; touch-action:manipulation;
   transition:opacity .25s ease, transform .25s ease;
 }
-.playfab__dot{width:16px;height:16px;border-radius:50%;
-  background:radial-gradient(circle at 34% 30%,#fff,#d9d7dd 78%);
-  box-shadow:0 1px 2px rgba(0,0,0,.3) inset, 0 1px 1px #fff}
+/* two tiny logo balls as a hint of the game, slightly overlapped like a stack */
+.pin-chip{width:18px; height:18px; border-radius:50%; flex:none;
+  background:radial-gradient(circle at 34% 30%,#fff,#e4e5ea 78%);
+  box-shadow:0 1px 2px rgba(0,0,0,.22) inset, 0 1px 1px rgba(255,255,255,.9), 0 1px 2px rgba(0,0,0,.18);
+  display:grid; place-items:center;}
+.pin-chip + .pin-chip{margin-left:-8px}
+.pin-chip img{width:60%; height:60%; display:block}
+.playfab__t{margin-left:2px}
 .playfab.is-hidden{opacity:0; transform:translateY(12px) scale(.9); pointer-events:none}
 .playfab.is-live{background:#141414; color:#fff;
   top:max(12px,env(safe-area-inset-top)); bottom:auto;}
-.playfab.is-live .playfab__dot{background:radial-gradient(circle at 34% 30%,#b9e05a,#7fae1a 72%)}
+.playfab.is-live .pin-chip{display:none}
 @media (pointer:coarse){ .playfab.is-ready{display:inline-flex} }
 
 /* ---- game-mode backdrop: the page dims and takes an ink/oxblood wash ------ */
