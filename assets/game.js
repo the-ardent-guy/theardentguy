@@ -25,13 +25,17 @@
   requestAnimationFrame(function () { fab.classList.add("is-ready"); });
   fab.addEventListener("click", openGame);
 
-  // hide the fab once the DESSERTS reveal is in view
-  var endmark = document.querySelector(".endmark");
-  if (endmark && "IntersectionObserver" in window) {
-    new IntersectionObserver(function (es) {
-      fab.classList.toggle("is-hidden", es[0].isIntersecting);
-    }, { rootMargin: "-40% 0px 0px 0px" }).observe(endmark);
+  // Hide the fab only when the reader is actually near the foot of the page,
+  // where the fixed DESSERTS reveal sits. (An IntersectionObserver on .endmark
+  // can't do this: it is position:fixed, so it always counts as on-screen and
+  // would hide the button immediately.)
+  function fabVis() {
+    var nearBottom = (window.scrollY + window.innerHeight) > (document.documentElement.scrollHeight - 220);
+    fab.classList.toggle("is-hidden", nearBottom);
   }
+  window.addEventListener("scroll", fabVis, { passive: true });
+  window.addEventListener("resize", fabVis);
+  fabVis();
 
   var game = null;
 
