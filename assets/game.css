@@ -1,0 +1,70 @@
+/* ===========================================================================
+   IN-PAGE PINBALL — "The site is the table" (mobile only)
+   A toggle turns the real homepage into a pinball table: the nine tool logos
+   drop onto the page and bounce off the actual elements. Case-study cards and
+   desserts tiles are bumpers (they flash and score); headings and nav are
+   walls; two flippers sit at the foot of the screen. No overlay, no new
+   section — the balls and flippers float over the page you were reading.
+   Desktop keeps its own ball pit (redo.js); game.js builds none of this unless
+   the pointer is coarse. Self-contained; CSP-safe (external script, no inline).
+   =========================================================================== */
+
+/* toggle button, bottom-right, phones only */
+.playfab{
+  position:fixed; right:16px; bottom:max(16px,env(safe-area-inset-bottom)); z-index:9100;
+  display:none; align-items:center; gap:9px;
+  padding:11px 16px 11px 13px; border-radius:999px;
+  background:#fff; color:#141414; border:0;
+  font:700 13px/1 "Inter Tight",system-ui,sans-serif; letter-spacing:.01em;
+  box-shadow:0 10px 26px rgba(0,0,0,.4); cursor:pointer;
+  -webkit-tap-highlight-color:transparent; touch-action:manipulation;
+  transition:opacity .25s ease, transform .25s ease;
+}
+.playfab__dot{width:16px;height:16px;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%,#fff,#d9d7dd 78%);
+  box-shadow:0 1px 2px rgba(0,0,0,.3) inset, 0 1px 1px #fff}
+.playfab.is-hidden{opacity:0; transform:translateY(12px) scale(.9); pointer-events:none}
+.playfab.is-live{background:#141414; color:#fff}
+.playfab.is-live .playfab__dot{background:radial-gradient(circle at 34% 30%,#b9e05a,#7fae1a 72%)}
+@media (pointer:coarse){ .playfab.is-ready{display:inline-flex} }
+
+/* the ball + flipper layer floats over the page; it does not catch taps
+   itself (game.js listens on the document), so the page stays visible. */
+.pin-layer{position:fixed; inset:0; z-index:9050; pointer-events:none;}
+
+.pin-ball{position:fixed; top:0; left:0; border-radius:50%;
+  background:radial-gradient(circle at 34% 30%,#fff,#ededf0 78%);
+  box-shadow:0 3px 9px rgba(0,0,0,.45), 0 1px 1px rgba(255,255,255,.85) inset;
+  display:grid; place-items:center; will-change:transform;}
+.pin-ball img{width:54%; height:54%; -webkit-user-drag:none; pointer-events:none}
+
+.pin-flip{position:fixed; top:0; left:0; height:16px; border-radius:999px;
+  background:linear-gradient(#f4f4f6,#c7c7cf);
+  box-shadow:0 3px 10px rgba(0,0,0,.5), 0 1px 0 rgba(255,255,255,.7) inset;
+  transform-origin:12px 50%; will-change:transform;}
+.pin-flip--r{transform-origin:calc(100% - 12px) 50%;}
+
+.pin-hud{position:fixed; top:max(10px,env(safe-area-inset-top)); left:50%; transform:translateX(-50%);
+  z-index:9110; display:flex; align-items:center; gap:10px;
+  padding:7px 14px; border-radius:999px; background:rgba(20,20,22,.82); color:#fff;
+  backdrop-filter:blur(6px);
+  font:700 12px/1 "Inter Tight",system-ui,sans-serif; letter-spacing:.06em; text-transform:uppercase;
+  pointer-events:none; opacity:0; transition:opacity .25s ease;}
+.pin-hud.is-on{opacity:1}
+.pin-hud b{color:#9ACD20; font-size:15px; letter-spacing:0; margin-left:4px}
+.pin-hud .pin-hud__tip{color:rgba(255,255,255,.55); font-weight:600; letter-spacing:.02em; text-transform:none}
+
+/* the flash a real element does when a ball scores off it */
+.pin-hit{ animation:pin-hit .45s ease; }
+@keyframes pin-hit{
+  0%{ box-shadow:0 0 0 0 rgba(154,205,32,0); }
+  25%{ box-shadow:0 0 0 3px rgba(154,205,32,.9), 0 0 22px rgba(154,205,32,.55); }
+  100%{ box-shadow:0 0 0 0 rgba(154,205,32,0); }
+}
+
+/* while a game is live, the page is frozen in place (game.js blocks scroll via
+   touchmove/wheel). We deliberately do NOT use overflow:hidden here: setting it
+   on the scroller resets scrollY to 0, which threw off the element colliders. */
+html.pin-live, html.pin-live body{ overscroll-behavior:none; touch-action:none; }
+
+@media (prefers-reduced-motion:reduce){ .playfab{transition:none} }
