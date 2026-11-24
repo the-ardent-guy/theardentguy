@@ -1,0 +1,51 @@
+/* ======================================================================
+   Produsa case study — readability pass.
+   Scoped to body.pcase and loaded LAST, so nothing here touches the other
+   case studies. Adds section cards, caps media to a comfortable size,
+   removes the dark load-flash, and trims the tall top padding.
+   ====================================================================== */
+
+/* 1 — Tighter top: drop the tall hero padding above the title. */
+.pcase .head { padding-top: clamp(20px, 3.4vw, 40px); }
+
+/* 2 — Section cards: white plates on warm paper, clearly separated so each
+   part of the story reads as its own block. */
+.pcase main.col > section {
+  background: var(--surface);
+  border: 1px solid var(--v2-card-edge);
+  border-radius: 16px;
+  padding: clamp(24px, 3.2vw, 46px);
+  margin-top: clamp(20px, 2.4vw, 30px);
+  box-shadow: 0 2px 18px -11px rgba(60, 45, 20, .18);
+}
+.pcase main.col > section:first-child { margin-top: 0; }
+
+/* 3 — Media: comfortable width, centred, and no double frame. The section
+   is already a card, so the inner mat is dropped to a hairline ring and the
+   image carries itself. */
+.pcase main.col figure {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: clamp(22px, 2.6vw, 34px);
+}
+.pcase main.col figure.bleed { width: auto; }
+
+.pcase main.col .media {
+  max-width: 660px;
+  margin-inline: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.pcase main.col .media > img,
+.pcase main.col .media > video {
+  background: var(--surface);   /* a clean plate, never a black flash on load */
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px var(--rule),
+              0 12px 30px -20px rgba(60, 45, 20, .40);
+}
+.pcase main.col figcaption { max-width: 660px; margin-inline: auto; }
+
+/* 4 — The phone was width:max-content (720px), which rendered enormous.
+   Cap it to a comfortable device size. */
+.pcase main.col .phone { max-width: 272px; margin-inline: auto; }

@@ -38,9 +38,10 @@
 <link rel="stylesheet" href="/assets/notebook.css">
 <link rel="stylesheet" href="/assets/redo.css">
 <link rel="stylesheet" href="/assets/case-extras.css">
+<link rel="stylesheet" href="/assets/produsa-case.css">
 <script>document.documentElement.setAttribute("data-theme","light");document.documentElement.classList.add("js");</script>
 </head>
-<body style="--dot: var(--dot-produsa)">
+<body class="pcase" style="--dot: var(--dot-produsa)">
 
 <div class="wrap">
 
@@ -125,7 +126,7 @@
         <p><strong>Guided questions.</strong> The owner says what they want in their own words. Then the chat asks a few questions about the business, the audience, and the one thing a visitor should do. It only asks what the owner alone knows. The agents make the design calls.</p>
 
         <p><strong>WhatsApp, for owners like the cafe owner.</strong> Many small owners already have a brochure or one-pager. They share it on WhatsApp, the bot asks the guided questions, and sends back a prototype link. Then it sends a link to the studio, where they can edit and publish. Very little typing, no code, no agency.</p>
-        <figure class="bleed">
+        <figure>
           <div class="phone">
             <video src="/assets/media/produsa-whatsapp.mp4" poster="/assets/media/produsa-whatsapp-poster.webp"
                    width="720" height="1280" muted loop playsinline preload="metadata" data-autoplay
@@ -137,7 +138,7 @@
         <p><strong>A build that works like an agency.</strong> The build follows the order my agency worked in: research, niche, brand design, prototype, website. Each step is an agent that checks its work before passing it on.</p>
         <figure>
           <div class="media">
-            <img src="/assets/media/produsa-agents.webp" width="840" height="544" loading="lazy" decoding="async"
+            <img src="/assets/media/produsa-agents.webp" width="840" height="544" decoding="async"
                  alt="The build console under the site preview. Research and brand, Features and copy, Architecture, and Design and visuals are each marked done.">
           </div>
           <figcaption data-fig="03">Each step is an agent, and it checks its work before it hands off.</figcaption>
@@ -148,23 +149,23 @@
         <p><strong>A chat that tells the truth.</strong> Owners can't judge a design, so they believe the chat. In testing, the first version said changes were done before they showed up on the page. Now it only confirms a change once it's live. It gives people something to watch while the site builds, says when a step is slow, and treats a failed step as a normal part of the process. Work is always saved.</p>
         <figure>
           <div class="media">
-            <img src="/assets/media/produsa-chat-questions.webp" width="798" height="348" loading="lazy" decoding="async"
+            <img src="/assets/media/produsa-chat-questions.webp" width="798" height="348" decoding="async"
                  alt="The Produsa chat. The owner types publish it; instead of shipping, the assistant says it wants to check first, flags the placeholder details it filled in (pricing, hours, a WhatsApp number) that might be wrong, and asks whether to publish or update first. A built grooming site, Paws and Whiskers Kochi, shows in the preview.">
           </div>
           <figcaption data-fig="04">It won't publish blind: it flags the details it guessed and asks before shipping.</figcaption>
         </figure>
         <figure>
           <div class="media">
-            <img src="/assets/media/produsa-chat.webp" width="1078" height="858" loading="lazy" decoding="async"
+            <img src="/assets/media/produsa-chat.webp" width="1078" height="858" decoding="async"
                  alt="The Produsa chat with the build in progress. The orchestrator card shows about 20 percent, roughly 16 minutes, and lists each step as it finishes: build started, polishing details, tightening the brief, brief locked.">
           </div>
           <figcaption data-fig="05">Every step named, nothing confirmed before it is live.</figcaption>
         </figure>
 
         <p><strong>Fixes from the alpha.</strong> We gave the product to 55 to 60 test users from different trades. I watched sessions, and a feedback board sat inside the product. Two problems came up most. The progress bar stuck at 92%, so now it follows the real build and says what it's doing. And owners sent customers the preview link instead of publishing. Now previews lock after ten days, and payment starts ten days after a site goes live.</p>
-        <figure class="bleed">
+        <figure>
           <div class="media">
-            <img src="/assets/media/produsa-feedback-board.webp" width="781" height="730" loading="lazy" decoding="async"
+            <img src="/assets/media/produsa-feedback-board.webp" width="781" height="730" decoding="async"
                  alt="The feedback board inside Produsa: a form to post a feature idea, bug or general note, with the top posts below. One asks for a website preview in the studio; one reports the build hanging at 92 percent.">
           </div>
           <figcaption data-fig="06">The feedback board. One post is the build hanging at 92%.</figcaption>
