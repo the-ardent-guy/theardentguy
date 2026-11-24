@@ -571,6 +571,23 @@ html { scroll-behavior: smooth; }
   .back:hover, .back:focus-visible { gap: 9px; }
 }
 
+/* --- Nav home control -------------------------------------------------
+   On a case study the top-bar brand slot is the way back home, an arrow
+   plus Home, in place of the name. */
+.snav__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--label);
+  transition: color .18s ease, gap .18s ease;
+}
+.snav__back svg { width: 15px; height: 11px; flex: none; }
+.snav__back:hover, .snav__back:focus-visible { color: var(--ink); gap: 11px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .snav__back:hover, .snav__back:focus-visible { gap: 8px; }
+}
+
 
 /* ======================================================================
    REAL MEDIA
