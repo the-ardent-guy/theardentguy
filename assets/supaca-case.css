@@ -1,0 +1,44 @@
+/* ======================================================================
+   Supaca case study — readability pass.
+   Scoped to body.scase and loaded LAST, so nothing here touches the other
+   case studies. Section cards, landscape media capped, clean loading, tighter
+   top, and the phone frames centred. Mirrors the Produsa / Hasta treatment.
+   ====================================================================== */
+
+/* 1 — Tighter top: drop the tall hero padding above the title. */
+.scase .head { padding-top: clamp(20px, 3.4vw, 40px); }
+
+/* 2 — Section cards: white plates on warm paper, clearly separated. */
+.scase main.col > section {
+  background: var(--surface);
+  border: 1px solid var(--v2-card-edge);
+  border-radius: 16px;
+  padding: clamp(24px, 3.2vw, 46px);
+  margin-top: clamp(20px, 2.4vw, 30px);
+  box-shadow: 0 2px 18px -11px rgba(60, 45, 20, .18);
+}
+.scase main.col > section:first-child { margin-top: 0; }
+
+/* 3 — Landscape media (Figma canvases): comfortable width, centred, clean. */
+.scase main.col figure {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: clamp(22px, 2.6vw, 34px);
+}
+.scase main.col .media {
+  max-width: 660px;
+  margin-inline: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.scase main.col .media > img {
+  background: var(--surface);
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px var(--rule),
+              0 12px 30px -20px rgba(60, 45, 20, .40);
+}
+.scase main.col figcaption { max-width: 660px; margin-inline: auto; }
+
+/* 4 — Phone frames: centre them in the card instead of left-aligning. */
+.scase main.col .d-pair { justify-content: center; }
