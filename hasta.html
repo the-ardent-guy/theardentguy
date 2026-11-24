@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hasta, cutting the generic slop out of palm reading</title>
-<meta name="description" content="A palm reading that names the line and the book behind every claim, and leaves the reader a card that names their hand. Case study by Rishabh Kumar.">
+<title>Hasta: a palm reading that feels true, not flattering</title>
+<meta name="description" content="Hasta reads a photo of your palm and writes you a reading. The reading is free. The full manuscript costs 99 rupees, once. Product case study by Rishabh Kumar.">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-32.png">
@@ -16,16 +16,16 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Rishabh Kumar">
 <meta property="og:locale" content="en_US">
-<meta property="og:title" content="Hasta, cutting the generic slop out of palm reading">
-<meta property="og:description" content="A palm reading that names the line and the book behind every claim, and leaves the reader a card that names their hand. Case study by Rishabh Kumar.">
+<meta property="og:title" content="Hasta: a palm reading that feels true, not flattering">
+<meta property="og:description" content="Hasta reads a photo of your palm and writes you a reading. The reading is free. The full manuscript costs 99 rupees, once.">
 <meta property="og:url" content="https://rish.design/hasta.html">
 <meta property="og:image" content="https://rish.design/assets/og/hasta.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Hasta, cutting the generic slop out of palm reading">
+<meta property="og:image:alt" content="Hasta: a palm reading that feels true, not flattering">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Hasta, cutting the generic slop out of palm reading">
-<meta name="twitter:description" content="A palm reading that names the line and the book behind every claim, and leaves the reader a card that names their hand. Case study by Rishabh Kumar.">
+<meta name="twitter:title" content="Hasta: a palm reading that feels true, not flattering">
+<meta name="twitter:description" content="Hasta reads a photo of your palm and writes you a reading. The reading is free. The full manuscript costs 99 rupees, once.">
 <meta name="twitter:image" content="https://rish.design/assets/og/hasta.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,9 +39,10 @@
 <link rel="stylesheet" href="/assets/redo.css">
 <link rel="stylesheet" href="/assets/hasta.css">
 <link rel="stylesheet" href="/assets/case-extras.css">
+<link rel="stylesheet" href="/assets/hasta-case.css">
 <script>document.documentElement.setAttribute("data-theme","light");document.documentElement.classList.add("js");</script>
 </head>
-<body style="--dot: var(--dot-hasta)">
+<body class="hcase" style="--dot: var(--dot-hasta)">
 
 <div class="wrap">
 
@@ -69,31 +70,23 @@
 
   <header class="head">
     <p class="eyebrow">Hasta</p>
-    <h1>Cutting the generic slop out of palm reading</h1>
-    <p class="standfirst">Hasta reads a photo of your palm through three traditions: Samudrika Shastra, Western chiromancy and the Chinese five-element school. You get a free reading, a card that names your hand, and a full manuscript for &#8377;99.</p>
+    <h1>Hasta: a palm reading that feels true, not flattering</h1>
+    <p class="standfirst">Hasta reads a photo of your palm and writes you a reading. The reading is free. The full manuscript costs &#8377;99, once.</p>
   </header>
 
     <dl class="mstrip">
-      <div class="mstrip__i">
-        <dt>Role</dt>
-        <dd>Lead Designer, UI/UX/AIX, at Produsa Labs</dd>
+      <div class="mstrip__i mstrip__i--wide">
+        <dt>My role</dt>
+        <dd>I built it 0 to 1 on my own: the research, the knowledge base, curating the responses, and the UI/UX.</dd>
       </div>
       <div class="mstrip__i">
         <dt>Timeline</dt>
-        <dd>1 month, launched August 2026</dd>
-      </div>
-      <div class="mstrip__i">
-        <dt>Platform</dt>
-        <dd>Web product, hasta.produsa.app</dd>
-      </div>
-      <div class="mstrip__i mstrip__i--wide">
-        <dt>My work</dt>
-        <dd>Product research, the canon, UI/UX, and the AI experience: reading output, chat behaviour and prompts. I led the features, the hand card, pricing and the ethics rails. Built with a small engineering team.</dd>
+        <dd>One month. Launched August 2026. Live at hasta.produsa.app.</dd>
       </div>
     </dl>
 
     <div class="grid">
-      <p class="lead-note">I started at the output. The first page of my notebook asks what the reading itself has to be before any screen around it is worth designing.</p>
+      <p class="lead-note">Hasta started as a one-month experiment to test one idea from the research: people want a believable, private mirror of themselves more than a flattering prediction.</p>
     </div>
 
     <figure class="fullbleed">
@@ -111,163 +104,70 @@
 
       <section id="problem">
         <h2>The problem</h2>
-        <p class="lede">Open any palm app and the reading fits anybody.</p>
-
-        <p><strong>Bertram Forer</strong> showed why in 1948: he handed his students a personality profile he had assembled out of a newspaper astrology column, and they rated it as an accurate description of themselves. Statements that are favourable and flexible read as personal, which is the <strong>Barnum effect</strong>.</p>
-
-        <p>Language models made that cheap. They write fluent prose that sounds like a reading and is tied to nothing on the hand in the photo. My notebook calls the two of them together <strong>Barnum slop</strong>, and it is the whole category.</p>
-
-        <p class="lede">The second failure is quieter.</p>
-
-        <p>After one of those readings there is nothing you can tell a friend in five words. No identity, just a paragraph you read once. People put INFJ in their dating profile because a label about yourself is social currency, and palm reading, which is about you more directly than any personality test, was handing out nothing to carry.</p>
-
-        <p class="claim">Every claim had to point at a mark that is actually on the hand in the photo. And the reading had to end with something worth repeating to a friend.</p>
+        <p>Almost nobody I spoke to cared whether palmistry is true. They came for a feeling. Mostly reassurance, sometimes a warning, sometimes a better sense of who they are.</p>
+        <p>The options they had weren't working. Human palmists made people feel judged. Apps were full of flattery, and flattery reads as fake. Nobody was giving them something they could trust privately and still want to share.</p>
       </section>
 
       <section id="research">
-        <h2>What I found</h2>
-
-        <ul class="plain principles">
-          <li><b>Readings repeat themselves because they read too few features.</b> Hand shape and the three big lines, which nearly every hand on earth offers, give a model almost nothing to work with, so it fills the rest with lines that fit anyone.</li>
-          <li><b>Generic doesn't feel wrong to the person reading it.</b> That is Forer's finding, and it means user complaints would never surface the problem. It had to be measured instead.</li>
-          <li><b>Two things people reliably share are a label and a picture.</b> A reading is neither.</li>
-          <li><b>Some of the most familiar palmistry is unusable.</b> Earth, Air, Fire and Water hand types date from 1965 and can't be sold as tradition, and DMIT and finger-ratio claims are pseudoscience. All of it stayed out of the canon.</li>
-        </ul>
-
-        <figure class="bleed nb-pile" data-pile style="--nbp-ar: 6 / 7; --nbp-depth: 1">
-          <ul class="nb-pile__stack" data-pile-stack>
-            <li class="nb-pile__sheet">
-              <img src="/assets/media/hasta-sketch-1.webp" width="630" height="914" loading="lazy" decoding="async"
-                   alt="A handwritten page on orange paper headed Hasta, palm reading. Output: Barnum slop, the Barnum effect plus AI slop. Verdict, themes, appendix as photo-progressive disclosure. Nothing the user can tell in five words, aka no identity, eg MBTI type in Korean dating apps, circled as soft identity and social currency. Forer's finding, fluent editorial prose, ostensive detachment after Pascal Boyer, divination as decision support. At the foot, the output parts: card with archetype name, glyph, lined palm photo and one epithet line, then portrait, pages, evidence and the palmist chat.">
-            </li>
-            <li class="nb-pile__sheet">
-              <img src="/assets/media/hasta-sketch-2.webp" width="691" height="1015" loading="lazy" decoding="async"
-                   alt="A second handwritten orange page. One, info source, intelligence, hastacanon.md: reliability plus specificity plus differentiation, more sources but one canon, braced with the note so the same hand doesn't get different results. Below it, avoid Barnum slop for credibility and relatability, listing perceived tailoring, source detachment, fluency and secure language, with ask a question or two and IKEA effect written alongside, and questions about them, not the hand. Two, features: both hands, agami, and Saath for couples.">
-            </li>
-          </ul>
-          <div class="nb-pile__bar" data-pile-bar hidden>
-            <button class="nb-pile__step" type="button" data-pile-prev aria-label="Previous sheet"><svg viewBox="0 0 16 12" aria-hidden="true"><path d="M6.5 1 L1 6 L6.5 11 M1 6 H15"/></svg></button>
-            <button class="nb-pile__step" type="button" data-pile-next aria-label="Next sheet"><svg viewBox="0 0 16 12" aria-hidden="true"><path d="M9.5 1 L15 6 L9.5 11 M15 6 H1"/></svg></button>
-            <p class="nb-pile__count"><span data-pile-at>1</span> / 2</p>
-          </div>
-          <figcaption data-fig="02">The two pages the product was argued out on. Everything below is on one of them.</figcaption>
-        </figure>
+        <h2>How we found out</h2>
+        <p>Before building anything, I spoke to about twenty people in four groups of around five: IT professionals, financially independent women, homemakers, and Gen Z.</p>
+        <p>I asked them if they believe in palmistry, when they last had their palm read, and what they ask about. My first version also asked things like "would you use an app that...". That only got polite yeses. So I changed those questions to ask what people actually did: what they turned to the last time they wanted reassurance, which reading stuck with them, and whether they paid for it or showed it to anyone.</p>
       </section>
 
-      <section id="decisions">
-        <h2>Key decisions</h2>
+      <section id="found">
+        <h2>What we found</h2>
+        <p><strong>Belief didn't decide use.</strong> Even the skeptics still wanted the reassurance.</p>
+        <p><strong>Each group wanted something a bit different.</strong> IT professionals wanted their worries about career and relationships calmed. Independent women used it as a heads-up, not as fate. Homemakers wanted reassurance about family and kids. Gen Z wanted to learn about themselves. Love came up in every group.</p>
+        <p><strong>A reading that's too good feels fake.</strong> One homemaker was told she'd have a good marriage. It shocked her so much that she doubted the whole thing. Believable beat flattering.</p>
+        <p><strong>Privacy mattered more than accuracy.</strong> Some people felt judged by human palmists. A private space with no judgment was the real edge.</p>
+        <p><strong>People wanted more than one view.</strong> Many asked for both East and West. When two traditions see a hand differently, the reading feels more real, not less.</p>
+        <p><strong>Gen Z share, but only the good stuff.</strong> They'd post a reading only if it flattered them.</p>
+      </section>
 
-        <article class="decision" id="d1">
-          <span class="decision__n">01</span>
-          <h3>More sources, one canon</h3>
-          <p class="lede">I directed a study of six palmistry traditions and supplied the source material: deep research, transcripts of classical books and lectures, and recordings of practising pandits.</p>
-          <p>Three traditions made it into the product, and ten sources were merged into one rulebook: the Garuda Purana, K.C. Sen's Hast Samudrika Shastra, W.G. Benham's The Laws of Scientific Hand Reading from 1900, and the Chinese five-element school.</p>
-          <p class="lede">A sign earned its place on three counts, and I wrote them at the top of the page: <strong>reliability</strong>, <strong>specificity</strong> and <strong>differentiation</strong>.</p>
+      <section id="built">
+        <h2>What we built</h2>
 
-          <p>It had to come from a source I could name, say something precise, and tell one hand apart from another.</p>
-          <p>They merge into one canon rather than sitting side by side, because the same hand must not get a different reading depending on which book the model happened to reach for.</p>
-          <p>The rulebook loads as cached ground truth and the model may only read in its vocabulary of lines, mounts and classical signs. That fixed vocabulary is what makes citing a source possible at all.</p>
-          <p class="why"><b>Trade-off:</b> The reading cannot say anything the canon doesn't carry. That is the point, and it also caps how surprising a reading is allowed to be.</p>
-          <figure class="bleed">
-            <div class="media">
-              <img src="/assets/media/hasta-canon.webp" width="1270" height="760" loading="lazy" decoding="async"
-                   alt="The Hasta Canon section of the site, headed We read the books first. Four book spines in red, ochre, brown and green: the Garuda Purana chapter LXV on the auspicious marks, K.C. Sen's Hast Samudrika Shastra, W. G. Benham's The Laws of Scientific Hand Reading from 1900, and Shouxiang, the Chinese five element school. Underneath, three figures: three traditions, ten sources merged, five conflicts resolved on the record.">
-            </div>
-            <figcaption data-fig="03">The canon, shown on the site as the books it came from.</figcaption>
-          </figure>
-        </article>
+        <p><strong>A mirror, not a verdict.</strong> This line came straight from the research, and it sits on the landing page. Hasta describes tendencies. It doesn't predict. There are no dates, no doom and no gemstones to buy. We're open that this isn't accurate in a scientific sense. It's self-reflection.</p>
 
-        <article class="decision" id="d2">
-          <span class="decision__n">02</span>
-          <h3>Measured the genericness instead of trusting my ear</h3>
-          <p class="lede">The prompt bans the cold-reading phrases by name, and one layer of it says only: read this hand.</p>
+        <p><strong>One rulebook from three traditions.</strong> I put together a canon from Indian, Western and Chinese palmistry: ten sources, including the Garuda Purana, K.C. Sen's Hast Samudrika Shastra and W.G. Benham's 1900 book. I merged them into one rulebook on purpose, so the same sign always means the same thing. But the disagreements stay visible. Where the schools disagree, the reading says which one says what. Nine conflicts are on record: five have a ruling, three have a lean, and one is still open. The reading never pretends the open ones are settled.</p>
+        <figure>
+          <div class="media">
+            <img src="/assets/media/hasta-canon.webp" width="1270" height="760" decoding="async"
+                 alt="The Hasta Canon section of the site, headed We read the books first. Four book spines in red, ochre, brown and green: the Garuda Purana chapter LXV on the auspicious marks, K.C. Sen's Hast Samudrika Shastra, W. G. Benham's The Laws of Scientific Hand Reading from 1900, and Shouxiang, the Chinese five element school. Underneath, three figures: three traditions, ten sources merged, five conflicts resolved on the record.">
+          </div>
+          <figcaption data-fig="02">The canon, shown on the site as the books it came from.</figcaption>
+        </figure>
 
-          <p>Then a weekly eval harness runs an independent model across readings and scores each one for <strong>faithfulness</strong>, <strong>distinctiveness</strong> and <strong>genericness</strong>, tracked release over release.</p>
-          <p>Underneath that sit the four levers I had sketched for why one reading feels tailored and another doesn't.</p>
-          <ul class="plain principles ico-list">
-            <li><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.6"/><circle cx="8" cy="8" r="1.3"/></svg><b>Perceived tailoring:</b> the sentence points at a mark that is on your hand.</li>
-            <li><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 4.6v8"/><path d="M8 4.6C6.8 3.7 5.3 3.3 2.8 3.3v8c2.5 0 4 .4 5.2 1.3 1.2-.9 2.7-1.3 5.2-1.3v-8c-2.5 0-4 .4-5.2 1.3z"/></svg><b>Source detachment:</b> the claim belongs to a book, not to us.</li>
-            <li><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.6 4.4h10.8M2.6 8h10.8M2.6 11.6h6.8"/></svg><b>Fluency:</b> editorial prose rather than horoscope rhythm.</li>
-            <li><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.6 8.4 6.2 12l7.2-8"/></svg><b>Secure language:</b> it commits, instead of hedging its way to safety.</li>
-          </ul>
-          <p class="why"><b>Trade-off:</b> Every release costs extra eval runs. Genericness is the category's defining failure, so it's the thing I was willing to pay to watch.</p>
-        </article>
+        <p><strong>Every claim points at your hand.</strong> Each line in the reading names the sign it came from and the book behind it. The free reading also says what we couldn't see. This is how a reading earns trust without flattering you.</p>
+        <figure>
+          <div class="media media--light">
+            <img src="/assets/media/hasta-evidence.webp" width="1400" height="1247" decoding="async"
+                 alt="A page of the manuscript headed What do people see in me that I do not? Two findings, each followed by a line labelled The cost and a line labelled Read from, which names the feature on the hand: the strong comfort-seeking thumb ball dominating the hand, and the inward sloping head line under a calm, smooth upper palm.">
+          </div>
+          <figcaption data-fig="03">Every claim carries the feature it was read from, so the reader can check it against their own hand.</figcaption>
+        </figure>
 
-        <article class="decision" id="d3">
-          <span class="decision__n">03</span>
-          <h3>Stopped the reading at 72% to ask one question</h3>
-          <p class="lede">At about 72% the reading stops and asks one thing.</p>
+        <p><strong>Private by default.</strong> No sign-up. Your photo is used to write the reading and then deleted.</p>
 
-          <p>When a group settles on a plan, would you still rather go your own way? The answers are "That is me" and "I like to fit in", and the skip is written so it costs nothing: leave this one to our eye.</p>
-          <p>Two reasons. The answer gives the reading a self-report to weigh against a sign it only saw faintly. And a person who has put one hand on the thing values what comes out of it more than a person who waited for it, which is the <strong>IKEA effect</strong> doing work a loading spinner cannot.</p>
-          <p class="lede">The question is about the person, by design.</p>
+        <p><strong>A short, honest summary.</strong> The free reading opens with the five things your hand says loudest and your palm in one sentence. That gives Gen Z something about themselves to repeat, while the full reading stays private.</p>
+        <figure>
+          <div class="media media--light">
+            <img src="/assets/media/hasta-card.webp" width="1400" height="1284" decoding="async"
+                 alt="The head of a finished reading on cream paper. On the left a drawn gold and oxblood glyph labelled Your Mudra Ring, on the right the photograph of the open palm that was read, labelled The hand read. Under both, the epithet in italics: The warm engine with a quiet thinker riding it, then Right palm, reading no. 5541, and the line Read by Hasta with the Hasta Canon, Samudrika Shastra and Western Chiromancy, 12 October 2026.">
+          </div>
+          <figcaption data-fig="04">The card from a real reading: the glyph, the hand that was read, and one line to repeat.</figcaption>
+        </figure>
 
-          <p>Asking whether their heart line forks would hand the reader our job and break the promise in the same sentence.</p>
-        </article>
+        <p><strong>One price, upfront.</strong> &#8377;99, once, shown before you pay. No subscription and no fear-selling.</p>
 
-        <article class="decision" id="d4">
-          <span class="decision__n">04</span>
-          <h3>The hand holds the authority, and the product says so out loud</h3>
-          <p class="lede">"The lines are yours, we just read them."</p>
+        <p><strong>No marriage or children.</strong> Homemakers asked about family and kids, and love came up everywhere. But the homemaker's story showed how a confident reading about marriage can backfire, and these readings have hurt real people. So I chose not to serve them, even though people ask.</p>
 
-          <p>Hasta never speaks as a seer. A divination reads as true when the answer seems to come from the object rather than the reader, which Pascal Boyer calls <strong>ostensive detachment</strong>.</p>
-          <p>That one idea settles arguments further down. The reading is <strong>decision support</strong>, so it describes tendencies and never dates. There is no score, no forecast, nothing about marriage or children, and no gemstone to buy at the end. A mirror, not a verdict.</p>
-        </article>
-
-        <article class="decision" id="d5">
-          <span class="decision__n">05</span>
-          <h3>A card that names your hand</h3>
-          <p class="lede">Every reading produces a card: an archetype name, a drawn glyph, the person's own lined palm photo, and a single epithet line.</p>
-          <p>The card is free and it arrives before the paywall, so nobody leaves empty-handed and every share is an advertisement that isn't selling fear.</p>
-          <p>It is the <strong>identity layer</strong> the category never had, and the label comes off the person's own hand. The privacy promise rides on the card too, which means every share repeats it to somebody new.</p>
-          <p class="why"><b>Trade-off:</b> A card compresses a whole reading into a few lines and risks flattening it into a horoscope label. Carrying only the dominant readings, from the real photo, is what keeps it specific.</p>
-          <figure class="bleed">
-            <div class="media media--light">
-              <img src="/assets/media/hasta-card.webp" width="1400" height="1284" loading="lazy" decoding="async"
-                   alt="The head of a finished reading on cream paper. On the left a drawn gold and oxblood glyph labelled Your Mudra Ring, on the right the photograph of the open palm that was read, labelled The hand read. Under both, the epithet in italics: The warm engine with a quiet thinker riding it, then Right palm, reading no. 5541, and the line Read by Hasta with the Hasta Canon, Samudrika Shastra and Western Chiromancy, 12 October 2026.">
-            </div>
-            <figcaption data-fig="04">The card from a real reading. The glyph, the hand that was read, and one line to repeat.</figcaption>
-          </figure>
-        </article>
-
-        <article class="decision" id="d6">
-          <span class="decision__n">06</span>
-          <h3>Verdict first, evidence last</h3>
-          <p class="lede">The reading is ordered the way the notebook has it: verdict, then themes, then appendix.</p>
-
-          <p>The card, the portrait, the pages, the evidence, and then the chat for whatever is still unanswered. The person meets the conclusion before the apparatus.</p>
-          <p>The evidence is there for anyone who opens it. Each claim names the line or mount it was read from and the book that says so, and the output schema makes the model declare for every line whether it saw it clearly, faintly or not at all, so it cannot describe a line that wasn't there.</p>
-          <p class="lede">Where the three schools disagree, the reading says which school says what.</p>
-
-          <p>Nine conflicts are on the register so far: five carry a ruling, three a recorded lean, and the serpent mark is still open.</p>
-          <p class="why"><b>Trade-off:</b> Showing the working makes a reading less magical. Being checkable mattered more.</p>
-          <figure>
-            <div class="media media--light">
-              <img src="/assets/media/hasta-evidence.webp" width="1400" height="1247" loading="lazy" decoding="async"
-                   alt="A page of the manuscript headed What do people see in me that I do not? Two findings, each followed by a line labelled The cost and a line labelled Read from, which names the feature on the hand: the strong comfort-seeking thumb ball dominating the hand, and the inward sloping head line under a calm, smooth upper palm.">
-            </div>
-            <figcaption data-fig="05">Every claim carries the feature it was read from, so the reader can check it against their own hand.</figcaption>
-          </figure>
-        </article>
+        <p><strong>Two features after launch.</strong> "Both your hands" reads your writing hand and your other hand side by side. All three traditions say to read both. "Saath" reads two people next to each other and names where they might misread each other. It has no score and no percentage.</p>
       </section>
 
       <section id="outcome">
-        <h2>Two months in</h2>
-        <ul class="plain principles ico-list">
-          <li><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.4 2.4h6l3.2 3.2v8h-9.2z"/><path d="M9.4 2.4v3.2h3.2"/><path d="M5.6 10.4h4.8"/></svg><b>850 readings</b> in the first two months.</li>
-          <li><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.2 12.4 12.6 3"/><path d="M6.6 3h6v6"/></svg><b>4.7% of free readings</b> convert to the &#8377;99 manuscript, with no subscription, no countdown, no expiring credits and no fear-selling.</li>
-          <li><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.6 4.2h10.8v9.2H2.6z"/><path d="M2.6 7.2h10.8M5.6 2.6v3M10.4 2.6v3"/></svg><b>Built in one month</b>, launched August 2026, live at hasta.produsa.app.</li>
-        </ul>
-        <p>The price sits on the landing page before anything is asked of anyone. &#8377;99, once, for that reading.</p>
-        <p>One number I don't have: how many readings begin from a shared card. The identity layer is the reach bet of the whole product and it is still unmeasured.</p>
-      </section>
-
-      <section id="reflection">
-        <h2>Reflection</h2>
-        <ul class="plain principles">
-          <li><b>Instrument the share card on day one.</b> The card is the reach bet of the whole product, and I still can't say how many readings start from one. That event should have been logged before launch, not left for later.</li>
-          <li><b>Measuring the output beat trusting my ear.</b> Scoring the genericness caught readings that sounded fine and said nothing. On the next AI product I'd build a measurable check like that before the writing starts to feel right.</li>
-        </ul>
+        <h2>What happened</h2>
+        <p>850 readings in the first two months. 4.7% of free readings turned into the &#8377;99 manuscript, with no subscription and no countdown. Hasta was also #2 Product of the Week on LaunchPad India.</p>
       </section>
 
     </main>
